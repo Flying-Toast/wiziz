@@ -40,7 +40,7 @@ server.io.on('connection', function(socket) {
 });
 
 function newPlayer(options) {
-  var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id);
+  var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id, []);
 
   if (!player.nickname) {
     player.nickname = 'Unnamed Block';
@@ -55,9 +55,10 @@ function Map(width, height) {
   this.height = height;
 }
 
-function Player(x, y, nickname, id) {
+function Player(x, y, nickname, id, inventory) {
   this.x = x;
   this.y = y;
   this.nickname = xss(nickname.substring(0, 15));
   this.id = id;
+  this.inventory = inventory;
 }
