@@ -1,0 +1,23 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#gridCanvas {
+  z-index: -3;
+}
+
+#gameCanvas {
+  z-index: -2;
+}
+
+#hud {
+  z-index: -1;
+}
