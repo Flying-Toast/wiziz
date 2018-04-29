@@ -43,7 +43,7 @@ function newPlayer(options) {
   var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id, []);
 
   if (!player.nickname) {
-    player.nickname = 'Unnamed Block';
+    player.nickname = 'Unnamed Sorcerer';
   }
 
   game.playerMap.set(player.id, player);

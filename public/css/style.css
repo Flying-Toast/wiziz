@@ -27,7 +27,9 @@ canvas {
   z-index: -2;
 }
 
-#hud {
+/*Game Hud*/
+
+#hud, #hud * {
   z-index: -1;
 }
 
@@ -38,7 +40,7 @@ canvas {
   height: 120px;
   position: absolute;
   left: 50%;
-  margin-left: calc(70%/-2);
+  margin-left: calc(70% / -2);
   bottom: 0;
   border-radius: 10px;
   border: 10px solid #3a8fee;
@@ -49,4 +51,46 @@ canvas {
 .inventorySlot {
   margin: 2.5px;
   cursor: pointer;
+}
+
+/*Main Screen*/
+
+#mainScreen {
+  background-color: #e3e3e3;
+  z-index: 10;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.overlay {
+  height: 100vh;
+}
+
+.button {
+  color: black;
+  outline: none;
+  border: none;
+}
+
+#playButton {
+  background-color: #4dc11e;
+  display: block;
+  margin: 0 auto;
+}
+
+.menuPane {
+  background-color: #9a9a9a;
+}
+
+#mainPane {
+  justify-content: center;
+  text-align: center;
+  width: 40%;
+  margin: 0 auto;
+  height: 70vh;
+  margin-top: calc(50vh - 70vh/2);
+  border-radius: calc(40% / 15);
 }

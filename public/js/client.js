@@ -1,5 +1,6 @@
 var inventoryDiv = document.querySelector('#inventory');
 var gameCanvas = document.querySelector('#gameCanvas');
+var mainScreen = document.querySelector('#mainScreen');
 
 var ctx = gameCanvas.getContext('2d');
 
@@ -12,6 +13,7 @@ window.addEventListener('resize', function() {
   gameCanvas.width = window.innerWidth;
   gameCanvas.height = window.innerHeight;
 });
+
 
 function fillInventory(inventory) {
 
