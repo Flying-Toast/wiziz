@@ -1,6 +1,8 @@
 var inventoryDiv = document.querySelector('#inventory');
 var gameCanvas = document.querySelector('#gameCanvas');
 var mainScreen = document.querySelector('#mainScreen');
+var playButton = document.querySelector('#playButton');
+var nicknameInput = document.querySelector('#nicknameInput');
 
 var ctx = gameCanvas.getContext('2d');
 
@@ -14,6 +16,13 @@ window.addEventListener('resize', function() {
   gameCanvas.height = window.innerHeight;
 });
 
+
+playButton.addEventListener('click', function() {
+  var playerOptions = {
+    nickname: nicknameInput.value
+  };
+  socket.emit('newGame', playerOptions);
+});
 
 function fillInventory(inventory) {
 

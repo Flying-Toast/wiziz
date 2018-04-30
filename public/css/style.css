@@ -1,10 +1,19 @@
+@font-face {
+  font-family: 'newrocker';
+  src: url('/fonts/newRocker/newrocker-webfont.woff2') format('woff2'), url('/fonts/newRocker/newrocker-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'agane';
+  src: url('/fonts/agane/agane-webfont.woff2') format('woff2'), url('/fonts/agane/agane-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 * {
-  user-drag: none;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-drag: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
+  font-family: agane;
 }
 
 html, body {
@@ -26,8 +35,6 @@ canvas {
 #gameCanvas {
   z-index: -2;
 }
-
-/*Game Hud*/
 
 #hud, #hud * {
   z-index: -1;
@@ -53,8 +60,6 @@ canvas {
   cursor: pointer;
 }
 
-/*Main Screen*/
-
 #mainScreen {
   background-color: #e3e3e3;
   z-index: 10;
@@ -75,10 +80,45 @@ canvas {
   border: none;
 }
 
+header h1 {
+  font-family: newRocker;
+  text-align: center;
+  font-size: 450%;
+  position: absolute;
+  margin: 0;
+  width: 100%;
+  color: #41148c;
+}
+
 #playButton {
-  background-color: #4dc11e;
+  background-color: #1e4bc1;
   display: block;
   margin: 0 auto;
+  width: 20%;
+  color: white;
+  height: 8%;
+  border: 3px solid #0d005b;
+  border-radius: 8px;
+  font-size: 150%;
+}
+
+#playButton:hover {
+  background-color: #225cf5;
+}
+
+#nicknameInput {
+  border: none;
+  text-align: center;
+  border: 3px solid #5D5D5D;
+  border-radius: 8px;
+  width: 45%;
+  margin: 5%;
+  padding: 1%;
+  height: 3%;
+}
+
+#nicknameInput::placeholder {
+  color: #444444;
 }
 
 .menuPane {
@@ -93,4 +133,13 @@ canvas {
   height: 70vh;
   margin-top: calc(50vh - 70vh/2);
   border-radius: calc(40% / 15);
+}
+
+#instructions li {
+  list-style-type: none;
+  text-align: center;
+}
+
+#instructions h1 {
+  margin-bottom: 0;
 }

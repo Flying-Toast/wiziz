@@ -27,6 +27,11 @@ game.playerMap = new hashmap()
 server.io.on('connection', function(socket) {
 
   socket.on('newGame', function(playerOptions) {
+
+    if (game.players.indexOf(game.playerMap.get(socket.id)) !== -1) {
+      game.players.splice(game.players.indexOf(game.playerMap.get(socket.id)), 1); //remove player from players array
+    }
+
     playerOptions.id = socket.id;
     newPlayer(playerOptions);
   });
