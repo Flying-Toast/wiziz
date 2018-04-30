@@ -16,6 +16,15 @@
   font-family: agane;
 }
 
+#game, #game * {
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -53,6 +62,7 @@ canvas {
   border: 10px solid #3a8fee;
   overflow: hidden;
   justify-content: center;
+  text-align: center;
 }
 
 .inventorySlot {

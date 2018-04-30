@@ -1,4 +1,5 @@
 var inventoryDiv = document.querySelector('#inventory');
+var spellWrapper = document.querySelector('#spellWrapper');
 var gameCanvas = document.querySelector('#gameCanvas');
 var mainScreen = document.querySelector('#mainScreen');
 var playButton = document.querySelector('#playButton');
@@ -26,7 +27,7 @@ playButton.addEventListener('click', function() {
 
 function fillInventory(inventory) {
 
-  inventoryDiv.innerHTML = ''; //clear existing inventory
+  spellWrapper.innerHTML = ''; //clear existing inventory
   var inventoryDivWidth = window.getComputedStyle(inventoryDiv).width.replace('px', '') - 20;
 
   for (var i = 0; i < inventoryDivWidth; i += 105) {
@@ -34,7 +35,7 @@ function fillInventory(inventory) {
     var slotImg = document.createElement('img');
     slotImg.src = 'media/images/inventorySlot.png';
     slotImg.className = 'inventorySlot';
-    inventoryDiv.appendChild(slotImg);
+    spellWrapper.appendChild(slotImg);
 
   }
 
