@@ -73,12 +73,14 @@ function Player(x, y, nickname, id, inventory) {
 //loops
 function updateLoop() {
   server.io.emit('update', game);
+
 }
 
 function physicsLoop() {
   for (var i = 0; i < game.players.length; i++) {
 
   }
+
 }
 
 setInterval(physicsLoop, 20);
