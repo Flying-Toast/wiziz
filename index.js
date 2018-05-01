@@ -29,6 +29,7 @@ server.io.on('connection', function(socket) {
   socket.on('newGame', function(playerOptions) {
 
     if (game.players.indexOf(game.playerMap.get(socket.id)) !== -1) {
+      game.playerMap.delete(socket.id);
       game.players.splice(game.players.indexOf(game.playerMap.get(socket.id)), 1); //remove player from players array
     }
 
@@ -40,6 +41,7 @@ server.io.on('connection', function(socket) {
     if (game.players.indexOf(game.playerMap.get(socket.id)) !== -1) {
       game.players.splice(game.players.indexOf(game.playerMap.get(socket.id)), 1); //remove player from players array
     }
+    game.playerMap.delete(socket.id);
   });
 
 });
@@ -67,3 +69,17 @@ function Player(x, y, nickname, id, inventory) {
   this.id = id;
   this.inventory = inventory;
 }
+
+//loops
+function updateLoop() {
+  server.io.emit('update', game);
+}
+
+function physicsLoop() {
+  for (var i = 0; i < game.players.length; i++) {
+
+  }
+}
+
+setInterval(physicsLoop, 20);
+setInterval(updateLoop, 45);

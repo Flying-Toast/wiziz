@@ -52,17 +52,17 @@ canvas {
 #inventory {
   box-sizing: border-box;
   background-color: #BBBBBB;
-  width: 70%;
   height: 120px;
   position: absolute;
-  left: 50%;
-  margin-left: calc(70% / -2);
   bottom: 0;
   border-radius: 10px;
   border: 10px solid #3a8fee;
   overflow: hidden;
   justify-content: center;
   text-align: center;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
 }
 
 .inventorySlot {

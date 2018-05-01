@@ -7,6 +7,32 @@ var nicknameInput = document.querySelector('#nicknameInput');
 
 var ctx = gameCanvas.getContext('2d');
 
+var game = {};
+game.state = 'fresh';
+var player = {};
+
+function localCoords(real, xOrY) {
+  if (xOrY === 'x') {
+    return (real + window.innerWidth / 2 - player.x);
+  }
+
+  if (xOrY === 'y') {
+    return (real + window.innerHeight / 2 - player.y);
+  }
+
+}
+
+function globalCoords(local, xOrY) {
+  if (xOrY === 'x') {
+    return (local - window.innerWidth / 2 - player.x);
+  }
+
+  if (xOrY === 'y') {
+    return (local - window.innerHeight / 2 - player.y);
+  }
+
+}
+
 var socket = io.connect('/');
 
 gameCanvas.width = window.innerWidth;
@@ -23,20 +49,46 @@ playButton.addEventListener('click', function() {
     nickname: nicknameInput.value
   };
   socket.emit('newGame', playerOptions);
+  fillInventorySlots();
+
+  mainScreen.style.display = 'none';
+  window.requestAnimationFrame(drawLoop);
+  game.state = 'playing';
 });
 
-function fillInventory(inventory) {
+function fillInventorySlots() {
 
   spellWrapper.innerHTML = ''; //clear existing inventory
-  var inventoryDivWidth = window.getComputedStyle(inventoryDiv).width.replace('px', '') - 20;
 
-  for (var i = 0; i < inventoryDivWidth; i += 105) {
-
+  for (var i = 0; i < 4; i++) {
     var slotImg = document.createElement('img');
     slotImg.src = 'media/images/inventorySlot.png';
+    slotImg.id = 'inventorySlot' + (i + 1);
     slotImg.className = 'inventorySlot';
     spellWrapper.appendChild(slotImg);
-
   }
 
 }
+
+function drawLoop() {
+
+  //player
+  ctx.save();
+  ctx.fillStyle = 'black';
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
+  ctx.rotate(player.angle);
+  ctx.fillRect(-50, -50, 100, 100);
+  ctx.fillStyle = 'green';
+  ctx.fillRect(-30, -30 - 80, 60, 60);
+  ctx.restore();
+  //end player
+
+  if (game.state === 'playing') {
+    window.requestAnimationFrame(drawLoop);
+  }
+}
+
+window.addEventListener('mousemove', function(e) {
+  player.angle = Math.atan2(e.pageX - window.innerWidth / 2, -(e.pageY - window.innerHeight / 2));
+});
