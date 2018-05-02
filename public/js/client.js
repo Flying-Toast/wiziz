@@ -11,7 +11,6 @@ var game = {};
 game.state = 'fresh';
 var player = {};
 
-
 function localCoords(real, xOrY) {
   if (xOrY === 'x') {
     return (real + window.innerWidth / 2 - player.x);
@@ -80,13 +79,15 @@ function drawLoop() {
   ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
   ctx.rotate(player.angle);
   ctx.fillRect(-50, -50, 100, 100);
+  ctx.fillStyle = 'green';
+  ctx.fillRect(-20, -90, 40, 40);
   ctx.restore();
   //end player
-
 
   if (game.state === 'playing') {
     window.requestAnimationFrame(drawLoop);
   }
+
 
 }
 
