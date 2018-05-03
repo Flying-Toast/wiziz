@@ -50,7 +50,7 @@ server.io.on('connection', function(socket) {
   socket.on('input', function(inputs) {
     for (var i = 0; i < inputs.length; i++) {
       var input = inputs[i];
-      game.playerMap.get(socket.id).inputs.push(input);
+      game.playerMap.get(socket.id).quedInputs.push(input);
     }
   });
 
@@ -79,6 +79,7 @@ function Player(x, y, nickname, id, inventory) {
   this.id = id;
   this.inventory = inventory;
   this.inputs = [];
+  this.quedInputs = [];
   this.angle = 0;
   this.lastMove = 0;
 }
@@ -113,7 +114,8 @@ function physicsLoop() {
       }
       player.inputs.splice(player.inputs.indexOf(input, 1));
     }
-
+    player.inputs = player.quedInputs;
+    player.quedInputs = [];
   }
 
 }

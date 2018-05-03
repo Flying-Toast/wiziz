@@ -78,8 +78,7 @@ playButton.addEventListener('click', function() {
 
   mainScreen.style.display = 'none';
   local.lastTime = performance.now(); //temp
-  //window.requestAnimationFrame(drawLoop);
-  window.setInterval(drawLoop, 100);
+  window.requestAnimationFrame(drawLoop);
   state = 'playing';
 });
 
@@ -133,7 +132,7 @@ function drawLoop() {
   socket.emit('input', inputs);
   inputs = [];
   if (state === 'playing') {
-    //window.requestAnimationFrame(drawLoop);
+    window.requestAnimationFrame(drawLoop);
   }
 }
 
