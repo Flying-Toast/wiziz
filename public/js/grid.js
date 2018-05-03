@@ -18,6 +18,9 @@ var grid = {
 };
 
 function drawGrid() {
+  grid.xOffset = grid.xOffset % grid.gridSize;
+  grid.yOffset = grid.yOffset % grid.gridSize;
+  
   grid.ctx.lineWidth = 2;
 
   grid.ctx.fillStyle = grid.backgroundColor;
