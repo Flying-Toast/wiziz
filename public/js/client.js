@@ -8,8 +8,11 @@ var nicknameInput = document.querySelector('#nicknameInput');
 var ctx = gameCanvas.getContext('2d');
 
 var game = {};
-game.state = 'fresh';
+state = 'fresh';
 var player = {};
+var lastTime; //temp
+player.x = 100; //temp
+player.y = 100; //temp
 
 function localCoords(real, xOrY) {
   if (xOrY === 'x') {
@@ -52,8 +55,9 @@ playButton.addEventListener('click', function() {
   fillInventorySlots();
 
   mainScreen.style.display = 'none';
+  lastTime = performance.now(); //temp
   window.requestAnimationFrame(drawLoop);
-  game.state = 'playing';
+  state = 'playing';
 });
 
 function fillInventorySlots() {
@@ -71,6 +75,9 @@ function fillInventorySlots() {
 }
 
 function drawLoop() {
+  var currentTime = performance.now(); //temp
+  var dt = lastTime - currentTime; //temp
+  lastTime = currentTime; //temp
 
   //player
   ctx.save();
@@ -84,7 +91,12 @@ function drawLoop() {
   ctx.restore();
   //end player
 
-  if (game.state === 'playing') {
+  player.x -= player.vx / 6 * dt; //temp
+  player.y -= player.vy / 6 * dt; //temp
+  grid.xOffset += player.vx / 6 * dt; //temp
+  grid.yOffset += player.vy / 6 * dt; //temp
+
+  if (state === 'playing') {
     window.requestAnimationFrame(drawLoop);
   }
 
@@ -93,4 +105,7 @@ function drawLoop() {
 
 window.addEventListener('mousemove', function(e) {
   player.angle = Math.atan2(e.pageX - window.innerWidth / 2, -(e.pageY - window.innerHeight / 2));
+  var lengthToMouse = Math.sqrt(Math.pow(e.pageX - window.innerWidth / 2, 2) + Math.pow(e.pageY - window.innerHeight / 2, 2)); //temp
+  player.vx = 1 / lengthToMouse * (e.pageX - window.innerWidth / 2); //temp
+  player.vy = 1 / lengthToMouse * (e.pageY - window.innerHeight / 2); //temp
 });
