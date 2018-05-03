@@ -22,15 +22,18 @@ rl.on('line', function(line) {
 var game = {};
 game.players = [];
 game.map = new Map(3000, 3000);
-game.playerMap = new hashmap()
+game.playerMap = new hashmap();
+var config = {
+  playerSpeed: 1 / 1000 //pixels per millisecond
+};
 
 server.io.on('connection', function(socket) {
 
   socket.on('newGame', function(playerOptions) {
 
     if (game.players.indexOf(game.playerMap.get(socket.id)) !== -1) {
-      game.playerMap.delete(socket.id);
       game.players.splice(game.players.indexOf(game.playerMap.get(socket.id)), 1); //remove player from players array
+      game.playerMap.delete(socket.id);
     }
 
     playerOptions.id = socket.id;
@@ -42,6 +45,14 @@ server.io.on('connection', function(socket) {
       game.players.splice(game.players.indexOf(game.playerMap.get(socket.id)), 1); //remove player from players array
     }
     game.playerMap.delete(socket.id);
+  });
+
+  socket.on('input', function(inputs) {
+    for (var i = 0; i < inputs.length; i++) {
+      var input = inputs[i];
+      input.receivedTime = Date.now();
+      game.playerMap.get(socket.id).inputs.push(input);
+    }
   });
 
 });
@@ -68,16 +79,32 @@ function Player(x, y, nickname, id, inventory) {
   this.nickname = xss(nickname.substring(0, 15));
   this.id = id;
   this.inventory = inventory;
+  this.inputs = [];
 }
 
 //loops
 function updateLoop() {
   server.io.emit('update', game);
-
 }
 
 function physicsLoop() {
   for (var i = 0; i < game.players.length; i++) {
+    var player = game.players[i];
+
+
+    for (var j = 0; j < player.inputs.length; j++) {
+      var input = player.inputs[j];
+
+      switch (input.type) {
+        case 'move':
+          var dt = Date.now() - input.receivedTime;
+          var lenToMouse = Math.sqrt(Math.pow(input.facing.x - input.windowWidth / 2, 2) + Math.pow(input.facing.y - input.windowHeight / 2, 2));
+          player.x += (config.playerSpeed / lenToMouse * (input.facing.x - input.windowWidth / 2)) * dt;
+          player.y += (config.playerSpeed / lenToMouse * (input.facing.y - input.windowHeight / 2)) * dt;
+          break;
+      }
+      player.inputs.splice(player.inputs.indexOf(input, 1));
+    }
 
   }
 

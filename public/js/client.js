@@ -10,9 +10,15 @@ var ctx = gameCanvas.getContext('2d');
 var game = {};
 state = 'fresh';
 var player = {};
-var lastTime; //temp
-player.x = 100; //temp
-player.y = 100; //temp
+var inputs = [];
+var local = {
+  facing: {
+    x: 0,
+    y: 0
+  },
+  playerSpeed: 1 / 6
+};
+
 
 function localCoords(real, xOrY) {
   if (xOrY === 'x') {
@@ -46,6 +52,18 @@ window.addEventListener('resize', function() {
   gameCanvas.height = window.innerHeight;
 });
 
+socket.on('update', function(updatedGame) {
+  game = updatedGame;
+
+  if (game.players.find(function(element) {
+      return (element.id === socket.id);
+    })) {
+    player = game.players.find(function(element) {
+      return (element.id === socket.id);
+    });
+  }
+
+});
 
 playButton.addEventListener('click', function() {
   var playerOptions = {
@@ -55,7 +73,7 @@ playButton.addEventListener('click', function() {
   fillInventorySlots();
 
   mainScreen.style.display = 'none';
-  lastTime = performance.now(); //temp
+  local.lastTime = performance.now(); //temp
   window.requestAnimationFrame(drawLoop);
   state = 'playing';
 });
@@ -75,37 +93,50 @@ function fillInventorySlots() {
 }
 
 function drawLoop() {
-  var currentTime = performance.now(); //temp
-  var dt = lastTime - currentTime; //temp
-  lastTime = currentTime; //temp
+  var currentTime = performance.now();
+  var dt = currentTime - local.lastTime;
+  local.lastTime = currentTime;
+
+  inputs.push({
+    type: 'move',
+    facing: local.facing,
+    windowWidth: window.innerWidth,
+    windowHeight: window.innerHeight
+  });
 
   //player
   ctx.save();
   ctx.fillStyle = 'black';
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
   ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
-  ctx.rotate(player.angle);
+  ctx.rotate(local.angle);
   ctx.fillRect(-50, -50, 100, 100);
   ctx.fillStyle = 'green';
   ctx.fillRect(-20, -90, 40, 40);
   ctx.restore();
   //end player
 
-  player.x -= player.vx / 6 * dt; //temp
-  player.y -= player.vy / 6 * dt; //temp
-  grid.xOffset += player.vx / 6 * dt; //temp
-  grid.yOffset += player.vy / 6 * dt; //temp
+  /*player.x -= player.vx * local.playerSpeed * dt;
+  player.y -= player.vy * local.playerSpeed * dt;*/
+  grid.xOffset -= grid.vx * local.playerSpeed * dt;
+  grid.yOffset -= grid.vy * local.playerSpeed * dt;
 
+  socket.emit('input', inputs);
+  inputs = [];
   if (state === 'playing') {
     window.requestAnimationFrame(drawLoop);
   }
-
-
 }
 
 window.addEventListener('mousemove', function(e) {
-  player.angle = Math.atan2(e.pageX - window.innerWidth / 2, -(e.pageY - window.innerHeight / 2));
-  var lengthToMouse = Math.sqrt(Math.pow(e.pageX - window.innerWidth / 2, 2) + Math.pow(e.pageY - window.innerHeight / 2, 2)); //temp
-  player.vx = 1 / lengthToMouse * (e.pageX - window.innerWidth / 2); //temp
-  player.vy = 1 / lengthToMouse * (e.pageY - window.innerHeight / 2); //temp
+  local.angle = Math.atan2(e.pageX - window.innerWidth / 2, -(e.pageY - window.innerHeight / 2));
+
+  local.facing = {
+    x: e.pageX,
+    y: e.pageY
+  };
+
+  var lenToMouse = Math.sqrt(Math.pow(e.pageX - window.innerWidth / 2, 2) + Math.pow(e.pageY - window.innerHeight / 2, 2));
+  grid.vx = 1 / lenToMouse * (e.pageX - window.innerWidth / 2);
+  grid.vy = 1 / lenToMouse * (e.pageY - window.innerHeight / 2);
 });
