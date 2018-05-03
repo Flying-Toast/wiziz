@@ -50,7 +50,6 @@ server.io.on('connection', function(socket) {
   socket.on('input', function(inputs) {
     for (var i = 0; i < inputs.length; i++) {
       var input = inputs[i];
-      input.receivedTime = Date.now();
       game.playerMap.get(socket.id).inputs.push(input);
     }
   });
@@ -81,6 +80,7 @@ function Player(x, y, nickname, id, inventory) {
   this.inventory = inventory;
   this.inputs = [];
   this.angle = 0;
+  this.lastMove = 0;
 }
 
 //loops
@@ -98,11 +98,16 @@ function physicsLoop() {
 
       switch (input.type) {
         case 'move':
-          var dt = Date.now() - input.receivedTime;
-          console.log(Date.now() - input.receivedTime);
+          if (player.lastMove !== 0) {
+            var dt = Date.now() - player.lastMove;
+          } else {
+            dt = 0;
+          }
+
           var lenToMouse = Math.sqrt(Math.pow(input.facing.x - input.windowWidth / 2, 2) + Math.pow(input.facing.y - input.windowHeight / 2, 2));
           player.x += (config.playerSpeed / lenToMouse * (input.facing.x - input.windowWidth / 2)) * dt;
           player.y += (config.playerSpeed / lenToMouse * (input.facing.y - input.windowHeight / 2)) * dt;
+          player.lastMove = Date.now();
           player.angle = Math.atan2(input.facing.x - input.windowWidth / 2, -(input.facing.y - input.windowHeight / 2));
           break;
       }

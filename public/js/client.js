@@ -104,19 +104,12 @@ function drawLoop() {
   var dt = currentTime - local.lastTime;
   local.lastTime = currentTime;
 
-
-  socket.emit('input', [{
+  inputs.push({
     type: 'move',
     facing: local.facing,
     windowWidth: window.innerWidth,
     windowHeight: window.innerHeight
-  }]);
-  /*inputs.push({
-    type: 'move',
-    facing: local.facing,
-    windowWidth: window.innerWidth,
-    windowHeight: window.innerHeight
-  });*/
+  });
 
   //player
   ctx.save();
@@ -130,11 +123,14 @@ function drawLoop() {
   ctx.restore();
   //end player
 
-  grid.xOffset -= grid.vx * local.playerSpeed * dt;
-  grid.yOffset -= grid.vy * local.playerSpeed * dt;
+  //grid.xOffset -= grid.vx * local.playerSpeed * dt;
+  //grid.yOffset -= grid.vy * local.playerSpeed * dt;
 
-  //socket.emit('input', inputs);
-  //inputs = [];
+  grid.xOffset = -player.x;
+  grid.yOffset = -player.y;
+
+  socket.emit('input', inputs);
+  inputs = [];
   if (state === 'playing') {
     window.requestAnimationFrame(drawLoop);
   }
