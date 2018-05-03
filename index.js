@@ -24,7 +24,7 @@ game.players = [];
 game.map = new Map(3000, 3000);
 game.playerMap = new hashmap();
 var config = {
-  playerSpeed: 1 / 1000 //pixels per millisecond
+  playerSpeed: 1 / 6 //pixels per millisecond
 };
 
 server.io.on('connection', function(socket) {
@@ -80,6 +80,7 @@ function Player(x, y, nickname, id, inventory) {
   this.id = id;
   this.inventory = inventory;
   this.inputs = [];
+  this.angle = 0;
 }
 
 //loops
@@ -98,9 +99,11 @@ function physicsLoop() {
       switch (input.type) {
         case 'move':
           var dt = Date.now() - input.receivedTime;
+          console.log(Date.now() - input.receivedTime);
           var lenToMouse = Math.sqrt(Math.pow(input.facing.x - input.windowWidth / 2, 2) + Math.pow(input.facing.y - input.windowHeight / 2, 2));
           player.x += (config.playerSpeed / lenToMouse * (input.facing.x - input.windowWidth / 2)) * dt;
           player.y += (config.playerSpeed / lenToMouse * (input.facing.y - input.windowHeight / 2)) * dt;
+          player.angle = Math.atan2(input.facing.x - input.windowWidth / 2, -(input.facing.y - input.windowHeight / 2));
           break;
       }
       player.inputs.splice(player.inputs.indexOf(input, 1));

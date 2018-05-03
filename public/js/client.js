@@ -19,6 +19,12 @@ var local = {
   playerSpeed: 1 / 6
 };
 
+//temporary coords display
+var pos = document.createElement('div');
+pos.style = 'z-index:100;position:absolute;right:0;top:0;';
+document.body.appendChild(pos);
+//end temporary
+
 
 function localCoords(real, xOrY) {
   if (xOrY === 'x') {
@@ -28,7 +34,6 @@ function localCoords(real, xOrY) {
   if (xOrY === 'y') {
     return (real + window.innerHeight / 2 - player.y);
   }
-
 }
 
 function globalCoords(local, xOrY) {
@@ -39,7 +44,6 @@ function globalCoords(local, xOrY) {
   if (xOrY === 'y') {
     return (local - window.innerHeight / 2 - player.y);
   }
-
 }
 
 var socket = io.connect('/');
@@ -93,16 +97,26 @@ function fillInventorySlots() {
 }
 
 function drawLoop() {
+  //temp position display
+  pos.innerText = 'x: ' + Math.round(player.x) + '\ny: ' + Math.round(player.y);
+  //end temp
   var currentTime = performance.now();
   var dt = currentTime - local.lastTime;
   local.lastTime = currentTime;
 
-  inputs.push({
+
+  socket.emit('input', [{
     type: 'move',
     facing: local.facing,
     windowWidth: window.innerWidth,
     windowHeight: window.innerHeight
-  });
+  }]);
+  /*inputs.push({
+    type: 'move',
+    facing: local.facing,
+    windowWidth: window.innerWidth,
+    windowHeight: window.innerHeight
+  });*/
 
   //player
   ctx.save();
@@ -116,13 +130,11 @@ function drawLoop() {
   ctx.restore();
   //end player
 
-  /*player.x -= player.vx * local.playerSpeed * dt;
-  player.y -= player.vy * local.playerSpeed * dt;*/
   grid.xOffset -= grid.vx * local.playerSpeed * dt;
   grid.yOffset -= grid.vy * local.playerSpeed * dt;
 
-  socket.emit('input', inputs);
-  inputs = [];
+  //socket.emit('input', inputs);
+  //inputs = [];
   if (state === 'playing') {
     window.requestAnimationFrame(drawLoop);
   }
