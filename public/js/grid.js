@@ -31,18 +31,18 @@ function drawGrid() {
   grid.ctx.moveTo(0, 0);
   for (var i = 0; i < window.innerWidth + grid.gridSize; i += grid.gridSize) {
 
-    grid.ctx.moveTo(i + grid.xOffset % grid.gridSize, 0);
+    grid.ctx.moveTo(i + grid.xOffset, 0);
 
 
-    grid.ctx.lineTo(i + grid.xOffset % grid.gridSize, window.innerHeight);
+    grid.ctx.lineTo(i + grid.xOffset, window.innerHeight);
   }
 
   for (var i = 0; i < window.innerHeight + grid.gridSize; i += grid.gridSize) {
 
 
-    grid.ctx.moveTo(0, i + grid.yOffset % grid.gridSize);
+    grid.ctx.moveTo(0, i + grid.yOffset);
 
-    grid.ctx.lineTo(window.innerWidth, i + grid.yOffset % grid.gridSize);
+    grid.ctx.lineTo(window.innerWidth, i + grid.yOffset);
   }
   grid.ctx.stroke();
 
