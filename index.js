@@ -116,9 +116,22 @@ function physicsLoop() {
     }
     player.inputs = player.quedInputs;
     player.quedInputs = [];
-  }
 
+    if (player.x < 0) {
+      player.x = 0;
+    }
+    if (player.x > game.map.width) {
+      player.x = game.map.width;
+    }
+    if (player.y < 0) {
+      player.y = 0;
+    }
+    if (player.y > game.map.height) {
+      player.y = game.map.height;
+    }
+
+  }
 }
 
 setInterval(physicsLoop, 20);
-setInterval(updateLoop, 45);
+setInterval(updateLoop, 50);
