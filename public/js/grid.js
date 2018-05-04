@@ -16,7 +16,8 @@ var grid = {
   vy: 0,
   ctx: gridCanvas.getContext('2d'),
   backgroundColor: '#e8e8e8',
-  lineColor: '#7a7f7e'
+  lineColor: '#7a7f7e',
+  borderColor: '#d4342a'
 };
 
 function drawGrid() {
@@ -32,21 +33,27 @@ function drawGrid() {
   grid.ctx.beginPath();
   grid.ctx.moveTo(0, 0);
   for (var i = 0; i < window.innerWidth + grid.gridSize; i += grid.gridSize) {
-
     grid.ctx.moveTo(i + grid.xOffset, 0);
-
-
     grid.ctx.lineTo(i + grid.xOffset, window.innerHeight);
   }
 
   for (var i = 0; i < window.innerHeight + grid.gridSize; i += grid.gridSize) {
-
-
     grid.ctx.moveTo(0, i + grid.yOffset);
-
     grid.ctx.lineTo(window.innerWidth, i + grid.yOffset);
   }
   grid.ctx.stroke();
+
+  if (game.map) {
+    grid.ctx.strokeStyle = grid.borderColor;
+    grid.ctx.lineWidth = 40;
+    grid.ctx.beginPath();
+    grid.ctx.moveTo(localCoords(0, 'x'), localCoords(0, 'y'));
+    grid.ctx.lineTo(localCoords(game.map.width, 'x'), localCoords(0, 'y'));
+    grid.ctx.lineTo(localCoords(game.map.width, 'x'), localCoords(game.map.height, 'y'));
+    grid.ctx.lineTo(localCoords(0, 'x'), localCoords(game.map.height, 'y'));
+    grid.ctx.lineTo(localCoords(0, 'x'), localCoords(0, 'y') - grid.ctx.lineWidth / 2);
+    grid.ctx.stroke();
+  }
 
   window.requestAnimationFrame(drawGrid);
 }
