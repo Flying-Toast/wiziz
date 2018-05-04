@@ -97,6 +97,7 @@ function fillInventorySlots() {
 }
 
 function drawLoop() {
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
   //temp position display
   pos.innerText = 'x: ' + Math.round(player.x) + '\ny: ' + Math.round(player.y);
   //end temp
@@ -111,10 +112,21 @@ function drawLoop() {
     windowHeight: window.innerHeight
   });
 
+  for (var i = 0; i < game.players.length; i++) {
+    var currentPlayer = game.players[i];
+    if (currentPlayer !== player) {
+      ctx.save();
+      ctx.fillStyle = 'red';
+      ctx.translate(localCoords(currentPlayer.x, 'x'), localCoords(currentPlayer.y, 'y'));
+      ctx.rotate(currentPlayer.angle);
+      ctx.fillRect(-50, -50, 100, 100);
+      ctx.restore();
+    }
+  }
+
   //player
   ctx.save();
   ctx.fillStyle = 'black';
-  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
   ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
   ctx.rotate(local.angle);
   ctx.fillRect(-50, -50, 100, 100);
