@@ -20,10 +20,12 @@ var local = {
 };
 
 //temporary coords display
+var wiz = document.createElement('img');
+wiz.src = 'media/images/wiz.png';
 var pos = document.createElement('div');
 pos.style = 'z-index:100;position:absolute;right:0;top:0;';
 document.body.appendChild(pos);
-//end temporary
+
 
 
 function localCoords(real, xOrY) {
@@ -100,7 +102,7 @@ function drawLoop() {
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
   //temp position display
   pos.innerText = 'x: ' + Math.round(player.x) + '\ny: ' + Math.round(player.y);
-  //end temp
+
   var currentTime = performance.now();
   var dt = currentTime - local.lastTime;
   local.lastTime = currentTime;
@@ -119,19 +121,21 @@ function drawLoop() {
       ctx.fillStyle = 'red';
       ctx.translate(localCoords(currentPlayer.x, 'x'), localCoords(currentPlayer.y, 'y'));
       ctx.rotate(currentPlayer.angle);
-      ctx.fillRect(-50, -50, 100, 100);
+      ctx.drawImage(wiz, -wiz.width / 2, -wiz.height / 2);
+      //ctx.fillRect(-50, -50, 100, 100);
       ctx.restore();
     }
   }
 
   //player
   ctx.save();
-  ctx.fillStyle = 'black';
+  //ctx.fillStyle = 'black';
   ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
   ctx.rotate(local.angle);
-  ctx.fillRect(-50, -50, 100, 100);
-  ctx.fillStyle = 'green';
-  ctx.fillRect(-20, -90, 40, 40);
+  ctx.drawImage(wiz, -wiz.width / 2, -wiz.height / 2);
+  //ctx.fillRect(-50, -50, 100, 100);
+  //ctx.fillStyle = 'green';
+  //ctx.fillRect(-20, -90, 40, 40);
   ctx.restore();
   //end player
 
