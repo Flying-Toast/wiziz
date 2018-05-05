@@ -20,8 +20,8 @@ var local = {
 };
 
 //temporary coords display
-var wiz = document.createElement('img');
-wiz.src = 'media/images/wiz.png';
+var playerImg = document.createElement('img');
+playerImg.src = 'media/images/player.png';
 var pos = document.createElement('div');
 pos.style = 'z-index:100;position:absolute;right:0;top:0;';
 document.body.appendChild(pos);
@@ -121,7 +121,7 @@ function drawLoop() {
       ctx.fillStyle = 'red';
       ctx.translate(localCoords(currentPlayer.x, 'x'), localCoords(currentPlayer.y, 'y'));
       ctx.rotate(currentPlayer.angle);
-      ctx.drawImage(wiz, -wiz.width / 2, -wiz.height / 2);
+      ctx.drawImage(playerImg, -playerImg.width / 2, -playerImg.height / 2);
       ctx.restore();
     }
   }
@@ -130,7 +130,7 @@ function drawLoop() {
   ctx.save();
   ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
   ctx.rotate(local.angle);
-  ctx.drawImage(wiz, -wiz.width / 2, -wiz.height / 2);
+  ctx.drawImage(playerImg, -playerImg.width / 2, -playerImg.height / 2);
   ctx.restore();
 
 
