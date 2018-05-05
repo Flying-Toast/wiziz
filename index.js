@@ -57,7 +57,9 @@ server.io.on('connection', function(socket) {
 });
 
 function newPlayer(options) {
-  var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id, []);
+  var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id, [{
+    itemName: 'fireSpell'
+  }]);
 
   if (!player.nickname) {
     player.nickname = 'Unnamed Sorcerer';

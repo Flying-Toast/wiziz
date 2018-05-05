@@ -20,8 +20,10 @@ var local = {
 };
 var sprites = {
   player: createSprite('media/images/player.png'),
-  fireSpell: createSprite('media/images/fireSpell.png'),
-  freezeSpell: createSprite('media/images/freezeSpell.png')
+  src: {
+    fireSpell: 'media/images/fireSpell.png',
+    freezeSpell: 'media/images/freezeSpell.png'
+  }
 };
 
 function createSprite(src) {
@@ -77,6 +79,10 @@ socket.on('update', function(updatedGame) {
       return (element.id === socket.id);
     });
   }
+
+  if (player.inventory) {
+    fillInventory(player.inventory);
+  }
 });
 
 playButton.addEventListener('click', function() {
@@ -84,7 +90,7 @@ playButton.addEventListener('click', function() {
     nickname: nicknameInput.value
   };
   socket.emit('newGame', playerOptions);
-  fillInventorySlots();
+  fillInventory();
 
   mainScreen.style.display = 'none';
   local.lastTime = performance.now();
@@ -92,17 +98,22 @@ playButton.addEventListener('click', function() {
   state = 'playing';
 });
 
-function fillInventorySlots() {
+function fillInventory(inventory) {
+  if (!inventory) {
+    spellWrapper.innerHTML = ''; //clear existing inventory
 
-  spellWrapper.innerHTML = ''; //clear existing inventory
-
-  for (var i = 0; i < 4; i++) {
-    var slotImg = createSprite('media/images/inventorySlot.png');
-    slotImg.id = 'inventorySlot' + (i + 1);
-    slotImg.className = 'inventorySlot';
-    spellWrapper.appendChild(slotImg);
+    for (var i = 0; i < 4; i++) {
+      var slotImg = createSprite('media/images/inventorySlot.png');
+      slotImg.id = 'inventorySlot' + (i + 1);
+      slotImg.className = 'inventorySlot';
+      spellWrapper.appendChild(slotImg);
+    }
+  } else {
+    for (var i = 0; i < inventory.length; i++) {
+      var item = document.querySelector('#inventorySlot' + (i + 1));
+      item.src = sprites.src[inventory[i].itemName];
+    }
   }
-
 }
 
 function drawLoop() {
