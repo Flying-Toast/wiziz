@@ -18,9 +18,18 @@ var local = {
   },
   playerSpeed: 1 / 6
 };
+var sprites = {
+  player: createSprite('media/images/player.png'),
+  fireSpell: createSprite('media/images/fireSpell.png'),
+  freezeSpell: createSprite('media/images/freezeSpell.png')
+};
 
-var playerImg = document.createElement('img');
-playerImg.src = 'media/images/player.png';
+function createSprite(src) {
+  var sprite = document.createElement('img');
+  sprite.src = src;
+  return (sprite);
+}
+
 //temporary coords display
 var pos = document.createElement('div');
 pos.style = 'z-index:100;position:absolute;right:0;top:0;';
@@ -88,8 +97,7 @@ function fillInventorySlots() {
   spellWrapper.innerHTML = ''; //clear existing inventory
 
   for (var i = 0; i < 4; i++) {
-    var slotImg = document.createElement('img');
-    slotImg.src = 'media/images/inventorySlot.png';
+    var slotImg = createSprite('media/images/inventorySlot.png');
     slotImg.id = 'inventorySlot' + (i + 1);
     slotImg.className = 'inventorySlot';
     spellWrapper.appendChild(slotImg);
@@ -120,7 +128,7 @@ function drawLoop() {
       ctx.fillStyle = 'red';
       ctx.translate(localCoords(currentPlayer.x, 'x'), localCoords(currentPlayer.y, 'y'));
       ctx.rotate(currentPlayer.angle);
-      ctx.drawImage(playerImg, -playerImg.width / 2, -playerImg.height / 2);
+      ctx.drawImage(sprites.player, -sprites.player.width / 2, -sprites.player.height / 2);
       ctx.restore();
     }
   }
@@ -129,7 +137,7 @@ function drawLoop() {
   ctx.save();
   ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
   ctx.rotate(local.angle);
-  ctx.drawImage(playerImg, -playerImg.width / 2, -playerImg.height / 2);
+  ctx.drawImage(sprites.player, -sprites.player.width / 2, -sprites.player.height / 2);
   ctx.restore();
 
   if (player.x > 0 && player.x < game.map.width) {
