@@ -19,7 +19,8 @@ var local = {
   playerSpeed: 1 / 6,
   startingInventory: [{
     itemName: 'fireSpell'
-  }]
+  }],
+  quedInputs: []
 };
 var sprites = {
   player: createSprite('media/images/player.png'),
@@ -124,12 +125,12 @@ function fillInventory(inventory) {
 window.addEventListener('wheel', function(e) {
   if (state === 'playing') {
     if (e.deltaY > 0) {
-      inputs.push({
+      local.quedInputs.push({
         type: 'scroll',
         direction: 'left'
       });
     } else {
-      inputs.push({
+      local.quedInputs.push({
         type: 'scroll',
         direction: 'right'
       });
@@ -138,6 +139,9 @@ window.addEventListener('wheel', function(e) {
 });
 
 function drawLoop() {
+  inputs = inputs.concat(local.quedInputs);
+  local.quedInputs = [];
+
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
   //temp position display
   pos.innerText = 'x: ' + Math.round(player.x) + '\ny: ' + Math.round(player.y);
