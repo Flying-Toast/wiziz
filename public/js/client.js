@@ -16,7 +16,10 @@ var local = {
     x: 0,
     y: 0
   },
-  playerSpeed: 1 / 6
+  playerSpeed: 1 / 6,
+  startingInventory: [{
+    itemName: 'fireSpell'
+  }]
 };
 var sprites = {
   player: createSprite('media/images/player.png'),
@@ -82,6 +85,7 @@ socket.on('update', function(updatedGame) {
 
   if (player.inventory) {
     fillInventory(player.inventory);
+    document.querySelector('#inventorySlot' + (player.selectedItem + 1)).src = document.querySelector('#inventorySlot' + (player.selectedItem + 1)).src.replace('.png', 'Selected.png');
   }
 });
 
@@ -91,6 +95,7 @@ playButton.addEventListener('click', function() {
   };
   socket.emit('newGame', playerOptions);
   fillInventory();
+  fillInventory(local.startingInventory);
 
   mainScreen.style.display = 'none';
   local.lastTime = performance.now();
@@ -115,6 +120,22 @@ function fillInventory(inventory) {
     }
   }
 }
+
+window.addEventListener('wheel', function(e) {
+  if (state === 'playing') {
+    if (e.deltaY > 0) {
+      inputs.push({
+        type: 'scroll',
+        direction: 'left'
+      });
+    } else {
+      inputs.push({
+        type: 'scroll',
+        direction: 'right'
+      });
+    }
+  }
+});
 
 function drawLoop() {
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -151,12 +172,8 @@ function drawLoop() {
   ctx.drawImage(sprites.player, -sprites.player.width / 2, -sprites.player.height / 2);
   ctx.restore();
 
-  if (player.x > 0 && player.x < game.map.width) {
-    grid.xOffset -= grid.vx * local.playerSpeed * dt;
-  }
-  if (player.y > 0 && player.y < game.map.height) {
-    grid.yOffset -= grid.vy * local.playerSpeed * dt;
-  }
+  grid.xOffset = -player.x;
+  grid.yOffset = -player.y;
 
   socket.emit('input', inputs);
   inputs = [];

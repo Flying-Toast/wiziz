@@ -26,6 +26,14 @@ game.playerMap = new hashmap();
 var config = {
   playerSpeed: 1 / 6 //pixels per millisecond
 };
+var spells = {
+  fireSpell: {
+    itemName: 'fireSpell'
+  },
+  freezeSpell: {
+    itemName: 'freezeSpell'
+  }
+};
 
 server.io.on('connection', function(socket) {
 
@@ -57,9 +65,7 @@ server.io.on('connection', function(socket) {
 });
 
 function newPlayer(options) {
-  var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id, [{
-    itemName: 'fireSpell'
-  }]);
+  var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id, [spells.fireSpell]);
 
   if (!player.nickname) {
     player.nickname = 'Unnamed Sorcerer';
@@ -84,6 +90,7 @@ function Player(x, y, nickname, id, inventory) {
   this.quedInputs = [];
   this.angle = 0;
   this.lastMove = 0;
+  this.selectedItem = 0;
 }
 
 //loops
@@ -112,6 +119,18 @@ function physicsLoop() {
           player.y += (config.playerSpeed / lenToMouse * (input.facing.y - input.windowHeight / 2)) * dt;
           player.lastMove = Date.now();
           player.angle = Math.atan2(input.facing.x - input.windowWidth / 2, -(input.facing.y - input.windowHeight / 2));
+          break;
+        case 'scroll':
+          if (input.direction === 'left') {
+            player.selectedItem -= 1;
+          } else {
+            player.selectedItem += 1;
+          }
+          if (player.selectedItem < 0) {
+            player.selectedItem = player.inventory.length - 1;
+          } else if (player.selectedItem > player.inventory.length - 1) {
+            player.selectedItem = 0;
+          }
           break;
       }
       player.inputs.splice(player.inputs.indexOf(input, 1));
