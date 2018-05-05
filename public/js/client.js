@@ -68,7 +68,6 @@ socket.on('update', function(updatedGame) {
       return (element.id === socket.id);
     });
   }
-
 });
 
 playButton.addEventListener('click', function() {
@@ -133,12 +132,15 @@ function drawLoop() {
   ctx.drawImage(playerImg, -playerImg.width / 2, -playerImg.height / 2);
   ctx.restore();
 
-  if (player.x > 0 && player.x < game.map.width) {
+  /*if (player.x > 0 && player.x < game.map.width) {
     grid.xOffset -= grid.vx * local.playerSpeed * dt;
   }
   if (player.y > 0 && player.y < game.map.height) {
     grid.yOffset -= grid.vy * local.playerSpeed * dt;
-  }
+  }*/
+
+  grid.xOffset = -player.x;
+  grid.yOffset = -player.y;
 
   socket.emit('input', inputs);
   inputs = [];
