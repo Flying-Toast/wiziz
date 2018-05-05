@@ -19,9 +19,9 @@ var local = {
   playerSpeed: 1 / 6
 };
 
-//temporary coords display
 var playerImg = document.createElement('img');
 playerImg.src = 'media/images/player.png';
+//temporary coords display
 var pos = document.createElement('div');
 pos.style = 'z-index:100;position:absolute;right:0;top:0;';
 document.body.appendChild(pos);
@@ -133,12 +133,12 @@ function drawLoop() {
   ctx.drawImage(playerImg, -playerImg.width / 2, -playerImg.height / 2);
   ctx.restore();
 
-
-  //grid.xOffset -= grid.vx * local.playerSpeed * dt;
-  //grid.yOffset -= grid.vy * local.playerSpeed * dt;
-
-  grid.xOffset = -player.x;
-  grid.yOffset = -player.y;
+  if (player.x > 0 && player.x < game.map.width) {
+    grid.xOffset -= grid.vx * local.playerSpeed * dt;
+  }
+  if (player.y > 0 && player.y < game.map.height) {
+    grid.yOffset -= grid.vy * local.playerSpeed * dt;
+  }
 
   socket.emit('input', inputs);
   inputs = [];
