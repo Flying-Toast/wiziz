@@ -90,7 +90,7 @@ playButton.addEventListener('click', function() {
   fillInventorySlots();
 
   mainScreen.style.display = 'none';
-  local.lastTime = performance.now(); //temp
+  local.lastTime = performance.now();
   window.requestAnimationFrame(drawLoop);
   state = 'playing';
 });
@@ -127,28 +127,23 @@ function drawLoop() {
 
   for (var i = 0; i < game.players.length; i++) {
     var currentPlayer = game.players[i];
-    if (currentPlayer !== player) {
+    if (currentPlayer.id !== player.id) {
       ctx.save();
       ctx.fillStyle = 'red';
       ctx.translate(localCoords(currentPlayer.x, 'x'), localCoords(currentPlayer.y, 'y'));
       ctx.rotate(currentPlayer.angle);
       ctx.drawImage(wiz, -wiz.width / 2, -wiz.height / 2);
-      //ctx.fillRect(-50, -50, 100, 100);
       ctx.restore();
     }
   }
 
   //player
   ctx.save();
-  //ctx.fillStyle = 'black';
   ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
   ctx.rotate(local.angle);
   ctx.drawImage(wiz, -wiz.width / 2, -wiz.height / 2);
-  //ctx.fillRect(-50, -50, 100, 100);
-  //ctx.fillStyle = 'green';
-  //ctx.fillRect(-20, -90, 40, 40);
   ctx.restore();
-  //end player
+
 
   //grid.xOffset -= grid.vx * local.playerSpeed * dt;
   //grid.yOffset -= grid.vy * local.playerSpeed * dt;
