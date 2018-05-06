@@ -133,6 +133,7 @@ function physicsLoop() {
           }
           break;
       }
+      player.lastInput = input.id;
       player.inputs.splice(player.inputs.indexOf(input, 1));
     }
     player.inputs = player.quedInputs;

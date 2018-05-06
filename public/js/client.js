@@ -11,6 +11,13 @@ var game = {};
 state = 'fresh';
 var player = {};
 var inputs = [];
+var sprites = {
+  player: createSprite('media/images/player.png'),
+  src: {
+    fireSpell: 'media/images/fireSpell.png',
+    freezeSpell: 'media/images/freezeSpell.png'
+  }
+};
 var local = {
   facing: {
     x: 0,
@@ -20,15 +27,13 @@ var local = {
   startingInventory: [{
     itemName: 'fireSpell'
   }],
-  quedInputs: []
+  quedInputs: [],
+  player: {},
+  savedInputs: [],
+  inputNumber: 0,
+  quedSavedInputs: []
 };
-var sprites = {
-  player: createSprite('media/images/player.png'),
-  src: {
-    fireSpell: 'media/images/fireSpell.png',
-    freezeSpell: 'media/images/freezeSpell.png'
-  }
-};
+
 
 function createSprite(src) {
   var sprite = document.createElement('img');
@@ -88,6 +93,19 @@ socket.on('update', function(updatedGame) {
     fillInventory(player.inventory);
     document.querySelector('#inventorySlot' + (player.selectedItem + 1)).src = document.querySelector('#inventorySlot' + (player.selectedItem + 1)).src.replace('.png', 'Selected.png');
   }
+
+  var indexOfLastInput = inputs.find(function(element) {
+    return (element.id === player.lastInput);
+  });
+
+  if (indexOfLastInput) {
+    local.savedInputs.splice(0, indexOfLastInput + 1);
+  }
+
+  if (!local.player.id) {
+    local.player = player;
+  }
+
 });
 
 playButton.addEventListener('click', function() {
@@ -127,35 +145,60 @@ window.addEventListener('wheel', function(e) {
     if (e.deltaY > 0) {
       local.quedInputs.push({
         type: 'scroll',
-        direction: 'left'
+        direction: 'left',
+        id: local.inputNumber
       });
     } else {
       local.quedInputs.push({
         type: 'scroll',
-        direction: 'right'
+        direction: 'right',
+        id: local.inputNumber
       });
     }
+    local.inputNumber++;
   }
 });
 
 function drawLoop() {
-  inputs = inputs.concat(local.quedInputs);
-  local.quedInputs = [];
-
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
   //temp position display
-  pos.innerText = 'x: ' + Math.round(player.x) + '\ny: ' + Math.round(player.y);
+  pos.innerText = 'x: ' + Math.round(player.x) + '\ny: ' + Math.round(player.y) + '\nlocal.player:\n' + 'x: ' + Math.round(local.player.x) + '\ny: ' + Math.round(local.player.y);
 
   var currentTime = performance.now();
   var dt = currentTime - local.lastTime;
   local.lastTime = currentTime;
 
-  inputs.push({
+  local.quedInputs.push({
     type: 'move',
     facing: local.facing,
     windowWidth: window.innerWidth,
-    windowHeight: window.innerHeight
+    windowHeight: window.innerHeight,
+    id: local.inputNumber
   });
+  local.inputNumber++;
+
+
+  local.savedInputs = local.quedSavedInputs;
+  local.quedSavedInputs = [];
+  if (local.player.id) {
+    for (var i = 0; i < local.savedInputs.length; i++) {
+      var input = local.savedInputs[i];
+
+      switch (input.type) {
+        case 'move':
+
+          var lenToMouse = Math.sqrt(Math.pow(input.facing.x - input.windowWidth / 2, 2) + Math.pow(input.facing.y - input.windowHeight / 2, 2));
+          local.player.x += (local.playerSpeed / lenToMouse * (input.facing.x - input.windowWidth / 2)) * dt;
+          local.player.y += (local.playerSpeed / lenToMouse * (input.facing.y - input.windowHeight / 2)) * dt;
+          break;
+      }
+    }
+  }
+
+  grid.xOffset = -local.player.x;
+  grid.yOffset = -local.player.y;
+
+
 
   for (var i = 0; i < game.players.length; i++) {
     var currentPlayer = game.players[i];
@@ -176,9 +219,9 @@ function drawLoop() {
   ctx.drawImage(sprites.player, -sprites.player.width / 2, -sprites.player.height / 2);
   ctx.restore();
 
-  grid.xOffset = -player.x;
-  grid.yOffset = -player.y;
-
+  inputs = inputs.concat(local.quedInputs);
+  local.quedSavedInputs = local.quedSavedInputs.concat(local.quedInputs);
+  local.quedInputs = [];
   socket.emit('input', inputs);
   inputs = [];
   if (state === 'playing') {
