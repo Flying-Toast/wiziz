@@ -68,6 +68,26 @@ function globalCoords(local, xOrY) {
   }
 }
 
+function predictLocalCoords(real, xOrY) {
+  if (xOrY === 'x') {
+    return (real + window.innerWidth / 2 - local.player.x);
+  }
+
+  if (xOrY === 'y') {
+    return (real + window.innerHeight / 2 - local.player.y);
+  }
+}
+
+function predictGlobalCoords(local, xOrY) {
+  if (xOrY === 'x') {
+    return (local - window.innerWidth / 2 - local.player.x);
+  }
+
+  if (xOrY === 'y') {
+    return (local - window.innerHeight / 2 - local.player.y);
+  }
+}
+
 var socket = io.connect('/');
 
 gameCanvas.width = window.innerWidth;
@@ -193,6 +213,19 @@ function drawLoop() {
           break;
       }
     }
+  }
+
+  if (local.player.x < 0) {
+    local.player.x = 0;
+  }
+  if (local.player.x > game.map.width) {
+    local.player.x = game.map.width;
+  }
+  if (local.player.y < 0) {
+    local.player.y = 0;
+  }
+  if (local.player.y > game.map.height) {
+    local.player.y = game.map.height;
   }
 
   grid.xOffset = -local.player.x;

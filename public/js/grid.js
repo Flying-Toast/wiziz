@@ -47,11 +47,11 @@ function drawGrid() {
     grid.ctx.strokeStyle = grid.borderColor;
     grid.ctx.lineWidth = 40;
     grid.ctx.beginPath();
-    grid.ctx.moveTo(localCoords(0, 'x'), localCoords(0, 'y'));
-    grid.ctx.lineTo(localCoords(game.map.width, 'x'), localCoords(0, 'y'));
-    grid.ctx.lineTo(localCoords(game.map.width, 'x'), localCoords(game.map.height, 'y'));
-    grid.ctx.lineTo(localCoords(0, 'x'), localCoords(game.map.height, 'y'));
-    grid.ctx.lineTo(localCoords(0, 'x'), localCoords(0, 'y') - grid.ctx.lineWidth / 2);
+    grid.ctx.moveTo(predictLocalCoords(0, 'x'), predictLocalCoords(0, 'y'));
+    grid.ctx.lineTo(predictLocalCoords(game.map.width, 'x'), predictLocalCoords(0, 'y'));
+    grid.ctx.lineTo(predictLocalCoords(game.map.width, 'x'), predictLocalCoords(game.map.height, 'y'));
+    grid.ctx.lineTo(predictLocalCoords(0, 'x'), predictLocalCoords(game.map.height, 'y'));
+    grid.ctx.lineTo(predictLocalCoords(0, 'x'), predictLocalCoords(0, 'y') - grid.ctx.lineWidth / 2);
     grid.ctx.stroke();
   }
 

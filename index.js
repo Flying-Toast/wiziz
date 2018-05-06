@@ -156,4 +156,4 @@ function physicsLoop() {
 }
 
 setInterval(physicsLoop, 20);
-setInterval(updateLoop, 50);
+setInterval(updateLoop, 100);
