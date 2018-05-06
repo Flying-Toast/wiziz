@@ -47,28 +47,7 @@ pos.style = 'z-index:100;position:absolute;right:0;top:0;';
 document.body.appendChild(pos);
 
 
-
 function localCoords(real, xOrY) {
-  if (xOrY === 'x') {
-    return (real + window.innerWidth / 2 - player.x);
-  }
-
-  if (xOrY === 'y') {
-    return (real + window.innerHeight / 2 - player.y);
-  }
-}
-
-function globalCoords(local, xOrY) {
-  if (xOrY === 'x') {
-    return (local - window.innerWidth / 2 - player.x);
-  }
-
-  if (xOrY === 'y') {
-    return (local - window.innerHeight / 2 - player.y);
-  }
-}
-
-function predictLocalCoords(real, xOrY) {
   if (xOrY === 'x') {
     return (real + window.innerWidth / 2 - local.player.x);
   }
@@ -78,7 +57,7 @@ function predictLocalCoords(real, xOrY) {
   }
 }
 
-function predictGlobalCoords(local, xOrY) {
+function globalCoords(local, xOrY) {
   if (xOrY === 'x') {
     return (local - window.innerWidth / 2 - local.player.x);
   }
