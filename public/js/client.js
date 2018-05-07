@@ -5,6 +5,12 @@ var mainScreen = document.querySelector('#mainScreen');
 var playButton = document.querySelector('#playButton');
 var nicknameInput = document.querySelector('#nicknameInput');
 
+window.onbeforeunload = function() {
+  if (state === 'playing') {
+    return ('You are still alive! Are you sure you want to leave?');
+  }
+};
+
 var ctx = gameCanvas.getContext('2d');
 
 var game = {};

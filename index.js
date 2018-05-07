@@ -95,7 +95,16 @@ function Player(x, y, nickname, id, inventory) {
 
 //loops
 function updateLoop() {
-  server.io.emit('update', game);
+  var updatedGame = JSON.parse(JSON.stringify(game));
+  updatedGame.playerMap = undefined;
+  for (var i = 0; i < updatedGame.players.length; i++) {
+    var currentPlayer = updatedGame.players[i];
+    currentPlayer.inputs = undefined;
+    currentPlayer.quedInputs = undefined;
+    //currentPlayer.selectedItem = undefined;
+  }
+
+  server.io.emit('update', updatedGame);
 }
 
 function physicsLoop() {
