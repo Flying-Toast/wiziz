@@ -58,7 +58,10 @@ server.io.on('connection', function(socket) {
   socket.on('input', function(inputs) {
     for (var i = 0; i < inputs.length; i++) {
       var input = inputs[i];
-      game.playerMap.get(socket.id).quedInputs.push(input);
+      var player = game.playerMap.get(socket.id);
+	if(player){
+          player.quedInputs.push(input);
+        }
     }
   });
 
