@@ -278,3 +278,11 @@ window.addEventListener('mousemove', function(e) {
   grid.vx = 1 / lenToMouse * (e.pageX - window.innerWidth / 2);
   grid.vy = 1 / lenToMouse * (e.pageY - window.innerHeight / 2);
 });
+
+function castSpell(spell) {
+  local.quedInputs.push({
+    type: 'click',
+    id: local.inputNumber
+  });
+  local.inputNumber++;
+}

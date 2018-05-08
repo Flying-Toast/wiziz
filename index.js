@@ -93,6 +93,12 @@ function Player(x, y, nickname, id, inventory) {
   this.selectedItem = 0;
 }
 
+function Spell(origin, target, type) {
+  this.origin = origin; //should be an object with x and y properties
+  this.target = target; //should be an object with x and y properties
+  this.type = type; //which spell
+}
+
 //loops
 function updateLoop() {
   var updatedGame = JSON.parse(JSON.stringify(game));
@@ -140,6 +146,9 @@ function physicsLoop() {
           } else if (player.selectedItem > player.inventory.length - 1) {
             player.selectedItem = 0;
           }
+          break;
+        case 'click':
+          //cast selected spell
           break;
       }
       player.lastInput = input.id;
