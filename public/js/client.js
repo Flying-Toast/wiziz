@@ -24,6 +24,9 @@ var sprites = {
     freezeSpell: 'media/images/freezeSpell.png'
   }
 };
+var sounds = {
+  fireSpell: createSound('media/sounds/fireSpell.mp3', 'media/sounds/fireSpell.ogg')
+};
 var local = {
   facing: {
     x: 0,
@@ -37,7 +40,8 @@ var local = {
   player: {},
   savedInputs: [],
   inputNumber: 0,
-  quedSavedInputs: []
+  quedSavedInputs: [],
+  interpolationTime: 100
 };
 
 
@@ -45,6 +49,19 @@ function createSprite(src) {
   var sprite = document.createElement('img');
   sprite.src = src;
   return (sprite);
+}
+
+function createSound(mp3Src, oggSrc) {
+  var sound = document.createElement('audio');
+  var mp3 = document.createElement('source');
+  var ogg = document.createElement('source');
+  mp3.type = 'audio/mp3';
+  ogg.type = 'audio/ogg';
+  mp3.src = mp3Src;
+  ogg.src = oggSrc;
+  sound.appendChild(mp3);
+  sound.appendChild(ogg);
+  return (sound);
 }
 
 //temporary coords display
@@ -84,6 +101,8 @@ window.addEventListener('resize', function() {
 });
 
 socket.on('update', function(updatedGame) {
+
+
   game = updatedGame;
 
   if (game.players.find(function(element) {
