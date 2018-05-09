@@ -22,6 +22,7 @@ rl.on('line', function(line) {
 var game = {};
 game.players = [];
 game.map = new Map(3000, 3000);
+game.spells = [];
 game.playerMap = new hashmap();
 var config = {
   playerSpeed: 1 / 6 //pixels per millisecond
@@ -59,9 +60,9 @@ server.io.on('connection', function(socket) {
     for (var i = 0; i < inputs.length; i++) {
       var input = inputs[i];
       var player = game.playerMap.get(socket.id);
-	if(player){
-          player.quedInputs.push(input);
-        }
+      if (player) {
+        player.quedInputs.push(input);
+      }
     }
   });
 
@@ -96,10 +97,29 @@ function Player(x, y, nickname, id, inventory) {
   this.selectedItem = 0;
 }
 
-function Spell(origin, target, type) {
-  this.origin = origin; //should be an object with x and y properties
-  this.target = target; //should be an object with x and y properties
-  this.type = type; //which spell
+function ProjectileSpell(origin, target, speed, caster) {
+  this.origin = origin; //where the spell is cast from, should be an object with x and y properties
+  this.target = target; //where the spell should die, should be an object with x and y properties
+  this.caster = caster; //player that casted the spell
+  this.location = origin; //the current location of the spell
+  this.lenToTarget = Math.sqrt(Math.pow(this.target.x - this.origin.x, 2) + Math.pow(this.target.y - this.origin.y, 2));
+  this.lastMove = Date.now();
+  this.speed = speed; //pixels per millisecond
+}
+ProjectileSpell.prototype.tick = function() {
+  //movement
+  var currentTime = Date.now();
+  var dt = currentTime - this.lastMove;
+  this.location.x += (this.speed / this.lenToTarget * (this.target.x - this.origin.x)) * dt;
+  this.location.y += (this.speed / this.lenToTarget * (this.target.y - this.origin.y)) * dt;
+  this.lastMove = Date.now();
+  //check collisions with player
+};
+
+function SplashSpell(origin, target, speed, caster, explosionRadius, ttl) {
+  ProjectileSpell.call(this, origin, target, speed, caster);
+  this.explosionRadius = explosionRadius;
+  this.ttl = ttl; //the time to live after the explosion
 }
 
 //loops
@@ -171,6 +191,11 @@ function physicsLoop() {
     }
     if (player.y > game.map.height) {
       player.y = game.map.height;
+    }
+
+    for (var i = 0; i < game.spells.length; i++) {
+      var spell = game.spells[i];
+      spell.tick();
     }
 
   }
