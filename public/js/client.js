@@ -164,24 +164,7 @@ function fillInventory(inventory) {
   }
 }
 
-window.addEventListener('wheel', function(e) {
-  if (state === 'playing') {
-    if (e.deltaY > 0) {
-      local.quedInputs.push({
-        type: 'scroll',
-        direction: 'left',
-        id: local.inputNumber
-      });
-    } else {
-      local.quedInputs.push({
-        type: 'scroll',
-        direction: 'right',
-        id: local.inputNumber
-      });
-    }
-    local.inputNumber++;
-  }
-});
+
 
 function drawLoop() {
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -279,9 +262,28 @@ window.addEventListener('mousemove', function(e) {
   grid.vy = 1 / lenToMouse * (e.pageY - window.innerHeight / 2);
 });
 
+window.addEventListener('wheel', function(e) {
+  if (state === 'playing') {
+    if (e.deltaY > 0) {
+      local.quedInputs.push({
+        type: 'scroll',
+        direction: 'left',
+        id: local.inputNumber
+      });
+    } else {
+      local.quedInputs.push({
+        type: 'scroll',
+        direction: 'right',
+        id: local.inputNumber
+      });
+    }
+    local.inputNumber++;
+  }
+});
+
 function castSpell(spell) {
   local.quedInputs.push({
-    type: 'click',
+    type: 'cast',
     id: local.inputNumber
   });
   local.inputNumber++;
