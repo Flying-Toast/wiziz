@@ -69,14 +69,16 @@ server.io.on('connection', function(socket) {
 });
 
 function newPlayer(options) {
-  var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id, [spells.fireSpell]);
+  if(options.nickname !== undefined){
+    var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id,[spells.fireSpell]);
 
-  if (!player.nickname) {
-    player.nickname = 'Unnamed Sorcerer';
+    if (!player.nickname) {
+      player.nickname = 'Unnamed Sorcerer';
+    }
+
+    game.playerMap.set(player.id, player);
+    game.players.push(player);
   }
-
-  game.playerMap.set(player.id, player);
-  game.players.push(player);
 }
 
 function Map(width, height) {
