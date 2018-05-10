@@ -132,7 +132,7 @@ function SplashSpell(origin, target, speed, caster, explosionRadius, ttl) {
   ProjectileSpell.call(this, origin, target, speed, caster);
   this.explosionRadius = explosionRadius;
   this.ttl = ttl; //the time to live after the explosion
-  this.die = function() { //// TODO: 
+  this.die = function() { //// TODO:
 
   };
 }
@@ -166,7 +166,7 @@ function physicsLoop() {
             dt = 0;
           }
 
-          var lenToMouse = helpers.distance(input.facing.x, input.windowWidth / 2, input.facing.y, input.windowHeight / 2);
+          var lenToMouse = helpers.distance(input.facing.x, input.facing.y, input.windowWidth / 2, input.windowHeight / 2);
           player.x += (config.playerSpeed / lenToMouse * (input.facing.x - input.windowWidth / 2)) * dt;
           player.y += (config.playerSpeed / lenToMouse * (input.facing.y - input.windowHeight / 2)) * dt;
           player.lastMove = Date.now();
