@@ -181,12 +181,9 @@ function physicsLoop() {
           player.lastMove = Date.now();
           player.angle = Math.atan2(input.facing.x - input.windowWidth / 2, -(input.facing.y - input.windowHeight / 2));
           break;
-        case 'scroll':
-          if (input.direction === 'left') {
-            player.selectedItem -= 1;
-          } else {
-            player.selectedItem += 1;
-          }
+        case 'select':
+          player.selectedItem = input.itemIndex;
+
           if (player.selectedItem < 0) {
             player.selectedItem = player.inventory.length - 1;
           } else if (player.selectedItem > player.inventory.length - 1) {

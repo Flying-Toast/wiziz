@@ -41,8 +41,7 @@ var local = {
   player: {},
   savedInputs: [],
   inputNumber: 0,
-  quedSavedInputs: [],
-  interpolationTime: 100
+  quedSavedInputs: []
 };
 
 
@@ -96,8 +95,6 @@ addEventListener('resize', function() {
 });
 
 socket.on('update', function(updatedGame) {
-
-
   game = updatedGame;
 
   if (game.players.find(function(element) {
@@ -152,6 +149,19 @@ function fillInventory(inventory) {
       coolDownDisplay.style.animation = 'none';
       spellWrapper.appendChild(coolDownDisplay);
       var slotImg = createSprite('media/images/inventorySlot.png');
+      slotImg.addEventListener('dragstart', function(e) {
+        e.preventDefault();
+      });
+      slotImg.addEventListener('click', function(e) {
+        if (player.inventory[this.id.slice(-1) - 1]) {
+          local.quedInputs.push({
+            type: 'select',
+            itemIndex: this.id.slice(-1) - 1,
+            id: local.inputNumber
+          });
+          local.inputNumber++;
+        }
+      });
       slotImg.id = 'inventorySlot' + (i + 1);
       slotImg.className = 'inventorySlot';
       spellWrapper.appendChild(slotImg);
@@ -264,19 +274,32 @@ addEventListener('mousemove', function(e) {
 
 addEventListener('wheel', function(e) {
   if (state === 'playing') {
+    e.preventDefault();
     if (e.deltaY > 0) {
       local.quedInputs.push({
-        type: 'scroll',
-        direction: 'left',
+        type: 'select',
+        itemIndex: player.selectedItem - 1,
         id: local.inputNumber
       });
     } else {
       local.quedInputs.push({
-        type: 'scroll',
-        direction: 'right',
+        type: 'select',
+        itemIndex: player.selectedItem + 1,
         id: local.inputNumber
       });
     }
+    local.inputNumber++;
+  }
+});
+
+addEventListener('keypress', function(e) {
+  var inventorySlot = document.querySelector('#inventorySlot' + e.key);
+  if (inventorySlot && player.inventory[e.key - 1] && !e.repeat) {
+    local.quedInputs.push({
+      type: 'select',
+      itemIndex: e.key - 1,
+      id: local.inputNumber
+    });
     local.inputNumber++;
   }
 });
