@@ -85,6 +85,8 @@
 
     .inventorySlot {
       margin: 2.5px;
+      position: relative;
+      cursor: pointer;
     }
 
     #mainScreen {
@@ -170,11 +172,32 @@
     #instructions h1 {
       margin-bottom: 0;
     }
+
+    .coolDownDisplay {
+      display: inline-block;
+      width: 94px;
+      position: absolute;
+      margin: 2.5px;
+      z-index: 1 !important;
+      animation-fill-mode: forwards;
+      animation-timing-function: linear;
+      animation-name: coolDown;
+      animation-duration: 500ms;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    @keyframes coolDown {
+      from {
+        height: 94px;
+      }
+      to {
+        height: 0;
+      }
+    }
   </style>
 </head>
 
 <body>
-
   <div id="mainScreen" class="overlay">
     <header>
       <h1>SORCER.io</h1>

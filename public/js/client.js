@@ -5,7 +5,7 @@ var mainScreen = document.querySelector('#mainScreen');
 var playButton = document.querySelector('#playButton');
 var nicknameInput = document.querySelector('#nicknameInput');
 
-window.onbeforeunload = function() {
+onbeforeunload = function() {
   if (state === 'playing') {
     return ('You are still alive! Are you sure you want to leave?');
   }
@@ -34,7 +34,8 @@ var local = {
   },
   playerSpeed: 1 / 6,
   startingInventory: [{
-    itemName: 'fireSpell'
+    itemName: 'fireSpell',
+    coolDown: 700
   }],
   quedInputs: [],
   player: {},
@@ -72,32 +73,32 @@ document.body.appendChild(pos);
 
 function localCoords(real, xOrY) {
   if (xOrY === 'x') {
-    return (real + window.innerWidth / 2 - local.player.x);
+    return (real + innerWidth / 2 - local.player.x);
   }
 
   if (xOrY === 'y') {
-    return (real + window.innerHeight / 2 - local.player.y);
+    return (real + innerHeight / 2 - local.player.y);
   }
 }
 
 function globalCoords(local, xOrY) {
   if (xOrY === 'x') {
-    return (local - window.innerWidth / 2 - local.player.x);
+    return (local - innerWidth / 2 - local.player.x);
   }
 
   if (xOrY === 'y') {
-    return (local - window.innerHeight / 2 - local.player.y);
+    return (local - innerHeight / 2 - local.player.y);
   }
 }
 
 var socket = io.connect('/');
 
-gameCanvas.width = window.innerWidth;
-gameCanvas.height = window.innerHeight;
+gameCanvas.width = innerWidth;
+gameCanvas.height = innerHeight;
 
-window.addEventListener('resize', function() {
-  gameCanvas.width = window.innerWidth;
-  gameCanvas.height = window.innerHeight;
+addEventListener('resize', function() {
+  gameCanvas.width = innerWidth;
+  gameCanvas.height = innerHeight;
 });
 
 socket.on('update', function(updatedGame) {
@@ -142,7 +143,7 @@ playButton.addEventListener('click', function() {
 
   mainScreen.style.display = 'none';
   local.lastTime = performance.now();
-  window.requestAnimationFrame(drawLoop);
+  requestAnimationFrame(drawLoop);
   state = 'playing';
 });
 
@@ -151,6 +152,11 @@ function fillInventory(inventory) {
     spellWrapper.innerHTML = ''; //clear existing inventory
 
     for (var i = 0; i < 4; i++) {
+      var coolDownDisplay = document.createElement('div');
+      coolDownDisplay.className = 'coolDownDisplay';
+      coolDownDisplay.id = 'coolDownDisplay' + (i + 1);
+      coolDownDisplay.style.animation = 'none';
+      spellWrapper.appendChild(coolDownDisplay);
       var slotImg = createSprite('media/images/inventorySlot.png');
       slotImg.id = 'inventorySlot' + (i + 1);
       slotImg.className = 'inventorySlot';
@@ -159,6 +165,8 @@ function fillInventory(inventory) {
   } else {
     for (var i = 0; i < inventory.length; i++) {
       var item = document.querySelector('#inventorySlot' + (i + 1));
+      var coolDownDiv = document.querySelector('#coolDownDisplay' + (i + 1));
+      coolDownDiv.style.animationDuration = inventory[i].coolDown + 'ms';
       item.src = sprites.src[inventory[i].itemName];
     }
   }
@@ -167,7 +175,7 @@ function fillInventory(inventory) {
 
 
 function drawLoop() {
-  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  ctx.clearRect(0, 0, innerWidth, innerHeight);
   //temp position display
   pos.innerText = 'x: ' + Math.round(player.x) + '\ny: ' + Math.round(player.y) + '\nlocal.player:\n' + 'x: ' + Math.round(local.player.x) + '\ny: ' + Math.round(local.player.y);
 
@@ -178,8 +186,8 @@ function drawLoop() {
   local.quedInputs.push({
     type: 'move',
     facing: local.facing,
-    windowWidth: window.innerWidth,
-    windowHeight: window.innerHeight,
+    windowWidth: innerWidth,
+    windowHeight: innerHeight,
     id: local.inputNumber
   });
   local.inputNumber++;
@@ -234,7 +242,7 @@ function drawLoop() {
 
   //player
   ctx.save();
-  ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
+  ctx.translate(innerWidth / 2, innerHeight / 2);
   ctx.rotate(local.angle);
   ctx.drawImage(sprites.player, -sprites.player.width / 2, -sprites.player.height / 2);
   ctx.restore();
@@ -245,24 +253,24 @@ function drawLoop() {
   socket.emit('input', inputs);
   inputs = [];
   if (state === 'playing') {
-    window.requestAnimationFrame(drawLoop);
+    requestAnimationFrame(drawLoop);
   }
 }
 
-window.addEventListener('mousemove', function(e) {
-  local.angle = Math.atan2(e.pageX - window.innerWidth / 2, -(e.pageY - window.innerHeight / 2));
+addEventListener('mousemove', function(e) {
+  local.angle = Math.atan2(e.pageX - innerWidth / 2, -(e.pageY - innerHeight / 2));
 
   local.facing = {
     x: e.pageX,
     y: e.pageY
   };
 
-  var lenToMouse = Math.sqrt(Math.pow(e.pageX - window.innerWidth / 2, 2) + Math.pow(e.pageY - window.innerHeight / 2, 2));
-  grid.vx = 1 / lenToMouse * (e.pageX - window.innerWidth / 2);
-  grid.vy = 1 / lenToMouse * (e.pageY - window.innerHeight / 2);
+  var lenToMouse = Math.sqrt(Math.pow(e.pageX - innerWidth / 2, 2) + Math.pow(e.pageY - innerHeight / 2, 2));
+  grid.vx = 1 / lenToMouse * (e.pageX - innerWidth / 2);
+  grid.vy = 1 / lenToMouse * (e.pageY - innerHeight / 2);
 });
 
-window.addEventListener('wheel', function(e) {
+addEventListener('wheel', function(e) {
   if (state === 'playing') {
     if (e.deltaY > 0) {
       local.quedInputs.push({
@@ -281,10 +289,17 @@ window.addEventListener('wheel', function(e) {
   }
 });
 
-function castSpell(spell) {
+function castSpell() {
   local.quedInputs.push({
     type: 'cast',
     id: local.inputNumber
   });
   local.inputNumber++;
+  var coolDown = document.querySelector('#coolDownDisplay' + (player.selectedItem + 1));
+  setTimeout(function() {
+    coolDown.style.animation = 'none';
+  }, coolDown.style.animationDuration.slice(0, -2));
+  coolDown.style.animation = '';
 }
+
+gameCanvas.addEventListener('click', castSpell);

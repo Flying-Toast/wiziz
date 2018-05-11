@@ -29,10 +29,12 @@ var config = {
 };
 var spells = {
   fireSpell: {
-    itemName: 'fireSpell'
+    itemName: 'fireSpell',
+    coolDown: 700 //cool down time milliseconds
   },
   freezeSpell: {
-    itemName: 'freezeSpell'
+    itemName: 'freezeSpell',
+    coolDown: 5000
   }
 };
 
@@ -69,8 +71,8 @@ server.io.on('connection', function(socket) {
 });
 
 function newPlayer(options) {
-  if(options.nickname !== undefined){
-    var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id,[spells.fireSpell]);
+  if (options.nickname !== undefined) {
+    var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id, [spells.fireSpell]);
 
     if (!player.nickname) {
       player.nickname = 'Unnamed Sorcerer';
@@ -187,6 +189,7 @@ function physicsLoop() {
           }
           break;
         case 'cast':
+          console.log(player.inventory[player.selectedItem]);
           //cast selected spell
           break;
       }
