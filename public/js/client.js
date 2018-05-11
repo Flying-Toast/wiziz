@@ -65,12 +65,6 @@ function createSound(mp3Src, oggSrc) {
   return (sound);
 }
 
-//temporary coords display
-var pos = document.createElement('div');
-pos.style = 'z-index:100;position:absolute;right:0;top:0;';
-document.body.appendChild(pos);
-
-
 function localCoords(real, xOrY) {
   if (xOrY === 'x') {
     return (real + innerWidth / 2 - local.player.x);
@@ -176,8 +170,6 @@ function fillInventory(inventory) {
 
 function drawLoop() {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
-  //temp position display
-  pos.innerText = 'x: ' + Math.round(player.x) + '\ny: ' + Math.round(player.y) + '\nlocal.player:\n' + 'x: ' + Math.round(local.player.x) + '\ny: ' + Math.round(local.player.y);
 
   var currentTime = performance.now();
   var dt = currentTime - local.lastTime;

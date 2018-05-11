@@ -189,7 +189,7 @@ function physicsLoop() {
           }
           break;
         case 'cast':
-          console.log(player.inventory[player.selectedItem]);
+          console.log('cast:' + player.inventory[player.selectedItem]);
           //cast selected spell
           break;
       }
