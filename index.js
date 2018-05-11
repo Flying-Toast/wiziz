@@ -28,13 +28,11 @@ var config = {
   playerSpeed: 1 / 6 //pixels per millisecond
 };
 var spells = {
-  fireSpell: {
-    itemName: 'fireSpell',
-    coolDown: 700 //cool down time milliseconds
+  fireSpell: function() {
+    return (new Spell('fireSpell', 700));
   },
-  freezeSpell: {
-    itemName: 'freezeSpell',
-    coolDown: 5000
+  freezeSpell: function() {
+    return (new Spell('freezeSpell', 5000));
   }
 };
 
@@ -72,7 +70,7 @@ server.io.on('connection', function(socket) {
 
 function newPlayer(options) {
   if (options.nickname !== undefined) {
-    var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id, [spells.fireSpell]);
+    var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id, [spells.fireSpell()]);
 
     if (!player.nickname) {
       player.nickname = 'Unnamed Sorcerer';
@@ -99,6 +97,13 @@ function Player(x, y, nickname, id, inventory) {
   this.angle = 0;
   this.lastMove = 0;
   this.selectedItem = 0;
+}
+
+function Spell(itemName, coolDown) { //Spell is the item in an inventory, not the entity
+  this.itemName = itemName;
+  this.coolDown = coolDown;
+  this.lastCast = 0;
+  this.cooling = false;
 }
 
 function ProjectileSpell(origin, target, speed, caster) {
@@ -189,8 +194,13 @@ function physicsLoop() {
           }
           break;
         case 'cast':
-          console.log('cast:' + player.inventory[player.selectedItem]);
-          //cast selected spell
+          console.log('trying to cast');
+          if (!player.inventory[player.selectedItem].cooling) {
+            console.log('casted');
+            //cast selected spell:
+            player.inventory[player.selectedItem].lastCast = Date.now();
+            player.inventory[player.selectedItem].cooling = true;
+          }
           break;
       }
       player.lastInput = input.id;
@@ -210,6 +220,13 @@ function physicsLoop() {
     }
     if (player.y > game.map.height) {
       player.y = game.map.height;
+    }
+
+    for (var i = 0; i < player.inventory.length; i++) {
+      var currentItem = player.inventory[i];
+      if (Date.now() - currentItem.lastCast >= currentItem.coolDown) {
+        currentItem.cooling = false;
+      }
     }
   }
 
