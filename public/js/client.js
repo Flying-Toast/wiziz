@@ -282,16 +282,18 @@ addEventListener('wheel', function(e) {
 });
 
 function castSpell() {
-  local.quedInputs.push({
-    type: 'cast',
-    id: local.inputNumber
-  });
-  local.inputNumber++;
-  var coolDown = document.querySelector('#coolDownDisplay' + (player.selectedItem + 1));
-  setTimeout(function() {
-    coolDown.style.animation = 'none';
-  }, coolDown.style.animationDuration.slice(0, -2));
-  coolDown.style.animation = '';
+  if (!player.inventory[player.selectedItem].cooling) {
+    local.quedInputs.push({
+      type: 'cast',
+      id: local.inputNumber
+    });
+    local.inputNumber++;
+    var coolDown = document.querySelector('#coolDownDisplay' + (player.selectedItem + 1));
+    setTimeout(function() {
+      coolDown.style.animation = 'none';
+    }, coolDown.style.animationDuration.slice(0, -2));
+    coolDown.style.animation = '';
+  }
 }
 
 gameCanvas.addEventListener('click', castSpell);
