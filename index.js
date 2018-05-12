@@ -238,16 +238,16 @@ function physicsLoop() {
       player.y = game.map.height;
     }
 
-    for (var i = 0; i < player.inventory.length; i++) {
-      var currentItem = player.inventory[i];
+    for (var e = 0; e < player.inventory.length; e++) {
+      var currentItem = player.inventory[e];
       if (Date.now() - currentItem.lastCast >= currentItem.coolDown) {
         currentItem.cooling = false;
       }
     }
   }
 
-  for (var i = 0; i < game.spells.length; i++) {
-    var spell = game.spells[i];
+  for (var f = 0; f < game.spells.length; f++) {
+    var spell = game.spells[f];
     spell.tick();
   }
 }
