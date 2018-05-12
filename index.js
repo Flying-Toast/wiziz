@@ -27,12 +27,22 @@ game.playerMap = new hashmap();
 var config = {
   playerSpeed: 1 / 6 //pixels per millisecond
 };
-var spells = {
+var spells = { //inventory items
   fireSpell: function() {
     return (new Spell('fireSpell', 700));
   },
   freezeSpell: function() {
     return (new Spell('freezeSpell', 5000));
+  }
+};
+var spellEnts = { //spell entities
+  fireSpell: {
+    speed: 1,
+    range: 100,
+  },
+  freezeSpell: {
+    speed: 0.7,
+    range: 120,
   }
 };
 
@@ -106,11 +116,12 @@ function Spell(itemName, coolDown) { //Spell is the item in an inventory, not th
   this.cooling = false;
 }
 
-function ProjectileSpell(origin, target, speed, caster) {
+function ProjectileSpell(origin, target, speed, caster, range) {
   this.origin = origin; //where the spell is cast from, should be an object with x and y properties
   this.target = target; //where the spell should die, should be an object with x and y properties
   this.caster = caster; //player that casted the spell
   this.location = JSON.parse(JSON.stringify(origin)); //the current location of the spell, starts at origin
+  this.range = range; //how far, in pixels, the spell should travel before dying
   this.lenToTarget = helpers.distance(this.target.x, this.target.y, this.origin.x, this.origin.y);
   this.lastMove = Date.now();
   this.speed = speed; //pixels per millisecond
@@ -137,8 +148,8 @@ ProjectileSpell.prototype.tick = function() {
   //check collisions with player:
 };
 
-function SplashSpell(origin, target, speed, caster, explosionRadius, ttl) {
-  ProjectileSpell.call(this, origin, target, speed, caster);
+function SplashSpell(origin, target, speed, caster, explosionRadius, ttl, range) {
+  ProjectileSpell.call(this, origin, target, speed, caster, range);
   this.explosionRadius = explosionRadius;
   this.ttl = ttl; //the time to live after the explosion
   this.die = function() { // TODO: explosion
@@ -199,9 +210,7 @@ function physicsLoop() {
             }, {
               x: input.mouse.x,
               y: input.mouse.y
-            }, 1, player));
-            console.log(game.spells[0].target);
-            console.log(input.mouse);
+            }, spellEnts.fireSpell.speed, player, spellEnts.fireSpell.range));
             player.inventory[player.selectedItem].lastCast = Date.now();
             player.inventory[player.selectedItem].cooling = true;
           }
