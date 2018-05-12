@@ -38,11 +38,11 @@ var spells = { //inventory items
 var spellEnts = { //spell entities
   fireSpell: {
     speed: 1,
-    range: 100,
+    range: 500,
   },
   freezeSpell: {
     speed: 0.7,
-    range: 120,
+    range: 500,
   }
 };
 
@@ -118,7 +118,10 @@ function Spell(itemName, coolDown) { //Spell is the item in an inventory, not th
 
 function ProjectileSpell(origin, target, speed, caster, range) {
   this.origin = origin; //where the spell is cast from, should be an object with x and y properties
-  this.target = target; //where the spell should die, should be an object with x and y properties
+  this.target = {
+    x: this.origin.x + (range / helpers.distance(target.x, target.y, this.origin.x, this.origin.y) * (target.x - this.origin.x)),
+    y: this.origin.y + (range / helpers.distance(target.x, target.y, this.origin.x, this.origin.y) * (target.y - this.origin.y))
+  }; //where the spell should die, should be an object with x and y properties
   this.caster = caster; //player that casted the spell
   this.location = JSON.parse(JSON.stringify(origin)); //the current location of the spell, starts at origin
   this.range = range; //how far, in pixels, the spell should travel before dying
