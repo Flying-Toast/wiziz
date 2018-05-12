@@ -74,13 +74,13 @@ function localCoords(real, xOrY) {
   }
 }
 
-function globalCoords(local, xOrY) {
+function globalCoords(localCoord, xOrY) {
   if (xOrY === 'x') {
-    return (local - innerWidth / 2 - local.player.x);
+    return (localCoord - innerWidth / 2 + local.player.x);
   }
 
   if (xOrY === 'y') {
-    return (local - innerHeight / 2 - local.player.y);
+    return (localCoord - innerHeight / 2 + local.player.y);
   }
 }
 
@@ -259,6 +259,15 @@ function drawLoop() {
   ctx.drawImage(sprites.player, -sprites.player.width / 2, -sprites.player.height / 2);
   ctx.restore();
 
+  //spells
+  for (var i = 0; i < game.spells.length; i++) {
+    var spell = game.spells[i];
+    ctx.fillStyle = 'red';
+    ctx.beginPath();
+    ctx.arc(localCoords(spell.location.x, 'x'), localCoords(spell.location.y, 'y'), 20, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
   inputs = inputs.concat(local.quedInputs);
   local.quedSavedInputs = local.quedSavedInputs.concat(local.quedInputs);
   local.quedInputs = [];
@@ -314,11 +323,15 @@ addEventListener('keypress', function(e) {
   }
 });
 
-function castSpell() {
+function castSpell(e) {
   if (!player.inventory[player.selectedItem].cooling) {
     local.quedInputs.push({
       type: 'cast',
-      id: local.inputNumber
+      id: local.inputNumber,
+      mouse: {
+        x: globalCoords(e.pageX, 'x'),
+        y: globalCoords(e.pageY, 'y')
+      }
     });
     local.inputNumber++;
     var coolDown = document.querySelector('#coolDownDisplay' + (player.selectedItem + 1));

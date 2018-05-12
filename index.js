@@ -141,7 +141,7 @@ function SplashSpell(origin, target, speed, caster, explosionRadius, ttl) {
   ProjectileSpell.call(this, origin, target, speed, caster);
   this.explosionRadius = explosionRadius;
   this.ttl = ttl; //the time to live after the explosion
-  this.die = function() { //// TODO:
+  this.die = function() { // TODO: explosion
 
   };
 }
@@ -191,10 +191,17 @@ function physicsLoop() {
           }
           break;
         case 'cast':
-          console.log('trying to cast');
           if (!player.inventory[player.selectedItem].cooling) {
-            console.log('casted');
             //cast selected spell:
+            game.spells.push(new ProjectileSpell({
+              x: player.x,
+              y: player.y
+            }, {
+              x: input.mouse.x,
+              y: input.mouse.y
+            }, 1, player));
+            console.log(game.spells[0].target);
+            console.log(input.mouse);
             player.inventory[player.selectedItem].lastCast = Date.now();
             player.inventory[player.selectedItem].cooling = true;
           }
