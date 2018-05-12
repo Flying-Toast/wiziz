@@ -38,7 +38,7 @@ var spells = { //inventory items
 var spellEnts = { //spell entities
   fireSpell: {
     speed: 1,
-    range: 500,
+    range: 700,
   },
   freezeSpell: {
     speed: 0.7,
@@ -145,6 +145,9 @@ ProjectileSpell.prototype.tick = function() {
   //check if spell should die:
   if (helpers.distance(this.location.x, this.location.y, this.origin.x, this.origin.y) >= this.lenToTarget) {
     this.location = this.target;
+    this.dead = true;
+    this.die();
+  } else if (this.location.x <= 0 || this.location.y <= 0 || this.location.x >= game.map.width || this.location.y >= game.map.width) {
     this.dead = true;
     this.die();
   }

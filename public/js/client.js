@@ -84,17 +84,6 @@ function globalCoords(localCoord, xOrY) {
   }
 }
 
-function interpolate(from, to, step) {
-  var steps = [];
-  for (var i = from; i <= Math.abs(to); i += step) {
-    steps.push(i);
-  }
-  if (steps[steps.length - 1] !== to) {
-    steps.push(to);
-  }
-  return (steps);
-}
-
 var socket = io.connect('/');
 
 gameCanvas.width = innerWidth;
