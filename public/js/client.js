@@ -41,7 +41,8 @@ var local = {
   player: {},
   savedInputs: [],
   inputNumber: 0,
-  quedSavedInputs: []
+  quedSavedInputs: [],
+  lastUpdate: 0
 };
 
 
@@ -96,6 +97,7 @@ addEventListener('resize', function() {
 
 socket.on('update', function(updatedGame) {
   game = updatedGame;
+  local.lastUpdate = Date.now();
 
   if (game.players.find(function(element) {
       return (element.id === socket.id);
@@ -239,7 +241,6 @@ function drawLoop() {
   grid.yOffset = -local.player.y;
 
 
-
   for (var i = 0; i < game.players.length; i++) {
     var currentPlayer = game.players[i];
     if (currentPlayer.id !== player.id) {
@@ -262,9 +263,25 @@ function drawLoop() {
   //spells
   for (var i = 0; i < game.spells.length; i++) {
     var spell = game.spells[i];
+    var predictedX = spell.location.x + (spell.speed / spell.lenToTarget * (spell.target.x - spell.origin.x) * (Date.now() - local.lastUpdate));
+    var predictedY = spell.location.y + (spell.speed / spell.lenToTarget * (spell.target.y - spell.origin.y) * (Date.now() - local.lastUpdate));
+
+    if (predictedX < 0) {
+      predictedX = 0;
+    }
+    if (predictedX > game.map.width) {
+      predictedX = game.map.width;
+    }
+    if (predictedY < 0) {
+      predictedY = 0;
+    }
+    if (predictedY > game.map.height) {
+      predictedY = game.map.height;
+    }
+
     ctx.fillStyle = 'red';
     ctx.beginPath();
-    ctx.arc(localCoords(spell.location.x, 'x'), localCoords(spell.location.y, 'y'), 20, 0, Math.PI * 2);
+    ctx.arc(localCoords(predictedX, 'x'), localCoords(predictedY, 'y'), 20, 0, Math.PI * 2);
     ctx.fill();
   }
 
