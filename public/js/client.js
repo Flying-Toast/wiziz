@@ -147,6 +147,16 @@ function fillInventory(inventory) {
       coolDownDisplay.className = 'coolDownDisplay';
       coolDownDisplay.id = 'coolDownDisplay' + (i + 1);
       coolDownDisplay.style.animation = 'none';
+      coolDownDisplay.addEventListener('click', function(e) {
+        if (player.inventory[this.id.slice(-1) - 1]) {
+          local.quedInputs.push({
+            type: 'select',
+            itemIndex: this.id.slice(-1) - 1,
+            id: local.inputNumber
+          });
+          local.inputNumber++;
+        }
+      });
       spellWrapper.appendChild(coolDownDisplay);
       var slotImg = createSprite('media/images/inventorySlot.png');
       slotImg.addEventListener('dragstart', function(e) {
