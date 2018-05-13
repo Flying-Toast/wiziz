@@ -11,6 +11,12 @@ onbeforeunload = function() {
   }
 };
 
+nicknameInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    playButton.click();
+  }
+});
+
 var ctx = gameCanvas.getContext('2d');
 
 var game = {};

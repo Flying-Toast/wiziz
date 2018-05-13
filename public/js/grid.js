@@ -11,12 +11,12 @@ window.addEventListener('resize', function() {
 var grid = {
   xOffset: 0,
   yOffset: 0,
-  gridSize: 75,
+  gridSize: 40,
   vx: 0,
   vy: 0,
   ctx: gridCanvas.getContext('2d'),
   backgroundColor: '#e8e8e8',
-  lineColor: '#7a7f7e',
+  lineColor: '#bebebe',
   borderColor: '#d4342a'
 };
 
@@ -24,7 +24,7 @@ function drawGrid() {
   grid.xOffset = grid.xOffset % grid.gridSize;
   grid.yOffset = grid.yOffset % grid.gridSize;
 
-  grid.ctx.lineWidth = 2;
+  grid.ctx.lineWidth = 1;
 
   grid.ctx.fillStyle = grid.backgroundColor;
   grid.ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);

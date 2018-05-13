@@ -25,7 +25,8 @@ game.map = new Map(3000, 3000);
 game.spells = [];
 game.playerMap = new hashmap();
 var config = {
-  playerSpeed: 1 / 6 //pixels per millisecond
+  playerSpeed: 1 / 6, //pixels per millisecond
+  playerRadius: 20
 };
 var spells = { //inventory items
   fireSpell: function() {
