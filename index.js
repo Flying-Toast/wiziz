@@ -159,7 +159,7 @@ function SplashSpell(origin, target, speed, caster, explosionRadius, ttl, range)
   this.explosionRadius = explosionRadius;
   this.ttl = ttl; //the time to live after the explosion
   this.die = function() { // TODO: explosion
-
+    this.explosionTime = Date.now();
   };
 }
 

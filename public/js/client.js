@@ -25,7 +25,8 @@ var sprites = {
   }
 };
 var sounds = {
-  fireSpell: createSound('media/sounds/fireSpell.mp3', 'media/sounds/fireSpell.ogg')
+  fireSpell: createSound('media/sounds/fireSpell.mp3', 'media/sounds/fireSpell.ogg'),
+  freezeSpell: createSound('media/sounds/freezeSpell.mp3', 'media/sounds/freezeSpell.ogg')
 };
 var local = {
   facing: {
@@ -351,6 +352,13 @@ function castSpell(e) {
       }
     });
     local.inputNumber++;
+    if (sounds[player.inventory[player.selectedItem].itemName].paused) {
+      sounds[player.inventory[player.selectedItem].itemName].play();
+    } else {
+      sounds[player.inventory[player.selectedItem].itemName].pause();
+      sounds[player.inventory[player.selectedItem].itemName].currentTime = 0;
+      sounds[player.inventory[player.selectedItem].itemName].play();
+    }
     var coolDown = document.querySelector('#coolDownDisplay' + (player.selectedItem + 1));
     setTimeout(function() {
       coolDown.style.animation = 'none';
