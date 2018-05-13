@@ -216,7 +216,7 @@ function physicsLoop() {
             }, {
               x: input.mouse.x,
               y: input.mouse.y
-            }, spellEnts.fireSpell.speed, player, spellEnts.fireSpell.range));
+            }, spellEnts[player.inventory[player.selectedItem].itemName].speed, player, spellEnts[player.inventory[player.selectedItem].itemName].range));
             player.inventory[player.selectedItem].lastCast = Date.now();
             player.inventory[player.selectedItem].cooling = true;
           }
