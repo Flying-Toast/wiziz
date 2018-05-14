@@ -32,6 +32,10 @@ var sprites = {
   src: {
     fireSpell: 'media/images/fireSpell.png',
     freezeSpell: 'media/images/freezeSpell.png'
+  },
+  effects: {
+    fireSpell: createSprite('media/images/fireEffect.png'),
+    freezeSpell: createSprite('media/images/freezeEffect.png')
   }
 };
 var sounds = {
@@ -256,7 +260,6 @@ function drawLoop() {
     var currentPlayer = game.players[i];
     if (currentPlayer.id !== player.id) {
       ctx.save();
-      ctx.fillStyle = 'red';
       ctx.translate(localCoords(currentPlayer.x, 'x'), localCoords(currentPlayer.y, 'y'));
       ctx.rotate(currentPlayer.angle);
       ctx.drawImage(sprites.players.red, -sprites.players.red.width / 2, -sprites.players.red.height / 2);
@@ -290,10 +293,7 @@ function drawLoop() {
       predictedY = game.map.height;
     }
 
-    ctx.fillStyle = 'red';
-    ctx.beginPath();
-    ctx.arc(localCoords(predictedX, 'x'), localCoords(predictedY, 'y'), 20, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.drawImage(sprites.effects[spell.name], localCoords(predictedX, 'x'), localCoords(predictedY, 'y'));
   }
 
   inputs = inputs.concat(local.quedInputs);
