@@ -24,7 +24,11 @@ state = 'fresh';
 var player = {};
 var inputs = [];
 var sprites = {
-  player: createSprite('media/images/player.png'),
+  players: {
+    red: createSprite('media/images/playerRed.png'),
+    green: createSprite('media/images/playerGreen.png'),
+    blue: createSprite('media/images/playerBlue.png')
+  },
   src: {
     fireSpell: 'media/images/fireSpell.png',
     freezeSpell: 'media/images/freezeSpell.png'
@@ -255,7 +259,7 @@ function drawLoop() {
       ctx.fillStyle = 'red';
       ctx.translate(localCoords(currentPlayer.x, 'x'), localCoords(currentPlayer.y, 'y'));
       ctx.rotate(currentPlayer.angle);
-      ctx.drawImage(sprites.player, -sprites.player.width / 2, -sprites.player.height / 2);
+      ctx.drawImage(sprites.players.red, -sprites.players.red.width / 2, -sprites.players.red.height / 2);
       ctx.restore();
     }
   }
@@ -264,7 +268,7 @@ function drawLoop() {
   ctx.save();
   ctx.translate(innerWidth / 2, innerHeight / 2);
   ctx.rotate(local.angle);
-  ctx.drawImage(sprites.player, -sprites.player.width / 2, -sprites.player.height / 2);
+  ctx.drawImage(sprites.players.green, -sprites.players.green.width / 2, -sprites.players.green.height / 2);
   ctx.restore();
 
   //spells
