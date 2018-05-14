@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="50.7766"
-     inkscape:cy="119.59569"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="148.60789"
+     inkscape:cy="167.22428"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -48,7 +48,7 @@
      inkscape:snap-bbox-edge-midpoints="true"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:snap-global="true"
+     inkscape:snap-global="false"
      inkscape:bbox-nodes="true" />
   <metadata
      id="metadata5">
@@ -67,27 +67,28 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-147.76723,-27.410416)">
-    <g
-       id="g837"
-       transform="translate(-1.8158417,1.6424637)">
-      <circle
-         r="17.197916"
-         cy="65.890442"
-         cx="189.70557"
-         id="circle822"
-         style="fill:#ffc174;fill-opacity:1;fill-rule:evenodd;stroke-width:0.11340976" />
-      <circle
-         style="fill:#ffc174;fill-opacity:1;fill-rule:evenodd;stroke:#844800;stroke-width:0.45291138;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="circle836"
-         cx="199.48592"
-         cy="50.219379"
-         r="4.0698609" />
-      <circle
-         r="4.0698609"
-         cy="50.219379"
-         cx="179.92494"
-         id="circle856"
-         style="fill:#ffc174;fill-opacity:1;fill-rule:evenodd;stroke:#844800;stroke-width:0.45291138;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-    </g>
+    <circle
+       style="fill:#ffcc00;fill-rule:evenodd;stroke-width:0.1755061"
+       id="path819"
+       cx="187.88972"
+       cy="67.532906"
+       r="15.639011" />
+    <circle
+       style="fill:#1a1a1a;fill-rule:evenodd;stroke-width:0.26458332"
+       id="path823"
+       cx="194.99536"
+       cy="62.014771"
+       r="2.4321527" />
+    <circle
+       r="2.4321527"
+       cy="61.750187"
+       cx="180.44328"
+       id="circle825"
+       style="fill:#1a1a1a;fill-rule:evenodd;stroke-width:0.26458332" />
+    <path
+       style="fill:#000000;fill-rule:evenodd;stroke-width:0.26458332"
+       d="m 178.61593,69.48925 a 8.972701,8.972701 0 0 0 8.95449,8.458398 8.972701,8.972701 0 0 0 8.94675,-8.458398 z"
+       id="path827"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
