@@ -293,7 +293,7 @@ function drawLoop() {
       predictedY = game.map.height;
     }
 
-    ctx.drawImage(sprites.effects[spell.name], localCoords(predictedX, 'x'), localCoords(predictedY, 'y'));
+    ctx.drawImage(sprites.effects[spell.name], localCoords(predictedX, 'x') - sprites.effects[spell.name].width / 2, localCoords(predictedY, 'y') - sprites.effects[spell.name].height / 2);
   }
 
   inputs = inputs.concat(local.quedInputs);
