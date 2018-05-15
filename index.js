@@ -304,6 +304,12 @@ function physicsLoop() {
     var spell = game.spells[f];
     spell.tick();
   }
+  for (var i = 0; i < game.effectAreas.length; i++) {
+    var area = game.effectAreas[i];
+    if (Date.now() - area.explosionTime >= area.ttl) {
+      game.effectAreas.splice(game.effectAreas.indexOf(area), 1);
+    }
+  }
 }
 
 setInterval(physicsLoop, 20);
