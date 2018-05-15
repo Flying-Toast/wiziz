@@ -47,15 +47,21 @@ var spellEnts = { //spell entities
     name: 'fireSpell',
     speed: 1,
     range: 700,
+    radius: 100,
     type: 'projectile',
-    effect: function(affectedPlayer) {}
+    effect: function(affectedPlayer) {
+      console.log(affectedPlayer.nickname + ' got effected by ' + this.name);
+    }
   },
   freezeSpell: {
     name: 'freezeSpell',
     speed: 0.7,
     range: 500,
+    radius: 100,
     type: 'projectile',
-    effect: function(affectedPlayer) {}
+    effect: function(affectedPlayer) {
+      console.log(affectedPlayer.nickname + ' got effected by ' + this.name);
+    }
   },
 
 
@@ -66,8 +72,9 @@ var spellEnts = { //spell entities
     type: 'splash',
     explosionRadius: 100,
     ttl: 3000,
+    radius: 100,
     effect: function(affectedPlayer) { //effect of explosion area
-
+      console.log('this dude: ' + affectedPlayer.nickname + ' got effected by ' + this.name);
     },
     color: 'rgba(13, 230, 133, 0.6)'
   }
@@ -145,7 +152,8 @@ function Spell(itemName, coolDown) { //Spell is the item in an inventory, not th
   this.cooling = false;
 }
 
-function ProjectileSpell(origin, target, speed, caster, range, name, effect) {
+function ProjectileSpell(origin, target, speed, caster, range, name, effect, radius) {
+  this.radius = radius;
   this.origin = origin; //where the spell is cast from, should be an object with x and y properties
   this.name = name; //name of the spell eg. "fireSpell"
   this.target = {
@@ -154,6 +162,7 @@ function ProjectileSpell(origin, target, speed, caster, range, name, effect) {
   }; //where the spell should die, should be an object with x and y properties
   this.caster = caster; //player that casted the spell
   this.effect = effect;
+  this.type = 'projectile';
   this.location = JSON.parse(JSON.stringify(origin)); //the current location of the spell, starts at origin
   this.range = range; //how far, in pixels, the spell should travel before dying
   this.lenToTarget = helpers.distance(this.target.x, this.target.y, this.origin.x, this.origin.y);
@@ -161,6 +170,7 @@ function ProjectileSpell(origin, target, speed, caster, range, name, effect) {
   this.speed = speed; //pixels per millisecond
   this.dead = false;
   this.die = function() {
+    this.dead = true;
     game.spells.splice(game.spells.indexOf(this), 1);
   };
 }
@@ -176,17 +186,16 @@ ProjectileSpell.prototype.tick = function() {
   //check if spell should die:
   if (helpers.distance(this.location.x, this.location.y, this.origin.x, this.origin.y) >= this.lenToTarget) {
     this.location = this.target;
-    this.dead = true;
     this.die();
   } else if (this.location.x <= 0 || this.location.y <= 0 || this.location.x >= game.map.width || this.location.y >= game.map.width) {
-    this.dead = true;
     this.die();
   }
   //check collisions with player:
 };
 
-function SplashSpell(origin, target, speed, caster, explosionRadius, ttl, range, name, effect, color) {
-  ProjectileSpell.call(this, origin, target, speed, caster, range, name, function() {});
+function SplashSpell(origin, target, speed, caster, explosionRadius, ttl, range, name, effect, color, radius) {
+  ProjectileSpell.call(this, origin, target, speed, caster, range, name, function() {}, radius);
+  this.type = 'splash';
   this.explosionRadius = explosionRadius;
   this.ttl = ttl; //the time to live after the explosion
   this.die = function() {
@@ -257,7 +266,7 @@ function physicsLoop() {
               }, {
                 x: input.mouse.x,
                 y: input.mouse.y
-              }, spellEnts[player.inventory[player.selectedItem].itemName].speed, player, spellEnts[player.inventory[player.selectedItem].itemName].range, spellEnts[player.inventory[player.selectedItem].itemName].name, spellEnts[player.inventory[player.selectedItem].itemName].effect));
+              }, spellEnts[player.inventory[player.selectedItem].itemName].speed, player, spellEnts[player.inventory[player.selectedItem].itemName].range, spellEnts[player.inventory[player.selectedItem].itemName].name, spellEnts[player.inventory[player.selectedItem].itemName].effect, spellEnts[player.inventory[player.selectedItem].itemName].radius));
             } else {
               game.spells.push(new SplashSpell({
                 x: player.x,
@@ -265,7 +274,7 @@ function physicsLoop() {
               }, {
                 x: input.mouse.x,
                 y: input.mouse.y
-              }, spellEnts[player.inventory[player.selectedItem].itemName].speed, player, spellEnts[player.inventory[player.selectedItem].itemName].explosionRadius, spellEnts[player.inventory[player.selectedItem].itemName].ttl, spellEnts[player.inventory[player.selectedItem].itemName].range, spellEnts[player.inventory[player.selectedItem].itemName].name, spellEnts[player.inventory[player.selectedItem].itemName].effect, spellEnts[player.inventory[player.selectedItem].itemName].color));
+              }, spellEnts[player.inventory[player.selectedItem].itemName].speed, player, spellEnts[player.inventory[player.selectedItem].itemName].explosionRadius, spellEnts[player.inventory[player.selectedItem].itemName].ttl, spellEnts[player.inventory[player.selectedItem].itemName].range, spellEnts[player.inventory[player.selectedItem].itemName].name, spellEnts[player.inventory[player.selectedItem].itemName].effect, spellEnts[player.inventory[player.selectedItem].itemName].color, spellEnts[player.inventory[player.selectedItem].itemName].radius));
 
             }
             player.inventory[player.selectedItem].lastCast = Date.now();
@@ -298,18 +307,38 @@ function physicsLoop() {
         currentItem.cooling = false;
       }
     }
+
+    for (var m = 0; m < game.spells.length; m++) {
+      var spell = game.spells[m];
+      if (helpers.distance(player.x, player.y, spell.location.x, spell.location.y) < spell.radius + config.playerRadius && player.id !== spell.caster.id) {
+        if (spell.type === 'projectile') {
+          spellEnts[player.inventory[player.selectedItem].itemName].effect(player);
+        }
+        spell.die();
+      }
+    }
+
+    for (var z = 0; z < game.effectAreas.length; z++) {
+      var area = game.effectAreas[z];
+      if (helpers.distance(player.x, player.y, area.location.x, area.location.y) < area.radius + config.playerRadius) {
+        spellEnts[player.inventory[player.selectedItem].itemName].effect(player);
+      }
+    }
+
   }
 
   for (var f = 0; f < game.spells.length; f++) {
     var spell = game.spells[f];
     spell.tick();
   }
-  for (var i = 0; i < game.effectAreas.length; i++) {
-    var area = game.effectAreas[i];
+
+  for (var g = 0; g < game.effectAreas.length; g++) {
+    var area = game.effectAreas[g];
     if (Date.now() - area.explosionTime >= area.ttl) {
       game.effectAreas.splice(game.effectAreas.indexOf(area), 1);
     }
   }
+
 }
 
 setInterval(physicsLoop, 20);
