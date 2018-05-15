@@ -31,16 +31,19 @@ var sprites = {
   },
   src: {
     fireSpell: 'media/images/fireSpell.png',
-    freezeSpell: 'media/images/freezeSpell.png'
+    freezeSpell: 'media/images/freezeSpell.png',
+    test: 'media/images/test.png'
   },
   effects: {
     fireSpell: createSprite('media/images/fireEffect.png'),
-    freezeSpell: createSprite('media/images/freezeEffect.png')
+    freezeSpell: createSprite('media/images/freezeEffect.png'),
+    test: createSprite('media/images/fireEffect.png'),
   }
 };
 var sounds = {
   fireSpell: createSound('media/sounds/fireSpell.mp3', 'media/sounds/fireSpell.ogg'),
-  freezeSpell: createSound('media/sounds/freezeSpell.mp3', 'media/sounds/freezeSpell.ogg')
+  freezeSpell: createSound('media/sounds/freezeSpell.mp3', 'media/sounds/freezeSpell.ogg'),
+  test: createSound('media/sounds/freezeSpell.mp3', 'media/sounds/freezeSpell.ogg')
 };
 var local = {
   facing: {
@@ -254,6 +257,15 @@ function drawLoop() {
 
   grid.xOffset = -local.player.x;
   grid.yOffset = -local.player.y;
+
+  //spell explosion areas
+  for (var i = 0; i < game.effectAreas.length; i++) {
+    var area = game.effectAreas[i];
+    ctx.fillStyle = area.color;
+    ctx.beginPath();
+    ctx.arc(localCoords(area.location.x, 'x'), localCoords(area.location.y, 'y'), area.radius, 0, Math.PI * 2);
+    ctx.fill();
+  }
 
 
   for (var i = 0; i < game.players.length; i++) {
