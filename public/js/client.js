@@ -12,7 +12,7 @@ onbeforeunload = function() {
 };
 
 addEventListener('keydown', function(e) {
-  if (e.ctrlKey && e.key==='-') {
+  if (e.ctrlKey && e.key === '-') {
     e.preventDefault();
   }
 });

@@ -74,6 +74,7 @@ var spellEnts = { //spell entities
     explosionRadius: 100,
     ttl: 3000,
     radius: 100,
+    playerCoolDown: 100, //delay between repetitions of effectArea affecting a certain player
     effect: function(affectedPlayer) { //effect of explosion area
       console.log(affectedPlayer.nickname + ' got effected by ' + this.name);
     },
@@ -195,25 +196,27 @@ ProjectileSpell.prototype.tick = function() {
   //check collisions with player:
 };
 
-function SplashSpell(origin, target, speed, caster, explosionRadius, ttl, range, name, effect, color, radius) {
+function SplashSpell(origin, target, speed, caster, explosionRadius, ttl, range, name, effect, color, radius, playerCoolDown) {
   ProjectileSpell.call(this, origin, target, speed, caster, range, name, function() {}, radius);
   this.type = 'splash';
   this.explosionRadius = explosionRadius;
   this.ttl = ttl; //the time to live after the explosion
   this.die = function() {
-    game.effectAreas.push(new EffectArea(this.location, explosionRadius, Date.now(), ttl, color, name));
+    game.effectAreas.push(new EffectArea(this.location, explosionRadius, Date.now(), ttl, color, name, playerCoolDown));
     game.spells.splice(game.spells.indexOf(this), 1);
   };
 }
 SplashSpell.prototype.tick = ProjectileSpell.prototype.tick;
 
-function EffectArea(location, radius, explosionTime, ttl, color, name) {
+function EffectArea(location, radius, explosionTime, ttl, color, name, playerCoolDown) {
   this.location = location;
   this.radius = radius;
   this.explosionTime = explosionTime;
   this.ttl = ttl;
   this.name = name;
   this.color = color;
+  this.immunePlayers = []; //Items in this array should be: {id:playerid, time: Date.now()}  players that the spell should not affect, so that a delay can be set for how fast player is affected while standing in the effect area
+  this.playerCoolDown = playerCoolDown;
 }
 
 function updateLoop() {
@@ -277,7 +280,7 @@ function physicsLoop() {
               }, {
                 x: input.mouse.x,
                 y: input.mouse.y
-              }, spellEnts[player.inventory[player.selectedItem].itemName].speed, player, spellEnts[player.inventory[player.selectedItem].itemName].explosionRadius, spellEnts[player.inventory[player.selectedItem].itemName].ttl, spellEnts[player.inventory[player.selectedItem].itemName].range, spellEnts[player.inventory[player.selectedItem].itemName].name, spellEnts[player.inventory[player.selectedItem].itemName].effect, spellEnts[player.inventory[player.selectedItem].itemName].color, spellEnts[player.inventory[player.selectedItem].itemName].radius));
+              }, spellEnts[player.inventory[player.selectedItem].itemName].speed, player, spellEnts[player.inventory[player.selectedItem].itemName].explosionRadius, spellEnts[player.inventory[player.selectedItem].itemName].ttl, spellEnts[player.inventory[player.selectedItem].itemName].range, spellEnts[player.inventory[player.selectedItem].itemName].name, spellEnts[player.inventory[player.selectedItem].itemName].effect, spellEnts[player.inventory[player.selectedItem].itemName].color, spellEnts[player.inventory[player.selectedItem].itemName].radius, spellEnts[player.inventory[player.selectedItem].itemName].playerCoolDown));
 
             }
             player.inventory[player.selectedItem].lastCast = Date.now();
@@ -323,8 +326,14 @@ function physicsLoop() {
 
     for (var z = 0; z < game.effectAreas.length; z++) {
       var area = game.effectAreas[z];
-      if (helpers.distance(player.x, player.y, area.location.x, area.location.y) < area.radius + config.playerRadius) {
+      if (helpers.distance(player.x, player.y, area.location.x, area.location.y) < area.radius + config.playerRadius && !area.immunePlayers.find(function(element) {
+          return (element.id === player.id);
+        })) {
         spellEnts[area.name].effect(player);
+        area.immunePlayers.push({
+          id: player.id,
+          time: Date.now()
+        });
       }
     }
 
@@ -339,6 +348,13 @@ function physicsLoop() {
     var area = game.effectAreas[g];
     if (Date.now() - area.explosionTime >= area.ttl) {
       game.effectAreas.splice(game.effectAreas.indexOf(area), 1);
+    } else {
+      for (var i = 0; i < area.immunePlayers.length; i++) {
+        var currentItem = area.immunePlayers[i];
+        if (Date.now() - currentItem.time >= area.playerCoolDown) {
+          area.immunePlayers.splice(area.immunePlayers[i], 1);
+        }
+      }
     }
   }
 
