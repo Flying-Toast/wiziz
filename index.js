@@ -27,7 +27,7 @@ game.effectAreas = [];
 game.playerMap = new hashmap();
 var config = {
   playerSpeed: 1 / 6, //pixels per millisecond
-  playerRadius: 20
+  playerRadius: 75
 };
 var spells = { //inventory items
   fireSpell: function() {
@@ -74,7 +74,7 @@ var spellEnts = { //spell entities
     ttl: 3000,
     radius: 100,
     effect: function(affectedPlayer) { //effect of explosion area
-      console.log('this dude: ' + affectedPlayer.nickname + ' got effected by ' + this.name);
+      console.log(affectedPlayer.nickname + ' got effected by ' + this.name);
     },
     color: 'rgba(13, 230, 133, 0.6)'
   }
