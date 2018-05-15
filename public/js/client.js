@@ -11,6 +11,12 @@ onbeforeunload = function() {
   }
 };
 
+addEventListener('keydown', function(e) {
+  if (e.ctrlKey) {
+    e.preventDefault();
+  }
+});
+
 nicknameInput.addEventListener('keydown', function(e) {
   if (e.key === 'Enter') {
     playButton.click();
