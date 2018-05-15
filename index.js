@@ -27,7 +27,8 @@ game.effectAreas = [];
 game.playerMap = new hashmap();
 var config = {
   playerSpeed: 1 / 6, //pixels per millisecond
-  playerRadius: 75
+  playerRadius: 75,
+  playerStartHealth: 1000
 };
 var spells = { //inventory items
   fireSpell: function() {
@@ -116,7 +117,7 @@ server.io.on('connection', function(socket) {
 
 function newPlayer(options) {
   if (options.nickname !== undefined) {
-    var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id, [spells.fireSpell()]);
+    var player = new Player(helpers.randInt(0, game.map.width), helpers.randInt(0, game.map.height), options.nickname, options.id, [spells.fireSpell()], config.playerStartHealth);
 
     if (!player.nickname) {
       player.nickname = 'Unnamed Sorcerer';
@@ -132,7 +133,7 @@ function Map(width, height) {
   this.height = height;
 }
 
-function Player(x, y, nickname, id, inventory) {
+function Player(x, y, nickname, id, inventory, health) {
   this.x = x;
   this.y = y;
   this.nickname = xss(nickname.substring(0, 15));
@@ -143,6 +144,7 @@ function Player(x, y, nickname, id, inventory) {
   this.angle = 0;
   this.lastMove = 0;
   this.selectedItem = 0;
+  this.health = health;
 }
 
 function Spell(itemName, coolDown) { //Spell is the item in an inventory, not the entity
