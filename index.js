@@ -199,17 +199,18 @@ function SplashSpell(origin, target, speed, caster, explosionRadius, ttl, range,
   this.explosionRadius = explosionRadius;
   this.ttl = ttl; //the time to live after the explosion
   this.die = function() {
-    game.effectAreas.push(new EffectArea(this.location, explosionRadius, Date.now(), ttl, color));
+    game.effectAreas.push(new EffectArea(this.location, explosionRadius, Date.now(), ttl, color, name));
     game.spells.splice(game.spells.indexOf(this), 1);
   };
 }
 SplashSpell.prototype.tick = ProjectileSpell.prototype.tick;
 
-function EffectArea(location, radius, explosionTime, ttl, color) {
+function EffectArea(location, radius, explosionTime, ttl, color, name) {
   this.location = location;
   this.radius = radius;
   this.explosionTime = explosionTime;
   this.ttl = ttl;
+  this.name = name;
   this.color = color;
 }
 
@@ -312,7 +313,7 @@ function physicsLoop() {
       var spell = game.spells[m];
       if (helpers.distance(player.x, player.y, spell.location.x, spell.location.y) < spell.radius + config.playerRadius && player.id !== spell.caster.id) {
         if (spell.type === 'projectile') {
-          spellEnts[player.inventory[player.selectedItem].itemName].effect(player);
+          spellEnts[spell.name].effect(player);
         }
         spell.die();
       }
@@ -321,7 +322,7 @@ function physicsLoop() {
     for (var z = 0; z < game.effectAreas.length; z++) {
       var area = game.effectAreas[z];
       if (helpers.distance(player.x, player.y, area.location.x, area.location.y) < area.radius + config.playerRadius) {
-        spellEnts[player.inventory[player.selectedItem].itemName].effect(player);
+        spellEnts[area.name].effect(player);
       }
     }
 
