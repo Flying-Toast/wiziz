@@ -166,7 +166,7 @@ playButton.addEventListener('click', function() {
 
 function fillInventory(inventory) {
   if (!inventory) {
-    spellWrapper.innerHTML = ''; //clear existing inventory
+    spellWrapper.innerHTML = '';
 
     for (var i = 0; i < 4; i++) {
       var coolDownDisplay = document.createElement('div');

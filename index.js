@@ -143,6 +143,7 @@ function Player(x, y, nickname, id, inventory, health) {
   this.lastMove = 0;
   this.selectedItem = 0;
   this.health = health;
+  this.maxHealth = health; //maxHealth shouuld start at initial health, so the player has 100% health on spawn
 }
 
 function Spell(itemName, coolDown) { //Spell is the item in an inventory, not the entity

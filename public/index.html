@@ -6,7 +6,7 @@
   <meta name='description' content=''>
   <meta charset="utf-8">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
+  <script src="js/socket.io.js"></script>
   <title>Sorcer.io</title>
   <style>
     @font-face {
@@ -207,6 +207,16 @@
     footer a {
       font-size: 80%;
     }
+
+    #health {
+      height: 40px;
+      margin: 0 auto;
+      position: absolute;
+      bottom: 120px;
+      left: calc(50vw - 20px);
+      width: 416px;
+      background-color: red;
+    }
   </style>
 </head>
 
@@ -233,8 +243,8 @@
   <div id="game">
     <canvas id='gridCanvas'></canvas>
     <canvas id='gameCanvas'></canvas>
-
     <div id="hud">
+      <div id="health"></div>
       <div id="inventory">
         <span id='spellWrapper'></span>
       </div>
