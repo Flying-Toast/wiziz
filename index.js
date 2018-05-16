@@ -38,8 +38,8 @@ var spells = { //inventory items
     return (new Spell('freezeSpell', 5000));
   },
 
-  test: function() {
-    return (new Spell('test', 5000));
+  blindSpell: function() {
+    return (new Spell('blindSpell', 4000));
   }
 
 };
@@ -65,23 +65,20 @@ var spellEnts = { //spell entities
     }
   },
 
-
-  test: {
-    name: 'test',
+  blindSpell: {
+    name: 'blindSpell',
     speed: 0.7,
-    range: 500,
+    range: 700,
     type: 'splash',
-    explosionRadius: 100,
-    ttl: 3000,
+    explosionRadius: 140,
+    ttl: 4000,
     radius: 100,
     playerCoolDown: 100, //delay between repetitions of effectArea affecting a certain player
     effect: function(affectedPlayer) { //effect of explosion area
       console.log(affectedPlayer.nickname + ' got effected by ' + this.name);
     },
-    color: 'rgba(13, 230, 133, 0.6)'
+    color: 'rgba(0, 0, 0, 0.6)'
   }
-
-
 };
 
 server.io.on('connection', function(socket) {

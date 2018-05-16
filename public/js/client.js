@@ -38,18 +38,18 @@ var sprites = {
   src: {
     fireSpell: 'media/images/fireSpell.png',
     freezeSpell: 'media/images/freezeSpell.png',
-    test: 'media/images/test.png'
+    blindSpell: 'media/images/blindSpell.png'
   },
   effects: {
     fireSpell: createSprite('media/images/fireEffect.png'),
     freezeSpell: createSprite('media/images/freezeEffect.png'),
-    test: createSprite('media/images/fireEffect.png'),
+    blindSpell: createSprite('media/images/blindEffect.png'),
   }
 };
 var sounds = {
   fireSpell: createSound('media/sounds/fireSpell.mp3', 'media/sounds/fireSpell.ogg'),
   freezeSpell: createSound('media/sounds/freezeSpell.mp3', 'media/sounds/freezeSpell.ogg'),
-  test: createSound('media/sounds/freezeSpell.mp3', 'media/sounds/freezeSpell.ogg')
+  blindSpell: createSound('media/sounds/blindSpell.mp3', 'media/sounds/blindSpell.ogg')
 };
 var local = {
   facing: {
