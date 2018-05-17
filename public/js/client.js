@@ -65,7 +65,6 @@ var local = {
   quedInputs: [],
   savedInputs: [],
   inputNumber: 0,
-  quedSavedInputs: [],
   lastUpdate: 0,
   controls: {
     w: 'u',
@@ -148,9 +147,9 @@ socket.on('update', function(updatedGame) {
     document.querySelector('#inventorySlot' + (player.selectedItem + 1)).src = document.querySelector('#inventorySlot' + (player.selectedItem + 1)).src.replace('.png', 'Selected.png');
   }
 
-  var indexOfLastInput = inputs.find(function(element) {
+  var indexOfLastInput = local.savedInputs.indexOf(local.savedInputs.find(function(element) {
     return (element.id === player.lastInput);
-  });
+  }));
 
   if (indexOfLastInput) {
     local.savedInputs.splice(0, indexOfLastInput + 1);
@@ -246,8 +245,6 @@ function drawLoop() {
   });
   local.inputNumber++;
 
-  local.savedInputs = local.quedSavedInputs;
-  local.quedSavedInputs = [];
   if (false) {
     for (var i = 0; i < local.savedInputs.length; i++) {
 
@@ -319,8 +316,8 @@ function drawLoop() {
 
   healthBar.style.width = 'calc(' + (player.health / player.maxHealth * 100) + '%' + ' - 8px' + ')';
 
-  inputs = inputs.concat(local.quedInputs);
-  local.quedSavedInputs = local.quedSavedInputs.concat(local.quedInputs);
+  inputs = inputs.concat(local.quedInputs); //load input que
+  local.savedInputs = local.savedInputs.concat(local.quedInputs);
   local.quedInputs = [];
   socket.emit('input', inputs);
   inputs = [];
