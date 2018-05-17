@@ -63,7 +63,6 @@ var local = {
     coolDown: 700
   }],
   quedInputs: [],
-  player: {},
   savedInputs: [],
   inputNumber: 0,
   quedSavedInputs: [],
@@ -104,21 +103,21 @@ function createSound(mp3Src, oggSrc) {
 
 function localCoords(real, xOrY) {
   if (xOrY === 'x') {
-    return (real + innerWidth / 2 - local.player.x);
+    return (real + innerWidth / 2 - player.x);
   }
 
   if (xOrY === 'y') {
-    return (real + innerHeight / 2 - local.player.y);
+    return (real + innerHeight / 2 - player.y);
   }
 }
 
 function globalCoords(localCoord, xOrY) {
   if (xOrY === 'x') {
-    return (localCoord - innerWidth / 2 + local.player.x);
+    return (localCoord - innerWidth / 2 + player.x);
   }
 
   if (xOrY === 'y') {
-    return (localCoord - innerHeight / 2 + local.player.y);
+    return (localCoord - innerHeight / 2 + player.y);
   }
 }
 
@@ -156,11 +155,6 @@ socket.on('update', function(updatedGame) {
   if (indexOfLastInput) {
     local.savedInputs.splice(0, indexOfLastInput + 1);
   }
-
-  if (!local.player.id) {
-    local.player = player;
-  }
-
 });
 
 playButton.addEventListener('click', function() {
@@ -236,10 +230,6 @@ function fillInventory(inventory) {
 function drawLoop() {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
 
-  var currentTime = performance.now();
-  var dt = currentTime - local.lastTime;
-  local.lastTime = currentTime;
-
   local.quedInputs.push({
     type: 'rotate',
     facing: local.facing,
@@ -258,32 +248,24 @@ function drawLoop() {
 
   local.savedInputs = local.quedSavedInputs;
   local.quedSavedInputs = [];
-  if (local.player.id) {
+  if (false) {
     for (var i = 0; i < local.savedInputs.length; i++) {
+
+      var currentTime = performance.now();
+      var dt = currentTime - local.lastTime;
+      local.lastTime = currentTime;
+
       var input = local.savedInputs[i];
 
       switch (input.type) {
-        case 'move':
+        case 'movement':
           break;
       }
     }
   }
-  local.player = player;
-  if (local.player.x < 0) {
-    local.player.x = 0;
-  }
-  if (local.player.x > game.map.width) {
-    local.player.x = game.map.width;
-  }
-  if (local.player.y < 0) {
-    local.player.y = 0;
-  }
-  if (local.player.y > game.map.height) {
-    local.player.y = game.map.height;
-  }
 
-  grid.xOffset = -local.player.x;
-  grid.yOffset = -local.player.y;
+  grid.xOffset = -player.x;
+  grid.yOffset = -player.y;
 
   //spell explosion areas
   for (var i = 0; i < game.effectAreas.length; i++) {
