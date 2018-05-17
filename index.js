@@ -48,17 +48,17 @@ var spellEnts = { //spell entities
     name: 'fireSpell',
     speed: 1,
     range: 700,
-    radius: 100,
+    radius: 10,
     type: 'projectile',
     effect: function(affectedPlayer) {
-      console.log(affectedPlayer.nickname + ' got effected by ' + this.name);
+      affectedPlayer.health -= 100;
     }
   },
   freezeSpell: {
     name: 'freezeSpell',
     speed: 0.7,
     range: 500,
-    radius: 100,
+    radius: 10,
     type: 'projectile',
     effect: function(affectedPlayer) {
       console.log(affectedPlayer.nickname + ' got effected by ' + this.name);
@@ -72,7 +72,7 @@ var spellEnts = { //spell entities
     type: 'splash',
     explosionRadius: 140,
     ttl: 4000,
-    radius: 100,
+    radius: 10,
     playerCoolDown: 100, //delay between repetitions of effectArea affecting a certain player
     effect: function(affectedPlayer) { //effect of explosion area
       console.log(affectedPlayer.nickname + ' got effected by ' + this.name);
