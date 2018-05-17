@@ -208,14 +208,27 @@
       font-size: 80%;
     }
 
-    #health {
+    #outerHealth {
       height: 40px;
       margin: 0 auto;
       position: absolute;
-      bottom: 120px;
-      left: calc(50vw - 20px);
+      bottom: 125px;
+      left: calc(50vw - (416px / 2));
       width: 416px;
-      background-color: red;
+      border-radius: 5px;
+      background-color: rgba(40, 41, 41, 0.7);
+    }
+
+    #health {
+      width: calc(100% - 8px);
+      height: calc(100% - 8px);
+      position: absolute;
+      top: 50%;
+      left: 4px;
+      transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+      border-radius: 7px;
+      background-color: rgba(236, 236, 236, 0.8);
     }
   </style>
 </head>
@@ -244,7 +257,9 @@
     <canvas id='gridCanvas'></canvas>
     <canvas id='gameCanvas'></canvas>
     <div id="hud">
-      <div id="health"></div>
+      <div id='outerHealth'>
+        <div id="health"></div>
+      </div>
       <div id="inventory">
         <span id='spellWrapper'></span>
       </div>

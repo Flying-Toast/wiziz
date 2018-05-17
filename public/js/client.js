@@ -4,6 +4,7 @@ var gameCanvas = document.querySelector('#gameCanvas');
 var mainScreen = document.querySelector('#mainScreen');
 var playButton = document.querySelector('#playButton');
 var nicknameInput = document.querySelector('#nicknameInput');
+var healthBar = document.querySelector('#health');
 
 onbeforeunload = function() {
   if (state === 'playing') {
@@ -313,6 +314,8 @@ function drawLoop() {
 
     ctx.drawImage(sprites.effects[spell.name], localCoords(predictedX, 'x') - sprites.effects[spell.name].width / 2, localCoords(predictedY, 'y') - sprites.effects[spell.name].height / 2);
   }
+
+  healthBar.style.width = 'calc(' + (player.health / player.maxHealth * 100) + '%' + ' - 8px' + ')';
 
   inputs = inputs.concat(local.quedInputs);
   local.quedSavedInputs = local.quedSavedInputs.concat(local.quedInputs);
