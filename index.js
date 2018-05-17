@@ -238,17 +238,34 @@ function physicsLoop() {
       var input = player.inputs[j];
 
       switch (input.type) {
-        case 'move':
+        case 'movement':
+
           if (player.lastMove !== 0) {
             var dt = Date.now() - player.lastMove;
           } else {
             dt = 0;
           }
 
-          var lenToMouse = helpers.distance(input.facing.x, input.facing.y, input.windowWidth / 2, input.windowHeight / 2);
-          player.x += (config.playerSpeed / lenToMouse * (input.facing.x - input.windowWidth / 2)) * dt;
-          player.y += (config.playerSpeed / lenToMouse * (input.facing.y - input.windowHeight / 2)) * dt;
+          var states = input.states;
+
+          if (states.u) {
+            player.y -= config.playerSpeed * dt;
+          }
+          if (states.d) {
+            player.y += config.playerSpeed * dt;
+          }
+          if (states.l) {
+            player.x -= config.playerSpeed * dt;
+          }
+          if (states.r) {
+            player.x += config.playerSpeed * dt;
+          }
+
+          player.x += 0 * dt;
+          player.y += 0 * dt;
           player.lastMove = Date.now();
+          break;
+        case 'rotate':
           player.angle = Math.atan2(input.facing.x - input.windowWidth / 2, -(input.facing.y - input.windowHeight / 2));
           break;
         case 'select':

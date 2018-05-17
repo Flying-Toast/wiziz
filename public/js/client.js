@@ -67,7 +67,19 @@ var local = {
   savedInputs: [],
   inputNumber: 0,
   quedSavedInputs: [],
-  lastUpdate: 0
+  lastUpdate: 0,
+  controls: {
+    w: 'u',
+    s: 'd',
+    a: 'l',
+    d: 'r'
+  },
+  movement: {
+    u: false,
+    d: false,
+    l: false,
+    r: false
+  }
 };
 
 
@@ -155,6 +167,12 @@ playButton.addEventListener('click', function() {
   var playerOptions = {
     nickname: nicknameInput.value
   };
+  local.movement = {
+    u: false,
+    d: false,
+    l: false,
+    r: false
+  };
   socket.emit('newGame', playerOptions);
   fillInventory();
   fillInventory(local.startingInventory);
@@ -223,7 +241,7 @@ function drawLoop() {
   local.lastTime = currentTime;
 
   local.quedInputs.push({
-    type: 'move',
+    type: 'rotate',
     facing: local.facing,
     windowWidth: innerWidth,
     windowHeight: innerHeight,
@@ -231,6 +249,12 @@ function drawLoop() {
   });
   local.inputNumber++;
 
+  local.quedInputs.push({
+    type: 'movement',
+    states: local.movement,
+    id: local.inputNumber
+  });
+  local.inputNumber++;
 
   local.savedInputs = local.quedSavedInputs;
   local.quedSavedInputs = [];
@@ -240,15 +264,11 @@ function drawLoop() {
 
       switch (input.type) {
         case 'move':
-
-          var lenToMouse = Math.sqrt(Math.pow(input.facing.x - input.windowWidth / 2, 2) + Math.pow(input.facing.y - input.windowHeight / 2, 2));
-          local.player.x += (local.playerSpeed / lenToMouse * (input.facing.x - input.windowWidth / 2)) * dt;
-          local.player.y += (local.playerSpeed / lenToMouse * (input.facing.y - input.windowHeight / 2)) * dt;
           break;
       }
     }
   }
-
+  local.player = player;
   if (local.player.x < 0) {
     local.player.x = 0;
   }
@@ -356,7 +376,7 @@ addEventListener('wheel', function(e) {
   }
 });
 
-addEventListener('keypress', function(e) {
+addEventListener('keydown', function(e) {
   var inventorySlot = document.querySelector('#inventorySlot' + e.key);
   if (inventorySlot && player.inventory[e.key - 1] && !e.repeat) {
     local.quedInputs.push({
@@ -365,6 +385,14 @@ addEventListener('keypress', function(e) {
       id: local.inputNumber
     });
     local.inputNumber++;
+  } else if (local.controls[e.key]) {
+    local.movement[local.controls[e.key]] = true;
+  }
+});
+
+addEventListener('keyup', function(e) {
+  if (local.controls[e.key]) {
+    local.movement[local.controls[e.key]] = false;
   }
 });
 
