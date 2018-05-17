@@ -334,10 +334,6 @@ addEventListener('mousemove', function(e) {
     x: e.pageX,
     y: e.pageY
   };
-
-  var lenToMouse = Math.sqrt(Math.pow(e.pageX - innerWidth / 2, 2) + Math.pow(e.pageY - innerHeight / 2, 2));
-  grid.vx = 1 / lenToMouse * (e.pageX - innerWidth / 2);
-  grid.vy = 1 / lenToMouse * (e.pageY - innerHeight / 2);
 });
 
 addEventListener('wheel', function(e) {
