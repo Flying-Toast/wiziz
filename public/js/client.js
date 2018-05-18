@@ -442,6 +442,13 @@ addEventListener('keyup', function(e) {
   }
 });
 
+game.addEventListener('blur', function() {
+  for (var key in local.controls) {
+
+    local.movement[local.controls[key]] = false;
+  }
+});
+
 function castSpell(e) {
   if (!player.inventory[player.selectedItem].cooling) {
     local.quedInputs.push({
