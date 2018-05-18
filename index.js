@@ -248,17 +248,31 @@ function physicsLoop() {
 
           var states = input.states;
 
+          var facing = { //invisible point where player will move to
+            x: player.x,
+            y: player.y
+          };
+
+          //move the point by 1 (could be any number) to make a line from current player position to the facing locations
           if (states.u) {
-            player.y -= config.playerSpeed * dt;
+            facing.y -= 1;
           }
           if (states.d) {
-            player.y += config.playerSpeed * dt;
+            facing.y += 1;
           }
           if (states.l) {
-            player.x -= config.playerSpeed * dt;
+            facing.x -= 1;
           }
           if (states.r) {
-            player.x += config.playerSpeed * dt;
+            facing.x += 1;
+          }
+
+          //find the new player postition, which is at (config.playerSpeed * dt) pixels in the direction of facing
+          var lenToFacing = helpers.distance(facing.x, facing.y, player.x, player.y);
+
+          if (lenToFacing !== 0) {
+            player.x += (config.playerSpeed / lenToFacing * (facing.x - player.x)) * dt;
+            player.y += (config.playerSpeed / lenToFacing * (facing.y - player.y)) * dt;
           }
 
           player.lastMove = Date.now();
