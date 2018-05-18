@@ -62,7 +62,6 @@ var local = {
     itemName: 'fireSpell',
     coolDown: 700
   }],
-  player: {},
   quedInputs: [],
   savedInputs: [],
   inputNumber: 0,
@@ -245,22 +244,6 @@ function drawLoop() {
     id: local.inputNumber
   });
   local.inputNumber++;
-
-  if (false) {
-    for (var i = 0; i < local.savedInputs.length; i++) {
-
-      var currentTime = performance.now();
-      var dt = currentTime - local.lastTime;
-      local.lastTime = currentTime;
-
-      var input = local.savedInputs[i];
-
-      switch (input.type) {
-        case 'movement':
-          break;
-      }
-    }
-  }
 
   grid.xOffset = -player.x;
   grid.yOffset = -player.y;
