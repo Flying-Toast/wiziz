@@ -261,8 +261,6 @@ function physicsLoop() {
             player.x += config.playerSpeed * dt;
           }
 
-          player.x += 0 * dt;
-          player.y += 0 * dt;
           player.lastMove = Date.now();
           break;
         case 'rotate':

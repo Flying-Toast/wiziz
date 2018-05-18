@@ -62,6 +62,7 @@ var local = {
     itemName: 'fireSpell',
     coolDown: 700
   }],
+  player: {},
   quedInputs: [],
   savedInputs: [],
   inputNumber: 0,
