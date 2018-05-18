@@ -65,6 +65,7 @@ var local = {
   quedInputs: [],
   savedInputs: [],
   inputNumber: 0,
+  player: {},
   lastUpdate: 0,
   controls: {
     w: 'u',
@@ -102,21 +103,21 @@ function createSound(mp3Src, oggSrc) {
 
 function localCoords(real, xOrY) {
   if (xOrY === 'x') {
-    return (real + innerWidth / 2 - player.x);
+    return (real + innerWidth / 2 - local.player.x);
   }
 
   if (xOrY === 'y') {
-    return (real + innerHeight / 2 - player.y);
+    return (real + innerHeight / 2 - local.player.y);
   }
 }
 
 function globalCoords(localCoord, xOrY) {
   if (xOrY === 'x') {
-    return (localCoord - innerWidth / 2 + player.x);
+    return (localCoord - innerWidth / 2 + local.player.x);
   }
 
   if (xOrY === 'y') {
-    return (localCoord - innerHeight / 2 + player.y);
+    return (localCoord - innerHeight / 2 + local.player.y);
   }
 }
 
@@ -243,8 +244,58 @@ function drawLoop() {
   });
   local.inputNumber++;
 
-  grid.xOffset = -player.x;
-  grid.yOffset = -player.y;
+  local.player = player;
+
+  for (var i = 0; i < local.savedInputs.length; i++) {
+    var input = local.savedInputs[i];
+
+    switch (input.type) {
+      case 'movement':
+
+        if (local.player.lastMove) {
+          var dt = Date.now() - local.player.lastMove;
+        } else {
+          dt = 0;
+        }
+
+        var states = input.states;
+
+        var facing = { //imaginary point where player will move towards, starts out at player's location
+          x: player.x,
+          y: player.y
+        };
+
+        //move the point by 1 (could be any number) to make a line from current player position to the facing locations
+        if (states.u) {
+          facing.y -= 1;
+        }
+        if (states.d) {
+          facing.y += 1;
+        }
+        if (states.l) {
+          facing.x -= 1;
+        }
+        if (states.r) {
+          facing.x += 1;
+        }
+
+        //find the new player postition, which is at (config.playerSpeed * dt) pixels in the direction of facing
+        var lenToFacing = distance(facing.x, facing.y, player.x, player.y);
+
+        if (lenToFacing !== 0) {
+          local.player.x += (local.playerSpeed / lenToFacing * (facing.x - player.x)) * dt;
+          local.player.y += (local.playerSpeed / lenToFacing * (facing.y - player.y)) * dt;
+        }
+
+        local.player.lastMove = Date.now();
+
+
+        break;
+    }
+  }
+
+  grid.xOffset = -local.player.x;
+  grid.yOffset = -local.player.y;
 
   //spell explosion areas
   for (var i = 0; i < game.effectAreas.length; i++) {
@@ -384,3 +435,7 @@ function castSpell(e) {
 }
 
 gameCanvas.addEventListener('click', castSpell);
+
+function distance(ax, ay, bx, by) {
+  return (Math.sqrt(Math.pow(ax - bx, 2) + Math.pow(ay - by, 2)));
+}

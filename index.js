@@ -248,7 +248,7 @@ function physicsLoop() {
 
           var states = input.states;
 
-          var facing = { //invisible point where player will move to
+          var facing = { //imaginary point where player will move towards, starts out at player's location
             x: player.x,
             y: player.y
           };
