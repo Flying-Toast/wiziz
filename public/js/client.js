@@ -224,8 +224,6 @@ function fillInventory(inventory) {
   }
 }
 
-
-
 function drawLoop() {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
 

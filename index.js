@@ -188,7 +188,7 @@ ProjectileSpell.prototype.tick = function() {
   if (helpers.distance(this.location.x, this.location.y, this.origin.x, this.origin.y) >= this.lenToTarget) {
     this.location = this.target;
     this.die();
-  } else if (this.location.x <= 0 || this.location.y <= 0 || this.location.x >= game.map.width || this.location.y >= game.map.width) {
+  } else if (this.location.x < 0 || this.location.y < 0 || this.location.x > game.map.width || this.location.y > game.map.width) {
     this.die();
   }
   //check collisions with player:
