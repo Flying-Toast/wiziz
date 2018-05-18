@@ -62,6 +62,7 @@ var local = {
     itemName: 'fireSpell',
     coolDown: 700
   }],
+  lastPlayerStates: [],
   quedInputs: [],
   savedInputs: [],
   inputNumber: 0,
@@ -132,6 +133,10 @@ addEventListener('resize', function() {
 });
 
 socket.on('update', function(updatedGame) {
+  if (game.players) {
+    local.lastPlayerStates = JSON.parse(JSON.stringify(game.players));
+  }
+
   game = updatedGame;
   local.lastUpdate = Date.now();
 
@@ -251,7 +256,6 @@ function drawLoop() {
 
     switch (input.type) {
       case 'movement':
-
         if (local.player.lastMove) {
           var dt = Date.now() - local.player.lastMove;
         } else {
@@ -260,12 +264,11 @@ function drawLoop() {
 
         var states = input.states;
 
-        var facing = { //imaginary point where player will move towards, starts out at player's location
+        var facing = {
           x: player.x,
           y: player.y
         };
 
-        //move the point by 1 (could be any number) to make a line from current player position to the facing locations
         if (states.u) {
           facing.y -= 1;
         }
@@ -279,7 +282,6 @@ function drawLoop() {
           facing.x += 1;
         }
 
-        //find the new player postition, which is at (config.playerSpeed * dt) pixels in the direction of facing
         var lenToFacing = distance(facing.x, facing.y, player.x, player.y);
 
         if (lenToFacing !== 0) {
@@ -287,9 +289,20 @@ function drawLoop() {
           local.player.y += (local.playerSpeed / lenToFacing * (facing.y - player.y)) * dt;
         }
 
+        if (player.x < 0) {
+          player.x = 0;
+        }
+        if (player.x > game.map.width) {
+          player.x = game.map.width;
+        }
+        if (player.y < 0) {
+          player.y = 0;
+        }
+        if (player.y > game.map.height) {
+          player.y = game.map.height;
+        }
+
         local.player.lastMove = Date.now();
-
-
         break;
     }
   }
@@ -310,11 +323,32 @@ function drawLoop() {
   for (var i = 0; i < game.players.length; i++) {
     var currentPlayer = game.players[i];
     if (currentPlayer.id !== player.id) {
+
+      var lastCurrentPlayer = local.lastPlayerStates.find(function(element) {
+        return (currentPlayer.id === element.id);
+      });
+
+      if (!lastCurrentPlayer) {
+        continue;
+      }
+
+      var newPosition = vLerp({
+        x: lastCurrentPlayer.x,
+        y: lastCurrentPlayer.y
+      }, {
+        x: currentPlayer.x,
+        y: currentPlayer.y
+      }, 0.05);
+
+      lastCurrentPlayer.x = newPosition.x;
+      lastCurrentPlayer.y = newPosition.y;
+
       ctx.save();
-      ctx.translate(localCoords(currentPlayer.x, 'x'), localCoords(currentPlayer.y, 'y'));
+      ctx.translate(localCoords(lastCurrentPlayer.x, 'x'), localCoords(lastCurrentPlayer.y, 'y'));
       ctx.rotate(currentPlayer.angle);
       ctx.drawImage(sprites.players.red, -sprites.players.red.width / 2, -sprites.players.red.height / 2);
       ctx.restore();
+
     }
   }
 
@@ -435,6 +469,19 @@ function castSpell(e) {
 }
 
 gameCanvas.addEventListener('click', castSpell);
+
+lerp = function(p, n, t) {
+  var t = Number(t);
+  t = parseFloat((Math.max(0, Math.min(1, t))).toFixed(3));
+  return parseFloat((p + t * (n - p)).toFixed(3));
+};
+
+vLerp = function(v, tv, t) {
+  return {
+    x: this.lerp(v.x, tv.x, t),
+    y: this.lerp(v.y, tv.y, t)
+  };
+};
 
 function distance(ax, ay, bx, by) {
   return (Math.sqrt(Math.pow(ax - bx, 2) + Math.pow(ay - by, 2)));
