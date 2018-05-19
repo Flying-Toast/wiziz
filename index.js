@@ -364,6 +364,11 @@ function physicsLoop() {
       }
     }
 
+    if (player.health <= 0) {
+      server.io.to(player.id).emit('youDied');
+      game.players.splice(game.players.indexOf(player), 1);
+    }
+
   }
 
   for (var f = 0; f < game.spells.length; f++) {

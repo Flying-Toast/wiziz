@@ -5,6 +5,7 @@ var mainScreen = document.querySelector('#mainScreen');
 var playButton = document.querySelector('#playButton');
 var nicknameInput = document.querySelector('#nicknameInput');
 var healthBar = document.querySelector('#health');
+var gameScreen = document.querySelector('#game');
 
 onbeforeunload = function() {
   if (state === 'playing') {
@@ -132,6 +133,13 @@ addEventListener('resize', function() {
   gameCanvas.height = innerHeight;
 });
 
+socket.on('youDied', function() {
+  state = 'dead';
+  mainScreen.style.display = '';
+  mainScreen.style.animationName = '';
+  mainScreen.style.animationName = 'death';
+});
+
 socket.on('update', function(updatedGame) {
   if (game.players) {
     local.lastPlayerStates = JSON.parse(JSON.stringify(game.players));
@@ -232,6 +240,10 @@ function fillInventory(inventory) {
 
 function drawLoop() {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+  if (state === 'dead') {
+    return;
+  }
 
   local.quedInputs.push({
     type: 'rotate',
@@ -442,9 +454,8 @@ addEventListener('keyup', function(e) {
   }
 });
 
-game.addEventListener('blur', function() {
+addEventListener('blur', function() {
   for (var key in local.controls) {
-
     local.movement[local.controls[key]] = false;
   }
 });
