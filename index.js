@@ -27,7 +27,7 @@ game.effectAreas = [];
 game.playerMap = new hashmap();
 var config = {
   playerSpeed: 1 / 6, //pixels per millisecond
-  playerRadius: 75,
+  playerRadius: 65,
   playerStartHealth: 1000
 };
 var spells = { //inventory items

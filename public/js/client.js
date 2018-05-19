@@ -121,6 +121,7 @@ function globalCoords(localCoord, xOrY) {
   if (xOrY === 'y') {
     return (localCoord - innerHeight / 2 + local.player.y);
   }
+  aaa
 }
 
 var socket = io.connect('/');
@@ -369,6 +370,11 @@ function drawLoop() {
   ctx.translate(innerWidth / 2, innerHeight / 2);
   ctx.rotate(local.angle);
   ctx.drawImage(sprites.players.green, -sprites.players.green.width / 2, -sprites.players.green.height / 2);
+  /*hitboxes
+  ctx.beginPath();
+  ctx.fillStyle = 'rgba(70, 181, 28, 0.67)';
+  ctx.arc(0, 0, playerRadius, 0, Math.PI * 2);
+  ctx.fill();*/
   ctx.restore();
 
   //spells
@@ -391,6 +397,12 @@ function drawLoop() {
     }
 
     ctx.drawImage(sprites.effects[spell.name], localCoords(predictedX, 'x') - sprites.effects[spell.name].width / 2, localCoords(predictedY, 'y') - sprites.effects[spell.name].height / 2);
+
+    /*hitboxes
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(70, 181, 28, 0.67)';
+    ctx.arc(localCoords(predictedX, 'x'), localCoords(predictedY, 'y'), spell.radius, 0, Math.PI * 2);
+    ctx.fill();*/
   }
 
   healthBar.style.width = 'calc(' + (player.health / player.maxHealth * 100) + '%' + ' - 8px' + ')';
