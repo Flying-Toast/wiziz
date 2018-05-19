@@ -10,6 +10,7 @@ var gameScreen = document.querySelector('#game');
 var levelNumberDisplay = document.querySelector('#levelNumberDisplay');
 var xpNumberDisplay = document.querySelector('#xpNumberDisplay');
 var healthPercentDisplay = document.querySelector('#healthPercentDisplay');
+var chooseUnlockedSpells = document.querySelector('#chooseUnlockedSpells');
 
 /*onbeforeunload = function() {
   if (state === 'playing') {
@@ -69,6 +70,8 @@ var local = {
   lastPlayerStates: [],
   quedInputs: [],
   savedInputs: [],
+  chosingUnlock: false,
+  lastChosenUnlock: 1,
   inputNumber: 0,
   player: {},
   lastUpdate: 0,
@@ -124,7 +127,6 @@ function globalCoords(localCoord, xOrY) {
   if (xOrY === 'y') {
     return (localCoord - innerHeight / 2 + local.player.y);
   }
-  aaa
 }
 
 var socket = io.connect('/');
@@ -251,6 +253,7 @@ function drawLoop() {
     return;
   }
 
+  //TODO: combine rotate and movement inputs into one input
   local.quedInputs.push({
     type: 'rotate',
     facing: local.facing,
@@ -266,6 +269,33 @@ function drawLoop() {
     id: local.inputNumber
   });
   local.inputNumber++;
+
+  if (player.unlockedSpells && player.unlockedSpells.length > 0 && !local.chosingUnlock && local.lastChosenUnlock < player.level) {
+    chooseUnlockedSpells.innerHTML = '';
+    local.chosingUnlock = true;
+    chooseUnlockedSpells.style.display = 'inline-block';
+    for (var i = 0; i < player.unlockedSpells.length; i++) {
+      var currentSpellName = player.unlockedSpells[i];
+
+      var image = document.createElement('img');
+      image.src = sprites.src[currentSpellName];
+      image.id = currentSpellName;
+      chooseUnlockedSpells.appendChild(image);
+      image.addEventListener('click', function(e) {
+        local.quedInputs.push({
+          type: 'unlock',
+          chosenSpell: e.target.id,
+          id: local.inputNumber
+        });
+        local.inputNumber++;
+
+        local.chosingUnlock = false;
+        local.lastChosenUnlock++;
+        chooseUnlockedSpells.style.display = '';
+      });
+
+    }
+  };
 
   local.player = player;
 

@@ -31,7 +31,14 @@ var config = {
   playerStartHealth: 1000,
   xpModel: function(checkLevel) {
     return (Math.pow(checkLevel - 1, 2) * 100);
-  } //returns the amount of xp needed to get to [checkLevel] param
+  }, //returns the amount of xp needed to get to [checkLevel] param
+  unlocks: {
+
+    level2: {
+      newSpells: ['freezeSpell', 'blindSpell'] //which new spells are unlocked at this level
+    }
+
+  }
 };
 var spells = { //inventory items
   fireSpell: function() {
@@ -40,11 +47,9 @@ var spells = { //inventory items
   freezeSpell: function() {
     return (new Spell('freezeSpell', 5000));
   },
-
   blindSpell: function() {
     return (new Spell('blindSpell', 4000));
   }
-
 };
 var spellEnts = { //spell entities
   fireSpell: {
@@ -156,6 +161,7 @@ function Player(x, y, nickname, id, inventory, health) {
   this.angle = 0;
   this.lastMove = 0;
   this.selectedItem = 0;
+  this.unlockedSpells = [];
   this.health = health;
   this.maxHealth = health; //maxHealth shouuld start at initial health, so the player has 100% health on spawn
   this.xp = 0; //starting xp
@@ -253,8 +259,12 @@ function physicsLoop() {
     var player = game.players[i];
 
     player.levelUpAtXp = config.xpModel(player.level + 1);
-    if (player.xp >= player.levelUpAtXp) {
+    if (player.xp >= player.levelUpAtXp && player.unlockedSpells.length === 0) {
       player.level++;
+      var unlocks = config.unlocks['level' + player.level];
+      if (unlocks && unlocks.newSpells) {
+        player.unlockedSpells = unlocks.newSpells
+      }
     }
 
     for (var j = 0; j < player.inputs.length; j++) {
@@ -312,9 +322,13 @@ function physicsLoop() {
             player.selectedItem = 0;
           }
           break;
+        case 'unlock':
+          if (player.unlockedSpells.indexOf(input.chosenSpell) > -1) {
+            player.inventory.push(spells[input.chosenSpell]());
+          }
+          break;
         case 'cast':
           if (!player.inventory[player.selectedItem].cooling) {
-            //cast selected spell:
             if (spellEnts[player.inventory[player.selectedItem].itemName].type === 'projectile') {
               game.spells.push(new ProjectileSpell({
                 x: player.x,
