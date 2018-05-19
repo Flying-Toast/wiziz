@@ -356,6 +356,7 @@ function physicsLoop() {
         if (spell.type === 'projectile') {
           spellEnts[spell.name].effect(player);
         }
+        spell.caster.xp += 100;
         spell.die();
       }
     }
@@ -370,6 +371,7 @@ function physicsLoop() {
           id: player.id,
           time: Date.now()
         });
+        spell.caster.xp += 100;
       }
     }
 
