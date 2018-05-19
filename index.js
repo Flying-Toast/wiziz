@@ -62,9 +62,15 @@ var spellEnts = { //spell entities
     speed: 0.7,
     range: 500,
     radius: 10,
+    effectWearOff: 3000,
     type: 'projectile',
     effect: function(affectedPlayer) {
-      console.log(affectedPlayer.nickname + ' got effected by ' + this.name);
+      if (affectedPlayer.movementSpeed !== 0) {
+        affectedPlayer.movementSpeed = 0;
+        setTimeout(function() {
+          affectedPlayer.movementSpeed = config.playerSpeed;
+        }, this.effectWearOff);
+      }
     }
   },
   blindSpell: {
@@ -75,13 +81,14 @@ var spellEnts = { //spell entities
     explosionRadius: 140,
     ttl: 4000,
     radius: 10,
+    effectWearOff: 2000,
     playerCoolDown: 100, //delay between repetitions of effectArea affecting a certain player
     effect: function(affectedPlayer) { //effect of explosion area
       if (!affectedPlayer.blinded) {
         affectedPlayer.blinded = true;
         setTimeout(function() {
           affectedPlayer.blinded = false;
-        }, 2000);
+        }, this.effectWearOff);
       }
     },
     color: 'rgba(0, 0, 0, 0.6)'
@@ -154,6 +161,7 @@ function Player(x, y, nickname, id, inventory, health) {
   this.xp = 0; //starting xp
   this.level = 1; //starting level
   this.levelUpAtXp = config.xpModel(this.level + 1);
+  this.movementSpeed = config.playerSpeed;
   this.blinded = false;
 }
 
@@ -282,12 +290,12 @@ function physicsLoop() {
             facing.x += 1;
           }
 
-          //find the new player postition, which is at (config.playerSpeed * dt) pixels in the direction of facing
+          //find the new player postition, which is at (player.movementSpeed * dt) pixels in the direction of facing
           var lenToFacing = helpers.distance(facing.x, facing.y, player.x, player.y);
 
           if (lenToFacing !== 0) {
-            player.x += (config.playerSpeed / lenToFacing * (facing.x - player.x)) * dt;
-            player.y += (config.playerSpeed / lenToFacing * (facing.y - player.y)) * dt;
+            player.x += (player.movementSpeed / lenToFacing * (facing.x - player.x)) * dt;
+            player.y += (player.movementSpeed / lenToFacing * (facing.y - player.y)) * dt;
           }
 
           player.lastMove = Date.now();

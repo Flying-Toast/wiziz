@@ -62,7 +62,6 @@ var local = {
     x: 0,
     y: 0
   },
-  playerSpeed: 1 / 6,
   startingInventory: [{
     itemName: 'fireSpell',
     coolDown: 700
@@ -175,25 +174,27 @@ socket.on('update', function(updatedGame) {
   }
 });
 
-playButton.addEventListener('click', function() {
-  var playerOptions = {
-    nickname: nicknameInput.value
-  };
-  local.movement = {
-    u: false,
-    d: false,
-    l: false,
-    r: false
-  };
-  socket.emit('newGame', playerOptions);
-  fillInventory();
-  fillInventory(local.startingInventory);
+onload = function() {
+  playButton.addEventListener('click', function() {
+    var playerOptions = {
+      nickname: nicknameInput.value
+    };
+    local.movement = {
+      u: false,
+      d: false,
+      l: false,
+      r: false
+    };
+    socket.emit('newGame', playerOptions);
+    fillInventory();
+    fillInventory(local.startingInventory);
 
-  mainScreen.style.display = 'none';
-  local.lastTime = performance.now();
-  requestAnimationFrame(drawLoop);
-  state = 'playing';
-});
+    mainScreen.style.display = 'none';
+    local.lastTime = performance.now();
+    requestAnimationFrame(drawLoop);
+    state = 'playing';
+  })
+};
 
 function fillInventory(inventory) {
   if (!inventory) {
@@ -302,8 +303,8 @@ function drawLoop() {
         var lenToFacing = distance(facing.x, facing.y, player.x, player.y);
 
         if (lenToFacing !== 0) {
-          local.player.x += (local.playerSpeed / lenToFacing * (facing.x - player.x)) * dt;
-          local.player.y += (local.playerSpeed / lenToFacing * (facing.y - player.y)) * dt;
+          local.player.x += (local.player.movementSpeed / lenToFacing * (facing.x - player.x)) * dt;
+          local.player.y += (local.player.movementSpeed / lenToFacing * (facing.y - player.y)) * dt;
         }
 
         if (player.x < 0) {
