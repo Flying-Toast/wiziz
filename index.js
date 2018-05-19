@@ -28,7 +28,10 @@ game.playerMap = new hashmap();
 var config = {
   playerSpeed: 1 / 6, //pixels per millisecond
   playerRadius: 65,
-  playerStartHealth: 1000
+  playerStartHealth: 1000,
+  xpModel: function(checkLevel) {
+    return (Math.pow(checkLevel - 1, 2) * 100);
+  } //returns the amount of xp needed to get to [checkLevel] param
 };
 var spells = { //inventory items
   fireSpell: function() {
@@ -64,7 +67,6 @@ var spellEnts = { //spell entities
       console.log(affectedPlayer.nickname + ' got effected by ' + this.name);
     }
   },
-
   blindSpell: {
     name: 'blindSpell',
     speed: 0.7,
@@ -144,6 +146,9 @@ function Player(x, y, nickname, id, inventory, health) {
   this.selectedItem = 0;
   this.health = health;
   this.maxHealth = health; //maxHealth shouuld start at initial health, so the player has 100% health on spawn
+  this.xp = 0; //starting xp
+  this.level = 1; //starting level
+  this.levelUpAtXp = config.xpModel(this.level + 1);
 }
 
 function Spell(itemName, coolDown) { //Spell is the item in an inventory, not the entity
@@ -233,6 +238,10 @@ function physicsLoop() {
   for (var i = 0; i < game.players.length; i++) {
     var player = game.players[i];
 
+    player.levelUpAtXp = config.xpModel(player.level + 1);
+    if (player.xp >= player.levelUpAtXp) {
+      player.level++;
+    }
 
     for (var j = 0; j < player.inputs.length; j++) {
       var input = player.inputs[j];

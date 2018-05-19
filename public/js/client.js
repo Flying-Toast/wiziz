@@ -5,16 +5,17 @@ var mainScreen = document.querySelector('#mainScreen');
 var playButton = document.querySelector('#playButton');
 var nicknameInput = document.querySelector('#nicknameInput');
 var healthBar = document.querySelector('#health');
+var xpBar = document.querySelector('#xp');
 var gameScreen = document.querySelector('#game');
 var levelNumberDisplay = document.querySelector('#levelNumberDisplay');
 var xpNumberDisplay = document.querySelector('#xpNumberDisplay');
 var healthPercentDisplay = document.querySelector('#healthPercentDisplay');
 
-onbeforeunload = function() {
+/*onbeforeunload = function() {
   if (state === 'playing') {
     return ('You are still alive! Are you sure you want to leave?');
   }
-};
+};*/
 
 addEventListener('keydown', function(e) {
   if (e.ctrlKey && e.key === '-') {
@@ -410,6 +411,13 @@ function drawLoop() {
 
   healthBar.style.width = 'calc(' + (player.health / player.maxHealth * 100) + '%' + ' - 8px' + ')';
   healthPercentDisplay.innerText = Math.round(player.health / player.maxHealth * 100);
+  levelNumberDisplay.innerText = player.level;
+  if (player.xp < 1000) {
+    xpNumberDisplay.innerText = player.xp;
+  } else {
+    xpNumberDisplay.innerText = Math.floor(player.xp / 1000) + 'k';
+  }
+  xpBar.style.width = 'calc(' + (player.xp / player.levelUpAtXp * 100) + '%' + ' - 8px' + ')';
 
   inputs = inputs.concat(local.quedInputs); //load input que
   local.savedInputs = local.savedInputs.concat(local.quedInputs);
@@ -459,14 +467,14 @@ addEventListener('keydown', function(e) {
       id: local.inputNumber
     });
     local.inputNumber++;
-  } else if (local.controls[e.key]) {
-    local.movement[local.controls[e.key]] = true;
+  } else if (local.controls[e.key.toLowerCase()]) {
+    local.movement[local.controls[e.key.toLowerCase()]] = true;
   }
 });
 
 addEventListener('keyup', function(e) {
-  if (local.controls[e.key]) {
-    local.movement[local.controls[e.key]] = false;
+  if (local.controls[e.key.toLowerCase()]) {
+    local.movement[local.controls[e.key.toLowerCase()]] = false;
   }
 });
 
