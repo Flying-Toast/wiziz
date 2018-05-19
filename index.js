@@ -33,11 +33,9 @@ var config = {
     return (Math.pow(checkLevel - 1, 2) * 100);
   }, //returns the amount of xp needed to get to [checkLevel] param
   unlocks: {
-
     level2: {
       newSpells: ['freezeSpell', 'blindSpell'] //which new spells are unlocked at this level
     }
-
   }
 };
 var spells = { //inventory items
@@ -325,6 +323,7 @@ function physicsLoop() {
         case 'unlock':
           if (player.unlockedSpells.indexOf(input.chosenSpell) > -1) {
             player.inventory.push(spells[input.chosenSpell]());
+            player.unlockedSpells = [];
           }
           break;
         case 'cast':
