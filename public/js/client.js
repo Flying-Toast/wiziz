@@ -247,7 +247,7 @@ function fillInventory(inventory) {
 function drawLoop() {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
 
-  if (state === 'dead') {
+  if (state !== 'playing' || local.lastUpdate === 0) {
     return;
   }
 
@@ -329,14 +329,15 @@ function drawLoop() {
   grid.yOffset = -local.player.y;
 
   //spell explosion areas
-  for (var i = 0; i < game.effectAreas.length; i++) {
-    var area = game.effectAreas[i];
-    ctx.fillStyle = area.color;
-    ctx.beginPath();
-    ctx.arc(localCoords(area.location.x, 'x'), localCoords(area.location.y, 'y'), area.radius, 0, Math.PI * 2);
-    ctx.fill();
+  if (game.effectAreas) {
+    for (var i = 0; i < game.effectAreas.length; i++) {
+      var area = game.effectAreas[i];
+      ctx.fillStyle = area.color;
+      ctx.beginPath();
+      ctx.arc(localCoords(area.location.x, 'x'), localCoords(area.location.y, 'y'), area.radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
   }
-
 
   for (var i = 0; i < game.players.length; i++) {
     var currentPlayer = game.players[i];
