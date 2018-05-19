@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <meta name='keywords' content='iogame,spells,wizzard,sorcer,sorcery,multiplayer game'>
+  <meta name='keywords' content='iogame,spells,wizzard,io game,io,html game,online game,sorcer,sorcery,multiplayer game'>
   <meta name='description' content=''>
   <meta charset="utf-8">
 
@@ -213,15 +213,15 @@
       width: 100%;
       position: absolute;
       bottom: 0;
-      text-align: right;
+      text-align: left;
     }
 
     footer a {
-      font-size: 80%;
+      color: #272528;
     }
 
     #outerHealth {
-      height: 40px;
+      height: 30px;
       margin: 0 auto;
       position: absolute;
       bottom: 125px;
@@ -241,6 +241,41 @@
       -webkit-transform: translateY(-50%);
       border-radius: 7px;
       background-color: rgba(236, 236, 236, 0.8);
+    }
+
+    #outerXp {
+      height: 20px;
+      margin: 0 auto;
+      position: absolute;
+      bottom: 157px;
+      left: calc(50vw - (416px / 2));
+      width: 250px;
+      border-radius: 3px;
+      background-color: rgba(40, 41, 41, 0.7);
+    }
+
+    #xp {
+      width: 0px;
+      height: calc(100% - 8px);
+      position: absolute;
+      top: 50%;
+      left: 4px;
+      transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+      border-radius: 3px;
+      background-color: rgba(63, 214, 44, 0.8);
+    }
+
+    #level {
+      color: #000741;
+      position: absolute;
+      bottom: 157px;
+      left: calc(50vw - (416px / 2) + 253px);
+    }
+
+    #healthIcon {
+      position: relative;
+      top: 2px;
     }
   </style>
 </head>
@@ -262,13 +297,19 @@
         <p>even more stuff</p>
       </div>
     </div>
-    <footer><a href="credits.txt" target="_blank">credits</a></footer>
+    <footer>
+      <a href="legal.html" id='legal'>Legal</a>
+      <a href="credits.txt" target="_blank">credits</a></footer>
   </div>
 
   <div id="game">
     <canvas id='gridCanvas'></canvas>
     <canvas id='gameCanvas'></canvas>
     <div id="hud">
+      <div id='level'><span id='xpNumberDisplay'>0</span> XP | Lvl <span id='levelNumberDisplay'>1</span> | <span id='healthPercentDisplay'>100</span>% <img id='healthIcon' src="media/images/health.svg" alt="Health"></div>
+      <div id='outerXp'>
+        <div id="xp"></div>
+      </div>
       <div id='outerHealth'>
         <div id="health"></div>
       </div>

@@ -6,6 +6,9 @@ var playButton = document.querySelector('#playButton');
 var nicknameInput = document.querySelector('#nicknameInput');
 var healthBar = document.querySelector('#health');
 var gameScreen = document.querySelector('#game');
+var levelNumberDisplay = document.querySelector('#levelNumberDisplay');
+var xpNumberDisplay = document.querySelector('#xpNumberDisplay');
+var healthPercentDisplay = document.querySelector('#healthPercentDisplay');
 
 onbeforeunload = function() {
   if (state === 'playing') {
@@ -406,6 +409,7 @@ function drawLoop() {
   }
 
   healthBar.style.width = 'calc(' + (player.health / player.maxHealth * 100) + '%' + ' - 8px' + ')';
+  healthPercentDisplay.innerText = Math.round(player.health / player.maxHealth * 100);
 
   inputs = inputs.concat(local.quedInputs); //load input que
   local.savedInputs = local.savedInputs.concat(local.quedInputs);
