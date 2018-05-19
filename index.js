@@ -77,7 +77,12 @@ var spellEnts = { //spell entities
     radius: 10,
     playerCoolDown: 100, //delay between repetitions of effectArea affecting a certain player
     effect: function(affectedPlayer) { //effect of explosion area
-      console.log(affectedPlayer.nickname + ' got effected by ' + this.name);
+      if (!affectedPlayer.blinded) {
+        affectedPlayer.blinded = true;
+        setTimeout(function() {
+          affectedPlayer.blinded = false;
+        }, 2000);
+      }
     },
     color: 'rgba(0, 0, 0, 0.6)'
   }
@@ -149,6 +154,7 @@ function Player(x, y, nickname, id, inventory, health) {
   this.xp = 0; //starting xp
   this.level = 1; //starting level
   this.levelUpAtXp = config.xpModel(this.level + 1);
+  this.blinded = false;
 }
 
 function Spell(itemName, coolDown) { //Spell is the item in an inventory, not the entity
@@ -371,7 +377,6 @@ function physicsLoop() {
           id: player.id,
           time: Date.now()
         });
-        spell.caster.xp += 100;
       }
     }
 

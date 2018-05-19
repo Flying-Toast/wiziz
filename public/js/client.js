@@ -409,6 +409,11 @@ function drawLoop() {
     ctx.fill();*/
   }
 
+  if (player.blinded) {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.98)';
+    ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+  }
+
   healthBar.style.width = 'calc(' + (player.health / player.maxHealth * 100) + '%' + ' - 8px' + ')';
   healthPercentDisplay.innerText = Math.round(player.health / player.maxHealth * 100);
   levelNumberDisplay.innerText = player.level;
