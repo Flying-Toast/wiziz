@@ -1,5 +1,3 @@
-Add a larger inventory that stores all the spells you have gotten, and the hotbar is only the 4 spells that you have currently selected. press e to open inventory and swap out hotbar items for inventory items
-===
 BEFORE RELEASE: redo the mainScreen and make it look better, and be more responsive
 ===
-add a wiki (at wiki.sorcer.io) that has all the spells, their stats, and what they do
+add a page that explains all spells, their stats, and their effects (use ejs)

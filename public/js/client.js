@@ -215,7 +215,6 @@ onload = function() {
 function fillInventory(inventory) {
   if (!inventory) {
     spellWrapper.innerHTML = '';
-
     for (var i = 0; i < 4; i++) {
       var coolDownDisplay = document.createElement('div');
       coolDownDisplay.className = 'coolDownDisplay';
@@ -267,37 +266,50 @@ function fillInventory(inventory) {
   }
 }
 
-function fillStorage(storage) {
+function storageClickHandler(e) {
+  local.quedInputs.push({
+    type: 'swap',
+    storageIndex: e.target.id.slice(1),
+    id: local.inputNumber
+  });
+  local.inputNumber++;
+}
 
-  if (storage.length > 0) {
-    storageDiv.innerHTML = '';
-    for (var i = 0; i < storage.length; i++) {
-      var slot = document.createElement('img');
-      slot.src = sprites.src[storage[i].itemName];
-      slot.className = 'storageSlot';
-      slot.id = 'storageSlot' + (i + 1);
-      storageDiv.appendChild(slot);
-    }
-    if (storage.length < 10) {
-      for (var i = 0; i < 10 - storage.length; i++) {
-        var slot = document.createElement('img');
-        slot.src = 'media/images/inventorySlot.png';
-        slot.className = 'storageSlot';
-        slot.id = 'storageSlot' + (i + 1);
-        storageDiv.appendChild(slot);
-      }
-    }
-  } else if (storage.length === 0) {
-    storageDiv.innerHTML = '';
+function fillStorage(storage) {
+  var totalSlots = storageDiv.children.length;
+
+  if (totalSlots === 0) {
+
     for (var i = 0; i < 10; i++) {
       var slot = document.createElement('img');
       slot.src = 'media/images/inventorySlot.png';
       slot.className = 'storageSlot';
-      slot.id = 'storageSlot' + (i + 1);
+      slot.id = 's' + i;
+      slot.addEventListener('click', storageClickHandler);
+      storageDiv.appendChild(slot);
+    }
+
+  }
+
+  if (!storage) {
+    return;
+  }
+
+  if (storage.length > totalSlots) {
+    for (var i = 0; i < storage.length - totalSlots; i++) {
+      var slot = document.createElement('img');
+      slot.src = 'media/images/inventorySlot.png';
+      slot.className = 'storageSlot';
+      slot.id = 's' + i;
+      slot.addEventListener('click', storageClickHandler);
       storageDiv.appendChild(slot);
     }
   }
 
+  for (var i = 0; i < storage.length; i++) {
+    var currentItem = storage[i];
+    document.querySelector('#s' + i).src = sprites.src[currentItem.itemName];
+  }
 }
 
 function toggleStorage() {

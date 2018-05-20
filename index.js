@@ -362,6 +362,15 @@ function physicsLoop() {
             }
           }
           break;
+        case 'swap':
+          if (player.storage[input.storageIndex]) {
+            console.log('hi');
+            var storageItem = player.storage[input.storageIndex];
+            var inventoryItem = player.inventory[player.selectedItem];
+            player.storage[input.storageIndex] = inventoryItem;
+            player.inventory[player.selectedItem] = storageItem;
+          }
+          break;
         case 'cast':
           if (!player.inventory[player.selectedItem].cooling) {
             if (spellEnts[player.inventory[player.selectedItem].itemName].type === 'projectile') {
