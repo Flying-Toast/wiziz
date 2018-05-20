@@ -5,3 +5,5 @@ BUG: spells don't always get casted when player clicks, but the coolDownDisplay 
 BUG: sometimes, when the client selects a spell from the unlockedSpells menu, the menu closes, the image click event is fired, callback function is fired, input gets pushed into local.quedInputs, but the server never receives the 'unlock' input
 ===
 redo the mainScreen and make it look better, and be more responsive
+===
+add a wiki (at wiki.sorcer.io) that has all the spells, their stats, and what they do
