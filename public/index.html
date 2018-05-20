@@ -341,8 +341,12 @@
 
     #leaderboard {
       display: inline-block;
-      background-color: orange;
+      background-color: rgba(187, 187, 187, 0.75);
       padding: 8px;
+      position: absolute;
+      right: 4px;
+      border-radius: 4px;
+      top: 4px;
     }
 
     #leadersList li {
@@ -355,11 +359,25 @@
 
     #leaderboardHeader {
       text-align: center;
+      color: #41148c;
       margin: 0;
+    }
+
+    .playerLi {
+      padding: 0 1ch;
     }
 
     .nickname {
       padding: 0 1ch;
+    }
+
+    .score {
+      color: #147e06;
+    }
+
+    .self {
+      border-radius: 5px;
+      background-color: #e4dc1d;
     }
   </style>
 </head>
