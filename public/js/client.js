@@ -1,5 +1,7 @@
 var inventoryDiv = document.querySelector('#inventory');
+var storageDiv = document.querySelector('#storage');
 var spellWrapper = document.querySelector('#spellWrapper');
+var storageWrapper = document.querySelector('#storageWrapper');
 var gameCanvas = document.querySelector('#gameCanvas');
 var mainScreen = document.querySelector('#mainScreen');
 var playButton = document.querySelector('#playButton');
@@ -46,7 +48,8 @@ var sprites = {
   src: {
     fireSpell: 'media/images/fireSpell.png',
     freezeSpell: 'media/images/freezeSpell.png',
-    blindSpell: 'media/images/blindSpell.png'
+    blindSpell: 'media/images/blindSpell.png',
+    openStorage: 'media/images/openStorage.png'
   },
   effects: {
     fireSpell: createSprite('media/images/fireEffect.png'),
@@ -82,6 +85,9 @@ var local = {
     a: 'l',
     d: 'r'
   },
+  keymap: {
+    e: 'toggleStorage'
+  },
   movement: {
     u: false,
     d: false,
@@ -89,7 +95,6 @@ var local = {
     r: false
   }
 };
-
 
 function createSprite(src) {
   var sprite = document.createElement('img');
@@ -168,6 +173,10 @@ socket.on('update', function(updatedGame) {
     document.querySelector('#inventorySlot' + (player.selectedItem + 1)).src = document.querySelector('#inventorySlot' + (player.selectedItem + 1)).src.replace('.png', 'Selected.png');
   }
 
+  if (player.storage) {
+    fillStorage(player.storage);
+  }
+
   var indexOfLastInput = local.savedInputs.indexOf(local.savedInputs.find(function(element) {
     return (element.id === player.lastInput);
   }));
@@ -237,6 +246,13 @@ function fillInventory(inventory) {
       slotImg.className = 'inventorySlot';
       spellWrapper.appendChild(slotImg);
     }
+    var openStorage = createSprite(sprites.src.openStorage);
+    openStorage.className = 'inventorySlot';
+    openStorage.addEventListener('dragstart', function(e) {
+      e.preventDefault();
+    });
+    openStorage.addEventListener('click', toggleStorage);
+    spellWrapper.appendChild(openStorage);
   } else {
     for (var i = 0; i < inventory.length; i++) {
       var item = document.querySelector('#inventorySlot' + (i + 1));
@@ -247,6 +263,47 @@ function fillInventory(inventory) {
   }
 }
 
+function fillStorage(storage) {
+
+  if (storage.length > 0) {
+    storageDiv.innerHTML = '';
+    for (var i = 0; i < storage.length; i++) {
+      var slot = document.createElement('img');
+      slot.src = sprites.src[storage[i].itemName];
+      slot.className = 'storageSlot';
+      slot.id = 'storageSlot' + (i + 1);
+      storageDiv.appendChild(slot);
+    }
+    if (storage.length < 10) {
+      for (var i = 0; i < 10 - storage.length; i++) {
+        var slot = document.createElement('img');
+        slot.src = 'media/images/inventorySlot.png';
+        slot.className = 'storageSlot';
+        slot.id = 'storageSlot' + (i + 1);
+        storageDiv.appendChild(slot);
+      }
+    }
+  } else if (storage.length === 0) {
+    storageDiv.innerHTML = '';
+    for (var i = 0; i < 10; i++) {
+      var slot = document.createElement('img');
+      slot.src = 'media/images/inventorySlot.png';
+      slot.className = 'storageSlot';
+      slot.id = 'storageSlot' + (i + 1);
+      storageDiv.appendChild(slot);
+    }
+  }
+
+}
+
+function toggleStorage() {
+  if (storageWrapper.style.display === '') {
+    storageWrapper.style.display = 'block';
+  } else {
+    storageWrapper.style.display = '';
+  }
+}
+
 function drawLoop() {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
 
@@ -254,7 +311,6 @@ function drawLoop() {
     return;
   }
 
-  //TODO: combine rotate and movement inputs into one input
   local.quedInputs.push({
     type: 'translate',
     facing: local.facing,
@@ -277,7 +333,6 @@ function drawLoop() {
       image.id = currentSpellName;
       chooseUnlockedSpells.appendChild(image);
       image.addEventListener('click', function(e) {
-        console.log('a spell was just clicked to be unlocked');
         local.quedInputs.push({
           type: 'unlock',
           chosenSpell: e.target.id,
@@ -461,8 +516,10 @@ addEventListener('mousemove', function(e) {
 });
 
 addEventListener('wheel', function(e) {
-  if (state === 'playing') {
+  if (e.ctrlKey) {
     e.preventDefault();
+  }
+  if (state === 'playing' && e.target.id === 'gameCanvas') {
     if (e.deltaY > 0) {
       local.quedInputs.push({
         type: 'select',
@@ -489,8 +546,10 @@ addEventListener('keydown', function(e) {
       id: local.inputNumber
     });
     local.inputNumber++;
-  } else if (local.controls[e.key.toLowerCase()]) {
+  } else if (local.controls[e.key.toLowerCase()] && state === 'playing') {
     local.movement[local.controls[e.key.toLowerCase()]] = true;
+  } else if (local.keymap[e.key.toLowerCase()] === 'toggleStorage' && state === 'playing') {
+    toggleStorage();
   }
 });
 

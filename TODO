@@ -3,5 +3,3 @@ Add a larger inventory that stores all the spells you have gotten, and the hotba
 BEFORE RELEASE: redo the mainScreen and make it look better, and be more responsive
 ===
 add a wiki (at wiki.sorcer.io) that has all the spells, their stats, and what they do
-===
-BUG: if player's inventory.length is greater than 4 (or whatever the hotbar size is), new unlocked spells will still be pushed to the inventory, causing the inventory to be longer than 4 (or whatever the hotbar size is).

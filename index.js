@@ -28,6 +28,7 @@ game.playerMap = new hashmap();
 var config = {
   playerSpeed: 1 / 6, //pixels per millisecond
   playerRadius: 65,
+  hotbarLength: 4,
   playerStartHealth: 1000,
   xpModel: function(checkLevel) {
     return (Math.pow(checkLevel, 2) * 100);
@@ -154,6 +155,7 @@ function Player(x, y, nickname, id, inventory, health) {
   this.nickname = xss(nickname.substring(0, 15));
   this.id = id;
   this.inventory = inventory;
+  this.storage = [];
   this.inputs = [];
   this.quedInputs = [];
   this.angle = 0;
@@ -320,8 +322,13 @@ function physicsLoop() {
           break;
         case 'unlock':
           if (player.unlockedSpells.indexOf(input.chosenSpell) > -1) {
-            player.inventory.push(spells[input.chosenSpell]());
-            player.unlockedSpells = [];
+            if (player.inventory.length < config.hotbarLength) {
+              player.inventory.push(spells[input.chosenSpell]());
+              player.unlockedSpells = [];
+            } else {
+              player.storage.push(spells[input.chosenSpell]());
+              player.unlockedSpells = [];
+            }
           }
           break;
         case 'cast':

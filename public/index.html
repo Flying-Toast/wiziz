@@ -314,6 +314,30 @@
     #newSpellsSubcaption {
       font-size: 200%;
     }
+
+    #storageWrapper {
+      display: none;
+      position: absolute;
+      text-align: center;
+      left: 50%;
+      top: 20vh;
+      -webkit-transform: translateX(-50%);
+      transform: translateX(-50%);
+    }
+
+    #storage {
+      border-radius: 10px;
+      border: 10px solid #3a8fee;
+      overflow-y: auto;
+      display: inline-block;
+      height: 30vh;
+      background-color: #BBBBBB;
+    }
+
+    .storageSlot {
+      margin: 2.5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 
@@ -343,6 +367,10 @@
     <canvas id='gridCanvas'></canvas>
     <canvas id='gameCanvas'></canvas>
     <div id="hud">
+      <div id="storageWrapper">
+        <div id="storage">
+        </div>
+      </div>
       <div id='chooseUnlockedSpellsWrapper'>
         <p id='newSpellsCaption'>New spells unlocked!</p>
         <p id='newSpellsSubcaption'>(click to choose new spell)</p>
