@@ -1,2 +1,7 @@
-Add a larger inventory that stores all the spells you have gotten, and the hotbar is only the ones that you have currently selected. press e to open inventory and swap out hotbar items for inventory items
+Add a larger inventory that stores all the spells you have gotten, and the hotbar is only the 4 spells that you have currently selected. press e to open inventory and swap out hotbar items for inventory items
 ===
+BUG: spells don't always get casted when player clicks, but the coolDownDisplay turns on, and the sound plays even if the spell wasn't successfully casted
+===
+BUG: sometimes, when the client selects a spell from the unlockedSpells menu, the menu closes, the image click event is fired, callback function is fired, input gets pushed into local.quedInputs, but the server never receives the 'unlock' input
+===
+redo the mainScreen and make it look better, and be more responsive

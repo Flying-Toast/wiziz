@@ -11,6 +11,7 @@ var levelNumberDisplay = document.querySelector('#levelNumberDisplay');
 var xpNumberDisplay = document.querySelector('#xpNumberDisplay');
 var healthPercentDisplay = document.querySelector('#healthPercentDisplay');
 var chooseUnlockedSpells = document.querySelector('#chooseUnlockedSpells');
+var chooseUnlockedSpellsWrapper = document.querySelector('#chooseUnlockedSpellsWrapper');
 
 /*onbeforeunload = function() {
   if (state === 'playing') {
@@ -273,7 +274,7 @@ function drawLoop() {
   if (player.unlockedSpells && player.unlockedSpells.length > 0 && !local.chosingUnlock && local.lastChosenUnlock < player.level) {
     chooseUnlockedSpells.innerHTML = '';
     local.chosingUnlock = true;
-    chooseUnlockedSpells.style.display = 'inline-block';
+    chooseUnlockedSpellsWrapper.style.display = 'inline-block';
     for (var i = 0; i < player.unlockedSpells.length; i++) {
       var currentSpellName = player.unlockedSpells[i];
 
@@ -282,6 +283,7 @@ function drawLoop() {
       image.id = currentSpellName;
       chooseUnlockedSpells.appendChild(image);
       image.addEventListener('click', function(e) {
+        console.log('a spell was just clicked to be unlocked');
         local.quedInputs.push({
           type: 'unlock',
           chosenSpell: e.target.id,
@@ -291,7 +293,7 @@ function drawLoop() {
 
         local.chosingUnlock = false;
         local.lastChosenUnlock++;
-        chooseUnlockedSpells.style.display = '';
+        chooseUnlockedSpellsWrapper.style.display = '';
       });
 
     }
@@ -548,6 +550,12 @@ function castSpell(e) {
 }
 
 gameCanvas.addEventListener('click', castSpell);
+chooseUnlockedSpellsWrapper.addEventListener('click', function(e) {
+  if (e.target.id !== 'chooseUnlockedSpells' && e.target.parentElement.id !== 'chooseUnlockedSpells') {
+    castSpell(e);
+  }
+});
+
 
 lerp = function(p, n, t) {
   var t = Number(t);

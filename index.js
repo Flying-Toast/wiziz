@@ -321,6 +321,7 @@ function physicsLoop() {
           }
           break;
         case 'unlock':
+          console.log(input.chosenSpell);
           if (player.unlockedSpells.indexOf(input.chosenSpell) > -1) {
             player.inventory.push(spells[input.chosenSpell]());
             player.unlockedSpells = [];

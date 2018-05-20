@@ -286,14 +286,33 @@
       top: 2px;
     }
 
-    #chooseUnlockedSpells {
+    #chooseUnlockedSpellsWrapper {
       display: none;
-      border: 8px solid lime;
+      text-align: center;
+      position: absolute;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      transform: translateX(-50%);
     }
 
     #chooseUnlockedSpells img {
       margin: 2.5px;
       cursor: pointer;
+    }
+
+    #chooseUnlockedSpells {
+      border-radius: 10px;
+      display: inline-block;
+      border: 10px solid #3a8fee;
+      background-color: #BBBBBB;
+    }
+
+    #newSpellsCaption {
+      font-size: 300%;
+    }
+
+    #newSpellsSubcaption {
+      font-size: 200%;
     }
   </style>
 </head>
@@ -324,7 +343,11 @@
     <canvas id='gridCanvas'></canvas>
     <canvas id='gameCanvas'></canvas>
     <div id="hud">
-      <div id='chooseUnlockedSpells'></div>
+      <div id='chooseUnlockedSpellsWrapper'>
+        <p id='newSpellsCaption'>New spells unlocked!</p>
+        <p id='newSpellsSubcaption'>(click to choose new spell)</p>
+        <div id="chooseUnlockedSpells"></div>
+      </div>
       <div id='level'><span id='xpNumberDisplay'></span> XP | Lvl <span id='levelNumberDisplay'></span> | <span id='healthPercentDisplay'></span>% <img id='healthIcon' src="media/images/health.svg" alt="Health"></div>
       <div id='outerXp'>
         <div id="xp"></div>
