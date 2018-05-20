@@ -364,7 +364,6 @@ function physicsLoop() {
           break;
         case 'swap':
           if (player.storage[input.storageIndex]) {
-            console.log('hi');
             var storageItem = player.storage[input.storageIndex];
             var inventoryItem = player.inventory[player.selectedItem];
             player.storage[input.storageIndex] = inventoryItem;
