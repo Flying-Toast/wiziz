@@ -29,6 +29,7 @@ var config = {
   playerSpeed: 1 / 6, //pixels per millisecond
   playerRadius: 65,
   hotbarLength: 4,
+  maxLeaderboardLength: 10,
   playerStartHealth: 1000,
   xpModel: function(checkLevel) {
     return (Math.pow(checkLevel, 2) * 100);
@@ -245,6 +246,7 @@ function EffectArea(location, radius, explosionTime, ttl, color, name, playerCoo
 function updateLoop() {
   var updatedGame = JSON.parse(JSON.stringify(game));
   updatedGame.playerMap = undefined;
+  updatedGame.leaderboard = getLeaders();
   for (var i = 0; i < updatedGame.players.length; i++) {
     var currentPlayer = updatedGame.players[i];
     currentPlayer.inputs = undefined;
@@ -252,6 +254,35 @@ function updateLoop() {
   }
 
   server.io.emit('update', updatedGame);
+}
+
+function getLeaders() {
+  leaderboard = [];
+
+  for (var i = 0; i < game.players.length; i++) {
+    var checkingPlayer = Object.assign({}, game.players[i]);
+
+    var pair = [checkingPlayer.nickname, checkingPlayer.xp, 0, checkingPlayer.id];
+
+    leaderboard.push(pair);
+  }
+
+  leaderboard.sort(function(a, b) {
+    return a[1] - b[1];
+  });
+
+  leaderboard.reverse();
+
+  for (var i = 1; i <= leaderboard.length; i++) {
+    leaderboard[i - 1][2] = i;
+  }
+
+  if (leaderboard.length <= config.maxLeaderboardLength) {
+    return (leaderboard);
+  } else {
+    leaderboard.splice(config.maxLeaderboardLength)
+    return (leaderboard);
+  }
 }
 
 function physicsLoop() {

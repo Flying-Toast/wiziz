@@ -177,6 +177,10 @@ socket.on('update', function(updatedGame) {
     fillStorage(player.storage);
   }
 
+  if (game.leaderboard) {
+    updateLeaderboard(game.leaderboard);
+  }
+
   var indexOfLastInput = local.savedInputs.indexOf(local.savedInputs.find(function(element) {
     return (element.id === player.lastInput);
   }));
@@ -598,6 +602,74 @@ chooseUnlockedSpellsWrapper.addEventListener('click', function(e) {
   }
 });
 
+function updateLeaderboard(leaderboard) {
+  if (!document.getElementById('leaderboard')) {
+    leaderboardElement = document.createElement('div');
+    leaderboardElement.id = 'leaderboard';
+
+    var header = document.createElement('h4');
+    header.id = 'leaderboardHeader';
+    header.innerText = 'Leaderboard';
+
+    leadersList = document.createElement('ul');
+    leadersList.id = 'leadersList';
+
+    leaderboardElement.appendChild(header);
+    leaderboardElement.appendChild(leadersList);
+
+    document.body.appendChild(leaderboardElement);
+  }
+
+  if (leaderboardElement.innerHTML === '') {
+    var header = document.createElement('h4');
+    header.id = 'leaderboardHeader';
+    header.innerText = 'Leaderboard';
+
+    leadersList = document.createElement('ul');
+    leadersList.id = 'leadersList';
+
+    leaderboardElement.appendChild(header);
+    leaderboardElement.appendChild(leadersList);
+  }
+
+  leadersList.innerHTML = '';
+
+  for (var i = 0; i < leaderboard.length; i++) {
+    var nickname = leaderboard[i][0];
+    var score = leaderboard[i][1];
+    var place = leaderboard[i][2];
+    var id = leaderboard[i][3];
+
+    var playerLi = document.createElement('li');
+    playerLi.className = 'playerLi';
+    if (id === player.id) {
+      playerLi.className += ' self';
+    }
+    var nicknameSpan = document.createElement('span');
+    nicknameSpan.className = 'nickname';
+    var scoreSpan = document.createElement('span');
+    scoreSpan.className = 'score';
+    var placeSpan = document.createElement('span');
+    placeSpan.className = 'place';
+
+    nicknameSpan.innerText = nickname;
+
+    if (score < 1000) {
+      scoreSpan.innerText = score;
+    } else {
+      scoreSpan.innerText = Math.floor(score / 1000) + 'k';
+    }
+
+    placeSpan.innerText = place + '.';
+
+    playerLi.appendChild(placeSpan);
+    playerLi.appendChild(nicknameSpan);
+    playerLi.appendChild(scoreSpan);
+
+    leadersList.appendChild(playerLi);
+  }
+
+}
 
 lerp = function(p, n, t) {
   var t = Number(t);
