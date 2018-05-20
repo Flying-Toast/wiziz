@@ -256,16 +256,10 @@ function drawLoop() {
 
   //TODO: combine rotate and movement inputs into one input
   local.quedInputs.push({
-    type: 'rotate',
+    type: 'translate',
     facing: local.facing,
     windowWidth: innerWidth,
     windowHeight: innerHeight,
-    id: local.inputNumber
-  });
-  local.inputNumber++;
-
-  local.quedInputs.push({
-    type: 'movement',
     states: local.movement,
     id: local.inputNumber
   });
@@ -305,7 +299,7 @@ function drawLoop() {
     var input = local.savedInputs[i];
 
     switch (input.type) {
-      case 'movement':
+      case 'translate':
         if (local.player.lastMove) {
           var dt = Date.now() - local.player.lastMove;
         } else {

@@ -30,7 +30,7 @@ var config = {
   playerRadius: 65,
   playerStartHealth: 1000,
   xpModel: function(checkLevel) {
-    return (Math.pow(checkLevel - 1, 2) * 100);
+    return (Math.pow(checkLevel, 2) * 100);
   }, //returns the amount of xp needed to get to [checkLevel] param
   unlocks: {
     level2: {
@@ -269,7 +269,7 @@ function physicsLoop() {
       var input = player.inputs[j];
 
       switch (input.type) {
-        case 'movement':
+        case 'translate':
 
           if (player.lastMove !== 0) {
             var dt = Date.now() - player.lastMove;
@@ -307,8 +307,6 @@ function physicsLoop() {
           }
 
           player.lastMove = Date.now();
-          break;
-        case 'rotate':
           player.angle = Math.atan2(input.facing.x - input.windowWidth / 2, -(input.facing.y - input.windowHeight / 2));
           break;
         case 'select':
@@ -321,7 +319,6 @@ function physicsLoop() {
           }
           break;
         case 'unlock':
-          console.log(input.chosenSpell);
           if (player.unlockedSpells.indexOf(input.chosenSpell) > -1) {
             player.inventory.push(spells[input.chosenSpell]());
             player.unlockedSpells = [];
