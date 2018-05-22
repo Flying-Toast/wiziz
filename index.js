@@ -36,7 +36,7 @@ var config = {
   }, //returns the amount of xp needed to get to [checkLevel] param
   unlocks: {
     level2: {
-      newSpells: ['freezeSpell', 'blindSpell'] //which new spells are unlocked at this level
+      newSpells: ['freezeSpell', 'blindSpell', 'healSpell'] //which new spells are unlocked at this level
     }
   }
 };
@@ -86,6 +86,24 @@ var spellEnts = { //spell entities
       }
     },
     color: 'rgba(0, 0, 0, 0.6)'
+  },
+  healSpell: {
+    name: 'healSpell',
+    speed: 0.7,
+    range: 1,
+    type: 'splash',
+    explosionRadius: 90,
+    ttl: 4500,
+    radius: 1,
+    playerCoolDown: 500, //delay between repetitions of effectArea affecting a certain player
+    effect: function(affectedPlayer) { //effect of explosion area
+      if (affectedPlayer.health + (affectedPlayer.maxHealth / 10) < affectedPlayer.maxHealth) {
+        affectedPlayer.health += (affectedPlayer.maxHealth / 10);
+      } else {
+        affectedPlayer.health = affectedPlayer.maxHealth;
+      }
+    },
+    color: 'rgba(232, 196, 6, 0.6)'
   }
 };
 var spells = { //inventory items
@@ -97,6 +115,9 @@ var spells = { //inventory items
   },
   blindSpell: function() {
     return (new Spell('blindSpell', 4000));
+  },
+  healSpell: function() {
+    return (new Spell('healSpell', 15000));
   }
 };
 
