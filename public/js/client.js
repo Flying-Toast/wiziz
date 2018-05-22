@@ -511,11 +511,7 @@ function drawLoop() {
   healthBar.style.width = 'calc(' + (player.health / player.maxHealth * 100) + '%' + ' - 8px' + ')';
   healthPercentDisplay.innerText = Math.round(player.health / player.maxHealth * 100);
   levelNumberDisplay.innerText = player.level;
-  if (player.xp < 1000) {
-    xpNumberDisplay.innerText = player.xp;
-  } else {
-    xpNumberDisplay.innerText = Math.floor(player.xp / 1000) + 'k';
-  }
+  xpNumberDisplay.innerText = player.xp;
   xpBar.style.width = 'calc(' + (player.xp / player.levelUpAtXp * 100) + '%' + ' - 8px' + ')';
 
   inputs = inputs.concat(local.quedInputs); //load input que
@@ -671,13 +667,7 @@ function updateLeaderboard(leaderboard) {
     placeSpan.className = 'place';
 
     nicknameSpan.innerText = nickname;
-
-    if (score < 1000) {
-      scoreSpan.innerText = score;
-    } else {
-      scoreSpan.innerText = Math.floor(score / 1000) + 'k';
-    }
-
+    scoreSpan.innerText = score;
     placeSpan.innerText = place + '.';
 
     playerLi.appendChild(placeSpan);
