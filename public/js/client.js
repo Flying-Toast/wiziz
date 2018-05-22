@@ -33,6 +33,26 @@ nicknameInput.addEventListener('keydown', function(e) {
   }
 });
 
+playButton.addEventListener('click', function() {
+  var playerOptions = {
+    nickname: nicknameInput.value
+  };
+  local.movement = {
+    u: false,
+    d: false,
+    l: false,
+    r: false
+  };
+  socket.emit('newGame', playerOptions);
+  fillInventory();
+  fillInventory(local.startingInventory);
+
+  mainScreen.style.display = 'none';
+  local.lastTime = performance.now();
+  requestAnimationFrame(drawLoop);
+  state = 'playing';
+});
+
 var ctx = gameCanvas.getContext('2d');
 
 var game = {};
@@ -197,25 +217,7 @@ socket.on('update', function(updatedGame) {
 });
 
 onload = function() {
-  playButton.addEventListener('click', function() {
-    var playerOptions = {
-      nickname: nicknameInput.value
-    };
-    local.movement = {
-      u: false,
-      d: false,
-      l: false,
-      r: false
-    };
-    socket.emit('newGame', playerOptions);
-    fillInventory();
-    fillInventory(local.startingInventory);
-
-    mainScreen.style.display = 'none';
-    local.lastTime = performance.now();
-    requestAnimationFrame(drawLoop);
-    state = 'playing';
-  })
+  document.querySelector('#loading').style.display = 'none';
 };
 
 function fillInventory(inventory) {

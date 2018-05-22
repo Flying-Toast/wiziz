@@ -382,10 +382,52 @@
     .score {
       font-family: newRocker;
     }
+
+    #loading {
+      width: 100vw;
+      height: 100vh;
+      background-color: #c9c9c9;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 20;
+    }
+
+    #loaderText {
+      font-family: newRocker;
+      color: #41148c;
+      text-align: center;
+      width: 100vw;
+      font-size: 400%;
+      position: absolute;
+      top: 40vh;
+    }
+
+    #loaderText::after {
+      content: '';
+      animation-duration: 1.3s;
+      animation-iteration-count: infinite;
+      animation-name: loader;
+    }
+
+    @keyframes loader {
+      30% {
+        content: '.';
+      }
+      60% {
+        content: '..';
+      }
+      90% {
+        content: '...';
+      }
+    }
   </style>
 </head>
 
 <body>
+  <div id='loading'>
+    <p id='loaderText'>Loading</p>
+  </div>
   <div id="mainScreen" class="overlay">
     <header>
       <h1>SORCER.io</h1>
@@ -403,7 +445,7 @@
       </div>
     </div>
     <footer>
-      <a href="legal.html" id='legal'>Legal</a>
+      <a href="legal.html" target='_blank' id='legal'>Legal</a>
       <a href="credits.txt" target="_blank">credits</a></footer>
   </div>
 
