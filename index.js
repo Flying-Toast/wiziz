@@ -44,6 +44,7 @@ var spellEnts = { //spell entities
   fireSpell: {
     name: 'fireSpell',
     speed: 1,
+    xpGain: 100,
     range: 700,
     radius: 10,
     type: 'projectile',
@@ -54,6 +55,7 @@ var spellEnts = { //spell entities
   freezeSpell: {
     name: 'freezeSpell',
     speed: 0.7,
+    xpGain: 200,
     range: 500,
     radius: 10,
     effectWearOff: 3000,
@@ -69,6 +71,7 @@ var spellEnts = { //spell entities
   },
   blindSpell: {
     name: 'blindSpell',
+    xpGain: 120,
     speed: 0.7,
     range: 700,
     type: 'splash',
@@ -90,6 +93,7 @@ var spellEnts = { //spell entities
   healSpell: {
     name: 'healSpell',
     speed: 0.7,
+    xpGain: 350,
     range: 1,
     type: 'splash',
     explosionRadius: 90,
@@ -200,8 +204,9 @@ function Spell(itemName, coolDown) { //Spell is the item in an inventory, not th
   this.cooling = false;
 }
 
-function ProjectileSpell(origin, target, speed, caster, range, name, effect, radius) {
+function ProjectileSpell(origin, target, speed, caster, range, name, effect, radius, xpGain) {
   this.radius = radius;
+  this.xpGain = xpGain;
   this.origin = origin; //where the spell is cast from, should be an object with x and y properties
   this.name = name; //name of the spell eg. "fireSpell"
   this.target = {
@@ -241,8 +246,8 @@ ProjectileSpell.prototype.tick = function() {
   //check collisions with player:
 };
 
-function SplashSpell(origin, target, speed, caster, explosionRadius, ttl, range, name, effect, color, radius, playerCoolDown) {
-  ProjectileSpell.call(this, origin, target, speed, caster, range, name, function() {}, radius);
+function SplashSpell(origin, target, speed, caster, explosionRadius, ttl, range, name, effect, color, radius, playerCoolDown, xpGain) {
+  ProjectileSpell.call(this, origin, target, speed, caster, range, name, function() {}, radius, xpGain);
   this.type = 'splash';
   this.explosionRadius = explosionRadius;
   this.ttl = ttl; //the time to live after the explosion
@@ -400,7 +405,7 @@ function physicsLoop() {
               }, {
                 x: input.mouse.x,
                 y: input.mouse.y
-              }, spellEnts[player.inventory[player.selectedItem].itemName].speed, player, spellEnts[player.inventory[player.selectedItem].itemName].range, spellEnts[player.inventory[player.selectedItem].itemName].name, spellEnts[player.inventory[player.selectedItem].itemName].effect, spellEnts[player.inventory[player.selectedItem].itemName].radius));
+              }, spellEnts[player.inventory[player.selectedItem].itemName].speed, player, spellEnts[player.inventory[player.selectedItem].itemName].range, spellEnts[player.inventory[player.selectedItem].itemName].name, spellEnts[player.inventory[player.selectedItem].itemName].effect, spellEnts[player.inventory[player.selectedItem].itemName].radius, spellEnts[player.inventory[player.selectedItem].itemName].xpGain));
             } else {
               game.spells.push(new SplashSpell({
                 x: player.x,
@@ -408,7 +413,7 @@ function physicsLoop() {
               }, {
                 x: input.mouse.x,
                 y: input.mouse.y
-              }, spellEnts[player.inventory[player.selectedItem].itemName].speed, player, spellEnts[player.inventory[player.selectedItem].itemName].explosionRadius, spellEnts[player.inventory[player.selectedItem].itemName].ttl, spellEnts[player.inventory[player.selectedItem].itemName].range, spellEnts[player.inventory[player.selectedItem].itemName].name, spellEnts[player.inventory[player.selectedItem].itemName].effect, spellEnts[player.inventory[player.selectedItem].itemName].color, spellEnts[player.inventory[player.selectedItem].itemName].radius, spellEnts[player.inventory[player.selectedItem].itemName].playerCoolDown));
+              }, spellEnts[player.inventory[player.selectedItem].itemName].speed, player, spellEnts[player.inventory[player.selectedItem].itemName].explosionRadius, spellEnts[player.inventory[player.selectedItem].itemName].ttl, spellEnts[player.inventory[player.selectedItem].itemName].range, spellEnts[player.inventory[player.selectedItem].itemName].name, spellEnts[player.inventory[player.selectedItem].itemName].effect, spellEnts[player.inventory[player.selectedItem].itemName].color, spellEnts[player.inventory[player.selectedItem].itemName].radius, spellEnts[player.inventory[player.selectedItem].itemName].playerCoolDown, spellEnts[player.inventory[player.selectedItem].itemName].xpGain));
 
             }
             player.inventory[player.selectedItem].lastCast = Date.now();
@@ -447,7 +452,7 @@ function physicsLoop() {
         if (spell.type === 'projectile') {
           spellEnts[spell.name].effect(player);
         }
-        spell.caster.xp += 100;
+        spell.caster.xp += spell.xpGain;
         spell.die();
       }
     }
