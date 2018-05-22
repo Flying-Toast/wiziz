@@ -26,7 +26,7 @@ game.spells = [];
 game.effectAreas = [];
 game.playerMap = new hashmap();
 var config = {
-  playerSpeed: 1 / 6, //pixels per millisecond
+  playerSpeed: 1 / 4.5, //pixels per millisecond
   playerRadius: 65,
   hotbarLength: 4,
   maxLeaderboardLength: 10,

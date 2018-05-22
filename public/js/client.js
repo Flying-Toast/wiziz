@@ -470,7 +470,12 @@ function drawLoop() {
       ctx.rotate(currentPlayer.angle);
       ctx.drawImage(sprites.players.red, -sprites.players.red.width / 2, -sprites.players.red.height / 2);
       ctx.restore();
-
+      ctx.save();
+      ctx.translate(localCoords(lastCurrentPlayer.x, 'x'), localCoords(lastCurrentPlayer.y, 'y'));
+      ctx.font = "20px newRocker";
+      ctx.fillStyle = '#2dafaf';
+      ctx.fillText(currentPlayer.nickname, -(ctx.measureText(currentPlayer.nickname).width / 2), 80);
+      ctx.restore();
     }
   }
 
