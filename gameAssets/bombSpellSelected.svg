@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="100"
+   height="100"
+   viewBox="0 0 26.458332 26.458332"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.3 (unknown)"
+   sodipodi:docname="bombSpellSelected.svg"
+   inkscape:export-filename="/home/octo/Downloads/sorcerio/concepts/inventorySlot.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="2.5451964"
+     inkscape:cy="42.733864"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     units="mm"
+     inkscape:window-width="1215"
+     inkscape:window-height="1000"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:snap-global="false"
+     showguides="false" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-61.818011,-113.47366)">
+    <g
+       id="g1028"
+       inkscape:export-filename="/home/octo/Downloads/sorcerio/public/media/images/bombSpellSelected.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         ry="1.5345837"
+         y="113.47366"
+         x="61.818008"
+         height="26.458334"
+         width="26.458334"
+         id="rect817"
+         style="opacity:1;fill:#eed727;fill-opacity:1;stroke:none;stroke-width:0.19999999;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:3.96396852;stroke-opacity:0.66972477" />
+      <rect
+         style="opacity:1;fill:#862626;fill-opacity:1;stroke:none;stroke-width:0.16999999;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:3.96396852;stroke-opacity:0.66972477"
+         id="rect991"
+         width="22.489582"
+         height="22.489582"
+         x="63.827442"
+         y="115.41628"
+         ry="1.3043962" />
+      <g
+         id="g951">
+        <circle
+           style="fill:#000000;fill-rule:evenodd;stroke-width:0.02402962"
+           id="path880"
+           cx="73.205841"
+           cy="127.92755"
+           r="5.7229052" />
+        <path
+           style="fill:none;stroke:#ffffff;stroke-width:0.91410941;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 69.56707,126.72607 c 0,0 0.262845,-1.64631 1.897382,-2.20044"
+           id="path882"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <rect
+           style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.70678216;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:3.96396852;stroke-opacity:1"
+           id="rect884"
+           width="2.670094"
+           height="4.4663391"
+           x="144.04861"
+           y="15.548477"
+           ry="0.65063715"
+           transform="rotate(51.304203)" />
+        <path
+           style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5.05755424;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:3.96396852;stroke-opacity:1"
+           d="m 70.65625,29.505859 c -0.02755,-0.0018 -0.05562,0.0076 -0.07813,0.02734 l -39.195308,34.35352 h 1.076172 c 0.450125,0 0.8125,0.362375 0.8125,0.8125 v 1.101562 L 72.347656,31.552734 c 0.04501,-0.03945 0.05116,-0.107339 0.01172,-0.152343 L 70.73047,29.542969 c -0.01972,-0.0225 -0.04667,-0.0353 -0.07422,-0.03711 z"
+           transform="matrix(0.26458333,0,0,0.26458333,61.818011,113.47366)"
+           id="rect886"
+           inkscape:connector-curvature="0" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.31579736;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 81.379791,121.60209 1.296971,-0.49649"
+           id="path912"
+           inkscape:connector-curvature="0" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.31579736;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 80.518748,120.98219 -0.171475,-1.37813"
+           id="path860"
+           inkscape:connector-curvature="0" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path862"
+           d="m 81.45603,122.0609 1.361647,0.27304"
+           style="fill:none;stroke:#000000;stroke-width:0.31579736;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.31579736;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 80.98142,121.16289 0.941113,-1.02125"
+           id="path864"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+</svg>

@@ -36,7 +36,7 @@ var config = {
   }, //returns the amount of xp needed to get to [checkLevel] param
   unlocks: {
     level2: {
-      newSpells: ['freezeSpell', 'blindSpell', 'healSpell'] //which new spells are unlocked at this level
+      newSpells: ['freezeSpell', 'blindSpell', 'healSpell', 'bombSpell'] //which new spells are unlocked at this level
     }
   }
 };
@@ -108,6 +108,21 @@ var spellEnts = { //spell entities
       }
     },
     color: 'rgba(232, 196, 6, 0.6)'
+  },
+  bombSpell: {
+    name: 'bombSpell',
+    speed: 0.5,
+    xpGain: 100,
+    range: 1500,
+    type: 'splash',
+    explosionRadius: 300,
+    ttl: 700,
+    radius: 10,
+    playerCoolDown: 200000, //(should never repeat, so set to craz big number) //delay between repetitions of effectArea affecting a certain player
+    effect: function(affectedPlayer) { //effect of explosion area
+      affectedPlayer.health -= 100;
+    },
+    color: 'rgba(232, 6, 6, 0.6)'
   }
 };
 var spells = { //inventory items
@@ -122,6 +137,9 @@ var spells = { //inventory items
   },
   healSpell: function() {
     return (new Spell('healSpell', 15000));
+  },
+  bombSpell: function() {
+    return (new Spell('bombSpell', 8000));
   }
 };
 
