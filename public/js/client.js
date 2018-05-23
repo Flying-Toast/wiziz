@@ -103,6 +103,7 @@ var local = {
   chosingUnlock: false,
   lastChosenUnlock: 1,
   inputNumber: 0,
+  player: {},
   lastUpdate: 0,
   controls: {
     w: 'u',
@@ -142,22 +143,26 @@ function createSound(mp3Src, oggSrc) {
 
 function localCoords(real, xOrY) {
   if (xOrY === 'x') {
-    return (real + innerWidth / 2 - player.x);
+    return (real + innerWidth / 2 - local.player.x);
   }
 
   if (xOrY === 'y') {
-    return (real + innerHeight / 2 - player.y);
+    return (real + innerHeight / 2 - local.player.y);
   }
 }
 
 function globalCoords(localCoord, xOrY) {
   if (xOrY === 'x') {
-    return (localCoord - innerWidth / 2 + player.x);
+    return (localCoord - innerWidth / 2 + local.player.x);
   }
 
   if (xOrY === 'y') {
-    return (localCoord - innerHeight / 2 + player.y);
+    return (localCoord - innerHeight / 2 + local.player.y);
   }
+}
+
+function distance(ax, ay, bx, by) {
+  return (Math.sqrt(Math.pow(ax - bx, 2) + Math.pow(ay - by, 2)));
 }
 
 var socket = io.connect('/');
@@ -328,6 +333,20 @@ function toggleStorage() {
 }
 
 function drawLoop() {
+  var currentTime = performance.now();
+
+  if (!local.player.id) {
+    local.player = player;
+  }
+
+
+
+  var dt = currentTime - local.lastTime;
+  if (dt > 25) {
+    dt = 25;
+  }
+  local.lastTime = currentTime;
+
   ctx.clearRect(0, 0, innerWidth, innerHeight);
 
   if (state !== 'playing' || local.lastUpdate === 0) {
@@ -337,12 +356,62 @@ function drawLoop() {
   local.quedInputs.push({
     type: 'translate',
     facing: local.facing,
+    dt: dt,
     windowWidth: innerWidth,
     windowHeight: innerHeight,
     states: local.movement,
     id: local.inputNumber
   });
   local.inputNumber++;
+
+  for (var i = 0; i < local.savedInputs.length; i++) {
+    var input = local.savedInputs[i];
+    switch (input.type) {
+      case 'translate':
+        var states = input.states;
+
+        var facing = { //imaginary point where player will move towards, starts out at player's location
+          x: local.player.x,
+          y: local.player.y
+        };
+
+        //move the point by 1 (could be any number) to make a line from current player position to the facing locations
+        if (states.u) {
+          facing.y -= 1;
+        }
+        if (states.d) {
+          facing.y += 1;
+        }
+        if (states.l) {
+          facing.x -= 1;
+        }
+        if (states.r) {
+          facing.x += 1;
+        }
+        //find the new player postition, which is at (player.movementSpeed * dt) pixels in the direction of facing
+        var lenToFacing = distance(facing.x, facing.y, local.player.x, local.player.y);
+
+        if (lenToFacing !== 0) {
+          local.player.x += (player.movementSpeed / lenToFacing * (facing.x - local.player.x)) * input.dt;
+          local.player.y += (player.movementSpeed / lenToFacing * (facing.y - local.player.y)) * input.dt;
+        }
+        if (local.player.x < 0) {
+          local.player.x = 0;
+        }
+        if (local.player.x > game.map.width) {
+          local.player.x = game.map.width;
+        }
+        if (local.player.y < 0) {
+          local.player.y = 0;
+        }
+        if (local.player.y > game.map.height) {
+          local.player.y = game.map.height;
+        }
+        break;
+    }
+  }
+
+  local.savedInputs = [];
 
   if (player.unlockedSpells && player.unlockedSpells.length > 0 && !local.chosingUnlock && local.lastChosenUnlock < player.level) {
     chooseUnlockedSpells.innerHTML = '';
@@ -371,8 +440,8 @@ function drawLoop() {
     }
   };
 
-  grid.xOffset = -player.x;
-  grid.yOffset = -player.y;
+  grid.xOffset = -local.player.x;
+  grid.yOffset = -local.player.y;
 
   //spell explosion areas
   if (game.effectAreas) {

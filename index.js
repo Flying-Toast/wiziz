@@ -347,13 +347,10 @@ function physicsLoop() {
 
       switch (input.type) {
         case 'translate':
-
-          if (player.lastMove !== 0) {
-            var dt = Date.now() - player.lastMove;
-          } else {
-            dt = 0;
+          var dt = input.dt;
+          if (dt > 25) {
+            dt = 25;
           }
-
           var states = input.states;
 
           var facing = { //imaginary point where player will move towards, starts out at player's location
@@ -374,7 +371,6 @@ function physicsLoop() {
           if (states.r) {
             facing.x += 1;
           }
-
           //find the new player postition, which is at (player.movementSpeed * dt) pixels in the direction of facing
           var lenToFacing = helpers.distance(facing.x, facing.y, player.x, player.y);
 
@@ -382,8 +378,6 @@ function physicsLoop() {
             player.x += (player.movementSpeed / lenToFacing * (facing.x - player.x)) * dt;
             player.y += (player.movementSpeed / lenToFacing * (facing.y - player.y)) * dt;
           }
-
-          player.lastMove = Date.now();
           player.angle = Math.atan2(input.facing.x - input.windowWidth / 2, -(input.facing.y - input.windowHeight / 2));
           break;
         case 'select':
