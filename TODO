@@ -2,4 +2,6 @@ redo the mainScreen and make it look better, and be more responsive
 ===
 add a wiki page that explains all spells, their stats, and their effects. do it all in one page with links to certain parts of the page(eg. wiki.sorcer.io/#fireSpell). if there is enough text, adsense account can be approved from wiki page
 ===
-fix coolDownDisplay when swapping items from storage. 
+fix coolDownDisplay when swapping items from storage.
+===
+BEFORE RELEASE: fix clientside prediction
