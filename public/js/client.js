@@ -103,7 +103,6 @@ var local = {
   chosingUnlock: false,
   lastChosenUnlock: 1,
   inputNumber: 0,
-  player: {},
   lastUpdate: 0,
   controls: {
     w: 'u',
@@ -143,21 +142,21 @@ function createSound(mp3Src, oggSrc) {
 
 function localCoords(real, xOrY) {
   if (xOrY === 'x') {
-    return (real + innerWidth / 2 - local.player.x);
+    return (real + innerWidth / 2 - player.x);
   }
 
   if (xOrY === 'y') {
-    return (real + innerHeight / 2 - local.player.y);
+    return (real + innerHeight / 2 - player.y);
   }
 }
 
 function globalCoords(localCoord, xOrY) {
   if (xOrY === 'x') {
-    return (localCoord - innerWidth / 2 + local.player.x);
+    return (localCoord - innerWidth / 2 + player.x);
   }
 
   if (xOrY === 'y') {
-    return (localCoord - innerHeight / 2 + local.player.y);
+    return (localCoord - innerHeight / 2 + player.y);
   }
 }
 
@@ -372,66 +371,8 @@ function drawLoop() {
     }
   };
 
-  local.player = player;
-
-  for (var i = 0; i < local.savedInputs.length; i++) {
-    var input = local.savedInputs[i];
-
-    switch (input.type) {
-      case 'translate':
-        if (local.player.lastMove) {
-          var dt = Date.now() - local.player.lastMove;
-        } else {
-          dt = 0;
-        }
-
-        var states = input.states;
-
-        var facing = {
-          x: player.x,
-          y: player.y
-        };
-
-        if (states.u) {
-          facing.y -= 1;
-        }
-        if (states.d) {
-          facing.y += 1;
-        }
-        if (states.l) {
-          facing.x -= 1;
-        }
-        if (states.r) {
-          facing.x += 1;
-        }
-
-        var lenToFacing = distance(facing.x, facing.y, player.x, player.y);
-
-        if (lenToFacing !== 0) {
-          local.player.x += (local.player.movementSpeed / lenToFacing * (facing.x - player.x)) * dt;
-          local.player.y += (local.player.movementSpeed / lenToFacing * (facing.y - player.y)) * dt;
-        }
-
-        if (player.x < 0) {
-          player.x = 0;
-        }
-        if (player.x > game.map.width) {
-          player.x = game.map.width;
-        }
-        if (player.y < 0) {
-          player.y = 0;
-        }
-        if (player.y > game.map.height) {
-          player.y = game.map.height;
-        }
-
-        local.player.lastMove = Date.now();
-        break;
-    }
-  }
-
-  grid.xOffset = -local.player.x;
-  grid.yOffset = -local.player.y;
+  grid.xOffset = -player.x;
+  grid.yOffset = -player.y;
 
   //spell explosion areas
   if (game.effectAreas) {
