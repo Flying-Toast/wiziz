@@ -477,6 +477,9 @@ function drawLoop() {
       ctx.font = "20px newRocker";
       ctx.fillStyle = '#2dafaf';
       ctx.fillText(currentPlayer.nickname, -(ctx.measureText(currentPlayer.nickname).width / 2), 80);
+      ctx.font = "18px agane";
+      ctx.fillStyle = '#2dafaf';
+      ctx.fillText('lvl ' + currentPlayer.level, -(ctx.measureText('lvl ' + currentPlayer.level).width / 2), 100);
       ctx.restore();
     }
   }
