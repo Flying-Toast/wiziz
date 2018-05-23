@@ -129,13 +129,6 @@ function createSprite(src) {
   return (sprite);
 }
 
-
-//temp position:
-var pos = document.createElement('div');
-document.body.appendChild(pos);
-
-
-
 function createSound(mp3Src, oggSrc) {
   var sound = document.createElement('audio');
   var mp3 = document.createElement('source');
@@ -363,10 +356,6 @@ function toggleStorage() {
 }
 
 function drawLoop() {
-  //temp position display
-  pos.innerText = 'player: ' + player.x + ' ' + player.y + '\nlocal.player: ' + local.player.x + ' ' + local.player.y;
-
-
   var currentTime = performance.now();
 
   var dt = currentTime - local.lastTime;
