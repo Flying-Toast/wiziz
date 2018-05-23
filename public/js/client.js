@@ -93,6 +93,7 @@ var local = {
     x: 0,
     y: 0
   },
+  playerSnapshots: [],
   startingInventory: [{
     itemName: 'fireSpell',
     coolDown: 700
@@ -127,6 +128,13 @@ function createSprite(src) {
   sprite.src = src;
   return (sprite);
 }
+
+
+//temp position:
+var pos = document.createElement('div');
+document.body.appendChild(pos);
+
+
 
 function createSound(mp3Src, oggSrc) {
   var sound = document.createElement('audio');
@@ -196,6 +204,25 @@ socket.on('update', function(updatedGame) {
     player = game.players.find(function(element) {
       return (element.id === socket.id);
     });
+  }
+
+  var lastSnapshot = local.playerSnapshots.find(function(element) {
+    return (element.id === player.lastInput);
+  });
+
+  if (!local.player.id) {
+    local.player = player;
+  } else if (lastSnapshot) { //there is a playerSnapshot of the most recent authoritative player
+
+    var correctionX = lastSnapshot.player.x - player.x;
+    var correctionY = lastSnapshot.player.y - player.y;
+
+    if (Math.abs(correctionX) > 20 || Math.abs(correctionY) > 20) {
+      local.player.x -= correctionX;
+      local.player.y -= correctionY;
+      console.log('correction');
+    }
+
   }
 
   if (player.inventory) {
@@ -333,13 +360,11 @@ function toggleStorage() {
 }
 
 function drawLoop() {
+  //temp position display
+  pos.innerText = 'player: ' + player.x + ' ' + player.y + '\nlocal.player: ' + local.player.x + ' ' + local.player.y;
+
+
   var currentTime = performance.now();
-
-  if (!local.player.id) {
-    local.player = player;
-  }
-
-
 
   var dt = currentTime - local.lastTime;
   if (dt > 25) {
@@ -409,6 +434,13 @@ function drawLoop() {
         }
         break;
     }
+  }
+
+  if (local.savedInputs.length) {
+    local.playerSnapshots.push({
+      id: local.savedInputs[local.savedInputs.length - 1].id,
+      player: local.player
+    });
   }
 
   local.savedInputs = [];
