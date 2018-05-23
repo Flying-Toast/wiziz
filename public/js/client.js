@@ -210,6 +210,10 @@ socket.on('update', function(updatedGame) {
     return (element.id === player.lastInput);
   });
 
+  if (lastSnapshot) {
+    local.playerSnapshots.splice(0, local.playerSnapshots.indexOf(lastSnapshot));
+  }
+
   if (!local.player.id) {
     local.player = player;
   } else if (lastSnapshot) { //there is a playerSnapshot of the most recent authoritative player
