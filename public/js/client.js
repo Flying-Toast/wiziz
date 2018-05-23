@@ -220,7 +220,6 @@ socket.on('update', function(updatedGame) {
     if (Math.abs(correctionX) > 20 || Math.abs(correctionY) > 20) {
       local.player.x -= correctionX;
       local.player.y -= correctionY;
-      console.log('correction');
     }
 
   }
