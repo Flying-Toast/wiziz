@@ -203,7 +203,6 @@ function Player(x, y, nickname, id, inventory, health) {
   this.inputs = [];
   this.quedInputs = [];
   this.angle = 0;
-  this.lastMove = 0;
   this.selectedItem = 0;
   this.unlockedSpells = [];
   this.health = health;
