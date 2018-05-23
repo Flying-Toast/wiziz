@@ -1,3 +1,5 @@
-BEFORE RELEASE: redo the mainScreen and make it look better, and be more responsive
+redo the mainScreen and make it look better, and be more responsive
 ===
-add a page that explains all spells, their stats, and their effects (use ejs)
+add a wiki that explains all spells, their stats, and their effects (use ejs)
+===
+fix coolDownDisplay when swapping items from storage. 
