@@ -133,7 +133,7 @@ var spells = { //inventory items
     return (new Spell('freezeSpell', 5000));
   },
   blindSpell: function() {
-    return (new Spell('blindSpell', 4000));
+    return (new Spell('blindSpell', 4500));
   },
   healSpell: function() {
     return (new Spell('healSpell', 15000));
