@@ -32,7 +32,7 @@ var config = {
   maxLeaderboardLength: 10,
   playerStartHealth: 1000,
   xpModel: function(checkLevel) {
-    return (Math.pow(checkLevel, 2) * 100);
+    return (Math.round((Math.pow(checkLevel / 1.5, 2)) * 100));
   }, //returns the amount of xp needed to get to [checkLevel] param
   unlocks: {
     level2: {
@@ -123,7 +123,18 @@ var spellEnts = { //spell entities
       affectedPlayer.health -= 100;
     },
     color: 'rgba(232, 6, 6, 0.6)'
+  },
+
+
+  exampleSelfSpell: {
+    name: 'exampleSelfSpell',
+    type: 'self',
+    effect: function(affectedPlayer) { //effect of explosion area
+      console.log(affectedPlayer + ' got example-ified!');
+    }
   }
+
+
 };
 var spells = { //inventory items
   fireSpell: function() {
@@ -417,7 +428,7 @@ function physicsLoop() {
                 x: input.mouse.x,
                 y: input.mouse.y
               }, spellEnts[player.inventory[player.selectedItem].itemName].speed, player, spellEnts[player.inventory[player.selectedItem].itemName].range, spellEnts[player.inventory[player.selectedItem].itemName].name, spellEnts[player.inventory[player.selectedItem].itemName].effect, spellEnts[player.inventory[player.selectedItem].itemName].radius, spellEnts[player.inventory[player.selectedItem].itemName].xpGain));
-            } else {
+            } else if (spellEnts[player.inventory[player.selectedItem].itemName].type === 'splash') {
               game.spells.push(new SplashSpell({
                 x: player.x,
                 y: player.y
@@ -425,7 +436,8 @@ function physicsLoop() {
                 x: input.mouse.x,
                 y: input.mouse.y
               }, spellEnts[player.inventory[player.selectedItem].itemName].speed, player, spellEnts[player.inventory[player.selectedItem].itemName].explosionRadius, spellEnts[player.inventory[player.selectedItem].itemName].ttl, spellEnts[player.inventory[player.selectedItem].itemName].range, spellEnts[player.inventory[player.selectedItem].itemName].name, spellEnts[player.inventory[player.selectedItem].itemName].effect, spellEnts[player.inventory[player.selectedItem].itemName].color, spellEnts[player.inventory[player.selectedItem].itemName].radius, spellEnts[player.inventory[player.selectedItem].itemName].playerCoolDown, spellEnts[player.inventory[player.selectedItem].itemName].xpGain));
-
+            } else if (spellEnts[player.inventory[player.selectedItem].itemName].type === 'self') {
+              spellEnts[player.inventory[player.selectedItem].itemName].effect(player);
             }
             player.inventory[player.selectedItem].lastCast = Date.now();
             player.inventory[player.selectedItem].cooling = true;
