@@ -36,7 +36,7 @@ var config = {
   }, //returns the amount of xp needed to get to [checkLevel] param
   unlocks: {
     level2: {
-      newSpells: ['freezeSpell', 'blindSpell', 'healSpell', 'bombSpell'] //which new spells are unlocked at this level
+      newSpells: ['freezeSpell', 'blindSpell', 'healSpell', 'bombSpell', 'invisibleSpell'] //which new spells are unlocked at this level
     }
   }
 };
@@ -44,7 +44,7 @@ var spellEnts = { //spell entities
   fireSpell: {
     name: 'fireSpell',
     speed: 1,
-    xpGain: 100,
+    xpGain: 50,
     range: 700,
     radius: 10,
     type: 'projectile',
@@ -55,7 +55,7 @@ var spellEnts = { //spell entities
   freezeSpell: {
     name: 'freezeSpell',
     speed: 0.7,
-    xpGain: 200,
+    xpGain: 140,
     range: 500,
     radius: 10,
     effectWearOff: 3000,
@@ -71,7 +71,7 @@ var spellEnts = { //spell entities
   },
   blindSpell: {
     name: 'blindSpell',
-    xpGain: 120,
+    xpGain: 80,
     speed: 0.7,
     range: 700,
     type: 'splash',
@@ -107,29 +107,29 @@ var spellEnts = { //spell entities
   bombSpell: {
     name: 'bombSpell',
     speed: 0.5,
-    xpGain: 100,
+    xpGain: 75,
     range: 1500,
     type: 'splash',
     explosionRadius: 300,
     ttl: 700,
     radius: 10,
-    playerCoolDown: 200000, //(should never repeat, so set to craz big number) //delay between repetitions of effectArea affecting a certain player
+    playerCoolDown: 200000, //(should never repeat, so set to crazy big number) //delay between repetitions of effectArea affecting a certain player
     effect: function(affectedPlayer) { //effect of explosion area
       affectedPlayer.health -= 100;
     },
     color: 'rgba(232, 6, 6, 0.6)'
   },
-
-
-  exampleSelfSpell: {
-    name: 'exampleSelfSpell',
+  invisibleSpell: {
+    name: 'invisibleSpell',
     type: 'self',
-    effect: function(affectedPlayer) { //effect of explosion area
-      console.log(affectedPlayer + ' got example-ified!');
+    effectWearOff: 5000,
+    effect: function(affectedPlayer) {
+      affectedPlayer.invisible = true;
+      setTimeout(function() {
+        affectedPlayer.invisible = false;
+      }, this.effectWearOff);
     }
   }
-
-
 };
 var spells = { //inventory items
   fireSpell: function() {
@@ -146,6 +146,9 @@ var spells = { //inventory items
   },
   bombSpell: function() {
     return (new Spell('bombSpell', 8000));
+  },
+  invisibleSpell: function() {
+    return (new Spell('invisibleSpell', 25000));
   }
 };
 

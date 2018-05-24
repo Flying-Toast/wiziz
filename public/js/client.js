@@ -126,12 +126,12 @@ var sprites = {
     blindSpell: 'media/images/blindSpell.png',
     healSpell: 'media/images/healSpell.png',
     bombSpell: 'media/images/bombSpell.png',
+    invisibleSpell: 'media/images/invisibleSpell.png',
     openStorage: 'media/images/openStorage.png'
   },
   effects: {
     fireSpell: createSprite('media/images/fireEffect.png'),
     freezeSpell: createSprite('media/images/freezeEffect.png'),
-    healSpell: createSprite('media/images/healEffect.png'),
     bombSpell: createSprite('media/images/bombEffect.png'),
     blindSpell: createSprite('media/images/blindEffect.png'),
   }
@@ -141,7 +141,8 @@ var sounds = {
   freezeSpell: createSound('media/sounds/freezeSpell.mp3', 'media/sounds/freezeSpell.ogg'),
   healSpell: createSound('media/sounds/healSpell.mp3', 'media/sounds/healSpell.ogg'),
   bombSpell: createSound('media/sounds/bombSpell.mp3', 'media/sounds/bombSpell.ogg'),
-  blindSpell: createSound('media/sounds/blindSpell.mp3', 'media/sounds/blindSpell.ogg')
+  blindSpell: createSound('media/sounds/blindSpell.mp3', 'media/sounds/blindSpell.ogg'),
+  invisibleSpell: createSound('media/sounds/invisibleSpell.mp3', 'media/sounds/invisibleSpell.ogg')
 };
 var local = {
   facing: {
@@ -556,29 +557,34 @@ function drawLoop() {
       lastCurrentPlayer.x = newPosition.x;
       lastCurrentPlayer.y = newPosition.y;
 
-      ctx.save();
-      ctx.translate(localCoords(lastCurrentPlayer.x, 'x'), localCoords(lastCurrentPlayer.y, 'y'));
-      ctx.rotate(currentPlayer.angle);
-      ctx.drawImage(sprites.players.red, -sprites.players.red.width / 2, -sprites.players.red.height / 2);
-      ctx.restore();
-      ctx.save();
-      ctx.translate(localCoords(lastCurrentPlayer.x, 'x'), localCoords(lastCurrentPlayer.y, 'y'));
-      ctx.font = "20px newRocker";
-      ctx.fillStyle = '#2dafaf';
-      ctx.fillText(currentPlayer.nickname, -(ctx.measureText(currentPlayer.nickname).width / 2), 80);
-      ctx.font = "18px agane";
-      ctx.fillStyle = '#2dafaf';
-      ctx.fillText('lvl ' + currentPlayer.level, -(ctx.measureText('lvl ' + currentPlayer.level).width / 2), 100);
-      ctx.restore();
+      if (!currentPlayer.invisible) {
+        ctx.save();
+        ctx.translate(localCoords(lastCurrentPlayer.x, 'x'), localCoords(lastCurrentPlayer.y, 'y'));
+        ctx.rotate(currentPlayer.angle);
+        ctx.drawImage(sprites.players.red, -sprites.players.red.width / 2, -sprites.players.red.height / 2);
+        ctx.restore();
+        ctx.save();
+        ctx.translate(localCoords(lastCurrentPlayer.x, 'x'), localCoords(lastCurrentPlayer.y, 'y'));
+        ctx.font = "20px newRocker";
+        ctx.fillStyle = '#2dafaf';
+        ctx.fillText(currentPlayer.nickname, -(ctx.measureText(currentPlayer.nickname).width / 2), 80);
+        ctx.font = "18px agane";
+        ctx.fillStyle = '#2dafaf';
+        ctx.fillText('lvl ' + currentPlayer.level, -(ctx.measureText('lvl ' + currentPlayer.level).width / 2), 100);
+        ctx.restore();
+      }
+
     }
   }
 
   //player
-  ctx.save();
-  ctx.translate(innerWidth / 2, innerHeight / 2);
-  ctx.rotate(local.angle);
-  ctx.drawImage(sprites.players.green, -sprites.players.green.width / 2, -sprites.players.green.height / 2);
-  ctx.restore();
+  if (!player.invisible) {
+    ctx.save();
+    ctx.translate(innerWidth / 2, innerHeight / 2);
+    ctx.rotate(local.angle);
+    ctx.drawImage(sprites.players.green, -sprites.players.green.width / 2, -sprites.players.green.height / 2);
+    ctx.restore();
+  }
 
   //spells
   for (var i = 0; i < game.spells.length; i++) {
