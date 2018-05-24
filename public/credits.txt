@@ -9,3 +9,5 @@ Blindness Spell sound - sampled from "Ambience, Creepy Wind" by InspectorJ (http
 Heal Spell sound - sampled from "shields1" by PhreaKsAccount  (https://freesound.org/s/46492/)
 
 Speed Spell icon - contains "Run" by Gregor Cresnar (https://thenounproject.com/grega.cresnar/collection/communication-lines-vol-1/?i=1428994)
+
+Speed Spell sound - sampled from "tiny bit of 116723__Corsica_S__ghellioll02 stretched ramped" by Owdeo (https://freesound.org/s/176311/)
