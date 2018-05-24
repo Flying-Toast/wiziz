@@ -92,22 +92,17 @@ var spellEnts = { //spell entities
   },
   healSpell: {
     name: 'healSpell',
-    speed: 0.7,
-    xpGain: 350,
-    range: 1,
-    type: 'splash',
-    explosionRadius: 90,
-    ttl: 4500,
-    radius: 1,
-    playerCoolDown: 500, //delay between repetitions of effectArea affecting a certain player
-    effect: function(affectedPlayer) { //effect of explosion area
-      if (affectedPlayer.health + (affectedPlayer.maxHealth / 10) < affectedPlayer.maxHealth) {
-        affectedPlayer.health += (affectedPlayer.maxHealth / 10);
-      } else {
-        affectedPlayer.health = affectedPlayer.maxHealth;
-      }
-    },
-    color: 'rgba(232, 196, 6, 0.6)'
+    type: 'self',
+    playerCoolDown: 500,
+    effect: function(affectedPlayer) {
+      setIntervalX(function() {
+        if (affectedPlayer.health + (affectedPlayer.maxHealth / 10) < affectedPlayer.maxHealth) {
+          affectedPlayer.health += (affectedPlayer.maxHealth / 10);
+        } else {
+          affectedPlayer.health = affectedPlayer.maxHealth;
+        }
+      }, this.playerCoolDown, 10);
+    }
   },
   bombSpell: {
     name: 'bombSpell',
@@ -153,6 +148,16 @@ var spells = { //inventory items
     return (new Spell('bombSpell', 8000));
   }
 };
+
+function setIntervalX(callback, delay, repetitions) {
+  var x = 0;
+  var intervalID = setInterval(function() {
+    callback();
+    if (++x === repetitions) {
+      clearInterval(intervalID);
+    }
+  }, delay);
+}
 
 server.io.on('connection', function(socket) {
 

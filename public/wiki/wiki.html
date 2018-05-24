@@ -139,6 +139,7 @@
           <ul>
             <li><a href="#projectileType">Projectile Spells</a></li>
             <li><a href="#splashType">Splash Spells</a></li>
+            <li><a href="#selfType">Self Spells</a></li>
           </ul>
         </li>
         <li><a href="#fireSpell">Fire Spell</a></li>
@@ -196,7 +197,7 @@
 
   <article id='spellTypes' class="section">
     <h3 class='subheading'>Types of Spells</h3>
-    <div class='mainContent'>There are two main types of spells in the game: projectile spells, and splash spells.
+    <div class='mainContent'>There are three main types of spells in the game: projectile spells, splash spells, and self spells.
       <h4 id='projectileType' class="heading3 indent">Projectile Spells</h4>
       <div class="indent">
         <p class="indent">Projectile spells are the most basic type of spell. They behave much like a bullet fired from a gun: They travel at a certain speed, for a certain distance. If they hit a player along the way, the player will be affected with that spell's effect.
@@ -207,6 +208,11 @@
         <p class="indent">Splash Spells behave very similarly to projectile spells, until a certain point. After they reach their target, they explode, creating an "effect area" for a certain amount of time. Any players inside the effect area will be affected with the
           splash spell's effect. If a splash spell hits a player before it reaches it's target, it will explode. An effect area left by a splash spell will look like this:</p>
         <img src="/wiki/media/images/splashSpell.png" alt="An image showing a player standing next to the effectArea left by the blind spell. The effect area is a dark grey circle, about two times the size of a player.">
+      </div>
+      <h4 id='selfType' class="heading3 indent">Self Spells</h4>
+      <div class="indent">
+        <p class="indent">Like all other spells, self spells each have their own unique effect. However, they behave much differently when casted. When you cast a self spell, the spell's effect will immediately be applied to your player. Self spells generally have positive
+          effects, like the <a href="#healSpell">Heal Spell</a>.</p>
       </div>
     </div>
   </article>
@@ -294,14 +300,9 @@
       </audio>
       <label for="healSpellStats"><h4 class="heading3">Stats</h4></label>
       <ul class="noBullets">
-        <li><b>Type</b>: Splash</li>
-        <li><b>Range</b>: Explodes instantly, directly beneath the player that casted it</li>
-        <li><b>Explosion Radius</b>: 90</li>
+        <li><b>Type</b>: Self</li>
         <li><b>Effect</b>: Restores 10% health every 0.5 seconds</li>
         <li><b>Cooldown</b>: 15 seconds</li>
-        <li><b>Effect Area Color</b>:
-          <div class='swatch' style="background-color:rgba(232, 196, 6, 0.6);"></div>
-        </li>
       </ul>
     </div>
   </article>
