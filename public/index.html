@@ -226,6 +226,13 @@
 
     footer a {
       color: #272528;
+      font-size: 80%;
+    }
+
+    footer span {
+      font-size: 80%;
+      color: #272528;
+      margin-right: 1em;
     }
 
     #outerHealth {
@@ -357,6 +364,21 @@
       padding: 0;
     }
 
+    kbd {
+      background-color: #f7f7f7;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
+      color: #333;
+      display: inline-block;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      line-height: 1.4;
+      margin: 0 .1em;
+      padding: .1em .6em;
+      text-shadow: 0 1px 0 #fff;
+    }
+
     #leaderboardHeader {
       text-align: center;
       color: #41148c;
@@ -440,13 +462,15 @@
       <hr>
       <div id="instructions">
         <h1>How to Play:</h1>
-        <p>stuff</p>
-        <p>more stuff</p>
-        <p>even more stuff</p>
+        <p>Use the <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> keys to move</p>
+        <p>Click to cast a spell</p>
+        <p>Level up to unlock new spells</p>
+        <p>Press <kbd>E</kbd> to open your inventory and swap your spells</p>
+        <p>More detailed instructions on the <a href="wiki" target="_blank">wiki</a></p>
       </div>
     </div>
     <footer>
-      <a href="legal" target='_blank' id='legal'>Legal</a>
+      <span id='legal'>Copyright © 2018 Sorcerio All Rights Reserved.</span>
       <a href="credits" target="_blank">credits</a></footer>
   </div>
 

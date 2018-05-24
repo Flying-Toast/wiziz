@@ -11,10 +11,6 @@ var server = app.listen(port, function() {
   console.log('listening on port ' + port);
 });
 
-app.get('/legal', function(req, res) {
-  res.sendFile(__dirname + '/public/legal.html');
-});
-
 app.get('/credits', function(req, res) {
   res.sendFile(__dirname + '/public/credits.txt');
 });
