@@ -7,3 +7,5 @@ Freeze Spell sound - sampled from "Wind Sound" by Mark DiAngelo (http://soundbib
 Blindness Spell sound - sampled from "Ambience, Creepy Wind" by InspectorJ (https://freesound.org/people/InspectorJ/sounds/413549/)
 
 Heal Spell sound - sampled from "shields1" by PhreaKsAccount  (https://freesound.org/s/46492/)
+
+Speed Spell icon - contains "Run" by Gregor Cresnar (https://thenounproject.com/grega.cresnar/collection/communication-lines-vol-1/?i=1428994)

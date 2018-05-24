@@ -127,13 +127,14 @@ var sprites = {
     healSpell: 'media/images/healSpell.png',
     bombSpell: 'media/images/bombSpell.png',
     invisibleSpell: 'media/images/invisibleSpell.png',
+    speedSpell: 'media/images/speedSpell.png',
     openStorage: 'media/images/openStorage.png'
   },
   effects: {
     fireSpell: createSprite('media/images/fireEffect.png'),
     freezeSpell: createSprite('media/images/freezeEffect.png'),
     bombSpell: createSprite('media/images/bombEffect.png'),
-    blindSpell: createSprite('media/images/blindEffect.png'),
+    blindSpell: createSprite('media/images/blindEffect.png')
   }
 };
 var sounds = {
@@ -142,6 +143,7 @@ var sounds = {
   healSpell: createSound('media/sounds/healSpell.mp3', 'media/sounds/healSpell.ogg'),
   bombSpell: createSound('media/sounds/bombSpell.mp3', 'media/sounds/bombSpell.ogg'),
   blindSpell: createSound('media/sounds/blindSpell.mp3', 'media/sounds/blindSpell.ogg'),
+  speedSpell: createSound('media/sounds/speedSpell.mp3', 'media/sounds/speedSpell.ogg'),
   invisibleSpell: createSound('media/sounds/invisibleSpell.mp3', 'media/sounds/invisibleSpell.ogg')
 };
 var local = {

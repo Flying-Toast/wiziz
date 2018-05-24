@@ -36,7 +36,7 @@ var config = {
   }, //returns the amount of xp needed to get to [checkLevel] param
   unlocks: {
     level2: {
-      newSpells: ['freezeSpell', 'blindSpell', 'healSpell', 'bombSpell', 'invisibleSpell'] //which new spells are unlocked at this level
+      newSpells: ['freezeSpell', 'blindSpell', 'healSpell', 'bombSpell', 'invisibleSpell', 'speedSpell'] //which new spells are unlocked at this level
     }
   }
 };
@@ -129,6 +129,17 @@ var spellEnts = { //spell entities
         affectedPlayer.invisible = false;
       }, this.effectWearOff);
     }
+  },
+  speedSpell: {
+    name: 'speedSpell',
+    type: 'self',
+    effectWearOff: 5000,
+    effect: function(affectedPlayer) {
+      affectedPlayer.movementSpeed = config.playerSpeed * 1.5;
+      setTimeout(function() {
+        affectedPlayer.movementSpeed = config.playerSpeed;
+      }, this.effectWearOff);
+    }
   }
 };
 var spells = { //inventory items
@@ -149,6 +160,9 @@ var spells = { //inventory items
   },
   invisibleSpell: function() {
     return (new Spell('invisibleSpell', 25000));
+  },
+  speedSpell: function() {
+    return (new Spell('speedSpell', 7000));
   }
 };
 
