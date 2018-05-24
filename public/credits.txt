@@ -1,3 +1,5 @@
+NewRocker font - Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com),Copyright (c) 2012, Brenda Gallo (gbrenda1987@gmail.com),Copyright (c) 2012, Rodrigo Fuenzalida (www.rfuenzalida.com|hello@rfuenzalida.com)
+
 Freeze Spell sound - sampled from "Wind Sound" by Mark DiAngelo (http://soundbible.com/1810-Wind.html)
 Blindness Spell sound - sampled from "Ambience, Creepy Wind" by InspectorJ (https://freesound.org/people/InspectorJ/sounds/413549/)
 Heal Spell sound - sampled from "shields1" by PhreaKsAccount  (https://freesound.org/s/46492/)
