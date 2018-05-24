@@ -144,7 +144,7 @@ var spellEnts = { //spell entities
 };
 var spells = { //inventory items
   fireSpell: function() {
-    return (new Spell('fireSpell', 700));
+    return (new Spell('fireSpell', 500));
   },
   freezeSpell: function() {
     return (new Spell('freezeSpell', 5000));
