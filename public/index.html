@@ -103,7 +103,7 @@
       position: absolute;
       left: 0;
       top: 0;
-      width: 100vw;
+      width: 100vw; 
       height: 100vh;
       animation-fill-mode: forwards;
       animation-timing-function: ease-in;
@@ -119,80 +119,6 @@
       }
     }
 
-    .overlay {
-      height: 100vh;
-    }
-
-    .button {
-      color: black;
-      outline: none;
-      border: none;
-    }
-
-    header h1 {
-      font-family: newrocker;
-      text-align: center;
-      font-size: 450%;
-      position: absolute;
-      margin: 0;
-      width: 100%;
-      color: #41148c;
-    }
-
-    #playButton {
-      background-color: #1e4bc1;
-      display: block;
-      margin: 0 auto;
-      width: 20%;
-      color: white;
-      height: 8%;
-      border: 3px solid #0d005b;
-      border-radius: 8px;
-      font-size: 150%;
-    }
-
-    #playButton:hover {
-      background-color: #225cf5;
-    }
-
-    #nicknameInput {
-      border: none;
-      text-align: center;
-      border: 3px solid #5D5D5D;
-      border-radius: 8px;
-      width: 45%;
-      margin: 5%;
-      padding: 1%;
-      height: 3%;
-    }
-
-    #nicknameInput::placeholder {
-      color: #444444;
-    }
-
-    .menuPane {
-      background-color: #9a9a9a;
-    }
-
-    #mainPane {
-      justify-content: center;
-      text-align: center;
-      width: 40%;
-      margin: 0 auto;
-      height: 70vh;
-      margin-top: calc(50vh - 70vh/2);
-      border-radius: calc(40% / 15);
-      position: relative;
-    }
-
-    #instructions li {
-      list-style-type: none;
-      text-align: center;
-    }
-
-    #instructions h1 {
-      margin-bottom: 0;
-    }
 
     .coolDownDisplay {
       display: inline-block;
@@ -215,25 +141,6 @@
       to {
         height: 0;
       }
-    }
-
-    footer {
-      display: block;
-      width: 100%;
-      position: absolute;
-      bottom: 0;
-      text-align: left;
-    }
-
-    footer a {
-      color: #272528;
-      font-size: 80%;
-    }
-
-    footer span {
-      font-size: 80%;
-      color: #272528;
-      margin-right: 1em;
     }
 
     #outerHealth {
@@ -445,15 +352,6 @@
         content: '...';
       }
     }
-
-    #suggestASpell {
-      margin: 0;
-      text-align: center;
-      width: 100%;
-      position: absolute;
-      font-size: 80%;
-      bottom: 4px;
-    }
   </style>
 </head>
 
@@ -461,28 +359,11 @@
   <div id='loading'>
     <p id='loaderText'>Loading</p>
   </div>
-  <div id="mainScreen" class="overlay">
-    <header>
-      <h1>SORCER.io</h1>
-    </header>
-    <div id='mainPane' class="menuPane">
+  <div id="mainScreen">
+    <div id='mainPane'>
       <input type="text" id='nicknameInput' placeholder="Enter a Nickname" maxlength="15">
-      <button id='playButton' class="button">Play!</button>
-      <br>
-      <hr>
-      <div id="instructions">
-        <h1>How to Play:</h1>
-        <p>Use the <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> keys to move</p>
-        <p>Click to cast a spell</p>
-        <p>Level up to unlock new spells</p>
-        <p>Press <kbd>E</kbd> to open your inventory and swap your spells</p>
-        <p>More detailed instructions on the <a href="wiki" target="_blank">wiki</a></p>
-      </div>
-      <p id='suggestASpell'>Have an idea for a spell that you want added to the game? <a target='_blank' href="spellSuggestion">Suggest it here</a>.</p>
+      <button id='playButton'>Play!</button>
     </div>
-    <footer>
-      <span id='legal'>Copyright © 2018 Sorcerio All Rights Reserved.</span>
-      <a href="credits" target="_blank">credits</a></footer>
   </div>
 
   <div id="game">
