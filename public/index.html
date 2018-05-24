@@ -9,10 +9,10 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#41148c">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2f086f">
   <meta name="apple-mobile-web-app-title" content="Sorcer.io">
   <meta name="application-name" content="Sorcer.io">
-  <meta name="msapplication-TileColor" content="#41148c">
+  <meta name="msapplication-TileColor" content="#2f086f">
   <meta name="theme-color" content="#ffffff">
   <script src="js/socket.io.js"></script>
   <title>Sorcer.io</title>
@@ -190,7 +190,7 @@
     }
 
     #level {
-      color: #41148c;
+      color: #2f086f;
       position: absolute;
       bottom: 157px;
       left: calc(50vw - (416px / 2) + 253px);
@@ -289,7 +289,7 @@
 
     #leaderboardHeader {
       text-align: center;
-      color: #41148c;
+      color: #2f086f;
       font-size: 140%;
       font-family: newrocker;
       margin: 0;
@@ -326,7 +326,7 @@
 
     #loaderText {
       font-family: newrocker;
-      color: #41148c;
+      color: #2f086f;
       text-align: center;
       width: 100vw;
       font-size: 400%;
@@ -364,7 +364,7 @@
       color: #404141;
     }
 
-    #nicknameInput::placeholder{
+    #nicknameInput::placeholder {
       color: #837d7d;
       opacity: 1;
     }
@@ -401,21 +401,48 @@
       top: 50vh;
       transform: translateY(-50%);
     }
+
+    header h1 {
+      position: absolute;
+      text-align: center;
+      width: 100vw;
+      font-family: newrocker;
+      font-size: 500%;
+      color: #2f086f;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 0;
+    }
+
+    footer span {
+      font-size: 70%;
+      margin-right: 8px;
+    }
+
+    footer a {
+      font-size: 70%;
+    }
   </style>
 </head>
 
 <body>
   <div id='loading'>
     <p id='loaderText'>Loading</p>
+    <img src="media/images/backgroundImage.svg">
   </div>
   <div id="mainScreen">
+    <header>
+      <h1>Sorcer.io</h1>
+    </header>
     <div id='mainPane'>
       <input type="text" id='nicknameInput' placeholder="Enter a Nickname" maxlength="15">
       <button id='playButton'>Play</button>
     </div>
+    <footer><span id='copyright'>Copyright © 2018 Sorcer.io All Rights Reserved.</span><a href="/credits">credits</a></footer>
     <img src="media/images/backgroundImage.svg">
   </div>
-
   <div id="game">
     <canvas id='gridCanvas'></canvas>
     <canvas id='gameCanvas'></canvas>
@@ -440,10 +467,7 @@
         <span id='spellWrapper'></span>
       </div>
     </div>
-
   </div>
-
-  <script src="js/grid.js"></script>
   <script src="js/client.js"></script>
 </body>
 

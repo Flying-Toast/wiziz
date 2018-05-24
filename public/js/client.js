@@ -1,3 +1,58 @@
+var gridCanvas = document.querySelector('#gridCanvas');
+
+gridCanvas.width = innerWidth;
+gridCanvas.height = innerHeight;
+
+addEventListener('resize', function() {
+  gridCanvas.width = innerWidth;
+  gridCanvas.height = innerHeight;
+});
+var grid = {
+  xOffset: 0,
+  yOffset: 0,
+  gridSize: 40,
+  lineWidth: 1,
+  vx: 0,
+  vy: 0,
+  ctx: gridCanvas.getContext('2d'),
+  backgroundColor: '#E8E8F9',
+  lineColor: '#bebebe',
+  borderColor: '#d4342a'
+};
+
+function drawGrid() {
+  grid.xOffset = grid.xOffset % grid.gridSize;
+  grid.yOffset = grid.yOffset % grid.gridSize;
+  grid.ctx.lineWidth = grid.lineWidth;
+  grid.ctx.fillStyle = grid.backgroundColor;
+  grid.ctx.fillRect(0, 0, innerWidth, innerHeight);
+  grid.ctx.strokeStyle = grid.lineColor;
+  grid.ctx.beginPath();
+  grid.ctx.moveTo(0, 0);
+  for (var i = 0; i < innerWidth + grid.gridSize; i += grid.gridSize) {
+    grid.ctx.moveTo(i + grid.xOffset, 0);
+    grid.ctx.lineTo(i + grid.xOffset, innerHeight);
+  }
+  for (var i = 0; i < innerHeight + grid.gridSize; i += grid.gridSize) {
+    grid.ctx.moveTo(0, i + grid.yOffset);
+    grid.ctx.lineTo(innerWidth, i + grid.yOffset);
+  }
+  grid.ctx.stroke();
+  if (game.map) {
+    grid.ctx.strokeStyle = grid.borderColor;
+    grid.ctx.lineWidth = 40;
+    grid.ctx.beginPath();
+    grid.ctx.moveTo(localCoords(0, 'x'), localCoords(0, 'y'));
+    grid.ctx.lineTo(localCoords(game.map.width, 'x'), localCoords(0, 'y'));
+    grid.ctx.lineTo(localCoords(game.map.width, 'x'), localCoords(game.map.height, 'y'));
+    grid.ctx.lineTo(localCoords(0, 'x'), localCoords(game.map.height, 'y'));
+    grid.ctx.lineTo(localCoords(0, 'x'), localCoords(0, 'y') - grid.ctx.lineWidth / 2);
+    grid.ctx.stroke();
+  }
+  requestAnimationFrame(drawGrid);
+}
+requestAnimationFrame(drawGrid);
+
 var inventoryDiv = document.querySelector('#inventory');
 var storageDiv = document.querySelector('#storage');
 var spellWrapper = document.querySelector('#spellWrapper');
