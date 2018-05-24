@@ -103,7 +103,7 @@
       position: absolute;
       left: 0;
       top: 0;
-      width: 100vw; 
+      width: 100vw;
       height: 100vh;
       animation-fill-mode: forwards;
       animation-timing-function: ease-in;
@@ -352,6 +352,55 @@
         content: '...';
       }
     }
+
+    #nicknameInput {
+      display: block;
+      margin: 0 auto;
+      margin-bottom: 0.9em;
+      padding: 8px;
+      border: none;
+      background-color: rgba(189, 189, 189, 0.9);
+      border-radius: 2px;
+      color: #404141;
+    }
+    
+    #nicknameInput::placeholder{
+      color: #837d7d;
+      opacity: 1;
+    }
+
+    #playButton {
+      background-color: #800080;
+      cursor: pointer;
+      color: #ffffff;
+      border: none;
+      font-family: agane;
+      margin: 0px;
+      border-radius: 10px;
+      padding: 3px 1.1em;
+      font-size: 46px;
+      display: block;
+      margin: 0 auto;
+      box-shadow: 0 10px #5f005f;
+    }
+
+    #playButton:active {
+      position: relative;
+      top: 10px;
+      box-shadow: none;
+    }
+
+    button::-moz-focus-inner {
+      padding: 0;
+      border: 0;
+    }
+
+    #mainPane {
+      position: absolute;
+      width: 100%;
+      top: 50vh;
+      transform: translateY(-50%);
+    }
   </style>
 </head>
 
@@ -362,7 +411,7 @@
   <div id="mainScreen">
     <div id='mainPane'>
       <input type="text" id='nicknameInput' placeholder="Enter a Nickname" maxlength="15">
-      <button id='playButton'>Play!</button>
+      <button id='playButton'>Play</button>
     </div>
   </div>
 
