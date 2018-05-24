@@ -182,6 +182,7 @@
       height: 70vh;
       margin-top: calc(50vh - 70vh/2);
       border-radius: calc(40% / 15);
+      position: relative;
     }
 
     #instructions li {
@@ -444,6 +445,15 @@
         content: '...';
       }
     }
+
+    #suggestASpell {
+      margin: 0;
+      text-align: center;
+      width: 100%;
+      position: absolute;
+      font-size: 80%;
+      bottom: 4px;
+    }
   </style>
 </head>
 
@@ -468,6 +478,7 @@
         <p>Press <kbd>E</kbd> to open your inventory and swap your spells</p>
         <p>More detailed instructions on the <a href="wiki" target="_blank">wiki</a></p>
       </div>
+      <p id='suggestASpell'>Have an idea for a spell that you want added to the game? <a href="spellSuggestion">Suggest it here</a>.</p>
     </div>
     <footer>
       <span id='legal'>Copyright © 2018 Sorcerio All Rights Reserved.</span>
