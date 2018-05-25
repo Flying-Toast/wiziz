@@ -163,6 +163,7 @@ var local = {
   lastChosenUnlock: 1,
   inputNumber: 0,
   player: {},
+  playerRadius: 65,
   lastUpdate: 0,
   controls: {
     w: 'u',
@@ -574,6 +575,11 @@ function drawLoop() {
         ctx.fillStyle = '#2dafaf';
         ctx.fillText('lvl ' + currentPlayer.level, -(ctx.measureText('lvl ' + currentPlayer.level).width / 2), 100);
         ctx.restore();
+      } else {
+        ctx.fillStyle = grid.backgroundColor;
+        ctx.beginPath();
+        ctx.arc(localCoords(currentPlayer.x, 'x'), localCoords(currentPlayer.y, 'y'), local.playerRadius, 0, Math.PI * 2);
+        ctx.fill();
       }
 
     }
@@ -586,6 +592,11 @@ function drawLoop() {
     ctx.rotate(local.angle);
     ctx.drawImage(sprites.players.green, -sprites.players.green.width / 2, -sprites.players.green.height / 2);
     ctx.restore();
+  } else {
+    ctx.fillStyle = grid.backgroundColor;
+    ctx.beginPath();
+    ctx.arc(innerWidth / 2, innerHeight / 2, local.playerRadius, 0, Math.PI * 2);
+    ctx.fill();
   }
 
   //spells

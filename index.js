@@ -159,7 +159,7 @@ var spells = { //inventory items
     return (new Spell('bombSpell', 8000));
   },
   invisibleSpell: function() {
-    return (new Spell('invisibleSpell', 25000));
+    return (new Spell('invisibleSpell', 11000));
   },
   speedSpell: function() {
     return (new Spell('speedSpell', 7000));
