@@ -141,14 +141,11 @@
             <li><a href="#selfType">Self Spells</a></li>
           </ul>
         </li>
-        <li><a href="#fireSpell">Fire Spell</a></li>
-        <li><a href="#freezeSpell">Freeze Spell</a></li>
-        <li><a href="#blindSpell">Blind Spell</a></li>
-        <li><a href="#healSpell">Heal Spell</a></li>
-        <li><a href="#bombSpell">Bomb Spell</a></li>
-        <li><a href="#invisibleSpell">Invisible Spell</a></li>
-        <li><a href="#speedSpell">Speed Spell</a></li>
-        <li><a href="#teleportSpell">Teleport Spell</a></li>
+
+        <% for(var prop in spells){ var spellName = spells[prop].name.split('S').join(' S'); spellName = (spellName.charAt(0).toUpperCase() + spellName.slice(1)); %>
+          <li><a href="#<%= spells[prop].name %>"><%= spellName %></a></li>
+        <% } %>
+
       </ul>
     </li>
   </ul>
@@ -219,178 +216,79 @@
     </div>
   </article>
 
-  <article id='fireSpell' class="section">
-    <h3 class='subheading'>Fire Spell</h3>
-    <div class='mainContent'>
-      <label for="fireSpellSound"><h4 class='heading3'>Icon</h4></label>
-      <img class="indent" id='fireSpellImage' src="/media/images/fireSpell.png" alt="A picture of how the fire spell looks when inside an inventory">
-      <br>
-      <label for="fireSpellSound"><h4 class='heading3'>Sound</h4></label>
-      <audio id='fireSpellSound' class="indent" controls>
-        <source src="/media/sounds/fireSpell.ogg" type="audio/ogg">
-        <source src="/media/sounds/fireSpell.mp3" type="audio/mp3">
-      </audio>
-      <label for="fireSpellStats"><h4 class="heading3">Stats</h4></label>
-      <ul class="noBullets">
-        <li><b>Type</b>: Projectile</li>
-        <li><b>Speed</b>: 1</li>
-        <li><b>Range</b>: 700</li>
-        <li><b>Effect</b>: Affected player gets -100 health</li>
-        <li><b>Cooldown</b>: 0.5 seconds</li>
-      </ul>
-    </div>
-  </article>
+  <% for(var prop in spells){ var spellName = spells[prop].name.split('S').join(' S'); spellName = (spellName.charAt(0).toUpperCase() + spellName.slice(1)); %>
 
-  <article id='freezeSpell' class="section">
-    <h3 class='subheading'>Freeze Spell</h3>
-    <div class='mainContent'>
-      <label for="freezeSpellSound"><h4 class='heading3'>Icon</h4></label>
-      <img class="indent" id='freezeSpellImage' src="/media/images/freezeSpell.png" alt="A picture of how the freeze spell looks when inside an inventory">
-      <br>
-      <label for="freezeSpellSound"><h4 class='heading3'>Sound</h4></label>
-      <audio id='freezeSpellSound' class="indent" controls>
-        <source src="/media/sounds/freezeSpell.ogg" type="audio/ogg">
-        <source src="/media/sounds/freezeSpell.mp3" type="audio/mp3">
-      </audio>
-      <label for="freezeSpellStats"><h4 class="heading3">Stats</h4></label>
-      <ul class="noBullets">
-        <li><b>Type</b>: Projectile</li>
-        <li><b>Speed</b>: 0.7</li>
-        <li><b>Range</b>: 500</li>
-        <li><b>Effect</b>: Affected player gets "frozen" and cannot move for 3 seconds</li>
-        <li><b>Cooldown</b>: 5 seconds</li>
-      </ul>
-    </div>
-  </article>
+    <% if(spells[prop].type==='projectile'){ %>
+      <article id='<%= spells[prop].name %>' class="section">
+        <h3 class='subheading'><%= spellName %></h3>
+        <div class='mainContent'>
+          <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Icon</h4></label>
+          <img class="indent" id='<%= spells[prop].name %>Image' src="/media/images/<%= spells[prop].name %>.png" alt="A picture of how the <%= spellName %> looks when inside an inventory">
+          <br>
+          <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Sound</h4></label>
+          <audio id='<%= spells[prop].name %>Sound' class="indent" controls>
+            <source src="/media/sounds/<%= spells[prop].name %>.ogg" type="audio/ogg">
+            <source src="/media/sounds/<%= spells[prop].name %>.mp3" type="audio/mp3">
+          </audio>
+          <label for="<%= spells[prop].name %>Stats"><h4 class="heading3">Stats</h4></label>
+          <ul class="noBullets">
+            <li><b>Type</b>: Projectile</li>
+            <li><b>Speed</b>: <%= spells[prop].speed %></li>
+            <li><b>Range</b>: <%= spells[prop].range %></li>
+            <li><b>Effect</b>: <%= spells[prop].humanReadableEffect %></li>
+            <li><b>Cooldown</b>: <%= spells[prop].coolDown/1000 %> seconds</li>
+          </ul>
+        </div>
+      </article>
+    <% }else if(spells[prop].type==='splash'){ %>
+      <article id='<%= spells[prop].name %>' class="section">
+        <h3 class='subheading'><%= spellName %></h3>
+        <div class='mainContent'>
+          <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Icon</h4></label>
+          <img class="indent" id='<%= spells[prop].name %>Image' src="/media/images/<%= spells[prop].name %>.png" alt="A picture of how the <%= spellName %> looks when inside an inventory">
+          <br>
+          <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Sound</h4></label>
+          <audio id='<%= spells[prop].name %>Sound' class="indent" controls>
+            <source src="/media/sounds/<%= spells[prop].name %>.ogg" type="audio/ogg">
+            <source src="/media/sounds/<%= spells[prop].name %>.mp3" type="audio/mp3">
+          </audio>
+          <label for="<%= spells[prop].name %>Stats"><h4 class="heading3">Stats</h4></label>
+          <ul class="noBullets">
+            <li><b>Type</b>: Splash</li>
+            <li><b>Speed</b>: <%= spells[prop].speed %></li>
+            <li><b>Range</b>: <%= spells[prop].range %></li>
+            <li><b>Explosion Radius</b>: <%= spells[prop].explosionRadius %></li>
+            <li><b>Effect</b>: <%= spells[prop].humanReadableEffect %></li>
+            <li><b>Cooldown</b>: <%= spells[prop].coolDown/1000 %> seconds</li>
+            <li><b>Effect Area Color</b>:
+              <div class='swatch' style="background-color:<%= spells[prop].color %>;"></div>
+            </li>
+          </ul>
+        </div>
+      </article>
+    <% }else if(spells[prop].type==='self'){ %>
+      <article id='<%= spells[prop].name %>' class="section">
+        <h3 class='subheading'><%= spellName %></h3>
+        <div class='mainContent'>
+          <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Icon</h4></label>
+          <img class="indent" id='<%= spells[prop].name %>Image' src="/media/images/<%= spells[prop].name %>.png" alt="A picture of how the <%= spellName %> looks when inside an inventory">
+          <br>
+          <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Sound</h4></label>
+          <audio id='<%= spells[prop].name %>Sound' class="indent" controls>
+            <source src="/media/sounds/<%= spells[prop].name %>.ogg" type="audio/ogg">
+            <source src="/media/sounds/<%= spells[prop].name %>.mp3" type="audio/mp3">
+          </audio>
+          <label for="<%= spells[prop].name %>Stats"><h4 class="heading3">Stats</h4></label>
+          <ul class="noBullets">
+            <li><b>Type</b>: Self</li>
+            <li><b>Effect</b>: <%= spells[prop].humanReadableEffect %></li>
+            <li><b>Cooldown</b>: <%= spells[prop].coolDown/1000 %> seconds</li>
+          </ul>
+        </div>
+      </article>
+    <% } %>
+  <% } %>
 
-  <article id='blindSpell' class="section">
-    <h3 class='subheading'>Blind Spell</h3>
-    <div class='mainContent'>
-      <label for="blindSpellSound"><h4 class='heading3'>Icon</h4></label>
-      <img class="indent" id='blindSpellImage' src="/media/images/blindSpell.png" alt="A picture of how the blind spell looks when inside an inventory">
-      <br>
-      <label for="blindSpellSound"><h4 class='heading3'>Sound</h4></label>
-      <audio id='blindSpellSound' class="indent" controls>
-        <source src="/media/sounds/blindSpell.ogg" type="audio/ogg">
-        <source src="/media/sounds/blindSpell.mp3" type="audio/mp3">
-      </audio>
-      <label for="blindSpellStats"><h4 class="heading3">Stats</h4></label>
-      <ul class="noBullets">
-        <li><b>Type</b>: Splash</li>
-        <li><b>Speed</b>: 0.7</li>
-        <li><b>Range</b>: 700</li>
-        <li><b>Explosion Radius</b>: 140</li>
-        <li><b>Effect</b>: Affected players become "blinded" and their screens go dark for 2 seconds</li>
-        <li><b>Cooldown</b>: 4.5 seconds</li>
-        <li><b>Effect Area Color</b>:
-          <div class='swatch' style="background-color:rgba(0, 0, 0, 0.6);"></div>
-        </li>
-      </ul>
-    </div>
-  </article>
-
-  <article id='healSpell' class="section">
-    <h3 class='subheading'>Heal Spell</h3>
-    <div class='mainContent'>
-      <label for="healSpellSound"><h4 class='heading3'>Icon</h4></label>
-      <img class="indent" id='healSpellImage' src="/media/images/healSpell.png" alt="A picture of how the heal spell looks when inside an inventory">
-      <br>
-      <label for="healSpellSound"><h4 class='heading3'>Sound</h4></label>
-      <audio id='healSpellSound' class="indent" controls>
-        <source src="/media/sounds/healSpell.ogg" type="audio/ogg">
-        <source src="/media/sounds/healSpell.mp3" type="audio/mp3">
-      </audio>
-      <label for="healSpellStats"><h4 class="heading3">Stats</h4></label>
-      <ul class="noBullets">
-        <li><b>Type</b>: Self</li>
-        <li><b>Effect</b>: Restores 10% health every 0.5 seconds</li>
-        <li><b>Cooldown</b>: 15 seconds</li>
-      </ul>
-    </div>
-  </article>
-
-  <article id='bombSpell' class="section">
-    <h3 class='subheading'>Bomb Spell</h3>
-    <div class='mainContent'>
-      <label for="bombSpellSound"><h4 class='heading3'>Icon</h4></label>
-      <img class="indent" id='bombSpellImage' src="/media/images/bombSpell.png" alt="A picture of how the bomb spell looks when inside an inventory">
-      <br>
-      <label for="bombSpellSound"><h4 class='heading3'>Sound</h4></label>
-      <audio id='bombSpellSound' class="indent" controls>
-        <source src="/media/sounds/bombSpell.ogg" type="audio/ogg">
-        <source src="/media/sounds/bombSpell.mp3" type="audio/mp3">
-      </audio>
-      <label for="bombSpellStats"><h4 class="heading3">Stats</h4></label>
-      <ul class="noBullets">
-        <li><b>Type</b>: Splash</li>
-        <li><b>Speed</b>: 0.5</li>
-        <li><b>Range</b>: 1500</li>
-        <li><b>Explosion Radius</b>: 300</li>
-        <li><b>Effect</b>: Affected players get -100 health</li>
-        <li><b>Cooldown</b>: 8 seconds</li>
-        <li><b>Effect Area Color</b>:
-          <div class='swatch' style="background-color:rgba(232, 6, 6, 0.6);"></div>
-        </li>
-      </ul>
-    </div>
-  </article>
-  <article id='invisibleSpell' class="section">
-    <h3 class='subheading'>Invisible Spell</h3>
-    <div class='mainContent'>
-      <label for="invisibleSpellSound"><h4 class='heading3'>Icon</h4></label>
-      <img class="indent" id='invisibleSpellImage' src="/media/images/invisibleSpell.png" alt="A picture of how the invisible spell looks when inside an inventory">
-      <br>
-      <label for="invisibleSpellSound"><h4 class='heading3'>Sound</h4></label>
-      <audio id='invisibleSpellSound' class="indent" controls>
-          <source src="/media/sounds/invisibleSpell.ogg" type="audio/ogg">
-          <source src="/media/sounds/invisibleSpell.mp3" type="audio/mp3">
-        </audio>
-      <label for="invisibleSpellStats"><h4 class="heading3">Stats</h4></label>
-      <ul class="noBullets">
-        <li><b>Type</b>: Self</li>
-        <li><b>Effect</b>: Makes your player invisible to opponents</li>
-        <li><b>Cooldown</b>: 11 seconds</li>
-      </ul>
-    </div>
-  </article>
-  <article id='speedSpell' class="section">
-    <h3 class='subheading'>Speed Spell</h3>
-    <div class='mainContent'>
-      <label for="speedSpellSound"><h4 class='heading3'>Icon</h4></label>
-      <img class="indent" id='speedSpellImage' src="/media/images/speedSpell.png" alt="A picture of how the speed spell looks when inside an inventory">
-      <br>
-      <label for="speedSpellSound"><h4 class='heading3'>Sound</h4></label>
-      <audio id='speedSpellSound' class="indent" controls>
-          <source src="/media/sounds/speedSpell.ogg" type="audio/ogg">
-          <source src="/media/sounds/speedSpell.mp3" type="audio/mp3">
-        </audio>
-      <label for="speedSpellStats"><h4 class="heading3">Stats</h4></label>
-      <ul class="noBullets">
-        <li><b>Type</b>: Self</li>
-        <li><b>Effect</b>: Makes your player move 1.5x faster for 5 seconds</li>
-        <li><b>Cooldown</b>: 7 seconds</li>
-      </ul>
-    </div>
-  </article>
-  <article id='teleportSpell' class="section">
-    <h3 class='subheading'>Teleport Spell</h3>
-    <div class='mainContent'>
-      <label for="teleportSpellSound"><h4 class='heading3'>Icon</h4></label>
-      <img class="indent" id='teleportSpellImage' src="/media/images/teleportSpell.png" alt="A picture of how the teleport spell looks when inside an inventory">
-      <br>
-      <label for="teleportSpellSound"><h4 class='heading3'>Sound</h4></label>
-      <audio id='teleportSpellSound' class="indent" controls>
-          <source src="/media/sounds/teleportSpell.ogg" type="audio/ogg">
-          <source src="/media/sounds/teleportSpell.mp3" type="audio/mp3">
-        </audio>
-      <label for="teleportSpellStats"><h4 class="heading3">Stats</h4></label>
-      <ul class="noBullets">
-        <li><b>Type</b>: Projectile</li>
-        <li><b>Effect</b>: Teleports your player to it's location when it either reaches its target or hits another player</li>
-        <li><b>Cooldown</b>: 7 seconds</li>
-      </ul>
-    </div>
-  </article>
 </body>
 
 </html>

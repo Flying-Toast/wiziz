@@ -3,6 +3,7 @@ const helpers = require('./helpers.js');
 const xss = require('xss');
 const readline = require('readline');
 const hashmap = require('hashmap');
+const fs = require('fs');
 
 //stdin commands
 const rl = readline.createInterface({
@@ -45,11 +46,16 @@ var spellEnts = { //spell entities
     name: 'fireSpell',
     speed: 1,
     xpGain: 50,
+    coolDown: 500,
     range: 700,
     radius: 10,
     type: 'projectile',
+    damage: 100,
+    get humanReadableEffect() {
+      return (`Affected player gets -${this.damage} health`);
+    },
     effect: function(affectedPlayer) {
-      affectedPlayer.health -= 100;
+      affectedPlayer.health -= this.damage;
     }
   },
   freezeSpell: {
@@ -57,9 +63,13 @@ var spellEnts = { //spell entities
     speed: 0.7,
     xpGain: 140,
     range: 500,
+    coolDown: 5000,
     radius: 10,
     effectWearOff: 3000,
     type: 'projectile',
+    get humanReadableEffect() {
+      return (`Affected player gets "frozen" and cannot move for ${this.effectWearOff/1000} seconds`);
+    },
     effect: function(affectedPlayer) {
       if (affectedPlayer.movementSpeed !== 0) {
         affectedPlayer.movementSpeed = 0;
@@ -75,11 +85,15 @@ var spellEnts = { //spell entities
     speed: 0.7,
     range: 700,
     type: 'splash',
+    coolDown: 4500,
     explosionRadius: 140,
     ttl: 4000,
     radius: 10,
     effectWearOff: 2000,
     playerCoolDown: 100, //delay between repetitions of effectArea affecting a certain player
+    get humanReadableEffect() {
+      return (`Affected players become "blinded" and their screens go dark for ${this.effectWearOff/1000} seconds`);
+    },
     effect: function(affectedPlayer) { //effect of explosion area
       if (!affectedPlayer.blinded) {
         affectedPlayer.blinded = true;
@@ -93,15 +107,20 @@ var spellEnts = { //spell entities
   healSpell: {
     name: 'healSpell',
     type: 'self',
+    coolDown: 15000,
     playerCoolDown: 500,
+    percentHealth: 10,
+    get humanReadableEffect() {
+      return (`Restores ${this.percentHealth}% of your health every ${this.playerCoolDown/1000} seconds`);
+    },
     effect: function(affectedPlayer) {
       setIntervalX(function() {
-        if (affectedPlayer.health + (affectedPlayer.maxHealth / 10) < affectedPlayer.maxHealth) {
-          affectedPlayer.health += (affectedPlayer.maxHealth / 10);
+        if (affectedPlayer.health + (affectedPlayer.maxHealth / this.percentHealth) < affectedPlayer.maxHealth) {
+          affectedPlayer.health += (affectedPlayer.maxHealth / this.percentHealth);
         } else {
           affectedPlayer.health = affectedPlayer.maxHealth;
         }
-      }, this.playerCoolDown, 10);
+      }, this.playerCoolDown, Math.ceil(100 / this.percentHealth));
     }
   },
   bombSpell: {
@@ -111,11 +130,16 @@ var spellEnts = { //spell entities
     range: 1500,
     type: 'splash',
     explosionRadius: 300,
+    coolDown: 8000,
     ttl: 700,
     radius: 10,
+    damage: 100,
     playerCoolDown: 200000, //(should never repeat, so set to crazy big number) //delay between repetitions of effectArea affecting a certain player
+    get humanReadableEffect() {
+      return (`Affected players get -${this.damage} health`);
+    },
     effect: function(affectedPlayer) { //effect of explosion area
-      affectedPlayer.health -= 100;
+      affectedPlayer.health -= this.damage;
     },
     color: 'rgba(232, 6, 6, 0.6)'
   },
@@ -123,6 +147,10 @@ var spellEnts = { //spell entities
     name: 'invisibleSpell',
     type: 'self',
     effectWearOff: 5000,
+    coolDown: 11000,
+    get humanReadableEffect() {
+      return (`Makes your player invisible to opponents for ${this.effectWearOff/1000} seconds`);
+    },
     effect: function(affectedPlayer) {
       affectedPlayer.invisible = true;
       setTimeout(function() {
@@ -134,8 +162,13 @@ var spellEnts = { //spell entities
     name: 'speedSpell',
     type: 'self',
     effectWearOff: 5000,
+    coolDown: 7000,
+    speedBost: 1.5,
+    get humanReadableEffect() {
+      return (`Makes your player move ${this.speedBost}x faster for ${this.effectWearOff/1000} seconds`);
+    },
     effect: function(affectedPlayer) {
-      affectedPlayer.movementSpeed = config.playerSpeed * 1.5;
+      affectedPlayer.movementSpeed = config.playerSpeed * this.speedBost;
       setTimeout(function() {
         affectedPlayer.movementSpeed = config.playerSpeed;
       }, this.effectWearOff);
@@ -144,39 +177,48 @@ var spellEnts = { //spell entities
   teleportSpell: {
     name: 'teleportSpell',
     speed: 0.8,
+    coolDown: 7000,
     xpGain: 0,
     range: 600,
     radius: 10,
     type: 'projectile',
-    effect: function(affectedPlayer) {
-
-    }
+    get humanReadableEffect() {
+      return ('Teleports your player to its location when it either reaches its target or hits another player');
+    },
+    effect: function(affectedPlayer) {}
   }
 };
+
+fs.writeFile(__dirname + '/spells.json', JSON.stringify(spellEnts), function(err) {
+  if (err) {
+    throw (err);
+  };
+});
+
 var spells = { //inventory items
   fireSpell: function() {
-    return (new Spell('fireSpell', 500));
+    return (new Spell('fireSpell', spellEnts.fireSpell.coolDown));
   },
   freezeSpell: function() {
-    return (new Spell('freezeSpell', 5000));
+    return (new Spell('freezeSpell', spellEnts.freezeSpell.coolDown));
   },
   blindSpell: function() {
-    return (new Spell('blindSpell', 4500));
+    return (new Spell('blindSpell', spellEnts.blindSpell.coolDown));
   },
   healSpell: function() {
-    return (new Spell('healSpell', 15000));
+    return (new Spell('healSpell', spellEnts.healSpell.coolDown));
   },
   bombSpell: function() {
-    return (new Spell('bombSpell', 8000));
+    return (new Spell('bombSpell', spellEnts.bombSpell.coolDown));
   },
   invisibleSpell: function() {
-    return (new Spell('invisibleSpell', 11000));
+    return (new Spell('invisibleSpell', spellEnts.invisibleSpell.coolDown));
   },
   speedSpell: function() {
-    return (new Spell('speedSpell', 7000));
+    return (new Spell('speedSpell', spellEnts.speedSpell.coolDown));
   },
   teleportSpell: function() {
-    return (new Spell('teleportSpell', 7000));
+    return (new Spell('teleportSpell', spellEnts.teleportSpell.coolDown));
   }
 };
 
