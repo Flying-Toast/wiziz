@@ -127,6 +127,7 @@ var sprites = {
     healSpell: 'media/images/healSpell.png',
     bombSpell: 'media/images/bombSpell.png',
     invisibleSpell: 'media/images/invisibleSpell.png',
+    teleportSpell: 'media/images/teleportSpell.png',
     speedSpell: 'media/images/speedSpell.png',
     openStorage: 'media/images/openStorage.png'
   },
@@ -134,6 +135,7 @@ var sprites = {
     fireSpell: createSprite('media/images/fireEffect.png'),
     freezeSpell: createSprite('media/images/freezeEffect.png'),
     bombSpell: createSprite('media/images/bombEffect.png'),
+    teleportSpell: createSprite('media/images/teleportEffect.png'),
     blindSpell: createSprite('media/images/blindEffect.png')
   }
 };
@@ -144,6 +146,7 @@ var sounds = {
   bombSpell: createSound('media/sounds/bombSpell.mp3', 'media/sounds/bombSpell.ogg'),
   blindSpell: createSound('media/sounds/blindSpell.mp3', 'media/sounds/blindSpell.ogg'),
   speedSpell: createSound('media/sounds/speedSpell.mp3', 'media/sounds/speedSpell.ogg'),
+  teleportSpell: createSound('media/sounds/teleportSpell.mp3', 'media/sounds/teleportSpell.ogg'),
   invisibleSpell: createSound('media/sounds/invisibleSpell.mp3', 'media/sounds/invisibleSpell.ogg')
 };
 var local = {

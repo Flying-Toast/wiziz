@@ -148,6 +148,7 @@
         <li><a href="#bombSpell">Bomb Spell</a></li>
         <li><a href="#invisibleSpell">Invisible Spell</a></li>
         <li><a href="#speedSpell">Speed Spell</a></li>
+        <li><a href="#teleportSpell">Teleport Spell</a></li>
       </ul>
     </li>
   </ul>
@@ -367,6 +368,25 @@
       <ul class="noBullets">
         <li><b>Type</b>: Self</li>
         <li><b>Effect</b>: Makes your player move 1.5x faster for 5 seconds</li>
+        <li><b>Cooldown</b>: 7 seconds</li>
+      </ul>
+    </div>
+  </article>
+  <article id='teleportSpell' class="section">
+    <h3 class='subheading'>Teleport Spell</h3>
+    <div class='mainContent'>
+      <label for="teleportSpellSound"><h4 class='heading3'>Icon</h4></label>
+      <img class="indent" id='teleportSpellImage' src="/media/images/teleportSpell.png" alt="A picture of how the teleport spell looks when inside an inventory">
+      <br>
+      <label for="teleportSpellSound"><h4 class='heading3'>Sound</h4></label>
+      <audio id='teleportSpellSound' class="indent" controls>
+          <source src="/media/sounds/teleportSpell.ogg" type="audio/ogg">
+          <source src="/media/sounds/teleportSpell.mp3" type="audio/mp3">
+        </audio>
+      <label for="teleportSpellStats"><h4 class="heading3">Stats</h4></label>
+      <ul class="noBullets">
+        <li><b>Type</b>: Projectile</li>
+        <li><b>Effect</b>: Teleports your player to it's location when it either reaches its target or hits another player</li>
         <li><b>Cooldown</b>: 7 seconds</li>
       </ul>
     </div>

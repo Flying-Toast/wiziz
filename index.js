@@ -36,7 +36,7 @@ var config = {
   }, //returns the amount of xp needed to get to [checkLevel] param
   unlocks: {
     level2: {
-      newSpells: ['freezeSpell', 'blindSpell', 'healSpell', 'bombSpell', 'invisibleSpell', 'speedSpell'] //which new spells are unlocked at this level
+      newSpells: ['freezeSpell', 'blindSpell', 'healSpell', 'bombSpell', 'invisibleSpell', 'speedSpell', 'teleportSpell'] //which new spells are unlocked at this level
     }
   }
 };
@@ -140,6 +140,17 @@ var spellEnts = { //spell entities
         affectedPlayer.movementSpeed = config.playerSpeed;
       }, this.effectWearOff);
     }
+  },
+  teleportSpell: {
+    name: 'teleportSpell',
+    speed: 0.8,
+    xpGain: 0,
+    range: 600,
+    radius: 10,
+    type: 'projectile',
+    effect: function(affectedPlayer) {
+
+    }
   }
 };
 var spells = { //inventory items
@@ -163,6 +174,9 @@ var spells = { //inventory items
   },
   speedSpell: function() {
     return (new Spell('speedSpell', 7000));
+  },
+  teleportSpell: function() {
+    return (new Spell('teleportSpell', 7000));
   }
 };
 
@@ -276,6 +290,14 @@ function ProjectileSpell(origin, target, speed, caster, range, name, effect, rad
     this.dead = true;
     game.spells.splice(game.spells.indexOf(this), 1);
   };
+  if (this.name === 'teleportSpell') {
+    this.die = function() {
+      this.caster.x = this.target.x;
+      this.caster.y = this.target.y;
+      this.dead = true;
+      game.spells.splice(game.spells.indexOf(this), 1);
+    };
+  }
 }
 ProjectileSpell.prototype.tick = function() {
   //movement
