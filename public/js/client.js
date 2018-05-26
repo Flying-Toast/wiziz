@@ -168,6 +168,7 @@ var local = {
   player: {},
   playerRadius: 65,
   lastUpdate: 0,
+  spellEnts: {},
   controls: {
     w: 'u',
     s: 'd',
@@ -243,6 +244,10 @@ socket.on('youDied', function() {
   mainScreen.style.display = '';
   mainScreen.style.animationName = '';
   mainScreen.style.animationName = 'death';
+});
+
+socket.on('spellEnts', function(data) {
+  local.spellEnts = data;
 });
 
 socket.on('update', function(updatedGame) {
@@ -359,6 +364,7 @@ function fillInventory(inventory) {
       var coolDownDiv = document.querySelector('#coolDownDisplay' + (i + 1));
       coolDownDiv.style.animationDuration = inventory[i].coolDown + 'ms';
       item.src = sprites.src[inventory[i].itemName];
+      item.title = local.spellEnts[inventory[i].itemName].humanReadableEffect;
     }
   }
 }
@@ -405,7 +411,9 @@ function fillStorage(storage) {
 
   for (var i = 0; i < storage.length; i++) {
     var currentItem = storage[i];
-    document.querySelector('#s' + i).src = sprites.src[currentItem.itemName];
+    var slot = document.querySelector('#s' + i);
+    slot.src = sprites.src[currentItem.itemName];
+    slot.title = local.spellEnts[currentItem.itemName].humanReadableEffect;
   }
 }
 
@@ -509,6 +517,7 @@ function drawLoop() {
       var image = document.createElement('img');
       image.src = sprites.src[currentSpellName];
       image.id = currentSpellName;
+      image.title = local.spellEnts[currentSpellName].humanReadableEffect;
       chooseUnlockedSpells.appendChild(image);
       image.addEventListener('click', function(e) {
         local.quedInputs.push({

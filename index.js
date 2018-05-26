@@ -234,6 +234,8 @@ function setIntervalX(callback, delay, repetitions) {
 
 server.io.on('connection', function(socket) {
 
+  socket.emit('spellEnts', spellEnts);
+
   socket.on('newGame', function(playerOptions) {
 
     if (game.players.indexOf(game.playerMap.get(socket.id)) !== -1) {
