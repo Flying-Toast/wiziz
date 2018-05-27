@@ -29,7 +29,13 @@ app.get('/credits', function(req, res) {
 });
 
 app.get('/wiki', function(req, res) {
-  res.render(__dirname + '/public/wiki/wiki.ejs', {
+  res.render('wiki', {
+    spells: spells
+  });
+});
+
+app.get('/spellList', function(req, res) {
+  res.render('spellList', {
     spells: spells
   });
 });

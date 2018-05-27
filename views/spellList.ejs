@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>List of All Sorcer.io Spells</title>
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+      padding-right: 4em;
+    }
+
+    @font-face {
+      font-family: 'newrocker';
+      src: url('/fonts/newRocker/newrocker-webfont.woff2') format('woff2'), url('/fonts/newRocker/newrocker-webfont.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'agane';
+      src: url('/fonts/agane/agane-webfont.woff2') format('woff2'), url('/fonts/agane/agane-webfont.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    * {
+      font-family: agane;
+    }
+
+    body {
+      background-color: #e3e3e3;
+    }
+
+    .heading {
+      margin-left: 1em;
+    }
+
+    .subheading {
+      margin-left: 2em;
+    }
+
+    .mainContent {
+      margin-left: 3em;
+    }
+
+    .noBullets {
+      list-style-type: none;
+    }
+
+    kbd {
+      background-color: #EBF1F5;
+      border: 2px solid #cbcfd2;
+      border-radius: 3px;
+      color: #726C74;
+      display: inline-block;
+      font-size: 11px;
+      line-height: 1.4;
+      margin: 0 .1em;
+      padding: .1em .6em;
+    }
+
+    .heading3 {
+      margin: 0.8em 0;
+    }
+
+    .indent {
+      margin-left: 1em;
+    }
+
+    .swatch {
+      display: inline-block;
+      height: 16px;
+      width: 16px;
+      position: relative;
+      top: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <% for(var prop in spells){ var spellName = spells[prop].name.split('S').join(' S'); spellName = (spellName.charAt(0).toUpperCase() + spellName.slice(1)); %>
+
+    <% if(spells[prop].type==='projectile'){ %>
+      <article id='<%= spells[prop].name %>' class="section">
+        <h3 class='subheading'><%= spellName %></h3>
+        <div class='mainContent'>
+          <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Icon</h4></label>
+          <img class="indent" id='<%= spells[prop].name %>Image' src="/media/images/<%= spells[prop].name %>.png" alt="A picture of how the <%= spellName %> looks when inside an inventory">
+          <br>
+          <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Sound</h4></label>
+          <audio id='<%= spells[prop].name %>Sound' class="indent" controls>
+              <source src="/media/sounds/<%= spells[prop].name %>.ogg" type="audio/ogg">
+              <source src="/media/sounds/<%= spells[prop].name %>.mp3" type="audio/mp3">
+            </audio>
+          <label for="<%= spells[prop].name %>Stats"><h4 class="heading3">Stats</h4></label>
+          <ul class="noBullets">
+            <li><b>Type</b>: Projectile</li>
+            <li><b>Speed</b>:
+              <%= spells[prop].speed %>
+            </li>
+            <li><b>Range</b>:
+              <%= spells[prop].range %>
+            </li>
+            <li><b>Effect</b>:
+              <%= spells[prop].humanReadableEffect %>
+            </li>
+            <li><b>Cooldown</b>:
+              <%= spells[prop].coolDown/1000 %> seconds</li>
+          </ul>
+        </div>
+      </article>
+      <% }else if(spells[prop].type==='splash'){ %>
+        <article id='<%= spells[prop].name %>' class="section">
+          <h3 class='subheading'><%= spellName %></h3>
+          <div class='mainContent'>
+            <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Icon</h4></label>
+            <img class="indent" id='<%= spells[prop].name %>Image' src="/media/images/<%= spells[prop].name %>.png" alt="A picture of how the <%= spellName %> looks when inside an inventory">
+            <br>
+            <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Sound</h4></label>
+            <audio id='<%= spells[prop].name %>Sound' class="indent" controls>
+              <source src="/media/sounds/<%= spells[prop].name %>.ogg" type="audio/ogg">
+              <source src="/media/sounds/<%= spells[prop].name %>.mp3" type="audio/mp3">
+            </audio>
+            <label for="<%= spells[prop].name %>Stats"><h4 class="heading3">Stats</h4></label>
+            <ul class="noBullets">
+              <li><b>Type</b>: Splash</li>
+              <li><b>Speed</b>:
+                <%= spells[prop].speed %>
+              </li>
+              <li><b>Range</b>:
+                <%= spells[prop].range %>
+              </li>
+              <li><b>Explosion Radius</b>:
+                <%= spells[prop].explosionRadius %>
+              </li>
+              <li><b>Effect</b>:
+                <%= spells[prop].humanReadableEffect %>
+              </li>
+              <li><b>Cooldown</b>:
+                <%= spells[prop].coolDown/1000 %> seconds</li>
+              <li><b>Effect Area Color</b>:
+                <div class='swatch' style="background-color:<%= spells[prop].color %>;"></div>
+              </li>
+            </ul>
+          </div>
+        </article>
+        <% }else if(spells[prop].type==='self'){ %>
+          <article id='<%= spells[prop].name %>' class="section">
+            <h3 class='subheading'><%= spellName %></h3>
+            <div class='mainContent'>
+              <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Icon</h4></label>
+              <img class="indent" id='<%= spells[prop].name %>Image' src="/media/images/<%= spells[prop].name %>.png" alt="A picture of how the <%= spellName %> looks when inside an inventory">
+              <br>
+              <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Sound</h4></label>
+              <audio id='<%= spells[prop].name %>Sound' class="indent" controls>
+              <source src="/media/sounds/<%= spells[prop].name %>.ogg" type="audio/ogg">
+              <source src="/media/sounds/<%= spells[prop].name %>.mp3" type="audio/mp3">
+            </audio>
+              <label for="<%= spells[prop].name %>Stats"><h4 class="heading3">Stats</h4></label>
+              <ul class="noBullets">
+                <li><b>Type</b>: Self</li>
+                <li><b>Effect</b>:
+                  <%= spells[prop].humanReadableEffect %>
+                </li>
+                <li><b>Cooldown</b>:
+                  <%= spells[prop].coolDown/1000 %> seconds</li>
+              </ul>
+            </div>
+          </article>
+          <% } %>
+            <% } %>
+</body>
+
+</html>

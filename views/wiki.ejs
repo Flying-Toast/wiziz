@@ -143,8 +143,12 @@
         </li>
 
         <% for(var prop in spells){ var spellName = spells[prop].name.split('S').join(' S'); spellName = (spellName.charAt(0).toUpperCase() + spellName.slice(1)); %>
-          <li><a href="#<%= spells[prop].name %>"><%= spellName %></a></li>
-        <% } %>
+          <li>
+            <a href="#<%= spells[prop].name %>">
+              <%= spellName %>
+            </a>
+          </li>
+          <% } %>
 
       </ul>
     </li>
@@ -216,78 +220,8 @@
     </div>
   </article>
 
-  <% for(var prop in spells){ var spellName = spells[prop].name.split('S').join(' S'); spellName = (spellName.charAt(0).toUpperCase() + spellName.slice(1)); %>
+  <% include spellList %>
 
-    <% if(spells[prop].type==='projectile'){ %>
-      <article id='<%= spells[prop].name %>' class="section">
-        <h3 class='subheading'><%= spellName %></h3>
-        <div class='mainContent'>
-          <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Icon</h4></label>
-          <img class="indent" id='<%= spells[prop].name %>Image' src="/media/images/<%= spells[prop].name %>.png" alt="A picture of how the <%= spellName %> looks when inside an inventory">
-          <br>
-          <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Sound</h4></label>
-          <audio id='<%= spells[prop].name %>Sound' class="indent" controls>
-            <source src="/media/sounds/<%= spells[prop].name %>.ogg" type="audio/ogg">
-            <source src="/media/sounds/<%= spells[prop].name %>.mp3" type="audio/mp3">
-          </audio>
-          <label for="<%= spells[prop].name %>Stats"><h4 class="heading3">Stats</h4></label>
-          <ul class="noBullets">
-            <li><b>Type</b>: Projectile</li>
-            <li><b>Speed</b>: <%= spells[prop].speed %></li>
-            <li><b>Range</b>: <%= spells[prop].range %></li>
-            <li><b>Effect</b>: <%= spells[prop].humanReadableEffect %></li>
-            <li><b>Cooldown</b>: <%= spells[prop].coolDown/1000 %> seconds</li>
-          </ul>
-        </div>
-      </article>
-    <% }else if(spells[prop].type==='splash'){ %>
-      <article id='<%= spells[prop].name %>' class="section">
-        <h3 class='subheading'><%= spellName %></h3>
-        <div class='mainContent'>
-          <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Icon</h4></label>
-          <img class="indent" id='<%= spells[prop].name %>Image' src="/media/images/<%= spells[prop].name %>.png" alt="A picture of how the <%= spellName %> looks when inside an inventory">
-          <br>
-          <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Sound</h4></label>
-          <audio id='<%= spells[prop].name %>Sound' class="indent" controls>
-            <source src="/media/sounds/<%= spells[prop].name %>.ogg" type="audio/ogg">
-            <source src="/media/sounds/<%= spells[prop].name %>.mp3" type="audio/mp3">
-          </audio>
-          <label for="<%= spells[prop].name %>Stats"><h4 class="heading3">Stats</h4></label>
-          <ul class="noBullets">
-            <li><b>Type</b>: Splash</li>
-            <li><b>Speed</b>: <%= spells[prop].speed %></li>
-            <li><b>Range</b>: <%= spells[prop].range %></li>
-            <li><b>Explosion Radius</b>: <%= spells[prop].explosionRadius %></li>
-            <li><b>Effect</b>: <%= spells[prop].humanReadableEffect %></li>
-            <li><b>Cooldown</b>: <%= spells[prop].coolDown/1000 %> seconds</li>
-            <li><b>Effect Area Color</b>:
-              <div class='swatch' style="background-color:<%= spells[prop].color %>;"></div>
-            </li>
-          </ul>
-        </div>
-      </article>
-    <% }else if(spells[prop].type==='self'){ %>
-      <article id='<%= spells[prop].name %>' class="section">
-        <h3 class='subheading'><%= spellName %></h3>
-        <div class='mainContent'>
-          <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Icon</h4></label>
-          <img class="indent" id='<%= spells[prop].name %>Image' src="/media/images/<%= spells[prop].name %>.png" alt="A picture of how the <%= spellName %> looks when inside an inventory">
-          <br>
-          <label for="<%= spells[prop].name %>Sound"><h4 class='heading3'>Sound</h4></label>
-          <audio id='<%= spells[prop].name %>Sound' class="indent" controls>
-            <source src="/media/sounds/<%= spells[prop].name %>.ogg" type="audio/ogg">
-            <source src="/media/sounds/<%= spells[prop].name %>.mp3" type="audio/mp3">
-          </audio>
-          <label for="<%= spells[prop].name %>Stats"><h4 class="heading3">Stats</h4></label>
-          <ul class="noBullets">
-            <li><b>Type</b>: Self</li>
-            <li><b>Effect</b>: <%= spells[prop].humanReadableEffect %></li>
-            <li><b>Cooldown</b>: <%= spells[prop].coolDown/1000 %> seconds</li>
-          </ul>
-        </div>
-      </article>
-    <% } %>
-  <% } %>
 
 </body>
 

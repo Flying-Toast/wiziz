@@ -381,6 +381,7 @@
       margin: 0 auto;
       margin-bottom: 18px;
       box-shadow: 0 10px #5f005f;
+      width: 100%;
     }
 
     #playButton:active {
@@ -466,13 +467,12 @@
     }
 
     #tutorial {
-      display: block;
+      display: inline-block;
       background-color: #800080;
       color: #ffffff;
       border: none;
       font-family: agane;
       border-radius: 6px;
-      margin-bottom: 10px;
       padding: 3px 1.1em;
       box-shadow: 0 6px #5f005f;
     }
@@ -481,6 +481,27 @@
       position: relative;
       top: 6px;
       box-shadow: none;
+    }
+
+    #spellList {
+      display: inline-block;
+      background-color: #800080;
+      color: #ffffff;
+      border: none;
+      font-family: agane;
+      border-radius: 6px;
+      padding: 3px 1.1em;
+      box-shadow: 0 6px #5f005f;
+    }
+
+    #spellList:active {
+      position: relative;
+      top: 6px;
+      box-shadow: none;
+    }
+
+    #socialMedia {
+      margin-top: 12px;
     }
   </style>
 </head>
@@ -499,7 +520,10 @@
         <input type="text" id='nicknameInput' placeholder="Enter a Nickname" maxlength="15">
         <button id='playButton'>Play</button>
         <button id='tutorial'>How to Play</button>
-        <a href="https://www.reddit.com/r/sorcerIo/" id='redditLink' class='socialLink' target="_blank"></a>
+        <a href="/spellList" target="_blank"><button id='spellList'>Spell List</button></a>
+        <div id="socialMedia">
+          <a href="https://www.reddit.com/r/sorcerIo/" id='redditLink' class='socialLink' target="_blank"></a>
+        </div>
       </div>
     </div>
     <footer><span id='copyright'>Copyright © 2018 Sorcer.io All Rights Reserved.</span><a href="/credits" target='_blank'>credits</a><a target='_blank' href="https://iogames.space">More .io Games</a></footer>
