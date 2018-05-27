@@ -537,6 +537,36 @@
 
     #instructionsBlock h4 {
       margin: 0;
+      text-align: center;
+      font-size: 105%;
+    }
+
+    #instructionsBlock h5 {
+      font-size: 95%;
+      margin: 0.4em 0;
+      margin-top: 1em;
+      margin-left: 0.5em;
+    }
+
+    #instructionsBlock ul {
+      margin: 0;
+      padding-left: 1.4em;
+      margin-left: 0.8em;
+    }
+
+    #instructionsBlock li {
+      margin: 0.2em 0;
+    }
+
+    #instructionsBlock p {
+      margin-left: 1em;
+    }
+
+    .backgroundImage {
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
     }
   </style>
 </head>
@@ -544,7 +574,7 @@
 <body>
   <div id='loading'>
     <p id='loaderText'>Loading</p>
-    <img src="media/images/backgroundImage.svg">
+    <img src="media/images/backgroundImage.svg" draggable="false" class="backgroundImage">
   </div>
   <div id="mainScreen">
     <header>
@@ -564,10 +594,26 @@
       <input type="checkbox" id="instructionsToggle">
       <div id="instructionsBlock">
         <h4>How to Play</h4>
+        <h5>Overview</h5>
+        <p>Sorcer.io is a game about sorcery. Each player in the game is a wizard. Your goal as a wizard is to kill the other wizards by attacking them with spells, and collect the most points/xp. As you collect xp, you will level up and unlock new spells.
+        </p>
+        <h5>Controls</h5>
+        <ul>
+          <li>Move with <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></li>
+          <li>Use the mouse to aim</li>
+          <li>Click to cast a spell</li>
+          <li>Use the scroll wheel to change your selected spell, or press <kbd>1</kbd> - <kbd>4</kbd></li>
+        </ul>
+        <h5>Spells</h5>
+        <ul>
+          <li>Press <kbd>E</kbd> to open your inventory (your inventory will be empty until you unlock at least 4 spells, and there is no more room in your hotbar)</li>
+          <li>Click on a spell in your inventory to swap it with a spell in your hotbar</li>
+          <li>You can hover the cursor over any spell to see its effect</li>
+        </ul>
       </div>
     </div>
     <footer><span id='copyright'>Copyright © 2018 Sorcer.io All Rights Reserved.</span><a href="/credits" target='_blank'>credits</a><a target='_blank' href="https://iogames.space">More .io Games</a></footer>
-    <img src="media/images/backgroundImage.svg">
+    <img src="media/images/backgroundImage.svg" draggable="false" class="backgroundImage">
   </div>
   <div id="game">
     <canvas id='gridCanvas'></canvas>
