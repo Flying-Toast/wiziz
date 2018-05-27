@@ -371,16 +371,15 @@
 
     #playButton {
       background-color: #800080;
-      cursor: pointer;
       color: #ffffff;
       border: none;
       font-family: agane;
-      margin: 0px;
       border-radius: 10px;
       padding: 3px 1.1em;
       font-size: 46px;
       display: block;
       margin: 0 auto;
+      margin-bottom: 18px;
       box-shadow: 0 10px #5f005f;
     }
 
@@ -398,7 +397,8 @@
     #mainPane {
       position: absolute;
       width: 100%;
-      top: 50vh;
+      top: 45vh;
+      text-align: center;
       transform: translateY(-50%);
     }
 
@@ -412,17 +412,75 @@
     }
 
     footer {
+      color: #4e4e4e;
       position: absolute;
+      text-align: right;
+      width: 100%;
       bottom: 0;
     }
 
     footer span {
-      font-size: 70%;
+      font-size: 80%;
+      color: black;
+      position: absolute;
+      left: 0;
       margin-right: 8px;
     }
 
     footer a {
-      font-size: 70%;
+      font-size: 80%;
+      margin: 0 6px;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0 4px;
+      border-left: 2px solid #4e4e4e;
+      border-right: 2px solid #4e4e4e;
+      color: #4e4e4e;
+    }
+
+    #redditLink {
+      background-image: url('/media/images/redditIcon.png');
+      box-shadow: 0px 5px #d04613;
+    }
+
+    .socialLink {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+    }
+
+    .socialLink:active {
+      position: relative;
+      top: 6px;
+      box-shadow: none !important;
+    }
+
+    #mainBlock {
+      display: inline-block;
+      border: 4px solid #4b4b4b;
+      padding: 0.6em;
+      text-align: left;
+      background-color: rgba(107, 107, 107, 0.9);
+      border-radius: 5px;
+    }
+
+    #tutorial {
+      display: block;
+      background-color: #800080;
+      color: #ffffff;
+      border: none;
+      font-family: agane;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      padding: 3px 1.1em;
+      box-shadow: 0 6px #5f005f;
+    }
+
+    #tutorial:active {
+      position: relative;
+      top: 6px;
+      box-shadow: none;
     }
   </style>
 </head>
@@ -437,10 +495,14 @@
       <h1>Sorcer.io</h1>
     </header>
     <div id='mainPane'>
-      <input type="text" id='nicknameInput' placeholder="Enter a Nickname" maxlength="15">
-      <button id='playButton'>Play</button>
+      <div id='mainBlock'>
+        <input type="text" id='nicknameInput' placeholder="Enter a Nickname" maxlength="15">
+        <button id='playButton'>Play</button>
+        <button id='tutorial'>How to Play</button>
+        <a href="https://www.reddit.com/r/sorcerIo/" id='redditLink' class='socialLink' target="_blank"></a>
+      </div>
     </div>
-    <footer><span id='copyright'>Copyright © 2018 Sorcer.io All Rights Reserved.</span><a href="/credits" target='_blank'>credits</a></footer>
+    <footer><span id='copyright'>Copyright © 2018 Sorcer.io All Rights Reserved.</span><a href="/credits" target='_blank'>credits</a><a target='_blank' href="https://iogames.space">More .io Games</a></footer>
     <img src="media/images/backgroundImage.svg">
   </div>
   <div id="game">
