@@ -23,12 +23,25 @@ var config = {
   playerSpeed: 1 / 4.5, //pixels per millisecond
   playerRadius: 65,
   hotbarLength: 4,
-  minMapWidth: 3000,
-  minMapHeight: 3000,
+  minMapSize: 3000,
+  maxMapSize: 20000,
   maxLeaderboardLength: 10,
   playerStartHealth: 1000,
   xpModel: function(checkLevel) { //returns the amount of xp needed to get to [checkLevel] param
     return (Math.round((Math.pow(checkLevel / 0.9, 2)) * 100));
+  },
+  updateMapSize: function() {
+    var newSize = Math.round(Math.pow(Math.pow(game.players.length + 2, 2), 1 / 2.5) * 1000);
+
+    if (newSize > config.maxMapSize) {
+      newSize = config.maxMapSize;
+    } else if (newSize < config.minMapSize) {
+      newSize = config.minMapSize;
+    }
+
+    game.map.width = newSize;
+    game.map.height = newSize;
+
   },
   unlocks: {
     level2: {
@@ -47,7 +60,7 @@ var config = {
 };
 var game = {};
 game.players = [];
-game.map = new Map(config.minMapWidth, config.minMapHeight);
+game.map = new Map(config.minMapSize, config.minMapSize);
 game.spells = [];
 game.effectAreas = [];
 game.playerMap = new hashmap();
@@ -255,6 +268,7 @@ server.io.on('connection', function(socket) {
 
     playerOptions.id = socket.id;
     newPlayer(playerOptions);
+    config.updateMapSize();
   });
 
   socket.on('disconnect', function() {
@@ -262,6 +276,7 @@ server.io.on('connection', function(socket) {
       game.players.splice(game.players.indexOf(game.playerMap.get(socket.id)), 1); //remove player from players array
     }
     game.playerMap.delete(socket.id);
+    config.updateMapSize();
   });
 
   socket.on('input', function(inputs) {
