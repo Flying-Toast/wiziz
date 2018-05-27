@@ -19,28 +19,38 @@ rl.on('line', function(line) {
 });
 //////////////////////////////
 
-
-var game = {};
-game.players = [];
-game.map = new Map(3000, 3000);
-game.spells = [];
-game.effectAreas = [];
-game.playerMap = new hashmap();
 var config = {
   playerSpeed: 1 / 4.5, //pixels per millisecond
   playerRadius: 65,
   hotbarLength: 4,
+  minMapWidth: 3000,
+  minMapHeight: 3000,
   maxLeaderboardLength: 10,
   playerStartHealth: 1000,
-  xpModel: function(checkLevel) {
-    return (Math.round((Math.pow(checkLevel / 1.5, 2)) * 100));
-  }, //returns the amount of xp needed to get to [checkLevel] param
+  xpModel: function(checkLevel) { //returns the amount of xp needed to get to [checkLevel] param
+    return (Math.round((Math.pow(checkLevel / 0.9, 2)) * 100));
+  },
   unlocks: {
     level2: {
-      newSpells: ['freezeSpell', 'blindSpell', 'healSpell', 'bombSpell', 'invisibleSpell', 'speedSpell', 'teleportSpell'] //which new spells are unlocked at this level
+      newSpells: ['freezeSpell', 'blindSpell']
+    },
+    level3: {
+      newSpells: ['healSpell', 'speedSpell']
+    },
+    level4: {
+      newSpells: ['teleportSpell', 'invisibleSpell']
+    },
+    level5: {
+      newSpells: ['bombSpell']
     }
   }
 };
+var game = {};
+game.players = [];
+game.map = new Map(config.minMapWidth, config.minMapHeight);
+game.spells = [];
+game.effectAreas = [];
+game.playerMap = new hashmap();
 var spellEnts = { //spell entities
   fireSpell: {
     name: 'fireSpell',

@@ -8,4 +8,4 @@ tar pit spell--splash spell that slows down players while inside it.
 ===
 dynamic map sizing
 ===
-make max health increase with higher levels
+make max health increase on level up (healthModel function like xpModel)
