@@ -312,7 +312,7 @@ socket.on('update', function(updatedGame) {
 
 onload = function() {
   document.querySelector('#loading').style.display = 'none';
-  document.querySelector('#instructionsToggle').checked = false;
+  document.querySelector('#instructionsToggle').checked = true;
 };
 
 function fillInventory(inventory) {

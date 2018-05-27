@@ -516,14 +516,27 @@
     }
 
     #instructionsBlock {
+      box-sizing: border-box;
       display: inline-block;
       position: absolute;
       height: 100%;
       margin-left: 1em;
+      overflow-y: auto;
+      display: inline-block;
+      border: 4px solid #4b4b4b;
+      padding: 0.6em;
+      text-align: left;
+      background-color: rgba(107, 107, 107, 0.9);
+      border-radius: 5px;
+      max-width: 250px;
     }
 
     #instructionsToggle:checked~#instructionsBlock {
       display: none;
+    }
+
+    #instructionsBlock h4 {
+      margin: 0;
     }
   </style>
 </head>
@@ -549,7 +562,9 @@
         </div>
       </div>
       <input type="checkbox" id="instructionsToggle">
-      <div id="instructionsBlock">dfsdgfsgdfg</div>
+      <div id="instructionsBlock">
+        <h4>How to Play</h4>
+      </div>
     </div>
     <footer><span id='copyright'>Copyright © 2018 Sorcer.io All Rights Reserved.</span><a href="/credits" target='_blank'>credits</a><a target='_blank' href="https://iogames.space">More .io Games</a></footer>
     <img src="media/images/backgroundImage.svg">
