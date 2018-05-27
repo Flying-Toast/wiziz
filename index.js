@@ -232,6 +232,7 @@ var spellEnts = { //spell entities
     },
     effect: function(affectedPlayer) {
       setIntervalX(function() {
+        server.io.to(affectedPlayer.id).emit('zap');
         affectedPlayer.health -= spellEnts.shockSpell.zapDamage;
       }, this.zapDelay, this.totalZaps);
     }

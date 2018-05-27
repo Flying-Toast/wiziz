@@ -243,6 +243,12 @@ socket.on('youDied', function() {
   mainScreen.style.animationName = 'death';
 });
 
+socket.on('zap', function() {
+  if (state === 'playing') {
+    sounds.shockSpell.play();
+  }
+});
+
 socket.on('spellEnts', function(data) {
   local.spellEnts = data;
 });
