@@ -13,3 +13,5 @@ Speed Spell icon - contains "Run" by Gregor Cresnar (https://thenounproject.com/
 Speed Spell sound - sampled from "tiny bit of 116723__Corsica_S__ghellioll02 stretched ramped" by Owdeo (https://freesound.org/s/176311/)
 
 Teleport Spell sound - "Warp1" by Taira Komori (https://freesound.org/s/213693/)
+
+Shock Spell sound - sampled from "Electrical Shock (Zap)" by BigKahuna360 (https://freesound.org/s/160421/)

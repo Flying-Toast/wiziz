@@ -45,16 +45,22 @@ var config = {
   },
   unlocks: {
     level2: {
-      newSpells: ['freezeSpell', 'blindSpell']
+      newSpells: ['healSpell', 'blindSpell', 'invisibleSpell', 'bombSpell', 'freezeSpell', 'speedSpell', 'teleportSpell', 'shockSpell']
     },
     level3: {
-      newSpells: ['healSpell', 'speedSpell']
+      newSpells: []
     },
     level4: {
-      newSpells: ['teleportSpell', 'invisibleSpell']
+      newSpells: []
     },
     level5: {
-      newSpells: ['bombSpell']
+      newSpells: []
+    },
+    level6: {
+      newSpells: []
+    },
+    level7: {
+      newSpells: []
     }
   }
 };
@@ -88,7 +94,7 @@ var spellEnts = { //spell entities
     range: 500,
     coolDown: 5000,
     radius: 10,
-    effectWearOff: 3000,
+    effectWearOff: 2000,
     type: 'projectile',
     get humanReadableEffect() {
       return (`Affected player gets "frozen" and cannot move for ${this.effectWearOff/1000} seconds`);
@@ -138,8 +144,8 @@ var spellEnts = { //spell entities
     },
     effect: function(affectedPlayer) {
       setIntervalX(function() {
-        if (affectedPlayer.health + (affectedPlayer.maxHealth / this.percentHealth) < affectedPlayer.maxHealth) {
-          affectedPlayer.health += (affectedPlayer.maxHealth / this.percentHealth);
+        if (affectedPlayer.health + (affectedPlayer.maxHealth / spellEnts.healSpell.percentHealth) < affectedPlayer.maxHealth) {
+          affectedPlayer.health += (affectedPlayer.maxHealth / spellEnts.healSpell.percentHealth);
         } else {
           affectedPlayer.health = affectedPlayer.maxHealth;
         }
@@ -209,6 +215,26 @@ var spellEnts = { //spell entities
       return ('Teleports your player to its location when it either reaches its target or hits another player');
     },
     effect: function(affectedPlayer) {}
+  },
+  shockSpell: {
+    name: 'shockSpell',
+    speed: 0.8,
+    coolDown: 1200,
+    xpGain: 89,
+    range: 650,
+    radius: 10,
+    zapDelay: 1000, //how long inbetween zaps
+    totalZaps: 3, //total number of zaps
+    zapDamage: 75,
+    type: 'projectile',
+    get humanReadableEffect() {
+      return (`Affected player loses ${this.zapDamage} health every ${this.zapDelay/1000} seconds, a total of ${this.totalZaps} times`);
+    },
+    effect: function(affectedPlayer) {
+      setIntervalX(function() {
+        affectedPlayer.health -= spellEnts.shockSpell.zapDamage;
+      }, this.zapDelay, this.totalZaps);
+    }
   }
 };
 
@@ -242,6 +268,9 @@ var spells = { //inventory items
   },
   teleportSpell: function() {
     return (new Spell('teleportSpell', spellEnts.teleportSpell.coolDown));
+  },
+  shockSpell: function() {
+    return (new Spell('shockSpell', spellEnts.shockSpell.coolDown));
   }
 };
 
