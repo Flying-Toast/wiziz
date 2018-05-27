@@ -8,7 +8,12 @@ addEventListener('resize', function() {
   gridCanvas.height = devicePixelRatio * innerHeight;
   gameCanvas.width = devicePixelRatio * innerWidth;
   gameCanvas.height = devicePixelRatio * innerHeight;
-
+  gameCanvas.style.transform = `scale(${window.innerWidth/gameCanvas.width})`;
+  gridCanvas.style.transform = `scale(${window.innerWidth/gridCanvas.width})`;
+  gridCanvas.width = innerWidth;
+  gridCanvas.height = innerHeight;
+  gameCanvas.width = innerWidth;
+  gameCanvas.height = innerHeight;
 });
 var grid = {
   xOffset: 0,
