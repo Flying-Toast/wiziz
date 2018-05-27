@@ -1,11 +1,14 @@
 var gridCanvas = document.querySelector('#gridCanvas');
 
-gridCanvas.width = innerWidth;
-gridCanvas.height = innerHeight;
+gridCanvas.width = devicePixelRatio * innerWidth;
+gridCanvas.height = devicePixelRatio * innerHeight;
 
 addEventListener('resize', function() {
-  gridCanvas.width = innerWidth;
-  gridCanvas.height = innerHeight;
+  gridCanvas.width = devicePixelRatio * innerWidth;
+  gridCanvas.height = devicePixelRatio * innerHeight;
+  gameCanvas.width = devicePixelRatio * innerWidth;
+  gameCanvas.height = devicePixelRatio * innerHeight;
+
 });
 var grid = {
   xOffset: 0,
@@ -25,17 +28,17 @@ function drawGrid() {
   grid.yOffset = grid.yOffset % grid.gridSize;
   grid.ctx.lineWidth = grid.lineWidth;
   grid.ctx.fillStyle = grid.backgroundColor;
-  grid.ctx.fillRect(0, 0, innerWidth, innerHeight);
+  grid.ctx.fillRect(0, 0, gridCanvas.width, gridCanvas.height);
   grid.ctx.strokeStyle = grid.lineColor;
   grid.ctx.beginPath();
   grid.ctx.moveTo(0, 0);
-  for (var i = 0; i < innerWidth + grid.gridSize; i += grid.gridSize) {
+  for (var i = 0; i < gridCanvas.width + grid.gridSize; i += grid.gridSize) {
     grid.ctx.moveTo(i + grid.xOffset, 0);
-    grid.ctx.lineTo(i + grid.xOffset, innerHeight);
+    grid.ctx.lineTo(i + grid.xOffset, gridCanvas.height);
   }
-  for (var i = 0; i < innerHeight + grid.gridSize; i += grid.gridSize) {
+  for (var i = 0; i < gridCanvas.height + grid.gridSize; i += grid.gridSize) {
     grid.ctx.moveTo(0, i + grid.yOffset);
-    grid.ctx.lineTo(innerWidth, i + grid.yOffset);
+    grid.ctx.lineTo(gridCanvas.width, i + grid.yOffset);
   }
   grid.ctx.stroke();
   if (game.map) {
@@ -204,21 +207,21 @@ function createSound(mp3Src, oggSrc) {
 
 function localCoords(real, xOrY) {
   if (xOrY === 'x') {
-    return (real + innerWidth / 2 - local.player.x);
+    return (real + gameCanvas.width / 2 - local.player.x);
   }
 
   if (xOrY === 'y') {
-    return (real + innerHeight / 2 - local.player.y);
+    return (real + gameCanvas.height / 2 - local.player.y);
   }
 }
 
 function globalCoords(localCoord, xOrY) {
   if (xOrY === 'x') {
-    return (localCoord - innerWidth / 2 + local.player.x);
+    return (localCoord - gameCanvas.width / 2 + local.player.x);
   }
 
   if (xOrY === 'y') {
-    return (localCoord - innerHeight / 2 + local.player.y);
+    return (localCoord - gameCanvas.height / 2 + local.player.y);
   }
 }
 
@@ -228,13 +231,8 @@ function distance(ax, ay, bx, by) {
 
 var socket = io.connect('/');
 
-gameCanvas.width = innerWidth;
-gameCanvas.height = innerHeight;
-
-addEventListener('resize', function() {
-  gameCanvas.width = innerWidth;
-  gameCanvas.height = innerHeight;
-});
+gameCanvas.width = devicePixelRatio * innerWidth;
+gameCanvas.height = devicePixelRatio * innerHeight;
 
 socket.on('youDied', function() {
   state = 'dead';
@@ -438,7 +436,7 @@ function drawLoop() {
   }
   local.lastTime = currentTime;
 
-  ctx.clearRect(0, 0, innerWidth, innerHeight);
+  ctx.clearRect(0, 0, gameCanvas.width, innerHeight);
 
   if (state !== 'playing' || local.lastUpdate === 0) {
     return;
@@ -448,8 +446,8 @@ function drawLoop() {
     type: 'translate',
     facing: local.facing,
     dt: dt,
-    windowWidth: innerWidth,
-    windowHeight: innerHeight,
+    windowWidth: gameCanvas.width,
+    windowHeight: gameCanvas.height,
     states: local.movement,
     id: local.inputNumber
   });
@@ -604,14 +602,14 @@ function drawLoop() {
   //player
   if (!player.invisible) {
     ctx.save();
-    ctx.translate(innerWidth / 2, innerHeight / 2);
+    ctx.translate(gameCanvas.width / 2, gameCanvas.height / 2);
     ctx.rotate(local.angle);
     ctx.drawImage(sprites.players.green, -sprites.players.green.width / 2, -sprites.players.green.height / 2);
     ctx.restore();
   } else {
     ctx.fillStyle = grid.backgroundColor;
     ctx.beginPath();
-    ctx.arc(innerWidth / 2, innerHeight / 2, local.playerRadius, 0, Math.PI * 2);
+    ctx.arc(gameCanvas.width / 2, gameCanvas.height / 2, local.playerRadius, 0, Math.PI * 2);
     ctx.fill();
   }
 
@@ -639,7 +637,7 @@ function drawLoop() {
 
   if (player.blinded) {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.98)';
-    ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
   }
 
   healthBar.style.width = 'calc(' + (player.health / player.maxHealth * 100) + '%' + ' - 8px' + ')';
@@ -659,7 +657,7 @@ function drawLoop() {
 }
 
 addEventListener('mousemove', function(e) {
-  local.angle = Math.atan2(e.pageX - innerWidth / 2, -(e.pageY - innerHeight / 2));
+  local.angle = Math.atan2(e.pageX - gameCanvas.width / 2, -(e.pageY - gameCanvas.height / 2));
 
   local.facing = {
     x: e.pageX,
