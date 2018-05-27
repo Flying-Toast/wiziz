@@ -9,3 +9,5 @@ tar pit spell--splash spell that slows down players while inside it.
 make max health increase on level up (healthModel function like xpModel)
 ===
 make it impossible to zoom out (not just catch ctrl+scroll event), but make it like gats.io
+===
+show a message for adblock users

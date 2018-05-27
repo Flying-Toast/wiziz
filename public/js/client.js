@@ -76,12 +76,6 @@ onbeforeunload = function() {
   }
 };
 
-addEventListener('keydown', function(e) {
-  if (e.ctrlKey && e.key === '-') {
-    e.preventDefault();
-  }
-});
-
 nicknameInput.addEventListener('keydown', function(e) {
   if (e.key === 'Enter') {
     playButton.click();
@@ -665,9 +659,6 @@ addEventListener('mousemove', function(e) {
 });
 
 addEventListener('wheel', function(e) {
-  if (e.ctrlKey) {
-    e.preventDefault();
-  }
   if (state === 'playing' && e.target.id === 'gameCanvas') {
     if (e.deltaY > 0) {
       local.quedInputs.push({
