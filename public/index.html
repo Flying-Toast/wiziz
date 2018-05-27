@@ -475,6 +475,13 @@
       border-radius: 6px;
       padding: 3px 1.1em;
       box-shadow: 0 6px #5f005f;
+      cursor: pointer;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
 
     #tutorial:active {
@@ -503,6 +510,21 @@
     #socialMedia {
       margin-top: 12px;
     }
+
+    #instructionsToggle {
+      display: none;
+    }
+
+    #instructionsBlock {
+      display: inline-block;
+      position: absolute;
+      height: 100%;
+      margin-left: 1em;
+    }
+
+    #instructionsToggle:checked~#instructionsBlock {
+      display: none;
+    }
   </style>
 </head>
 
@@ -519,12 +541,15 @@
       <div id='mainBlock'>
         <input type="text" id='nicknameInput' placeholder="Enter a Nickname" maxlength="15">
         <button id='playButton'>Play</button>
-        <button id='tutorial'>How to Play</button>
+        <label for="instructionsToggle" id='tutorial'>How to Play</label>
+
         <a href="/spellList" target="_blank"><button id='spellList'>Spell List</button></a>
         <div id="socialMedia">
           <a href="https://www.reddit.com/r/sorcerIo/" id='redditLink' class='socialLink' target="_blank"></a>
         </div>
       </div>
+      <input type="checkbox" id="instructionsToggle">
+      <div id="instructionsBlock">dfsdgfsgdfg</div>
     </div>
     <footer><span id='copyright'>Copyright © 2018 Sorcer.io All Rights Reserved.</span><a href="/credits" target='_blank'>credits</a><a target='_blank' href="https://iogames.space">More .io Games</a></footer>
     <img src="media/images/backgroundImage.svg">
