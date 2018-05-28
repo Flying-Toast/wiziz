@@ -568,10 +568,42 @@
       -webkit-user-select: none;
       -ms-user-select: none;
     }
+
+    #disable {
+      z-index: 1030303324;
+      font-size: 300%;
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      top: 10vh;
+      animation-duration: 8s;
+      animation-fill-mode: forwards;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      animation-timing-function: linear;
+      -o-user-select: none;
+      display: none;
+    }
+
+    @keyframes disable {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    .underline {
+      text-decoration: underline;
+    }
   </style>
 </head>
 
 <body>
+  <div id='disable'>Servers are <span class="underline">very</span> expensive! Please help keep the game running by disabling your adblocker.</div>
   <div id='loading'>
     <p id='loaderText'>Loading</p>
     <img src="media/images/backgroundImage.svg" draggable="false" class="backgroundImage">

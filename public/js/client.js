@@ -77,6 +77,7 @@ var xpNumberDisplay = document.querySelector('#xpNumberDisplay');
 var healthPercentDisplay = document.querySelector('#healthPercentDisplay');
 var chooseUnlockedSpells = document.querySelector('#chooseUnlockedSpells');
 var chooseUnlockedSpellsWrapper = document.querySelector('#chooseUnlockedSpellsWrapper');
+var disable = document.querySelector('#disable');
 
 onbeforeunload = function() {
   if (state === 'playing') {
@@ -91,6 +92,14 @@ nicknameInput.addEventListener('keydown', function(e) {
 });
 
 playButton.addEventListener('click', function() {
+  if (typeof cra === 'undefined') {
+    disable.style.display = 'block';
+    disable.style.animationName = 'disable';
+    setTimeout(function() {
+      disable.style.display = '';
+      disable.style.animationName = '';
+    }, getComputedStyle(disable).animationDuration.charAt(0) * 1000);
+  }
   var playerOptions = {
     nickname: nicknameInput.value
   };
@@ -718,7 +727,7 @@ addEventListener('blur', function() {
 });
 
 function castSpell(e) {
-  if (!player.inventory[player.selectedItem].cooling) {
+  if (state === 'playing' && !player.inventory[player.selectedItem].cooling) {
     local.quedInputs.push({
       type: 'cast',
       id: local.inputNumber,
@@ -744,6 +753,7 @@ function castSpell(e) {
 }
 
 gameCanvas.addEventListener('click', castSpell);
+disable.addEventListener('click', castSpell);
 chooseUnlockedSpellsWrapper.addEventListener('click', function(e) {
   if (e.target.id !== 'chooseUnlockedSpells' && e.target.parentElement.id !== 'chooseUnlockedSpells') {
     castSpell(e);
