@@ -45,7 +45,7 @@ var config = {
   },
   unlocks: {
     level2: {
-      newSpells: ['healSpell', 'blindSpell', 'invisibleSpell', 'bombSpell', 'freezeSpell', 'speedSpell', 'teleportSpell', 'shockSpell']
+      newSpells: ['slowSpell', 'healSpell', 'blindSpell', 'invisibleSpell', 'bombSpell', 'freezeSpell', 'speedSpell', 'teleportSpell', 'shockSpell']
     },
     level3: {
       newSpells: []
@@ -236,6 +236,30 @@ var spellEnts = { //spell entities
         affectedPlayer.health -= spellEnts.shockSpell.zapDamage;
       }, this.zapDelay, this.totalZaps);
     }
+  },
+  slowSpell: {
+    name: 'slowSpell',
+    xpGain: 95,
+    speed: 0.7,
+    range: 700,
+    type: 'splash',
+    coolDown: 4500,
+    explosionRadius: 200,
+    ttl: 2000,
+    radius: 10,
+    effectWearOff: 100,
+    speedMultiplier: 0.45,
+    playerCoolDown: 0, //delay between repetitions of effectArea affecting a certain player
+    get humanReadableEffect() {
+      return (`Affected players get slowed down to ${this.speedMultiplier*100}% of their original speed`);
+    },
+    effect: function(affectedPlayer) { //effect of explosion area
+      affectedPlayer.movementSpeed *= this.speedMultiplier;
+      setTimeout(function() {
+        affectedPlayer.movementSpeed = config.playerSpeed;
+      }, this.effectWearOff);
+    },
+    color: 'rgba(17, 51, 12, 0.6)'
   }
 };
 
@@ -272,6 +296,9 @@ var spells = { //inventory items
   },
   shockSpell: function() {
     return (new Spell('shockSpell', spellEnts.shockSpell.coolDown));
+  },
+  slowSpell: function() {
+    return (new Spell('slowSpell', spellEnts.slowSpell.coolDown));
   }
 };
 

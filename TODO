@@ -8,6 +8,6 @@ tar pit spell--splash spell that slows down players while inside it.
 ===
 make max health increase on level up (healthModel function like xpModel)
 ===
-show a message for adblock users
-===
 party mode using window.location.hash
+===
+add some sort of effect when players are frozen, like making an ice block around them, so they know that they have been frozen
