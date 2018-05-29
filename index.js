@@ -178,7 +178,7 @@ var spellEnts = { //spell entities
     effectWearOff: 5000,
     coolDown: 11000,
     get humanReadableEffect() {
-      return (`Makes your player invisible to opponents for ${this.effectWearOff/1000} seconds`);
+      return (`Makes your player invisible for ${this.effectWearOff/1000} seconds`);
     },
     effect: function(affectedPlayer) {
       affectedPlayer.invisible = true;

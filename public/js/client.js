@@ -599,9 +599,11 @@ function drawLoop() {
         ctx.restore();
       } else {
         ctx.fillStyle = grid.backgroundColor;
+        ctx.globalAlpha = 0.6;
         ctx.beginPath();
         ctx.arc(localCoords(currentPlayer.x, 'x'), localCoords(currentPlayer.y, 'y'), local.playerRadius, 0, Math.PI * 2);
         ctx.fill();
+        ctx.globalAlpha = 1;
       }
 
     }
@@ -616,9 +618,11 @@ function drawLoop() {
     ctx.restore();
   } else {
     ctx.fillStyle = grid.backgroundColor;
+    ctx.globalAlpha = 0.6;
     ctx.beginPath();
     ctx.arc(gameCanvas.width / 2, gameCanvas.height / 2, local.playerRadius, 0, Math.PI * 2);
     ctx.fill();
+    ctx.globalAlpha = 1;
   }
 
   //spells
