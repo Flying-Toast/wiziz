@@ -79,12 +79,6 @@ var chooseUnlockedSpells = document.querySelector('#chooseUnlockedSpells');
 var chooseUnlockedSpellsWrapper = document.querySelector('#chooseUnlockedSpellsWrapper');
 var disable = document.querySelector('#disable');
 
-onbeforeunload = function() {
-  if (state === 'playing') {
-    return ('You are still alive! Are you sure you want to leave?');
-  }
-};
-
 nicknameInput.addEventListener('keydown', function(e) {
   if (e.key === 'Enter') {
     playButton.click();
