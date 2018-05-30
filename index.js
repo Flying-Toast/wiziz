@@ -247,14 +247,15 @@ var spellEnts = { //spell entities
     explosionRadius: 200,
     ttl: 2000,
     radius: 10,
-    effectWearOff: 100,
+    effectWearOff: 2000,
     speedMultiplier: 0.45,
-    playerCoolDown: 0, //delay between repetitions of effectArea affecting a certain player
+    playerCoolDown: 2000, //delay between repetitions of effectArea affecting a certain player
     get humanReadableEffect() {
-      return (`Affected players get slowed down to ${this.speedMultiplier*100}% of their original speed`);
+      return (`Affected players get slowed down to ${this.speedMultiplier*100}% of their original speed for ${this.effectWearOff/1000} seconds`);
     },
     effect: function(affectedPlayer) { //effect of explosion area
       affectedPlayer.movementSpeed *= this.speedMultiplier;
+      console.log(affectedPlayer.movementSpeed);
       setTimeout(function() {
         affectedPlayer.movementSpeed = config.playerSpeed;
       }, this.effectWearOff);
@@ -645,7 +646,9 @@ function physicsLoop() {
         if (spell.type === 'projectile') {
           spellEnts[spell.name].effect(player);
         }
-        spell.caster.xp += spell.xpGain;
+        if (spell.xpGain) {
+          spell.caster.xp += spell.xpGain;
+        }
         spell.die();
       }
     }
