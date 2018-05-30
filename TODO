@@ -2,10 +2,6 @@ fix coolDownDisplay when swapping items from storage.
 ===
 add a spell that moves slow but does lots of damage, and a spell that moves really fast but does a little damage
 ===
-terrain
-===
-tar pit spell--splash spell that slows down players while inside it.
-===
 make max health increase on level up (healthModel function like xpModel)
 ===
 party mode using window.location.hash

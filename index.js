@@ -240,25 +240,23 @@ var spellEnts = { //spell entities
   slowSpell: {
     name: 'slowSpell',
     xpGain: 95,
-    speed: 0.7,
-    range: 700,
+    speed: 0.5,
+    range: 850,
     type: 'splash',
     coolDown: 4500,
     explosionRadius: 200,
-    ttl: 2000,
+    ttl: 5500,
     radius: 10,
-    effectWearOff: 2000,
-    speedMultiplier: 0.45,
+    speedMultiplier: 0.5,
     playerCoolDown: 2000, //delay between repetitions of effectArea affecting a certain player
     get humanReadableEffect() {
-      return (`Affected players get slowed down to ${this.speedMultiplier*100}% of their original speed for ${this.effectWearOff/1000} seconds`);
+      return (`Affected players get slowed down to ${this.speedMultiplier*100}% of their original speed for ${this.playerCoolDown/1000} seconds`);
     },
     effect: function(affectedPlayer) { //effect of explosion area
       affectedPlayer.movementSpeed *= this.speedMultiplier;
-      console.log(affectedPlayer.movementSpeed);
       setTimeout(function() {
         affectedPlayer.movementSpeed = config.playerSpeed;
-      }, this.effectWearOff);
+      }, this.playerCoolDown);
     },
     color: 'rgba(17, 51, 12, 0.6)'
   }

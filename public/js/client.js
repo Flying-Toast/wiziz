@@ -150,7 +150,7 @@ var sprites = {
 };
 var sounds = {
   fireSpell: createSound('media/sounds/fireSpell.mp3', 'media/sounds/fireSpell.ogg'),
-  slowSpell: createSound('media/sounds/fireSpell.mp3', 'media/sounds/fireSpell.ogg'),
+  slowSpell: createSound('media/sounds/slowSpell.mp3', 'media/sounds/slowSpell.ogg'),
   freezeSpell: createSound('media/sounds/freezeSpell.mp3', 'media/sounds/freezeSpell.ogg'),
   healSpell: createSound('media/sounds/healSpell.mp3', 'media/sounds/healSpell.ogg'),
   bombSpell: createSound('media/sounds/bombSpell.mp3', 'media/sounds/bombSpell.ogg'),
