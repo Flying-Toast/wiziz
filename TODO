@@ -7,3 +7,7 @@ make max health increase on level up (healthModel function like xpModel)
 party mode using window.location.hash
 ===
 add some sort of effect when players are frozen, like making an ice block around them, so they know that they have been frozen
+===
+fix bug that if you click on the top of the play button, the relative position causes the clic kevent to not fire
+===
+add a game logo/banner for iogames.space
