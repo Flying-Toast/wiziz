@@ -43,21 +43,22 @@ var config = {
     game.map.height = newSize;
 
   },
+
   unlocks: {
     level2: {
-      newSpells: ['slowSpell', 'healSpell', 'blindSpell', 'invisibleSpell', 'bombSpell', 'freezeSpell', 'speedSpell', 'teleportSpell', 'shockSpell']
+      newSpells: ['healSpell']
     },
     level3: {
-      newSpells: []
+      newSpells: ['bombSpell', 'slowSpell']
     },
     level4: {
-      newSpells: []
+      newSpells: ['blindSpell', 'speedSpell']
     },
     level5: {
-      newSpells: []
+      newSpells: ['shockSpell', 'freezeSpell']
     },
     level6: {
-      newSpells: []
+      newSpells: ['teleportSpell', 'invisibleSpell']
     },
     level7: {
       newSpells: []
@@ -248,6 +249,7 @@ var spellEnts = { //spell entities
     ttl: 5500,
     radius: 10,
     speedMultiplier: 0.5,
+    effectWearOff: 2000,
     playerCoolDown: 2000, //delay between repetitions of effectArea affecting a certain player
     get humanReadableEffect() {
       return (`Affected players get slowed down to ${this.speedMultiplier*100}% of their original speed for ${this.playerCoolDown/1000} seconds`);
@@ -256,7 +258,7 @@ var spellEnts = { //spell entities
       affectedPlayer.movementSpeed *= this.speedMultiplier;
       setTimeout(function() {
         affectedPlayer.movementSpeed = config.playerSpeed;
-      }, this.playerCoolDown);
+      }, this.effectWearOff);
     },
     color: 'rgba(17, 51, 12, 0.6)'
   }
