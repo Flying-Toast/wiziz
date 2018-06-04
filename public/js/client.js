@@ -127,6 +127,7 @@ var sprites = {
   },
   src: {
     fireSpell: 'media/images/fireSpell.png',
+    cannonSpell: 'media/images/cannonSpell.png',
     slowSpell: 'media/images/slowSpell.png',
     freezeSpell: 'media/images/freezeSpell.png',
     blindSpell: 'media/images/blindSpell.png',
@@ -140,6 +141,7 @@ var sprites = {
   },
   effects: {
     fireSpell: createSprite('media/images/fireEffect.png'),
+    cannonSpell: createSprite('media/images/cannonEffect.svg'),
     slowSpell: createSprite('media/images/slowEffect.png'),
     freezeSpell: createSprite('media/images/freezeEffect.png'),
     bombSpell: createSprite('media/images/bombEffect.png'),
@@ -150,6 +152,7 @@ var sprites = {
 };
 var sounds = {
   fireSpell: createSound('media/sounds/fireSpell.mp3', 'media/sounds/fireSpell.ogg'),
+  cannonSpell: createSound('media/sounds/cannonSpell.mp3', 'media/sounds/cannonSpell.ogg'),
   slowSpell: createSound('media/sounds/slowSpell.mp3', 'media/sounds/slowSpell.ogg'),
   freezeSpell: createSound('media/sounds/freezeSpell.mp3', 'media/sounds/freezeSpell.ogg'),
   healSpell: createSound('media/sounds/healSpell.mp3', 'media/sounds/healSpell.ogg'),
@@ -648,6 +651,10 @@ function drawLoop() {
     }
 
     ctx.drawImage(sprites.effects[spell.name], localCoords(predictedX, 'x') - sprites.effects[spell.name].width / 2, localCoords(predictedY, 'y') - sprites.effects[spell.name].height / 2);
+    /*ctx.beginPath();hitboxes
+    ctx.fillStyle = 'rgba(140, 252, 19, 0.67)';
+    ctx.arc(localCoords(predictedX, 'x'), localCoords(predictedY, 'y'), spell.radius, 0, Math.PI * 2);
+    ctx.fill();*/
   }
 
   if (player.blinded) {

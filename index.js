@@ -58,10 +58,10 @@ var config = {
       newSpells: ['shockSpell', 'freezeSpell']
     },
     level6: {
-      newSpells: ['teleportSpell', 'invisibleSpell']
+      newSpells: ['teleportSpell', 'cannonSpell']
     },
     level7: {
-      newSpells: []
+      newSpells: ['invisibleSpell']
     }
   }
 };
@@ -261,6 +261,22 @@ var spellEnts = { //spell entities
       }, this.effectWearOff);
     },
     color: 'rgba(17, 51, 12, 0.6)'
+  },
+  cannonSpell: {
+    name: 'cannonSpell',
+    speed: 0.33,
+    xpGain: 200,
+    coolDown: 2200,
+    range: 1000,
+    radius: 30, //be sure to change cannonEffect to match radius
+    type: 'projectile',
+    damage: 500,
+    get humanReadableEffect() {
+      return (`Affected player gets -${this.damage} health`);
+    },
+    effect: function(affectedPlayer) {
+      affectedPlayer.health -= this.damage;
+    }
   }
 };
 
@@ -300,6 +316,9 @@ var spells = { //inventory items
   },
   slowSpell: function() {
     return (new Spell('slowSpell', spellEnts.slowSpell.coolDown));
+  },
+  cannonSpell: function() {
+    return (new Spell('cannonSpell', spellEnts.cannonSpell.coolDown));
   }
 };
 
