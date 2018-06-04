@@ -81,11 +81,11 @@ var disable = document.querySelector('#disable');
 
 nicknameInput.addEventListener('keydown', function(e) {
   if (e.key === 'Enter') {
-    playButton.click();
+    playButton.dispatchEvent(new Event('mousedown'));
   }
 });
 
-playButton.addEventListener('click', function() {
+playButton.addEventListener('mousedown', function() {
   if (typeof cra === 'undefined') {
     disable.style.display = 'block';
     disable.style.animationName = 'disable';
