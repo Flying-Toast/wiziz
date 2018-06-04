@@ -659,7 +659,7 @@ function drawLoop() {
   healthPercentDisplay.innerText = Math.round(player.health / player.maxHealth * 100);
   levelNumberDisplay.innerText = player.level;
   xpNumberDisplay.innerText = player.xp;
-  xpBar.style.width = 'calc(' + (player.xp / player.levelUpAtXp * 100) + '%' + ' - 8px' + ')';
+  xpBar.style.width = 'calc(' + ((player.xp - player.lastLevelUpAtXp) / (player.levelUpAtXp - player.lastLevelUpAtXp) * 100) + '%' + ' - 8px' + ')';
 
   inputs = inputs.concat(local.quedInputs); //load input que
   local.savedInputs = local.savedInputs.concat(local.quedInputs);

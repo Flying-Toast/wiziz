@@ -160,7 +160,7 @@ var spellEnts = { //spell entities
     range: 1500,
     type: 'splash',
     explosionRadius: 300,
-    coolDown: 8000,
+    coolDown: 2300,
     ttl: 700,
     radius: 10,
     damage: 100,
@@ -384,6 +384,7 @@ function Player(x, y, nickname, id, inventory, health) {
   this.xp = 0; //starting xp
   this.level = 1; //starting level
   this.levelUpAtXp = config.xpModel(this.level + 1);
+  this.lastLevelUpAtXp = 0;
   this.movementSpeed = config.playerSpeed;
   this.blinded = false;
 }
@@ -516,6 +517,7 @@ function physicsLoop() {
 
     player.levelUpAtXp = config.xpModel(player.level + 1);
     if (player.xp >= player.levelUpAtXp && player.unlockedSpells.length === 0) {
+      player.lastLevelUpAtXp = player.levelUpAtXp;
       player.level++;
       var unlocks = config.unlocks['level' + player.level];
       if (unlocks && unlocks.newSpells) {
