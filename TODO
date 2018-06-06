@@ -8,8 +8,8 @@ party mode using window.location.hash
 ===
 add some sort of effect when players are frozen etc, like making an ice block around them, so they know that they have been frozen
 ===
-fix bug that if you click on the top of the play button, the relative position causes the click event to not fire
-===
 add a game logo/banner for iogames.space
 ===
 add more damage spells
+===
+healSpell way too overpowered
