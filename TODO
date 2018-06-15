@@ -6,8 +6,6 @@ make max health increase on level up (healthModel function like xpModel, or mayb
 ===
 party mode using window.location.hash
 ===
-add some sort of effect when players are frozen etc, like making an ice block around them, so they know that they have been frozen
-===
 add a game logo/banner for iogames.space
 ===
 add more damage spells

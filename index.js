@@ -225,7 +225,7 @@ var spellEnts = { //spell entities
     radius: 10,
     zapDelay: 1000, //how long inbetween zaps
     totalZaps: 3, //total number of zaps
-    zapDamage: 75,
+    zapDamage: 90,
     type: 'projectile',
     get humanReadableEffect() {
       return (`Affected player loses ${this.zapDamage} health every ${this.zapDelay/1000} seconds, a total of ${this.totalZaps} times`);

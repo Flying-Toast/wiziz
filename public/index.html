@@ -98,7 +98,7 @@
     }
 
     #mainScreen {
-      background-color: rgba(227, 227, 227, 0.45);
+      background-color: rgb(227, 227, 227);
       z-index: 10;
       position: absolute;
       left: 0;
@@ -613,10 +613,9 @@
         <input type="text" id='nicknameInput' placeholder="Enter a Nickname" maxlength="15">
         <button id='playButton'>Play</button>
         <label for="instructionsToggle" id='tutorial'>How to Play</label>
-
         <a href="/spellList" target="_blank"><button id='spellList'>Spell List</button></a>
         <div id="socialMedia">
-          <a href="https://www.reddit.com/r/sorcerIo/" id='redditLink' class='socialLink' target="_blank"></a>
+          <a href="https://www.reddit.com/r/sorcerIo/" id='redditLink' draggable="false" class='socialLink' target="_blank"></a>
         </div>
       </div>
       <input type="checkbox" id="instructionsToggle">
