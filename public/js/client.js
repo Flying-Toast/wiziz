@@ -148,6 +148,9 @@ var sprites = {
     shockSpell: createSprite('media/images/shockEffect.png'),
     teleportSpell: createSprite('media/images/teleportEffect.png'),
     blindSpell: createSprite('media/images/blindEffect.png')
+  },
+  overlays: {
+    freezeSpell: createSprite('media/images/frozenOverlay.png')
   }
 };
 var sounds = {
@@ -473,12 +476,11 @@ function drawLoop() {
       case 'translate':
         var states = input.states;
 
-        var facing = { //imaginary point where player will move towards, starts out at player's location
+        var facing = {
           x: local.player.x,
           y: local.player.y
         };
 
-        //move the point by 1 (could be any number) to make a line from current player position to the facing locations
         if (states.u) {
           facing.y -= 1;
         }
@@ -491,7 +493,6 @@ function drawLoop() {
         if (states.r) {
           facing.x += 1;
         }
-        //find the new player postition, which is at (player.movementSpeed * dt) pixels in the direction of facing
         var lenToFacing = distance(facing.x, facing.y, local.player.x, local.player.y);
 
         if (lenToFacing !== 0) {
@@ -612,6 +613,13 @@ function drawLoop() {
         ctx.globalAlpha = 1;
       }
 
+      if (currentPlayer.frozen) {
+        ctx.save();
+        ctx.translate(localCoords(lastCurrentPlayer.x, 'x'), localCoords(lastCurrentPlayer.y, 'y'));
+        ctx.drawImage(sprites.overlays.freezeSpell, -sprites.overlays.freezeSpell.width / 2, -sprites.overlays.freezeSpell.height / 2);
+        ctx.restore();
+      }
+
     }
   }
 
@@ -629,6 +637,13 @@ function drawLoop() {
     ctx.arc(gameCanvas.width / 2, gameCanvas.height / 2, local.playerRadius, 0, Math.PI * 2);
     ctx.fill();
     ctx.globalAlpha = 1;
+  }
+
+  if (player.frozen) {
+    ctx.save();
+    ctx.translate(gameCanvas.width / 2, gameCanvas.height / 2);
+    ctx.drawImage(sprites.overlays.freezeSpell, -sprites.overlays.freezeSpell.width / 2, -sprites.overlays.freezeSpell.height / 2);
+    ctx.restore();
   }
 
   //spells
@@ -651,7 +666,7 @@ function drawLoop() {
     }
 
     ctx.drawImage(sprites.effects[spell.name], localCoords(predictedX, 'x') - sprites.effects[spell.name].width / 2, localCoords(predictedY, 'y') - sprites.effects[spell.name].height / 2);
-    /*ctx.beginPath();hitboxes
+    /*ctx.beginPath();//hitboxes
     ctx.fillStyle = 'rgba(140, 252, 19, 0.67)';
     ctx.arc(localCoords(predictedX, 'x'), localCoords(predictedY, 'y'), spell.radius, 0, Math.PI * 2);
     ctx.fill();*/

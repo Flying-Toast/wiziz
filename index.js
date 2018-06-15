@@ -103,8 +103,10 @@ var spellEnts = { //spell entities
     effect: function(affectedPlayer) {
       if (affectedPlayer.movementSpeed !== 0) {
         affectedPlayer.movementSpeed = 0;
+        affectedPlayer.frozen = true;
         setTimeout(function() {
           affectedPlayer.movementSpeed = config.playerSpeed;
+          affectedPlayer.frozen = false;
         }, this.effectWearOff);
       }
     }
@@ -138,19 +140,16 @@ var spellEnts = { //spell entities
     name: 'healSpell',
     type: 'self',
     coolDown: 15000,
-    playerCoolDown: 500,
     percentHealth: 10,
     get humanReadableEffect() {
-      return (`Restores ${this.percentHealth}% of your health every ${this.playerCoolDown/1000} seconds`);
+      return (`Restores ${this.percentHealth}% of your health`);
     },
     effect: function(affectedPlayer) {
-      setIntervalX(function() {
-        if (affectedPlayer.health + (affectedPlayer.maxHealth / spellEnts.healSpell.percentHealth) < affectedPlayer.maxHealth) {
-          affectedPlayer.health += (affectedPlayer.maxHealth / spellEnts.healSpell.percentHealth);
-        } else {
-          affectedPlayer.health = affectedPlayer.maxHealth;
-        }
-      }, this.playerCoolDown, Math.ceil(100 / this.percentHealth));
+      if (affectedPlayer.health + (affectedPlayer.maxHealth * spellEnts.healSpell.percentHealth / 100) < affectedPlayer.maxHealth) {
+        affectedPlayer.health += affectedPlayer.maxHealth * spellEnts.healSpell.percentHealth / 100;
+      } else {
+        affectedPlayer.health = affectedPlayer.maxHealth;
+      }
     }
   },
   bombSpell: {
