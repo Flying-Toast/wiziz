@@ -4,6 +4,7 @@ add a spell that moves slow but does lots of damage, and a spell that moves real
 ===
 make max health increase on level up (healthModel function like xpModel, or maybe linear)
 ===
+?maybe? multiple servers/max number of players ?maybe?
 party mode using window.location.hash
 ===
 add a game logo/banner for iogames.space
