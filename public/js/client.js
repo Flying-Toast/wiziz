@@ -87,7 +87,7 @@ nicknameInput.addEventListener('keydown', function(e) {
 });
 
 playButton.addEventListener('click', function() {
-  if (typeof cra === 'undefined' || typeof fuckAdBlock === 'undefined' || typeof fuckAdBlock._options === 'undefined' || typeof FuckAdBlock === 'undefined') {
+  if (typeof cra === 'undefined' || typeof fuckAdBlock === 'undefined' || typeof fuckAdBlock.hello === 'undefined' || typeof FuckAdBlock === 'undefined') {
     disable.style.display = 'block';
     disable.style.animationName = 'disable';
     setTimeout(function() {
