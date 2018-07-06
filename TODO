@@ -4,7 +4,8 @@ add a spell that moves slow but does lots of damage, and a spell that moves real
 ===
 make max health increase on level up (healthModel function like xpModel, or maybe linear)
 ===
-?maybe? multiple servers/max number of players ?maybe?
+in the future:
+multiple servers/max number of players
 party mode using window.location.hash
 ===
 add a game logo/banner for iogames.space
@@ -12,3 +13,5 @@ add a game logo/banner for iogames.space
 add more damage spells
 ===
 BEFORE RELEASE: add wrapper function
+===
+send updates to server less frequently, maybe only every few frames.
