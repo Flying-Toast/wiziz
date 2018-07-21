@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>404: Page Not Found</title>
+  <style>
+    @font-face {
+      font-family: 'newrocker';
+      src: url('/fonts/newRocker/newrocker-webfont.woff2') format('woff2'), url('/fonts/newRocker/newrocker-webfont.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'agane';
+      src: url('/fonts/agane/agane-webfont.woff2') format('woff2'), url('/fonts/agane/agane-webfont.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    * {
+      font-family: agane;
+    }
+
+    body {
+      background-color: #e3e3e3;
+    }
+
+    #home {
+      font-size: 32px;
+      text-align: center;
+    }
+
+    #homeLink {
+      background-color: #800080;
+      color: #ffffff;
+      border: none;
+      font-family: agane;
+      text-decoration: none;
+      border-radius: 10px;
+      padding: 3px 1.1em;
+      font-size: 46px;
+      display: inline-block;
+      margin: 0 auto;
+      margin-bottom: 18px;
+      box-shadow: 0 10px #5f005f;
+    }
+
+    #errorImage {
+      margin: 20px auto;
+    }
+
+    #error {
+      font-size: 250%;
+      color: #c41b1b;
+    }
+
+    header,
+    header * {
+      text-align: center;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1 id='error'>404: Page Not Found</h1>
+    <img id='errorImage' src="/media/images/404.png">
+  </header>
+  <div id='home'>Would you like to <a href="/" id='homeLink'>Play Sorcer.io</a> instead?</div>
+</body>
+
+</html>
