@@ -399,27 +399,21 @@ function storageClickHandler(e) {
 }
 
 function fillStorage(storage) {
-  var totalSlots = storageDiv.children.length;
 
-  if (totalSlots === 0) {
-
-    for (var i = 0; i < 10; i++) {
+  if (storageDiv.children.length == 0) {
+    for (var z = 0; z < 10; z++) {
       var slot = document.createElement('img');
       slot.src = 'media/images/inventorySlot.png';
       slot.className = 'storageSlot';
-      slot.id = 's' + i;
+      slot.id = 's' + z;
       slot.addEventListener('click', storageClickHandler);
       storageDiv.appendChild(slot);
     }
-
-  }
-
-  if (!storage) {
     return;
   }
 
-  if (storage.length > totalSlots) {
-    for (var i = 0; i < storage.length - totalSlots; i++) {
+  for (var i = 0; i < storage.length; i++) {
+    if (document.querySelector('#s' + i) == null) {
       var slot = document.createElement('img');
       slot.src = 'media/images/inventorySlot.png';
       slot.className = 'storageSlot';
@@ -429,9 +423,9 @@ function fillStorage(storage) {
     }
   }
 
-  for (var i = 0; i < storage.length; i++) {
-    var currentItem = storage[i];
-    var slot = document.querySelector('#s' + i);
+  for (var w = 0; w < storage.length; w++) {
+    var currentItem = storage[w];
+    var slot = document.querySelector('#s' + w);
     slot.src = sprites.src[currentItem.itemName];
     slot.title = local.spellEnts[currentItem.itemName].humanReadableEffect;
   }

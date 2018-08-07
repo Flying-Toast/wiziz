@@ -49,6 +49,39 @@ var config = {
       newSpells: ['healSpell']
     },
     level3: {
+      newSpells: ['bombSpell']
+    },
+    level4: {
+      newSpells: ['speedSpell']
+    },
+    level5: {
+      newSpells: ['shockSpell']
+    },
+    level6: {
+      newSpells: ['cannonSpell']
+    },
+    level7: {
+      newSpells: ['invisibleSpell']
+    },
+    level8: {
+      newSpells: ['blindSpell']
+    },
+    level9: {
+      newSpells: ['slowSpell']
+    },
+    level10: {
+      newSpells: ['freezeSpell']
+    },
+    level11: {
+      newSpells: ['teleportSpell']
+    }
+  }
+
+  /*unlocks: {
+    level2: {
+      newSpells: ['healSpell']
+    },
+    level3: {
       newSpells: ['bombSpell', 'slowSpell']
     },
     level4: {
@@ -63,7 +96,7 @@ var config = {
     level7: {
       newSpells: ['invisibleSpell']
     }
-  }
+  }*/
 };
 var game = {};
 game.players = [];
