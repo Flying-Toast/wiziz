@@ -19,3 +19,5 @@ make all sounds the same volume
 BEFORE RELEASE: add meta description
 ===
 BEFORE RELEASE: minify client code+html
+===
+BEFORE RELEASE: put client code into html
