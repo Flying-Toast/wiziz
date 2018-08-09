@@ -19,3 +19,5 @@ BEFORE RELEASE: minify client code+html
 BEFORE RELEASE: put client code into html
 ===
 BEFORE RELEASE: remove readline commands
+===
+each levelup unlock choice should have choices for effect spells, and damage spells.

@@ -781,6 +781,7 @@ chooseUnlockedSpellsWrapper.addEventListener('click', function(e) {
 function updateLeaderboard(leaderboard) {
   if (!document.getElementById('leaderboard')) {
     leaderboardElement = document.createElement('div');
+    leaderboardElement.addEventListener('click', castSpell);
     leaderboardElement.id = 'leaderboard';
 
     var header = document.createElement('h4');
