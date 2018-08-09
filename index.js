@@ -266,7 +266,7 @@ var spellEnts = { //spell entities
     xpGain: 200,
     coolDown: 2200,
     range: 1000,
-    radius: 30, //be sure to change cannonEffect to match radius
+    radius: 30, //be sure to change cannonEffect.svg to match radius
     type: 'projectile',
     damage: 500,
     get humanReadableEffect() {

@@ -8,16 +8,14 @@ in the future:
 multiple servers/max number of players
 party mode using window.location.hash
 ===
-add a game logo/banner for iogames.space
-===
 add more damage spells
 ===
 BEFORE RELEASE: add wrapper function
 ===
 make all sounds the same volume
 ===
-BEFORE RELEASE: add meta description
-===
 BEFORE RELEASE: minify client code+html
 ===
 BEFORE RELEASE: put client code into html
+===
+BEFORE RELEASE: remove readline commands
