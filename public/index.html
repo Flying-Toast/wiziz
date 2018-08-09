@@ -592,6 +592,11 @@
       display: none;
     }
 
+    #storageIcon {
+      position: relative;
+      top: 4px;
+    }
+
     @keyframes disable {
       from {
         opacity: 1;
@@ -627,17 +632,18 @@
       <div id="instructionsBlock">
         <h4>How to Play</h4>
         <h5>Overview</h5>
-        <p>Sorcer.io is a game about sorcery. Each player in the game is a wizard. Your goal as a wizard is to kill the other wizards by attacking them with spells, and collect the most points/xp. As you collect xp, you will level up and unlock new spells.</p>
+        <p>Cast spells to defeat you opponents, and level up to unlock new spells with new effects.</p>
         <h5>Controls</h5>
         <ul>
           <li>Move with <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></li>
           <li>Use the mouse to aim</li>
           <li>Click to cast a spell</li>
           <li>Use the scroll wheel to change your selected spell, or press <kbd>1</kbd> - <kbd>4</kbd></li>
+          <li>Press <kbd>E</kbd> or click the inventory icon (<img id='storageIcon' src="/media/images/storageIcon.png">) to open your inventory (your inventory will be empty until you fill up your hotbar).</li>
         </ul>
         <h5>Spells</h5>
         <ul>
-          <li>Press <kbd>E</kbd> to open your inventory (your inventory will be empty until you unlock at least 4 spells, and there is no more room in your hotbar)</li>
+
           <li>Click on a spell in your inventory to swap it with a spell in your hotbar</li>
           <li>You can hover your cursor over any spell to see its effect</li>
         </ul>
