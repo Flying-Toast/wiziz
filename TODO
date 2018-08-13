@@ -20,4 +20,8 @@ BEFORE RELEASE: put client code into html
 ===
 BEFORE RELEASE: remove readline commands
 ===
+BEFORE RELEASE: only get xp when you kill someone, not every time you hit them
+===
+BEFORE RELEASE: add some sort of "food" / way of getting xp without killing players. (like shapes in diep.io)
+===
 each levelup unlock choice should have choices for effect spells, and damage spells.
