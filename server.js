@@ -18,7 +18,7 @@ var app = express();
 
 app.set('view engine', 'ejs');
 
-var port = process.env.PORT || '80';
+var port = '80';
 
 var server = app.listen(port, function() {
   console.log('listening on port ' + port);
