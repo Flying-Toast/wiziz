@@ -1,6 +1,5 @@
 const server = require('./server.js');
 const helpers = require('./helpers.js');
-const xss = require('xss');
 const readline = require('readline');
 const hashmap = require('hashmap');
 const fs = require('fs');
@@ -384,7 +383,7 @@ function Map(width, height) {
 function Player(x, y, nickname, id, inventory, health) {
 	this.x = x;
 	this.y = y;
-	this.nickname = xss(nickname.substring(0, 15));
+	this.nickname = nickname.substring(0, 15);
 	this.id = id;
 	this.inventory = inventory;
 	this.storage = [];

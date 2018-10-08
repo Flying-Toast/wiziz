@@ -13,8 +13,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "hashmap": "^2.3.0",
-    "socket.io": "^2.1.0",
-    "xss": "^0.3.8"
+    "socket.io": "^2.1.0"
   },
   "devDependencies": {}
 }
