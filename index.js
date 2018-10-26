@@ -445,8 +445,8 @@ ProjectileSpell.prototype.tick = function() {
 	var currentTime = Date.now();
 	var dt = currentTime - this.lastMove;
 	if (!this.dead) {
-		this.location.x += (this.speed / this.lenToTarget * (this.target.x - this.origin.x)) * dt;
-		this.location.y += (this.speed / this.lenToTarget * (this.target.y - this.origin.y)) * dt;
+		this.location.x += (this.speed / this.lenToTarget/*THE LENGTH FROM ORIGIN TO TARGET, NOT FROM CURRENT POSITION TO TARGET*/ * (this.target.x - this.origin.x)) * dt;
+		this.location.y += (this.speed / this.lenToTarget/*THE LENGTH FROM ORIGIN TO TARGET, NOT FROM CURRENT POSITION TO TARGET*/ * (this.target.y - this.origin.y)) * dt;
 		this.lastMove = Date.now();
 	}
 	//check if spell should die:
