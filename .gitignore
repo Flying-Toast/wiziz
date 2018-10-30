@@ -1,1 +1,15 @@
-node_modules/**
+.dub
+docs.json
+__dummy.html
+docs/
+/sorcerio
+sorcerio.so
+sorcerio.dylib
+sorcerio.dll
+sorcerio.a
+sorcerio.lib
+sorcerio-test-*
+*.exe
+*.o
+*.obj
+*.lst

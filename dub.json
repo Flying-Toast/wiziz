@@ -1,0 +1,12 @@
+{
+	"name": "sorcerio",
+	"authors": [
+		"Flying-Toast"
+	],
+	"dependencies": {
+		"vibe-d": "~>0.8.2"
+	},
+	"description": "Sorcer.io server",
+	"copyright": "Copyright © 2018, Flying-Toast",
+	"license": "proprietary"
+}
