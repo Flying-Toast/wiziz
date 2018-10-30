@@ -386,9 +386,9 @@
 			}
 
 			#playButton:active {
-				/*position: relative;
-      top: 10px;
-      box-shadow: none;*/
+				position: relative;
+				top: 10px;
+				box-shadow: none;
 			}
 
 			button::-moz-focus-inner {
@@ -453,9 +453,9 @@
 			}
 
 			.socialLink:active {
-				/*position: relative;
-      top: 6px;
-      box-shadow: none !important;*/
+				position: relative;
+				top: 6px;
+				box-shadow: none !important;
 			}
 
 			#mainBlock {
@@ -486,9 +486,9 @@
 			}
 
 			#tutorial:active {
-				/*position: relative;
-      top: 6px;
-      box-shadow: none;*/
+				position: relative;
+				top: 6px;
+				box-shadow: none;
 			}
 
 			#spellList {
@@ -504,9 +504,9 @@
 			}
 
 			#spellList:active {
-				/*position: relative;
-      top: 6px;
-      box-shadow: none;*/
+				position: relative;
+				top: 6px;
+				box-shadow: none;
 			}
 
 			#socialMedia {
@@ -695,6 +695,25 @@
 			</div>
 		</div>
 		<script src="js/ads.js"></script>
+		<script>
+			document.querySelector("#tutorial").addEventListener("click", function() {
+				document.querySelector("#"+document.querySelector("#tutorial").attributes.for.nodeValue).click();
+			});
+
+			let popButtons = [];
+			popButtons.push(document.querySelector("#playButton"));
+			popButtons.push(document.querySelector("#tutorial"));
+			popButtons.push(document.querySelector("#spellList"));
+			popButtons.push(document.querySelector("#redditLink"));
+
+			for (let i = 0; i < popButtons.length; i++) {
+				popButtons[i].addEventListener("mousedown", function(mouseDownEvent) {
+					window.addEventListener("mouseup", function() {
+						mouseDownEvent.target.click();
+					}, {once:true});
+				});
+			}
+		</script>
 		<script src="js/client.js"></script>
 	</body>
 
