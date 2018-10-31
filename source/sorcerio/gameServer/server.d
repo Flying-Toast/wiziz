@@ -28,6 +28,7 @@ class Server {
 	immutable ushort id;
 	private Player[ushort] players;
 	int mapSize;
+	private long lastUpdate;
 
 	void resizeMap() {
 		import std.math;
@@ -42,8 +43,8 @@ class Server {
 		this.mapSize = newMapSize;
 	}
 
-	private string getUpdateState() {
-		JSONValue update = JSONValue();
+	private JSONValue getState() {
+		JSONValue state = JSONValue();
 
 		JSONValue[] playerJSON;
 
@@ -52,14 +53,26 @@ class Server {
 			playerJSON ~= player.JSONof();
 		}
 
-		update["players"] = playerJSON;
+		state["players"] = playerJSON;
 
-		return update.toString();
+		return state;
+	}
+
+	private void sendUpdateToClients() {
+		JSONValue state = getState();
+		state["type"] = "update";
+		string stateString = state.toString();
+
+		foreach(player; players) {
+			player.socket.send(stateString);
+		}
+		this.lastUpdate = millis();
 	}
 
 	void tick() {
-		import std.stdio;
-		writeln(getUpdateState);
+		if (millis() - lastUpdate >= CONFIG.updateInterval) {
+			sendUpdateToClients();
+		}
 	}
 
 	ushort addPlayer(PlayerConfig cfg) {
@@ -83,5 +96,6 @@ class Server {
 	this(ushort id) {
 		this.id = id;
 		this.mapSize = CONFIG.minMapSize;
+		this.lastUpdate = 0;
 	}
 }

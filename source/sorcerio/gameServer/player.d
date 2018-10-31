@@ -7,16 +7,33 @@ import std.json;
 class Player {
 	immutable ushort id;
 	immutable string nickname;
-	private WebSocket socket;
+	WebSocket socket;
+	private long lastMove;
+	float speed;
 	Point location;
+	Point facing;
 
 	JSONValue JSONof() {
 		JSONValue json = JSONValue();
 
 		json["nickname"] = nickname;
 		json["location"] = location.JSONof();
+		json["facing"] = facing.JSONof();
 		
 		return json;
+	}
+
+	void tick() {
+		long currentTime = millis();
+
+		if (lastMove == 0) {
+			lastMove = currentTime;
+			return;
+		}
+
+		long dt = millis - lastMove;
+		location.moveTowards(facing, speed * dt);
+		lastMove = currentTime;
 	}
 
 	this(string nickname, WebSocket socket, Point location, ushort id) {
@@ -33,5 +50,7 @@ class Player {
 		this.socket = socket;
 		this.location = location;
 		this.id = id;
+		this.lastMove = 0;
+		this.facing = new Point(0, 0);
 	}
 }
