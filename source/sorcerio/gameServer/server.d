@@ -41,14 +41,24 @@ class Server {
 		this.mapSize = newMapSize;
 	}
 
-	ushort addPlayer(string nickname, WebSocket socket) {
-		immutable ushort id = Server.generatePlayerId(players);
+	void tick() {
+		import std.stdio;
+		import std.conv;
+		writeln("number of players: "~players.length.to!string);
 
-		Player newPlayer = new Player(nickname, socket, randomPoint(mapSize, mapSize), id);
-		players[id] = newPlayer;
+		foreach(player; players) {
+			writeln(player.nickname);
+		}
+	}
+
+	ushort addPlayer(PlayerConfig cfg) {
+		immutable ushort playerId = Server.generatePlayerId(players);
+
+		Player newPlayer = new Player(cfg.nickname, cfg.socket, randomPoint(mapSize, mapSize), playerId);
+		players[playerId] = newPlayer;
 
 		resizeMap();
-		return id;
+		return playerId;
 	}
 
 	bool isFull() {

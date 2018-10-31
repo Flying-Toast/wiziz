@@ -6,6 +6,7 @@ window.addEventListener("load", function() {
 });
 
 let playButton = document.querySelector("#playButton");
+let nicknameInput = document.querySelector("#nicknameInput");
 
 let ws;
 
@@ -16,9 +17,17 @@ function getGameState() {
 
 	if (ws.readyState === 1 || ws.readyState === 0) {
 		return "playing";
-	} else if (ws.readyState === 2 || readyState === 3) {
+	} else if (ws.readyState === 2 || ws.readyState === 3) {
 		return "notPlaying"
 	}
+}
+
+function generatePlayerConfig() {
+	let cfg = {
+		nickname: nicknameInput.value
+	};
+
+	return JSON.stringify(cfg);
 }
 
 playButton.addEventListener("click", function() {
@@ -28,6 +37,10 @@ playButton.addEventListener("click", function() {
 	}
 
 	ws = new WebSocket(`ws${(window.location.protocol==="https:")?"s":""}://${window.location.host}/ws`);
+
+	ws.addEventListener("open", function() {
+		ws.send(generatePlayerConfig());
+	});
 
 	ws.addEventListener("message", function(message) {
 		console.log(message.data);

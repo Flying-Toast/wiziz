@@ -23,6 +23,18 @@ class ServerManager {
 
 	private Server[ushort] servers;
 
+	ushort addPlayerToServer(PlayerConfig cfg) {
+		ushort serverId = getOrCreateServer();
+		servers[serverId].addPlayer(cfg);
+		return serverId;
+	}
+
+	void tick() {
+		foreach(server; servers) {
+			server.tick();
+		}
+	}
+
 	private ushort createServer() {
 		immutable ushort id = ServerManager.generateServerId(servers);
 		Server newServer = new Server(id);
@@ -30,7 +42,7 @@ class ServerManager {
 		return id;
 	}
 
-	ushort getOrCreateServer() {
+	private ushort getOrCreateServer() {
 		foreach (server; servers) {
 			if (!server.isFull) {
 				return server.id;
@@ -39,6 +51,4 @@ class ServerManager {
 
 		return createServer();
 	}
-
-
 }

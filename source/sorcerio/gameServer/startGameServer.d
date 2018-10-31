@@ -10,11 +10,11 @@ void startGameServer() {
 
 	while (true) {
 		receiveTimeout(Duration.zero,
-			(shared WebSocket skt) {
-				WebSocket socket = cast(WebSocket) skt;
-				socket.send("hi from gameServer :)  :)  :)  :)  :)");
+			(shared PlayerConfig cfg) {
+				master.addPlayerToServer(cast(PlayerConfig) cfg);
 			}
 		);
 
+		master.tick();
 	}
 }

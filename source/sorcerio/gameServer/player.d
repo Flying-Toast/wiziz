@@ -9,6 +9,10 @@ class Player {
 	private WebSocket socket;
 	Point location;
 
+	bool isConnected() {
+		return socket.connected;
+	}
+
 	this(string nickname, WebSocket socket, Point location, ushort id) {
 		import std.string;
 		nickname = nickname.strip();
