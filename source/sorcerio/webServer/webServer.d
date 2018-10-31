@@ -10,10 +10,10 @@ private Tid gameServerTid;
 void startWebServer(ushort port, Tid gsTid) {
 	gameServerTid = gsTid;
 
-	auto settings = new HTTPServerSettings;
+	HTTPServerSettings settings = new HTTPServerSettings;
 	settings.port = port;
 	settings.bindAddresses = ["::1", "127.0.0.1"];
-	auto router = new URLRouter;
+	URLRouter router = new URLRouter;
 
 	router.get("*", serveStaticFiles("public/"));
 	router.get("/ws", handleWebSockets(&handleSocket));
@@ -41,4 +41,5 @@ private void handleSocket(scope WebSocket socket) {
 	while (socket.connected) {
 		vibe.core.core.yield();
 	}
+
 }

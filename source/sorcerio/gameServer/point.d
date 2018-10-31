@@ -1,6 +1,7 @@
 module sorcerio.gameServer.point;
 
 import sorcerio;
+import std.json;
 
 ///
 class Point {
@@ -15,6 +16,15 @@ class Point {
 
 	double x;
 	double y;
+
+	JSONValue JSONof() {
+		JSONValue json = JSONValue();
+
+		json["x"] = x;
+		json["y"] = y;
+
+		return json;
+	}
 
 	void moveTo(Point point) {
 		moveTo(point.x, point.y);

@@ -2,6 +2,7 @@ module sorcerio.gameServer.player;
 
 import sorcerio;
 import vibe.vibe : WebSocket;
+import std.json;
 
 class Player {
 	immutable ushort id;
@@ -9,8 +10,13 @@ class Player {
 	private WebSocket socket;
 	Point location;
 
-	bool isConnected() {
-		return socket.connected;
+	JSONValue JSONof() {
+		JSONValue json = JSONValue();
+
+		json["nickname"] = nickname;
+		json["location"] = location.JSONof();
+		
+		return json;
 	}
 
 	this(string nickname, WebSocket socket, Point location, ushort id) {

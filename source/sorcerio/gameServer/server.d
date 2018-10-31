@@ -2,6 +2,7 @@ module sorcerio.gameServer.server;
 
 import sorcerio;
 import vibe.vibe : WebSocket;
+import std.json;
 
 class Server {
 
@@ -41,14 +42,24 @@ class Server {
 		this.mapSize = newMapSize;
 	}
 
+	private string getUpdateState() {
+		JSONValue update = JSONValue();
+
+		JSONValue[] playerJSON;
+
+
+		foreach (player; players) {
+			playerJSON ~= player.JSONof();
+		}
+
+		update["players"] = playerJSON;
+
+		return update.toString();
+	}
+
 	void tick() {
 		import std.stdio;
-		import std.conv;
-		writeln("number of players: "~players.length.to!string);
-
-		foreach(player; players) {
-			writeln(player.nickname);
-		}
+		writeln(getUpdateState);
 	}
 
 	ushort addPlayer(PlayerConfig cfg) {
