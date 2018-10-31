@@ -29,8 +29,6 @@ private void handleSocket(scope WebSocket socket) {
 		configJSON["nickname"];//verify that "nickname" exists in configJSON. this will throw JSONException if it fails
 	} catch (JSONException e) {//client send invalid playerConfig
 		socket.close();
-		import std.stdio;
-		writeln("Client sent invalid PlayerConfig.");
 		return;
 	}
 
@@ -41,5 +39,4 @@ private void handleSocket(scope WebSocket socket) {
 	while (socket.connected) {
 		vibe.core.core.yield();
 	}
-
 }
