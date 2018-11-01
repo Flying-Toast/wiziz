@@ -35,6 +35,14 @@ class ServerManager {
 		}
 	}
 
+	void removePlayerBySocketId(uint sockId) {
+		foreach (server; servers) {
+			if (server.removePlayerBySocketId(sockId)) {
+				return;
+			}
+		}
+	}
+
 	private ushort createServer() {
 		immutable ushort id = ServerManager.generateServerId(servers);
 		Server newServer = new Server(id);

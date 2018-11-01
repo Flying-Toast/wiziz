@@ -6,6 +6,8 @@ import std.concurrency;
 import std.json;
 
 private Tid gameServerTid;
+private uint currentId = 0;
+private uint generateSocketId() {return currentId++;};
 
 void startWebServer(ushort port, Tid gsTid) {
 	gameServerTid = gsTid;
@@ -32,11 +34,15 @@ private void handleSocket(scope WebSocket socket) {
 		return;
 	}
 
-	PlayerConfig cfg = new PlayerConfig(configJSON["nickname"].str, socket);
+	uint currentSocketId = generateSocketId();
+
+	PlayerConfig cfg = new PlayerConfig(configJSON["nickname"].str, socket, currentSocketId);
 
 	std.concurrency.send(gameServerTid, cast(shared) cfg);
 
 	while (socket.connected) {
 		vibe.core.core.yield();
 	}
+
+	std.concurrency.send(gameServerTid, currentSocketId);
 }

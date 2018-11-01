@@ -1,12 +1,6 @@
-fix coolDownDisplay when swapping items from storage.
-===
 add a spell that moves really fast but does a little damage
 ===
 make max health increase on level up (healthModel function like xpModel, or maybe linear)
-===
-in the future:
-multiple servers/max number of players
-party mode using window.location.hash
 ===
 add more damage spells
 ===
@@ -14,16 +8,6 @@ BEFORE RELEASE: add wrapper function
 ===
 make all sounds the same volume
 ===
-BEFORE RELEASE: minify client code+html
-===
-BEFORE RELEASE: put client code into html
-===
-BEFORE RELEASE: remove readline commands
-===
-BEFORE RELEASE: only get xp when you kill someone, not every time you hit them
-===
 BEFORE RELEASE: add some sort of "food" / way of getting xp without killing players. (like shapes in diep.io)
 ===
 each levelup unlock choice should have choices for effect spells, and damage spells.
-===
-REWRITE SERVER CODE IN JAVA

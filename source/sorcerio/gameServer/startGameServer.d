@@ -12,6 +12,9 @@ void startGameServer() {
 		receiveTimeout(dur!"msecs"(1),
 			(shared PlayerConfig cfg) {
 				master.addPlayerToServer(cast(PlayerConfig) cfg);
+			},
+			(uint disconnectSocketId) {
+				master.removePlayerBySocketId(disconnectSocketId);
 			}
 		);
 

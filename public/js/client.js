@@ -1,5 +1,88 @@
 //(function() {
 
+window.addEventListener("load", function() {
+	document.querySelector("#loading").style.display = "none";
+	document.querySelector("#instructionsToggle").checked = true;
+});
+
+
+let media = {sounds:{},effects:{},inventoryItems:{}};
+let spellTypes = [];
+fetch("/spells.json").then(function(resp){return resp.json();}).then(function(spells) {
+	spellTypes = spells;
+
+	for (let i = 0; i < spellTypes.length; i++) {
+		let type = spellTypes[i];
+
+		media.sounds[type] = createSound(`/media/sounds/${type}Spell`);
+
+		media.effects[type] = createImage(`/media/images/${type}Effect.png`);
+
+		media.inventoryItems[type] = {};
+		media.inventoryItems[type].unselected = `/media/images/${type}Spell.png`;
+		media.inventoryItems[type].selected = `/media/images/${type}SpellSelected.png`;
+		media.inventoryItems.emptySlot = {
+			unselected: "/media/images/inventorySlot.png",
+			selected: "/media/images/inventorySlotSelected.png"
+		};
+		media.openStorage = "/media/images/openStorage.png";
+	}
+
+	setupHotbar();
+});
+
+//should only be called once, on page load
+function setupHotbar() {
+	for (let i = 1; i < 5/*one more than the max hotbar length*/; i++) {//create slotImage and coolDownDisplay
+		let coolDownDisplay = document.createElement("div");
+		coolDownDisplay.className = "coolDownDisplay";
+		coolDownDisplay.id = `coolDownDisplay${i}`;
+		coolDownDisplay.style.animation = "none";
+		spellWrapper.appendChild(coolDownDisplay);
+
+		let slotImage = createImage(media.inventoryItems.emptySlot.unselected);
+		slotImage.addEventListener("dragstart", function(e) {
+			e.preventDefault();
+		});
+		slotImage.id = `inventorySlot${i}`;
+		slotImage.className = "inventorySlot"
+		spellWrapper.appendChild(slotImage);
+
+	}
+
+	let openStorage = createImage("/media/images/openStorage.png");
+	openStorage.className = "inventorySlot";
+	openStorage.addEventListener("dragstart", function(e) {
+		e.preventDefault();
+	});
+	spellWrapper.appendChild(openStorage);
+}
+
+function fillHotbar(inventorySpellTypes) {
+	for (let i = 0; i < inventorySpellTypes.length; i++) {
+		console.log("hi");
+	}
+}
+
+function createImage(url) {
+	let image = document.createElement("img");
+	image.src = url;
+	return image;
+}
+
+function createSound(url) {//creates a sound with sources {url}.ogg and {url}.mp3
+	let sound = document.createElement("audio");
+	let mp3 = document.createElement("source");
+	let ogg = document.createElement("source");
+	mp3.type = "audio/mp3";
+	ogg.type = "audio/ogg";
+	mp3.src = `${url}.mp3`;
+	ogg.src = `${url}.ogg`;
+	sound.appendChild(mp3);
+	sound.appendChild(ogg);
+	return sound;
+}
+
 let gridCanvas = document.querySelector('#gridCanvas');
 
 gridCanvas.width = devicePixelRatio * innerWidth;
@@ -76,15 +159,11 @@ window.addEventListener('resize', function() {
 	gameCanvas.height = innerHeight;
 });
 
-window.addEventListener("load", function() {
-	document.querySelector("#loading").style.display = "none";
-	document.querySelector("#instructionsToggle").checked = true;
-});
-
 let playButton = document.querySelector("#playButton");
 let nicknameInput = document.querySelector("#nicknameInput");
-let mainScreen = document.querySelector('#mainScreen');
-let gameCanvas = document.querySelector('#gameCanvas');
+let mainScreen = document.querySelector("#mainScreen");
+let gameCanvas = document.querySelector("#gameCanvas");
+let spellWrapper = document.querySelector("#spellWrapper");
 
 function hideMainScreen() {
 	mainScreen.style.display = "none";

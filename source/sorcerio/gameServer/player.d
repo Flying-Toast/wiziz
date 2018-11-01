@@ -12,6 +12,7 @@ class Player {
 	float speed;
 	Point location;
 	Point facing;
+	uint socketId;
 
 	JSONValue JSONof() {
 		JSONValue json = JSONValue();
@@ -19,6 +20,7 @@ class Player {
 		json["nickname"] = nickname;
 		json["location"] = location.JSONof();
 		json["facing"] = facing.JSONof();
+		json["id"] = id;
 		
 		return json;
 	}
@@ -36,7 +38,7 @@ class Player {
 		lastMove = currentTime;
 	}
 
-	this(string nickname, WebSocket socket, Point location, ushort id) {
+	this(string nickname, WebSocket socket, Point location, ushort id, uint socketId) {
 		import std.string;
 		nickname = nickname.strip();
 		if (nickname == "") {
@@ -52,5 +54,6 @@ class Player {
 		this.id = id;
 		this.lastMove = 0;
 		this.facing = new Point(0, 0);
+		this.socketId = socketId;
 	}
 }

@@ -75,10 +75,22 @@ class Server {
 		}
 	}
 
+	///tries to remove a player by their socketId, and returns whether on not a player with that socketId was in this server
+	bool removePlayerBySocketId(uint sockId) {
+		foreach (player; players) {
+			if (player.socketId == sockId) {
+				players.remove(player.id);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	ushort addPlayer(PlayerConfig cfg) {
 		immutable ushort playerId = Server.generatePlayerId(players);
 
-		Player newPlayer = new Player(cfg.nickname, cfg.socket, randomPoint(mapSize, mapSize), playerId);
+		Player newPlayer = new Player(cfg.nickname, cfg.socket, randomPoint(mapSize, mapSize), playerId, cfg.socketId);
 		players[playerId] = newPlayer;
 
 		resizeMap();

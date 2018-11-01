@@ -7,8 +7,11 @@ class PlayerConfig {
 
 	WebSocket socket;
 
-	this(string nickname, WebSocket socket) {
+	uint socketId;
+
+	this(string nickname, WebSocket socket, uint socketId) {
 		this.nickname = nickname;
 		this.socket = socket;
+		this.socketId = socketId;
 	}
 }
