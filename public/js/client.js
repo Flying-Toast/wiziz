@@ -58,9 +58,9 @@ function setupHotbar() {
 	spellWrapper.appendChild(openStorage);
 }
 
-function fillHotbar(inventorySpellTypes) {
-	for (let i = 0; i < inventorySpellTypes.length; i++) {
-		console.log("hi");
+function fillHotbar(inventory) {
+	for (let i = 0; i < inventory.length; i++) {
+		console.log("not implemented yet");
 	}
 }
 
