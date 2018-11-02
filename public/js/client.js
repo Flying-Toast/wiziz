@@ -215,6 +215,7 @@ playButton.addEventListener("click", function() {
 	});
 });
 
+let clientPlayerId;
 function handleServerMessage(messageData) {
 	let message = JSON.parse(messageData);
 	let type = message.type;
@@ -222,6 +223,9 @@ function handleServerMessage(messageData) {
 	switch (type) {
 		case "update":
 			console.log(message);
+			break;
+		case "yourId":
+			clientPlayerId = message.id;
 			break;
 	}
 }

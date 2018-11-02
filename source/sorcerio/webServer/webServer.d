@@ -4,6 +4,7 @@ import sorcerio;
 import vibe.vibe;
 import std.concurrency;
 import std.json;
+import std.conv;
 
 private Tid gameServerTid;
 private uint currentId = 0;
@@ -35,6 +36,7 @@ private void handleSocket(scope WebSocket socket) {
 	}
 
 	uint currentSocketId = generateSocketId();
+	socket.send(`{"type":"yourId", "id":`~currentSocketId.to!string~`}`);
 
 	PlayerConfig cfg = new PlayerConfig(configJSON["nickname"].str, socket, currentSocketId);
 

@@ -8,7 +8,6 @@ class Player {
 	immutable ushort id;
 	immutable string nickname;
 	WebSocket socket;
-	private long lastMove;
 	float speed;
 	Point location;
 	Point facing;
@@ -26,16 +25,8 @@ class Player {
 	}
 
 	void tick() {
-		long currentTime = millis();
-
-		if (lastMove == 0) {
-			lastMove = currentTime;
-			return;
-		}
-
-		long dt = millis - lastMove;
-		location.moveTowards(facing, speed * dt);
-		lastMove = currentTime;
+		///////DO NOT MOVE TOWARDS this.facing!!!! WASD TO MOVE! this.facing IS FOR ROTATION ANGLE ONLY!!!!!!!!!!!!!
+		///////dt is gotten from client, and if it is more than CONFIG.maxDt, it is set to maxDt
 	}
 
 	this(string nickname, WebSocket socket, Point location, ushort id, uint socketId) {
@@ -52,7 +43,6 @@ class Player {
 		this.socket = socket;
 		this.location = location;
 		this.id = id;
-		this.lastMove = 0;
 		this.facing = new Point(0, 0);
 		this.socketId = socketId;
 		this.speed = CONFIG.defaultPlayerSpeed;
