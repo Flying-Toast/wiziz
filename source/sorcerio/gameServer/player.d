@@ -55,5 +55,6 @@ class Player {
 		this.lastMove = 0;
 		this.facing = new Point(0, 0);
 		this.socketId = socketId;
+		this.speed = CONFIG.defaultPlayerSpeed;
 	}
 }

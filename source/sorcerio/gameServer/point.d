@@ -60,7 +60,7 @@ class Point {
 
 		movingPoint.moveTowards(target, step);
 
-		assert(initialPoint.distance(movingPoint) == step);
+		assert(initialPoint.distance(movingPoint) - step <= 0.01);
 	}
 
 	this(double x, double y) {

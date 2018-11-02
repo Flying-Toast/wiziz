@@ -29,6 +29,7 @@ class Server {
 	private Player[ushort] players;
 	int mapSize;
 	private long lastUpdate;
+	private long lastPhysicsTick;
 
 	void resizeMap() {
 		import std.math;
@@ -73,6 +74,18 @@ class Server {
 		if (millis() - lastUpdate >= CONFIG.updateInterval) {
 			sendUpdateToClients();
 		}
+
+		if (millis() - lastPhysicsTick >= CONFIG.physicsInterval) {
+			physicsTick();
+		}
+	}
+
+	void physicsTick() {
+		foreach(player; players) {
+			player.tick();
+		}
+
+		lastPhysicsTick = millis();
 	}
 
 	///tries to remove a player by their socketId, and returns whether on not a player with that socketId was in this server
@@ -109,5 +122,6 @@ class Server {
 		this.id = id;
 		this.mapSize = CONFIG.minMapSize;
 		this.lastUpdate = 0;
+		this.lastPhysicsTick = 0;
 	}
 }
