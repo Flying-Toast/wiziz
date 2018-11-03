@@ -55,6 +55,7 @@ class Server {
 		}
 
 		state["players"] = playerJSON;
+		state["mapSize"] = mapSize;
 
 		return state;
 	}
@@ -93,6 +94,7 @@ class Server {
 		foreach (player; players) {
 			if (player.socketId == sockId) {
 				players.remove(player.id);
+				resizeMap();
 				return true;
 			}
 		}

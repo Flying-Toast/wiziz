@@ -6,7 +6,7 @@ window.addEventListener("load", function() {
 });
 
 
-let media = {sounds:{},effects:{},inventoryItems:{}};
+let media = {sounds:{},effects:{},inventoryItems:{},playerSprites:{}};
 let spellTypes = [];
 fetch("/spells.json").then(function(resp){return resp.json();}).then(function(spells) {
 	spellTypes = spells;
@@ -30,6 +30,10 @@ fetch("/spells.json").then(function(resp){return resp.json();}).then(function(sp
 
 	setupHotbar();
 });
+media.playerSprites = {
+	red: createImage('/media/images/playerRed.png'),
+	green: createImage('/media/images/playerGreen.png')
+};
 
 //should only be called once, on page load
 function setupHotbar() {
@@ -56,12 +60,6 @@ function setupHotbar() {
 		e.preventDefault();
 	});
 	spellWrapper.appendChild(openStorage);
-}
-
-function fillHotbar(inventory) {
-	for (let i = 0; i < inventory.length; i++) {
-		console.log("not implemented yet");
-	}
 }
 
 function createImage(url) {
@@ -113,6 +111,7 @@ let grid = {
 	borderColor: '#d4342a'
 };
 
+let mapSize = 3000;
 function drawGrid() {
 	grid.xOffset = grid.xOffset % grid.gridSize;
 	grid.yOffset = grid.yOffset % grid.gridSize;
@@ -131,20 +130,42 @@ function drawGrid() {
 		grid.ctx.lineTo(gridCanvas.width, i + grid.yOffset);
 	}
 	grid.ctx.stroke();
-	if (game.map) {
-		grid.ctx.strokeStyle = grid.borderColor;
-		grid.ctx.lineWidth = 40;
-		grid.ctx.beginPath();
-		grid.ctx.moveTo(localCoords(0, 'x'), localCoords(0, 'y'));
-		grid.ctx.lineTo(localCoords(game.map.width, 'x'), localCoords(0, 'y'));
-		grid.ctx.lineTo(localCoords(game.map.width, 'x'), localCoords(game.map.height, 'y'));
-		grid.ctx.lineTo(localCoords(0, 'x'), localCoords(game.map.height, 'y'));
-		grid.ctx.lineTo(localCoords(0, 'x'), localCoords(0, 'y') - grid.ctx.lineWidth / 2);
-		grid.ctx.stroke();
-	}
-	requestAnimationFrame(drawGrid);
+
+	//map borders
+	grid.ctx.strokeStyle = grid.borderColor;
+	grid.ctx.lineWidth = 40;
+	grid.ctx.beginPath();
+	grid.ctx.moveTo(localCoords(0, 'x'), localCoords(0, 'y'));
+	grid.ctx.lineTo(localCoords(mapSize, 'x'), localCoords(0, 'y'));
+	grid.ctx.lineTo(localCoords(mapSize, 'x'), localCoords(mapSize, 'y'));
+	grid.ctx.lineTo(localCoords(0, 'x'), localCoords(mapSize, 'y'));
+	grid.ctx.lineTo(localCoords(0, 'x'), localCoords(0, 'y') - grid.ctx.lineWidth / 2);
+	grid.ctx.stroke();
 }
-requestAnimationFrame(drawGrid);
+
+function localCoords(globalCoord, xOrY) {
+	if (selfPlayer === undefined) {
+		return 0;
+	}
+
+	if (xOrY === "x") {
+		return (globalCoord + gameCanvas.width / 2 - selfPlayer.location.x);
+	} else if (xOrY === "y") {
+		return (globalCoord + gameCanvas.height / 2 - selfPlayer.location.y);
+	}
+}
+
+function globalCoords(localCoord, xOrY) {
+	if (selfPlayer === undefined) {
+		return 0;
+	}
+
+	if (xOrY === "x") {
+		return (localCoord - gameCanvas.width / 2 + selfPlayer.location.x);
+	} else if (xOrY === "y") {
+		return (localCoord - gameCanvas.height / 2 + selfPlayer.location.y);
+	}
+}
 
 window.addEventListener('resize', function() {
 	gridCanvas.width = devicePixelRatio * innerWidth;
@@ -164,6 +185,11 @@ let nicknameInput = document.querySelector("#nicknameInput");
 let mainScreen = document.querySelector("#mainScreen");
 let gameCanvas = document.querySelector("#gameCanvas");
 let spellWrapper = document.querySelector("#spellWrapper");
+
+gameCanvas.width = devicePixelRatio * window.innerWidth;
+gameCanvas.height = devicePixelRatio * window.innerHeight;
+
+let ctx = gameCanvas.getContext("2d");
 
 function hideMainScreen() {
 	mainScreen.style.display = "none";
@@ -208,6 +234,7 @@ playButton.addEventListener("click", function() {
 	ws.addEventListener("open", function() {
 		ws.send(generatePlayerConfig());
 		hideMainScreen();
+		mainLoop();
 	});
 
 	ws.addEventListener("message", function(message) {
@@ -216,18 +243,103 @@ playButton.addEventListener("click", function() {
 });
 
 let clientPlayerId;
+let latestGameState;
 function handleServerMessage(messageData) {
 	let message = JSON.parse(messageData);
 	let type = message.type;
 
 	switch (type) {
 		case "update":
-			console.log(message);
+			latestGameState = message;
 			break;
 		case "yourId":
 			clientPlayerId = message.id;
 			break;
 	}
+}
+
+let mouseCoords = {x:0,y:0};
+window.addEventListener('mousemove', function(e) {
+	mouseCoords = {
+		x: e.pageX,
+		y: e.pageY
+	};
+});
+
+function calculatePlayerAngle(player) {
+	return Math.atan2(player.facing.x - player.location.x, -(player.facing.y - player.location.y));
+}
+
+function drawSelf() {
+	ctx.save();
+	ctx.translate(gameCanvas.width / 2, gameCanvas.height / 2);
+	ctx.rotate(Math.atan2(mouseCoords.x - gameCanvas.width / 2, -(mouseCoords.y - gameCanvas.height / 2)));
+	ctx.drawImage(media.playerSprites.green, -media.playerSprites.green.width / 2, -media.playerSprites.green.height / 2);
+	ctx.restore();
+}
+
+function drawPlayer(player) {
+	ctx.save();
+	ctx.translate(localCoords(player.location.x, 'x'), localCoords(player.location.y, 'y'));
+	ctx.rotate(calculatePlayerAngle(player));
+	ctx.drawImage(media.playerSprites.red, -media.playerSprites.red.width / 2, -media.playerSprites.red.height / 2);
+	ctx.restore();
+	ctx.save();
+	ctx.translate(localCoords(player.location.x, 'x'), localCoords(player.location.y, 'y'));
+	ctx.font = "20px newRocker";
+	ctx.fillStyle = '#2dafaf';
+	ctx.fillText(player.nickname, -(ctx.measureText(player.nickname).width / 2), 80);
+	ctx.font = "18px agane";
+	ctx.fillStyle = '#2dafaf';
+	ctx.fillText('lvl ' + player.level, -(ctx.measureText('lvl ' + player.level).width / 2), 100);
+	ctx.restore();
+}
+
+let selfPlayer;
+function updateGrid() {
+	if (selfPlayer === undefined) {
+		return;
+	}
+
+	grid.xOffset = -selfPlayer.location.x;
+	grid.yOffset = -selfPlayer.location.y;
+}
+
+function mainLoop() {
+	ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+
+	drawGrid();
+	
+	if (latestGameState !== undefined) {
+		for (let i = 0; i < latestGameState.players.length; i++) {
+			let currentPlayer = latestGameState.players[i];
+			if (currentPlayer.id === clientPlayerId) {
+				selfPlayer = currentPlayer;
+				continue;
+			}
+
+			drawPlayer(currentPlayer);
+		}
+	}
+
+	updateGrid();
+	drawSelf();
+	if (getGameState() === "playing") {
+		window.requestAnimationFrame(mainLoop);
+	}
+}
+
+function lerp(p, n, t) {
+	var t = Number(t);
+	t = parseFloat((Math.max(0, Math.min(1, t))).toFixed(3));
+	return parseFloat((p + t * (n - p)).toFixed(3));
+}
+
+function vLerp(v, tv, t) {
+	return {
+		x: this.lerp(v.x, tv.x, t),
+		y: this.lerp(v.y, tv.y, t)
+	};
 }
 
 //})();
