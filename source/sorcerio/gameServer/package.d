@@ -6,6 +6,7 @@ public import sorcerio.gameServer.player;
 public import sorcerio.gameServer.config;
 public import sorcerio.gameServer.point;
 public import sorcerio.gameServer.serverManager;
+public import sorcerio.gameServer.spell;
 
 import core.time;
 long millis() {
