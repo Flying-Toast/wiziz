@@ -6,11 +6,11 @@ import std.json;
 
 class Player {
 	immutable ushort id;
-	immutable string nickname;
+	private immutable string nickname;
 	WebSocket socket;
-	float speed;
-	Point location;
-	Point facing;
+	private float speed;
+	private Point location;
+	private Point facing;
 	uint socketId;
 
 	JSONValue JSONof() {
