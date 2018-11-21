@@ -83,7 +83,7 @@ class Server {
 
 	private void physicsTick() {
 		foreach(player; players) {
-			player.tick();
+			//no player.tick() - all logic is in server.
 		}
 
 		lastPhysicsTick = millis();

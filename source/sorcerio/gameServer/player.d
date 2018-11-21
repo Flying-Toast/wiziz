@@ -24,11 +24,6 @@ class Player {
 		return json;
 	}
 
-	void tick() {
-		///////DO NOT MOVE TOWARDS this.facing!!!! WASD TO MOVE! this.facing IS FOR ROTATION ANGLE ONLY!!!!!!!!!!!!!
-		///////dt is gotten from client, and if it is more than CONFIG.maxDt, it is set to maxDt
-	}
-
 	this(string nickname, WebSocket socket, Point location, ushort id, uint socketId) {
 		import std.string;
 		nickname = nickname.strip();
