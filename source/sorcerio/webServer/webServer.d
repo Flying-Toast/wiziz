@@ -15,7 +15,6 @@ void startWebServer(ushort port, Tid gsTid) {
 
 	HTTPServerSettings settings = new HTTPServerSettings;
 	settings.port = port;
-	settings.bindAddresses = ["::1", "127.0.0.1"];
 	URLRouter router = new URLRouter;
 
 	router.get("*", serveStaticFiles("public/"));
