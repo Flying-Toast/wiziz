@@ -35,7 +35,7 @@ final class SpellFactory {
 
 mixin template registerSpell(SpellName name) {
 	static this() {
-		SpellFactory.registerSpell(name, new typeof(this));
+		SpellFactory.registerSpell(name, this.create());
 	}
 }
 
