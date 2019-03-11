@@ -20,7 +20,7 @@ class Server {
 		} else {
 			return currentPlayerId++;
 		}
-		
+
 		assert(0);//this should never be reached
 	}
 
@@ -34,7 +34,7 @@ class Server {
 	private void resizeMap() {
 		import std.math;
 		int newMapSize = cast(int) round( ((this.players.length + 2)^^2)^^(1.0 / 2.5) * 1000 );
-		
+
 		if (newMapSize < CONFIG.minMapSize) {
 			newMapSize = CONFIG.minMapSize;
 		} else if (newMapSize > CONFIG.maxMapSize) {
@@ -83,7 +83,7 @@ class Server {
 
 	private void physicsTick() {
 		foreach(player; players) {
-			//no player.tick() - all logic is in server.
+
 		}
 
 		lastPhysicsTick = millis();
