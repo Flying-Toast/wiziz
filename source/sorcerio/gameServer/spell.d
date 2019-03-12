@@ -33,26 +33,40 @@ JSONValue generateSpellTypesJSON() {
 	return JSONValue(types);
 }
 
-final class SpellFactory {
-	private static Spell[SpellName] registry;
+private class RegistryEntry {
+	Spell spell;
+	uint coolDownTime;///the coolDownTime of the inventory spell
 
-	static void registerSpell(SpellName name, Spell spell) {
+	this(Spell spell, uint coolDownTime) {
+		this.spell = spell;
+		this.coolDownTime = coolDownTime;
+	}
+}
+
+final class SpellFactory {
+	private static RegistryEntry[SpellName] registry;
+
+	static void registerSpell(SpellName name, uint coolDownTime, Spell spell) {
 		if (name !in registry) {
-			registry[name] = spell;
+			registry[name] = new RegistryEntry(spell, coolDownTime);
 		} else {
 			throw new Exception("Spell already registered");
 		}
 	}
 
 	static Spell createSpell(SpellName name, Player caster) {
-		return registry[name].create(caster);
+		return registry[name].spell.create(caster);
+	}
+
+	static uint getCoolDownTime(SpellName name) {
+		return registry[name].coolDownTime;
 	}
 }
 
 
-mixin template registerSpell(SpellName name) {
+mixin template registerSpell(SpellName name, uint coolDownTime) {
 	static this() {
-		SpellFactory.registerSpell(name, new typeof(this));
+		SpellFactory.registerSpell(name, coolDownTime, new typeof(this));
 	}
 
 	private this() {}
