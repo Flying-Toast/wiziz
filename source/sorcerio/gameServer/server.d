@@ -82,7 +82,7 @@ class Server {
 	}
 
 	private void physicsTick() {
-		foreach(player; players) {
+		foreach (player; players) {
 
 		}
 
