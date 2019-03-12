@@ -1,9 +1,12 @@
+///generic spell stuff
 module sorcerio.gameServer.spell;
+
+import std.json : JSONValue;
 
 import sorcerio.gameServer.server;
 import sorcerio.gameServer.player;
 
-enum SpellName {//TODO: use SpellName to generate public/spellTypes.json
+enum SpellName {
 	fire,
 	cannon,
 	slow,
@@ -15,6 +18,19 @@ enum SpellName {//TODO: use SpellName to generate public/spellTypes.json
 	teleport,
 	speed,
 	shock
+}
+
+///generates a JSON array of all spell types, used for /public/spells.json
+JSONValue generateSpellTypesJSON() {
+	import std.traits;
+	import std.conv;
+
+	string[] types;
+	foreach (member; [EnumMembers!SpellName]) {
+		types ~= member.to!string;
+	}
+
+	return JSONValue(types);
 }
 
 final class SpellFactory {

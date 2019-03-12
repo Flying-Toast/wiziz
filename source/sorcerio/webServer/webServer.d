@@ -19,9 +19,15 @@ void startWebServer(ushort port, Tid gsTid) {
 
 	router.get("*", serveStaticFiles("public/"));
 	router.get("/ws", handleWebSockets(&handleSocket));
+	router.get("/spells.json", &serveSpellsJSON);
 
 	listenHTTP(settings, router);
 	runApplication();
+}
+
+private void serveSpellsJSON(HTTPServerRequest req, HTTPServerResponse res) {
+	enum response = generateSpellTypesJSON();
+	res.writeJsonBody(response);
 }
 
 private void handleSocket(scope WebSocket socket) {

@@ -20,7 +20,7 @@ class Player {
 		json["location"] = location.JSONof();
 		json["facing"] = facing.JSONof();
 		json["id"] = id;
-		
+
 		return json;
 	}
 
@@ -34,7 +34,7 @@ class Player {
 		} else {
 			this.nickname = nickname;
 		}
-		
+
 		this.socket = socket;
 		this.location = location;
 		this.id = id;
