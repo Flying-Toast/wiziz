@@ -9,7 +9,7 @@ class Player {
 	private immutable string nickname;
 	WebSocket socket;
 	private float speed;
-	private Point location;
+	Point location;
 	private Point facing;
 	uint socketId;
 	private InventorySpell[CONFIG.inventorySize] inventory;

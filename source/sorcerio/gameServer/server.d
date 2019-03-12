@@ -70,7 +70,7 @@ class Server {
 		state["type"] = "update";
 		string stateString = state.toString();
 
-		foreach(player; players) {
+		foreach (player; players) {
 			player.socket.send(stateString);
 		}
 		this.lastUpdate = millis();
