@@ -12,6 +12,7 @@ class Player {
 	private Point location;
 	private Point facing;
 	uint socketId;
+	private InventorySpell[CONFIG.inventorySize] inventory;
 
 	JSONValue JSONof() {
 		JSONValue json = JSONValue();

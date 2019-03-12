@@ -32,6 +32,10 @@ class Server {
 	private long lastPhysicsTick;
 	private Spell[] spells;
 
+	void addSpell(Spell spell) {
+		spells ~= spell;
+	}
+
 	private void resizeMap() {
 		import std.math;
 		int newMapSize = cast(int) round( ((this.players.length + 2)^^2)^^(1.0 / 2.5) * 1000 );

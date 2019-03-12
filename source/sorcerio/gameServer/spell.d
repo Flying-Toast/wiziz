@@ -38,6 +38,7 @@ final class InventorySpell {
 	immutable SpellName name;
 	private immutable uint coolDownTime;
 	private long timeOfLastCast;
+	private Player owner;///the player whose inventory contains this
 
 	bool isCooling() {
 		if (millis() - timeOfLastCast >= coolDownTime) {
@@ -52,16 +53,17 @@ final class InventorySpell {
 			return false;
 		}
 
-		//TODO: actually cast the spell
+		game.addSpell(SpellFactory.createSpell(name, owner));
 
 		timeOfLastCast = millis();
 		return true;
 	}
 
-	this(SpellName name) {
+	this(SpellName name, Player owner) {
 		this.name = name;
 		this.coolDownTime = SpellFactory.getCoolDownTime(name);
 		this.timeOfLastCast = 0;
+		this.owner = owner;
 	}
 }
 
