@@ -3,6 +3,7 @@ module sorcerio.gameServer.spell;
 
 import std.json : JSONValue;
 
+import sorcerio : millis;
 import sorcerio.gameServer.server;
 import sorcerio.gameServer.player;
 
@@ -31,6 +32,37 @@ JSONValue generateSpellTypesJSON() {
 	}
 
 	return JSONValue(types);
+}
+
+final class InventorySpell {
+	immutable SpellName name;
+	private immutable uint coolDownTime;
+	private long timeOfLastCast;
+
+	bool isCooling() {
+		if (millis() - timeOfLastCast >= coolDownTime) {
+			return false;
+		}
+		return true;
+	}
+
+	///trys to cast the spell, returns whether or not it was actually casted
+	bool castSpell(Server game) {
+		if (isCooling) {
+			return false;
+		}
+
+		//TODO: actually cast the spell
+
+		timeOfLastCast = millis();
+		return true;
+	}
+
+	this(SpellName name) {
+		this.name = name;
+		this.coolDownTime = SpellFactory.getCoolDownTime(name);
+		this.timeOfLastCast = 0;
+	}
 }
 
 private class RegistryEntry {
