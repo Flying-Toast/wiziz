@@ -30,6 +30,7 @@ class Server {
 	private int mapSize;
 	private long lastUpdate;
 	private long lastPhysicsTick;
+	private Spell[] spells;
 
 	private void resizeMap() {
 		import std.math;
@@ -84,6 +85,10 @@ class Server {
 	private void physicsTick() {
 		foreach (player; players) {
 
+		}
+
+		foreach (spell; spells) {
+			spell.tick(this);
 		}
 
 		lastPhysicsTick = millis();
