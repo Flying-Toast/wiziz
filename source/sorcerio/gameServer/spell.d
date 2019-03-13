@@ -117,6 +117,8 @@ mixin template registerSpell(SpellName name, uint coolDownTime) {
 
 
 abstract class Spell {
+	bool removalFlag = false;///flags the spell to be removed from Server.spells on the next tick. ALWAYS use removalFlag instead of directly removing the spell from the Server.spells array.
+
 	protected Player caster;
 
 	abstract Spell create(Player caster);

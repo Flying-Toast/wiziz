@@ -87,11 +87,21 @@ class Server {
 	}
 
 	private void physicsTick() {
+		import std.algorithm.mutation : remove;
+
 		foreach (player; players) {
 
 		}
 
-		foreach (spell; spells) {
+		for (size_t i = spells.length; i-- > 0;) {//loop backwards so that spells can be removed from the array from within the loop
+			Spell spell = spells[i];
+
+			if (spell.removalFlag) {
+				spells = spells.remove(i);
+				continue;
+			}
+
+
 			spell.tick(this);
 		}
 
