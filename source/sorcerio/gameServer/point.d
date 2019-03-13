@@ -14,6 +14,10 @@ class Point {
 		return Point.distance(this, b);
 	}
 
+	Point dup() {
+		return new Point(x, y);
+	}
+
 	double x;
 	double y;
 
