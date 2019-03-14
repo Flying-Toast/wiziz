@@ -26,11 +26,15 @@ class Server {
 
 
 	immutable ushort id;
-	private Player[ushort] players;
+	Player[ushort] players;
 	private int mapSize;
 	private long lastUpdate;
 	private long lastPhysicsTick;
 	private Spell[] spells;
+
+	int getMapSize() {
+		return mapSize;
+	}
 
 	void addSpell(Spell spell) {
 		spells ~= spell;

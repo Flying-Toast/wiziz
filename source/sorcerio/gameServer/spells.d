@@ -6,6 +6,7 @@ import sorcerio : millis;
 import sorcerio.gameServer.point;
 import sorcerio.gameServer.server;
 import sorcerio.gameServer.player;
+import sorcerio.gameServer.config;
 
 abstract class ProjectileSpell : Spell {
 	protected {
@@ -44,6 +45,10 @@ abstract class ProjectileSpell : Spell {
 		return false;
 	}
 
+	protected void die() {
+		removalFlag = true;
+	}
+
 	override void tick(Server game) {
 		if (removalFlag) {
 			return;
@@ -52,13 +57,23 @@ abstract class ProjectileSpell : Spell {
 		long currentTime = millis();
 		long dt = currentTime - lastMove;
 
-		//TODO: check collisions here
+		foreach (player; game.players) {
+			if (player == caster) {//skip the caster of this spell
+				continue;
+			}
+
+			if (player.location.distance(location) <= radius + CONFIG.playerRadius) {
+				affectPlayer(player);
+				die();
+				return;
+			}
+		}
 
 		location.moveTowards(target, speed * dt);
 		lastMove = millis();
 
-		if (this.hasReachedTarget) {
-			removalFlag = true;
+		if (this.hasReachedTarget || location.x < 0 || location.y < 0 || location.x > game.getMapSize || location.y > game.getMapSize) {
+			die();
 		}
 	}
 }
