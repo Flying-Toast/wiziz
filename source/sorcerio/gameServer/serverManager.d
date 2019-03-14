@@ -17,7 +17,7 @@ class ServerManager {
 		} else {
 			return currentServerId++;
 		}
-		
+
 		assert(0);//this should never be reached
 	}
 

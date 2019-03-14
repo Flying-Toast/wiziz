@@ -309,7 +309,7 @@ function mainLoop() {
 	ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
 
 	drawGrid();
-	
+
 	if (latestGameState !== undefined) {
 		for (let i = 0; i < latestGameState.players.length; i++) {
 			let currentPlayer = latestGameState.players[i];
