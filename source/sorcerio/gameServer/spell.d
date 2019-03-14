@@ -128,6 +128,6 @@ abstract class Spell {
 
 	abstract void tick(Server gameState);
 
-	///a string describing the effects of the spell
-	immutable string humanReadableEffect;
+	///returns a string describing the effects of the spell
+	abstract string humanReadableEffect();
 }
