@@ -10,7 +10,7 @@ class Player {
 	WebSocket socket;
 	private float speed;
 	Point location;
-	private Point facing;
+	Point facing;
 	uint socketId;
 	private InventorySpell[CONFIG.inventorySize] inventory;
 
