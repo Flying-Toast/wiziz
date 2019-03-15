@@ -77,3 +77,25 @@ abstract class ProjectileSpell : Spell {
 		}
 	}
 }
+
+class FireSpell : ProjectileSpell {
+	mixin registerSpell!(SpellName.fire, 500);
+
+	private ushort damage = 100;
+
+	override string humanReadableEffect() {
+		import std.conv;
+		return "Affected player gets -" ~ damage.to!string ~ " health";
+	}
+
+	override void initialize() {
+		super.initialize();
+		radius = 10;
+		range = 700;
+		speed = 1;
+	}
+
+	override void affectPlayer(Player affectedPlayer) {
+		affectedPlayer.doDamage(damage);
+	}
+}
