@@ -14,6 +14,7 @@ class Player {
 	uint socketId;
 	private InventorySpell[CONFIG.inventorySize] inventory;
 	private long health;
+	private long maxHealth;
 
 	void doDamage(int damage) {
 		health -= damage;
@@ -32,6 +33,7 @@ class Player {
 		json["id"] = id;
 		json["inventory"] = InventorySpell.JSONofInventory(inventory);
 		json["health"] = health;
+		json["maxHealth"] = maxHealth;
 
 		return json;
 	}
@@ -54,5 +56,6 @@ class Player {
 		this.socketId = socketId;
 		this.speed = CONFIG.defaultPlayerSpeed;
 		this.health = CONFIG.playerStartHealth;
+		this.maxHealth = health;
 	}
 }
