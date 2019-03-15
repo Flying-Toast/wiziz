@@ -21,6 +21,7 @@ class Player {
 		json["location"] = location.JSONof();
 		json["facing"] = facing.JSONof();
 		json["id"] = id;
+		json["inventory"] = InventorySpell.JSONofInventory(inventory);
 
 		return json;
 	}

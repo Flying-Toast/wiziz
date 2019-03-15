@@ -7,6 +7,7 @@ public import sorcerio.gameServer.spells;
 import sorcerio : millis;
 import sorcerio.gameServer.server;
 import sorcerio.gameServer.player;
+import sorcerio.gameServer.config;
 
 enum SpellName {
 	fire,
@@ -40,6 +41,31 @@ final class InventorySpell {
 	private immutable uint coolDownTime;
 	private long timeOfLastCast;
 	private Player owner;///the player whose inventory contains this
+
+	static JSONValue JSONofInventory(InventorySpell[CONFIG.inventorySize] inventory) {
+		JSONValue[] inventorySpellsJSON;
+
+		foreach (spell; inventory) {
+			if (spell is null) {
+				continue;
+			}
+
+			inventorySpellsJSON ~= spell.JSONof();
+		}
+
+		return JSONValue(inventorySpellsJSON);
+	}
+
+	JSONValue JSONof() {
+		import std.conv;
+
+		JSONValue json = JSONValue();
+
+		json["spellName"] = name.to!string;
+		json["coolDownTime"] = coolDownTime;
+
+		return json;
+	}
 
 	bool isCooling() {
 		if (millis() - timeOfLastCast >= coolDownTime) {
