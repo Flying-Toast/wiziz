@@ -70,7 +70,7 @@ abstract class ProjectileSpell : Spell {
 		}
 
 		location.moveTowards(target, speed * dt);
-		lastMove = millis();
+		lastMove = currentTime;
 
 		if (this.hasReachedTarget || location.x < 0 || location.y < 0 || location.x > game.getMapSize || location.y > game.getMapSize) {
 			die();
