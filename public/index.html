@@ -705,6 +705,9 @@
 
 			for (let i = 0; i < popButtons.length; i++) {
 				popButtons[i].addEventListener("mousedown", function(mouseDownEvent) {
+					popButtons[i].addEventListener("click", function(e) {
+						e.preventDefault();
+					}, {once: true});
 					window.addEventListener("mouseup", function() {
 						mouseDownEvent.target.click();
 					}, {once:true});
