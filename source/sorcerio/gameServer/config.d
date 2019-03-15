@@ -8,6 +8,7 @@ immutable struct CONFIG {
 
 	static enum float defaultPlayerSpeed = 1.0 / 4.5;///the default player speed in pixels/millisecond
 	static enum ubyte playerRadius = 65;
+	static enum long playerStartHealth = 1000;
 
 	static enum ushort maxPlayers = 100;///the maximum players allowed in a single Server
 

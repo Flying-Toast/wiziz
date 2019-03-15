@@ -13,6 +13,15 @@ class Player {
 	Point facing;
 	uint socketId;
 	private InventorySpell[CONFIG.inventorySize] inventory;
+	private long health;
+
+	void doDamage(int damage) {
+		health -= damage;
+	}
+
+	void heal(int amount) {
+		doDamage(-amount);
+	}
 
 	JSONValue JSONof() {
 		JSONValue json = JSONValue();
@@ -22,6 +31,7 @@ class Player {
 		json["facing"] = facing.JSONof();
 		json["id"] = id;
 		json["inventory"] = InventorySpell.JSONofInventory(inventory);
+		json["health"] = health;
 
 		return json;
 	}
@@ -43,5 +53,6 @@ class Player {
 		this.facing = new Point(0, 0);
 		this.socketId = socketId;
 		this.speed = CONFIG.defaultPlayerSpeed;
+		this.health = CONFIG.playerStartHealth;
 	}
 }
