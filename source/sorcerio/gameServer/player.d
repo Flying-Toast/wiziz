@@ -16,6 +16,12 @@ class Player {
 	private long health;
 	private long maxHealth;
 
+	///returns the amount of xp needed to get to `level`
+	static uint xpNeededForLevel(ushort level) {
+		import std.conv;
+		return (((level / 0.9) ^^ 2) * 100).to!uint;
+	}
+
 	void doDamage(int damage) {
 		health -= damage;
 	}
