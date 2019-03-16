@@ -15,6 +15,8 @@ class Player {
 	private InventorySpell[CONFIG.inventorySize] inventory;
 	private long health;
 	private long maxHealth;
+	private uint xp;
+	private ushort level;
 
 	///returns the amount of xp needed to get to `level`
 	static uint xpNeededForLevel(ushort level) {
@@ -40,6 +42,8 @@ class Player {
 		json["inventory"] = InventorySpell.JSONofInventory(inventory);
 		json["health"] = health;
 		json["maxHealth"] = maxHealth;
+		json["xp"] = xp;
+		json["level"] = level;
 
 		return json;
 	}
@@ -63,5 +67,7 @@ class Player {
 		this.speed = CONFIG.defaultPlayerSpeed;
 		this.health = CONFIG.playerStartHealth;
 		this.maxHealth = health;
+		this.xp = 0;
+		this.level = 1;
 	}
 }
