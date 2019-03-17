@@ -95,6 +95,11 @@ sorcerio.ui.init = function() {
 
 	this.playButton = document.querySelector("#playButton");
 	this.nicknameInput = document.querySelector("#nicknameInput");
+	this.nicknameInput.addEventListener('keydown', function(e) {
+		if (e.key === 'Enter') {
+			sorcerio.ui.playButton.click();
+		}
+	});
 
 	this.mainScreen = document.querySelector("#mainScreen");
 	this.spellWrapper = document.querySelector("#spellWrapper");
@@ -243,7 +248,7 @@ sorcerio.events.startNewGame = function() {
 sorcerio.events.handleServerMessage = function(message) {
 	const messageType = message.type;
 
-	switch (type) {
+	switch (messageType) {
 		case "yourId":
 			console.log(message);
 			break;
