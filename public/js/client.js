@@ -139,6 +139,14 @@ sorcerio.ui.showMainScreen = function() {
 	this.mainScreen.style.animationName = "death";
 };
 
+sorcerio.ui.generatePlayerConfig = function() {
+	let cfg = {
+		nickname: this.nicknameInput.value
+	};
+
+	return JSON.stringify(cfg);
+};
+
 
 /////////
 //MEDIA//
@@ -188,7 +196,19 @@ sorcerio.media.createSound = function(url) {//creates a sound with sources {url}
 
 
 sorcerio.comm.init = function() {
+	this.ws = null;
+};
 
+sorcerio.comm.newWSConnection = function() {
+	this.ws = new WebSocket(`ws${(window.location.protocol==="https:")?"s":""}://${window.location.host}/ws`);
+
+	this.ws.addEventListener("open", function() {
+		sorcerio.comm.ws.send(sorcerio.ui.generatePlayerConfig());
+	});
+
+	this.ws.addEventListener("message", function(message) {
+		sorcerio.events.handleServerMessage(JSON.parse(message.data));
+	});
 };
 
 
@@ -216,7 +236,12 @@ sorcerio.events.playButtonClick = function() {
 };
 
 sorcerio.events.startNewGame = function() {
+	sorcerio.comm.newWSConnection();
 	sorcerio.ui.hideMainScreen();
+};
+
+sorcerio.events.handleServerMessage = function(message) {
+	console.log(message);
 };
 
 
