@@ -18,6 +18,7 @@ sorcerio - global module, contains all submodules
 	events - events + game status
 	meta - constants that are determined in the server code
 	game - game state
+	input - input stuff
 
 */
 
@@ -28,7 +29,8 @@ const sorcerio = {
 	comm: {},
 	events: {},
 	meta: {},
-	game: {}
+	game: {},
+	input: {}
 };
 
 sorcerio.init = function() {//called once, on page load
@@ -42,7 +44,8 @@ sorcerio.init = function() {//called once, on page load
 		sorcerio.comm,
 		sorcerio.events,
 		sorcerio.meta,
-		sorcerio.game
+		sorcerio.game,
+		sorcerio.input
 	];
 
 	for (let i = 0; i < subModules.length; i++) {
@@ -81,6 +84,17 @@ sorcerio.renderer.setup = function() {
 	this.gridCtx = sorcerio.ui.gridCanvas.getContext("2d");
 	this.gameCtx = sorcerio.ui.gameCanvas.getContext("2d");
 };
+
+sorcerio.renderer.render = function() {
+	this.renderGrid();
+
+	//render self:
+	this.gameCtx.save();
+	this.gameCtx.translate(sorcerio.ui.gameCanvas.width / 2, sorcerio.ui.gameCanvas.height / 2);
+	this.gameCtx.rotate(Math.atan2(sorcerio.input.mouseCoords.x - sorcerio.ui.gameCanvas.width / 2, -(sorcerio.input.mouseCoords.y - sorcerio.ui.gameCanvas.height / 2)));
+	this.gameCtx.drawImage(sorcerio.media.sprites.playerGreen, -sorcerio.media.sprites.playerGreen.width / 2, -sorcerio.media.sprites.playerGreen.height / 2);
+	this.gameCtx.restore();
+}.bind(sorcerio.renderer);
 
 sorcerio.renderer.renderGrid = function() {
 	this.grid.xOffset = this.grid.xOffset % this.grid.gridSize;
@@ -284,6 +298,7 @@ sorcerio.events.init = function() {
 
 sorcerio.events.setup = function() {
 	sorcerio.ui.playButton.addEventListener("click", this.playButtonClick);
+	window.addEventListener("mousemove", this.mouseMove);
 };
 
 sorcerio.events.playButtonClick = function() {
@@ -314,6 +329,11 @@ sorcerio.events.handleServerMessage = function(message) {
 	}
 };
 
+sorcerio.events.mouseMove = function(domEvent) {
+	sorcerio.input.mouseCoords.x = domEvent.pageX;
+	sorcerio.input.mouseCoords.y = domEvent.pageY;
+};
+
 
 /////////
 //@GAME//
@@ -323,6 +343,16 @@ sorcerio.events.handleServerMessage = function(message) {
 sorcerio.game.init = function() {
 	this.latestAuthoritativeGameState = null;
 	this.myPlayerId = null;
+};
+
+
+///////////
+//@INPUTS//
+///////////
+
+
+sorcerio.input.init = function() {
+	this.mouseCoords = {x: null, y: null};
 };
 
 
