@@ -17,5 +17,5 @@ immutable struct CONFIG {
 
 	static enum long updateInterval = 100;///the delay, in milliseconds, between updates being sent to clients
 	static enum long physicsInterval = 10;///the delay, in milliseconds between iterations of the physics loop
-	static enum ubyte inventorySize = 5;///how many slots are in a player's inventory
+	static enum ubyte inventorySize = 4;///how many slots are in a player's inventory
 }
