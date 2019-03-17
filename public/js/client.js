@@ -144,7 +144,13 @@ sorcerio.events.playButtonClick = function() {
 		return;
 	}
 
+	sorcerio.events.startNewGame();
+
 	this.isPlaying = true;
+};
+
+sorcerio.events.startNewGame = function() {
+	sorcerio.ui.hideMainScreen();
 };
 
 
