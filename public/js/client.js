@@ -117,7 +117,21 @@ sorcerio.ui.showMainScreen = function() {
 
 
 sorcerio.media.init = function() {
+	this.inventoryItems = {};
 
+	this.inventoryItems.emptySlot = {
+		unselected: "/media/images/inventorySlot.png",
+		selected: "/media/images/inventorySlotSelected.png"
+	};
+
+	for (let i = 0; i < sorcerio.meta.data.spellTypes.length; i++) {
+		const type = sorcerio.meta.data.spellTypes[i];
+
+		this.inventoryItems[type] = {
+			selected: `/media/images/${type}SpellSelected.png`,
+			unselected: `/media/images/${type}Spell.png`
+		};
+	}
 };
 
 sorcerio.media.createImage = function(url) {
