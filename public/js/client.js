@@ -160,6 +160,8 @@ sorcerio.ui.generatePlayerConfig = function() {
 
 sorcerio.media.init = function() {
 	this.inventoryItems = {};
+	this.sounds = {spellSounds: {}};
+	this.sprites = {};
 
 	this.inventoryItems.emptySlot = {
 		unselected: "/media/images/inventorySlot.png",
@@ -173,7 +175,12 @@ sorcerio.media.init = function() {
 			selected: `/media/images/${type}SpellSelected.png`,
 			unselected: `/media/images/${type}Spell.png`
 		};
+
+		this.sounds.spellSounds[type] = this.createSound(`/media/sounds/${type}Spell`);
 	}
+
+	this.sprites.playerRed = this.createImage('/media/images/playerRed.png');
+	this.sprites.playerGreen = this.createImage('/media/images/playerGreen.png');
 };
 
 sorcerio.media.createImage = function(url) {
