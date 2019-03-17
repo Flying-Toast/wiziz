@@ -103,8 +103,6 @@ let grid = {
 	yOffset: 0,
 	gridSize: 40,
 	lineWidth: 1,
-	vx: 0,
-	vy: 0,
 	ctx: gridCanvas.getContext('2d'),
 	backgroundColor: '#E8E8F9',
 	lineColor: '#bebebe',
