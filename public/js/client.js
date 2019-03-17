@@ -15,7 +15,7 @@ sorcerio - global module, contains all submodules
 	ui - game ui HTML elements
 	media - sounds, images, etc
 	comm - server communication
-	events - events + game state
+	events - events + game status
 	meta - constants that are determined in the server code
 
 */
@@ -241,7 +241,16 @@ sorcerio.events.startNewGame = function() {
 };
 
 sorcerio.events.handleServerMessage = function(message) {
-	console.log(message);
+	const messageType = message.type;
+
+	switch (type) {
+		case "yourId":
+			console.log(message);
+			break;
+		case "update":
+			console.log(message);
+			break;
+	}
 };
 
 
