@@ -100,6 +100,35 @@ sorcerio.ui.init = function() {
 	this.spellWrapper = document.querySelector("#spellWrapper");
 };
 
+sorcerio.ui.setup = function() {
+	this.createHotbarSlots();
+};
+
+sorcerio.ui.createHotbarSlots = function() {
+	for (let i = 1; i < sorcerio.meta.data.inventorySize + 1; i++) {//creates slotImage and coolDownDisplay
+		let coolDownDisplay = document.createElement("div");
+		coolDownDisplay.className = "coolDownDisplay";
+		coolDownDisplay.id = `coolDownDisplay${i}`;
+		coolDownDisplay.style.animation = "none";
+		this.spellWrapper.appendChild(coolDownDisplay);
+
+		let slotImage = sorcerio.media.createImage(sorcerio.media.inventoryItems.emptySlot.unselected);
+		slotImage.addEventListener("dragstart", function(e) {
+			e.preventDefault();
+		});
+		slotImage.id = `inventorySlot${i}`;
+		slotImage.className = "inventorySlot"
+		spellWrapper.appendChild(slotImage);
+	}
+
+	let openStorage = sorcerio.media.createImage("/media/images/openStorage.png");
+	openStorage.className = "inventorySlot";
+	openStorage.addEventListener("dragstart", function(e) {
+		e.preventDefault();
+	});
+	this.spellWrapper.appendChild(openStorage);
+};
+
 sorcerio.ui.hideMainScreen = function() {
 	this.mainScreen.style.display = "none";
 };
