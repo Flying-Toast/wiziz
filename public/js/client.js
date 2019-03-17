@@ -43,7 +43,9 @@ sorcerio.init = function() {//called once, on page load
 	];
 
 	for (let i = 0; i < subModules.length; i++) {
-		subModules[i].init();
+		if (subModules[i].init !== undefined) {
+			subModules[i].init();
+		}
 	}
 
 	for (let i = 0; i < subModules.length; i++) {
@@ -172,16 +174,6 @@ sorcerio.events.playButtonClick = function() {
 
 sorcerio.events.startNewGame = function() {
 	sorcerio.ui.hideMainScreen();
-};
-
-
-////////
-//META//
-////////
-
-
-sorcerio.meta.init = function() {
-
 };
 
 
