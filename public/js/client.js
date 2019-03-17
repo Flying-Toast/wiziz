@@ -68,7 +68,7 @@ sorcerio.renderer.init = function() {
 
 };
 
-sorcerio.renderer.create = function() {
+sorcerio.renderer.setup = function() {
 	this.gridCtx = sorcerio.ui.gridCanvas.getContext("2d");
 	this.gameCtx = sorcerio.ui.gameCanvas.getContext("2d");
 };
