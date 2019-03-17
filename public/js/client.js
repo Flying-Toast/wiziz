@@ -46,6 +46,7 @@ sorcerio.init = function() {//called once, on page load
 	];
 
 	for (let i = 0; i < subModules.length; i++) {
+		if (subModules[i].create !== undefined) {console.log("YOU USED create() INSTEAD OF setup()!!!!!!");}//TODO: remove this. it is just here so that I dont keep accidentally making create() methods instead of setup().
 		if (subModules[i].init !== undefined) {
 			subModules[i].init();
 		}
