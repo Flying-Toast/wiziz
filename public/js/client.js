@@ -115,6 +115,24 @@ sorcerio.media.init = function() {
 
 };
 
+sorcerio.media.createImage = function(url) {
+	let image = document.createElement("img");
+	image.src = url;
+	return image;
+};
+
+sorcerio.media.createSound = function(url) {//creates a sound with sources {url}.ogg and {url}.mp3
+	let sound = document.createElement("audio");
+	let mp3 = document.createElement("source");
+	let ogg = document.createElement("source");
+	mp3.type = "audio/mp3";
+	ogg.type = "audio/ogg";
+	mp3.src = `${url}.mp3`;
+	ogg.src = `${url}.ogg`;
+	sound.appendChild(mp3);
+	sound.appendChild(ogg);
+	return sound;
+};
 
 ////////
 //COMM//
