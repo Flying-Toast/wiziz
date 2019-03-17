@@ -165,19 +165,6 @@ function globalCoords(localCoord, xOrY) {
 	}
 }
 
-window.addEventListener('resize', function() {
-	gridCanvas.width = devicePixelRatio * innerWidth;
-	gridCanvas.height = devicePixelRatio * innerHeight;
-	gameCanvas.width = devicePixelRatio * innerWidth;
-	gameCanvas.height = devicePixelRatio * innerHeight;
-	gameCanvas.style.transform = `scale(${window.innerWidth/gameCanvas.width})`;
-	gridCanvas.style.transform = `scale(${window.innerWidth/gridCanvas.width})`;
-	gridCanvas.width = innerWidth;
-	gridCanvas.height = innerHeight;
-	gameCanvas.width = innerWidth;
-	gameCanvas.height = innerHeight;
-});
-
 let playButton = document.querySelector("#playButton");
 let nicknameInput = document.querySelector("#nicknameInput");
 let mainScreen = document.querySelector("#mainScreen");
