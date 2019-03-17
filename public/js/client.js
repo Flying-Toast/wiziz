@@ -1,9 +1,9 @@
 //(function() {
 'use strict';
 
-///////////////
-////MODULES////
-///////////////
+////////////////
+////@MODULES////
+////////////////
 
 /*
 
@@ -56,9 +56,9 @@ sorcerio.init = function() {//called once, on page load
 };
 
 
-////////////
-//RENDERER//
-////////////
+/////////////
+//@RENDERER//
+/////////////
 
 
 sorcerio.renderer.init = function() {
@@ -66,9 +66,9 @@ sorcerio.renderer.init = function() {
 };
 
 
-//////
-//UI//
-//////
+///////
+//@UI//
+///////
 
 
 sorcerio.ui.init = function() {
@@ -148,9 +148,9 @@ sorcerio.ui.generatePlayerConfig = function() {
 };
 
 
-/////////
-//MEDIA//
-/////////
+//////////
+//@MEDIA//
+//////////
 
 
 sorcerio.media.init = function() {
@@ -190,9 +190,9 @@ sorcerio.media.createSound = function(url) {//creates a sound with sources {url}
 	return sound;
 };
 
-////////
-//COMM//
-////////
+/////////
+//@COMM//
+/////////
 
 
 sorcerio.comm.init = function() {
@@ -212,9 +212,9 @@ sorcerio.comm.newWSConnection = function() {
 };
 
 
-//////////
-//EVENTS//
-//////////
+///////////
+//@EVENTS//
+///////////
 
 
 sorcerio.events.init = function() {
