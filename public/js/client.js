@@ -87,6 +87,7 @@ sorcerio.renderer.setup = function() {
 
 sorcerio.renderer.render = function() {
 	this.renderGrid();
+	this.gameCtx.clearRect(0, 0, sorcerio.ui.gameCanvas.width, sorcerio.ui.gameCanvas.height);
 
 	//render self:
 	this.gameCtx.save();
