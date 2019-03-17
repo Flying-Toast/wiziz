@@ -17,6 +17,7 @@ sorcerio - global module, contains all submodules
 	comm - server communication
 	events - events + game status
 	meta - constants that are determined in the server code
+	game - game state
 
 */
 
@@ -26,7 +27,8 @@ const sorcerio = {
 	media: {},
 	comm: {},
 	events: {},
-	meta: {}
+	meta: {},
+	game: {}
 };
 
 sorcerio.init = function() {//called once, on page load
@@ -39,7 +41,8 @@ sorcerio.init = function() {//called once, on page load
 		sorcerio.media,
 		sorcerio.comm,
 		sorcerio.events,
-		sorcerio.meta
+		sorcerio.meta,
+		sorcerio.game
 	];
 
 	for (let i = 0; i < subModules.length; i++) {
@@ -262,12 +265,23 @@ sorcerio.events.handleServerMessage = function(message) {
 
 	switch (messageType) {
 		case "yourId":
-			console.log(message);
+			sorcerio.game.myPlayerId = message.id;
 			break;
 		case "update":
-			console.log(message);
+			sorcerio.game.latestAuthoritativeGameState = message;
 			break;
 	}
+};
+
+
+/////////
+//@GAME//
+/////////
+
+
+sorcerio.game.init = function() {
+	this.latestAuthoritativeGameState = null;
+	this.myPlayerId = null;
 };
 
 
