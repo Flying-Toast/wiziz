@@ -60,7 +60,7 @@ sorcerio.init = function() {//called once, on page load
 			subModules[i].setup();
 		}
 	}
-};
+}.bind(sorcerio);
 
 
 /////////////
@@ -78,12 +78,12 @@ sorcerio.renderer.init = function() {
 		lineColor: '#bebebe',
 		borderColor: '#d4342a'
 	};
-};
+}.bind(sorcerio.renderer);
 
 sorcerio.renderer.setup = function() {
 	this.gridCtx = sorcerio.ui.gridCanvas.getContext("2d");
 	this.gameCtx = sorcerio.ui.gameCanvas.getContext("2d");
-};
+}.bind(sorcerio.renderer);
 
 sorcerio.renderer.render = function() {
 	this.renderGrid();
@@ -126,7 +126,7 @@ sorcerio.renderer.renderGrid = function() {
 	this.gridCtx.lineTo(localCoords(0, 'x'), localCoords(mapSize, 'y'));
 	this.gridCtx.lineTo(localCoords(0, 'x'), localCoords(0, 'y') - this.gridCtx.lineWidth / 2);
 	this.gridCtx.stroke();*/
-};
+}.bind(sorcerio.renderer);
 
 
 ///////
@@ -166,11 +166,11 @@ sorcerio.ui.init = function() {
 
 	this.mainScreen = document.querySelector("#mainScreen");
 	this.spellWrapper = document.querySelector("#spellWrapper");
-};
+}.bind(sorcerio.ui);
 
 sorcerio.ui.setup = function() {
 	this.createHotbarSlots();
-};
+}.bind(sorcerio.ui);
 
 sorcerio.ui.createHotbarSlots = function() {
 	for (let i = 1; i < sorcerio.meta.data.inventorySize + 1; i++) {//creates slotImage and coolDownDisplay
@@ -195,17 +195,17 @@ sorcerio.ui.createHotbarSlots = function() {
 		e.preventDefault();
 	});
 	this.spellWrapper.appendChild(openStorage);
-};
+}.bind(sorcerio.ui);
 
 sorcerio.ui.hideMainScreen = function() {
 	this.mainScreen.style.display = "none";
-};
+}.bind(sorcerio.ui);
 
 sorcerio.ui.showMainScreen = function() {
 	this.mainScreen.style.display = "";
 	this.mainScreen.style.animationName = "";
 	this.mainScreen.style.animationName = "death";
-};
+}.bind(sorcerio.ui);
 
 sorcerio.ui.generatePlayerConfig = function() {
 	let cfg = {
@@ -213,7 +213,7 @@ sorcerio.ui.generatePlayerConfig = function() {
 	};
 
 	return JSON.stringify(cfg);
-};
+}.bind(sorcerio.ui);
 
 
 //////////
@@ -244,7 +244,7 @@ sorcerio.media.init = function() {
 
 	this.sprites.playerRed = this.createImage('/media/images/playerRed.png');
 	this.sprites.playerGreen = this.createImage('/media/images/playerGreen.png');
-};
+}.bind(sorcerio.media);
 
 sorcerio.media.createImage = function(url) {
 	let image = document.createElement("img");
@@ -272,7 +272,7 @@ sorcerio.media.createSound = function(url) {//creates a sound with sources {url}
 
 sorcerio.comm.init = function() {
 	this.ws = null;
-};
+}.bind(sorcerio.comm);
 
 sorcerio.comm.newWSConnection = function() {
 	this.ws = new WebSocket(`ws${(window.location.protocol==="https:")?"s":""}://${window.location.host}/ws`);
@@ -284,7 +284,7 @@ sorcerio.comm.newWSConnection = function() {
 	this.ws.addEventListener("message", function(message) {
 		sorcerio.events.handleServerMessage(JSON.parse(message.data));
 	});
-};
+}.bind(sorcerio.comm);
 
 
 ///////////
@@ -294,12 +294,12 @@ sorcerio.comm.newWSConnection = function() {
 
 sorcerio.events.init = function() {
 	this.isPlaying = false;//if the client is currently in a game
-};
+}.bind(sorcerio.events);
 
 sorcerio.events.setup = function() {
 	sorcerio.ui.playButton.addEventListener("click", this.playButtonClick);
 	window.addEventListener("mousemove", this.mouseMove);
-};
+}.bind(sorcerio.events);
 
 sorcerio.events.playButtonClick = function() {
 	if (this.isPlaying === true) {
@@ -309,7 +309,7 @@ sorcerio.events.playButtonClick = function() {
 	sorcerio.events.startNewGame();
 
 	this.isPlaying = true;
-};
+}.bind(sorcerio.events);
 
 sorcerio.events.startNewGame = function() {
 	sorcerio.comm.newWSConnection();
@@ -343,7 +343,7 @@ sorcerio.events.mouseMove = function(domEvent) {
 sorcerio.game.init = function() {
 	this.latestAuthoritativeGameState = null;
 	this.myPlayerId = null;
-};
+}.bind(sorcerio.game);
 
 
 ///////////
@@ -353,7 +353,7 @@ sorcerio.game.init = function() {
 
 sorcerio.input.init = function() {
 	this.mouseCoords = {x: null, y: null};
-};
+}.bind(sorcerio.input);
 
 
 //////////////////////
