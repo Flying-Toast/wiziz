@@ -16,6 +16,7 @@ sorcerio - global module, contains all submodules
 	media - sounds, images, etc
 	comm - server communication
 	events - events + game state
+	meta - constants that are determined in the server code
 
 */
 
@@ -24,7 +25,8 @@ const sorcerio = {
 	ui: {},
 	media: {},
 	comm: {},
-	events: {}
+	events: {},
+	meta: {}
 };
 
 sorcerio.init = function() {//called once, on page load
@@ -36,7 +38,8 @@ sorcerio.init = function() {//called once, on page load
 		sorcerio.ui,
 		sorcerio.media,
 		sorcerio.comm,
-		sorcerio.events
+		sorcerio.events,
+		sorcerio.meta
 	];
 
 	for (let i = 0; i < subModules.length; i++) {
@@ -172,10 +175,25 @@ sorcerio.events.startNewGame = function() {
 };
 
 
+////////
+//META//
+////////
+
+
+sorcerio.meta.init = function() {
+
+};
+
+
 //////////////////////
 ////END OF MODULES////
 //////////////////////
 
-window.addEventListener("load", sorcerio.init);
+window.addEventListener("load", function() {
+	fetch("/meta.json").then(function(resp){return resp.json();}).then(function(metadata) {
+		sorcerio.meta.data = metadata;
+		sorcerio.init();
+	});
+});
 
 //})();

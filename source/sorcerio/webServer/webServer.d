@@ -19,14 +19,17 @@ void startWebServer(ushort port, Tid gsTid) {
 
 	router.get("*", serveStaticFiles("public/"));
 	router.get("/ws", handleWebSockets(&handleSocket));
-	router.get("/spells.json", &serveSpellsJSON);
+	router.get("/meta.json", &serveMetaJSON);
 
 	listenHTTP(settings, router);
 	runApplication();
 }
 
-private void serveSpellsJSON(HTTPServerRequest req, HTTPServerResponse res) {
-	enum response = generateSpellTypesJSON();
+private void serveMetaJSON(HTTPServerRequest req, HTTPServerResponse res) {
+	enum response = JSONValue([
+		"spellTypes": generateSpellTypesJSON(),
+		"inventorySize": JSONValue(CONFIG.inventorySize)
+	]);
 	res.writeJsonBody(response);
 }
 
