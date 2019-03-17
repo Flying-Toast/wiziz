@@ -62,7 +62,8 @@ sorcerio.init = function() {//called once, on page load
 
 
 sorcerio.renderer.init = function() {
-
+	this.gridCtx = sorcerio.ui.gridCanvas.getContext("2d");
+	this.gameCtx = sorcerio.ui.gameCanvas.getContext("2d");
 };
 
 
