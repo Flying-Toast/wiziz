@@ -63,6 +63,15 @@ sorcerio.init = function() {//called once, on page load
 }.bind(sorcerio);
 
 
+sorcerio.mainLoop = function() {
+	sorcerio.renderer.render();
+
+	if (sorcerio.events.isPlaying) {
+		window.requestAnimationFrame(sorcerio.mainLoop);
+	}
+};
+
+
 /////////////
 //@RENDERER//
 /////////////
@@ -333,7 +342,7 @@ sorcerio.events.setup = function() {
 }.bind(sorcerio.events);
 
 sorcerio.events.playButtonClick = function() {
-	if (this.isPlaying === true) {
+	if (this.isPlaying) {
 		return;
 	}
 
@@ -344,7 +353,11 @@ sorcerio.events.playButtonClick = function() {
 
 sorcerio.events.startNewGame = function() {
 	sorcerio.comm.newWSConnection();
+};
+
+sorcerio.events.newGameStarted = function() {
 	sorcerio.ui.hideMainScreen();
+	window.requestAnimationFrame(sorcerio.mainLoop);
 };
 
 sorcerio.events.handleServerMessage = function(message) {
@@ -353,6 +366,7 @@ sorcerio.events.handleServerMessage = function(message) {
 	switch (messageType) {
 		case "yourId":
 			sorcerio.game.myPlayerId = message.id;
+			sorcerio.events.newGameStarted();
 			break;
 		case "update":
 			sorcerio.game.latestAuthoritativeGameState = message;
