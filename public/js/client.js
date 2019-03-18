@@ -87,9 +87,40 @@ sorcerio.renderer.setup = function() {
 
 sorcerio.renderer.render = function() {
 	this.renderGrid();
+
 	this.gameCtx.clearRect(0, 0, sorcerio.ui.gameCanvas.width, sorcerio.ui.gameCanvas.height);
 
-	//render self:
+	for (let i = 0; i < sorcerio.game.latestAuthoritativeGameState.players.length; i++) {
+		let player = sorcerio.game.latestAuthoritativeGameState.players[i];
+
+		if (player.id === sorcerio.game.myPlayerId) {
+			continue;
+		}
+
+		this.renderPlayer(player);
+	}
+
+	this.renderSelf();
+}.bind(sorcerio.renderer);
+
+sorcerio.renderer.renderPlayer = function(player) {
+	this.gameCtx.save();
+	this.gameCtx.translate(sorcerio.game.localCoords(player.location.x, 'x'), sorcerio.game.localCoords(player.location.y, 'y'));
+	this.gameCtx.rotate(sorcerio.game.calculatePlayerAngle(player));
+	this.gameCtx.drawImage(sorcerio.media.sprites.playerRed, -sorcerio.media.sprites.playerRed.width / 2, -sorcerio.media.sprites.playerRed.height / 2);
+	this.gameCtx.restore();
+	this.gameCtx.save();
+	this.gameCtx.translate(sorcerio.game.localCoords(player.location.x, 'x'), sorcerio.game.localCoords(player.location.y, 'y'));
+	this.gameCtx.font = "20px newRocker";
+	this.gameCtx.fillStyle = '#2dafaf';
+	this.gameCtx.fillText(player.nickname, -(this.gameCtx.measureText(player.nickname).width / 2), 80);
+	this.gameCtx.font = "18px agane";
+	this.gameCtx.fillStyle = '#2dafaf';
+	this.gameCtx.fillText('lvl ' + player.level, -(this.gameCtx.measureText('lvl ' + player.level).width / 2), 100);
+	this.gameCtx.restore();
+}.bind(sorcerio.renderer);
+
+sorcerio.renderer.renderSelf = function() {
 	this.gameCtx.save();
 	this.gameCtx.translate(sorcerio.ui.gameCanvas.width / 2, sorcerio.ui.gameCanvas.height / 2);
 	this.gameCtx.rotate(Math.atan2(sorcerio.input.mouseCoords.x - sorcerio.ui.gameCanvas.width / 2, -(sorcerio.input.mouseCoords.y - sorcerio.ui.gameCanvas.height / 2)));
@@ -116,17 +147,16 @@ sorcerio.renderer.renderGrid = function() {
 	}
 	this.gridCtx.stroke();
 
-	/*
 	//map borders
 	this.gridCtx.strokeStyle = this.grid.borderColor;
 	this.gridCtx.lineWidth = 40;
 	this.gridCtx.beginPath();
-	this.gridCtx.moveTo(localCoords(0, 'x'), localCoords(0, 'y'));
-	this.gridCtx.lineTo(localCoords(mapSize, 'x'), localCoords(0, 'y'));
-	this.gridCtx.lineTo(localCoords(mapSize, 'x'), localCoords(mapSize, 'y'));
-	this.gridCtx.lineTo(localCoords(0, 'x'), localCoords(mapSize, 'y'));
-	this.gridCtx.lineTo(localCoords(0, 'x'), localCoords(0, 'y') - this.gridCtx.lineWidth / 2);
-	this.gridCtx.stroke();*/
+	this.gridCtx.moveTo(sorcerio.game.localCoords(0, 'x'), sorcerio.game.localCoords(0, 'y'));
+	this.gridCtx.lineTo(sorcerio.game.localCoords(sorcerio.game.latestAuthoritativeGameState.mapSize, 'x'), sorcerio.game.localCoords(0, 'y'));
+	this.gridCtx.lineTo(sorcerio.game.localCoords(sorcerio.game.latestAuthoritativeGameState.mapSize, 'x'), sorcerio.game.localCoords(sorcerio.game.latestAuthoritativeGameState.mapSize, 'y'));
+	this.gridCtx.lineTo(sorcerio.game.localCoords(0, 'x'), sorcerio.game.localCoords(sorcerio.game.latestAuthoritativeGameState.mapSize, 'y'));
+	this.gridCtx.lineTo(sorcerio.game.localCoords(0, 'x'), sorcerio.game.localCoords(0, 'y') - this.gridCtx.lineWidth / 2);
+	this.gridCtx.stroke();
 }.bind(sorcerio.renderer);
 
 
@@ -326,6 +356,10 @@ sorcerio.events.handleServerMessage = function(message) {
 			break;
 		case "update":
 			sorcerio.game.latestAuthoritativeGameState = message;
+			let myPlayer = message.players.find(function(element) {return element.id === sorcerio.game.myPlayerId;});
+			if (myPlayer !== undefined) {
+				sorcerio.game.myPlayer = myPlayer;
+			}
 			break;
 	}
 };
@@ -344,7 +378,39 @@ sorcerio.events.mouseMove = function(domEvent) {
 sorcerio.game.init = function() {
 	this.latestAuthoritativeGameState = null;
 	this.myPlayerId = null;
+	this.myPlayer = null;
 }.bind(sorcerio.game);
+
+
+sorcerio.game.localCoords = function(globalCoord, xOrY) {
+	if (sorcerio.game.myPlayer === null) {
+		return 0;
+	}
+
+	if (xOrY === "x") {
+		return (globalCoord + sorcerio.ui.gameCanvas.width / 2 - sorcerio.game.myPlayer.location.x);
+	} else if (xOrY === "y") {
+		return (globalCoord + sorcerio.ui.gameCanvas.height / 2 - sorcerio.game.myPlayer.location.y);
+	}
+}.bind(sorcerio.game);
+
+
+sorcerio.game.globalCoords = function(localCoord, xOrY) {
+	if (sorcerio.game.myPlayer === null) {
+		return 0;
+	}
+
+	if (xOrY === "x") {
+		return (localCoord - sorcerio.ui.gameCanvas.width / 2 + sorcerio.game.myPlayer.location.x);
+	} else if (xOrY === "y") {
+		return (localCoord - sorcerio.ui.gameCanvas.height / 2 + sorcerio.game.myPlayer.location.y);
+	}
+}.bind(sorcerio.game);
+
+
+sorcerio.game.calculatePlayerAngle = function(player) {
+	return Math.atan2(player.facing.x - player.location.x, -(player.facing.y - player.location.y));
+};
 
 
 ///////////
