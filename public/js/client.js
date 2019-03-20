@@ -339,6 +339,9 @@ sorcerio.events.init = function() {
 sorcerio.events.setup = function() {
 	sorcerio.ui.playButton.addEventListener("click", this.playButtonClick);
 	window.addEventListener("mousemove", this.mouseMove);
+	window.addEventListener("keydown", this.keyDown);
+	window.addEventListener("blur", this.onWindowBlur);
+	window.addEventListener("keyup", this.keyUp);
 }.bind(sorcerio.events);
 
 sorcerio.events.playButtonClick = function() {
@@ -381,6 +384,47 @@ sorcerio.events.handleServerMessage = function(message) {
 sorcerio.events.mouseMove = function(domEvent) {
 	sorcerio.input.mouseCoords.x = domEvent.pageX;
 	sorcerio.input.mouseCoords.y = domEvent.pageY;
+};
+
+sorcerio.events.keyDown = function(e) {
+	switch (e.key.toLowerCase()) {
+		case sorcerio.input.controls.up:
+			sorcerio.input.keyStates.u = true;
+			break;
+		case sorcerio.input.controls.down:
+			sorcerio.input.keyStates.d = true;
+			break;
+		case sorcerio.input.controls.left:
+			sorcerio.input.keyStates.l = true;
+			break;
+		case sorcerio.input.controls.right:
+			sorcerio.input.keyStates.r = true;
+			break;
+	}
+};
+
+sorcerio.events.keyUp = function(e) {
+	switch (e.key.toLowerCase()) {
+		case sorcerio.input.controls.up:
+			sorcerio.input.keyStates.u = false;
+			break;
+		case sorcerio.input.controls.down:
+			sorcerio.input.keyStates.d = false;
+			break;
+		case sorcerio.input.controls.left:
+			sorcerio.input.keyStates.l = false;
+			break;
+		case sorcerio.input.controls.right:
+			sorcerio.input.keyStates.r = false;
+			break;
+	}
+};
+
+sorcerio.events.onWindowBlur = function() {
+	sorcerio.input.keyStates.r = false;
+	sorcerio.input.keyStates.l = false;
+	sorcerio.input.keyStates.d = false;
+	sorcerio.input.keyStates.u = false;
 };
 
 
@@ -434,8 +478,29 @@ sorcerio.game.calculatePlayerAngle = function(player) {
 
 sorcerio.input.init = function() {
 	this.mouseCoords = {x: 0, y: 0};
+	this.controls = {
+		up: "w",
+		down: "s",
+		left: "a",
+		right: "d"
+	};
+	this.keyStates = {
+		u: false,
+		d: false,
+		l: false,
+		r: false
+	};
 }.bind(sorcerio.input);
 
+//gets a JSON string of the current input states to send to the server
+sorcerio.input.getInput = function() {
+	return JSON.stringify({
+		movement: {
+			facing: this.mouseCoords,
+			keys: this.keyStates
+		}
+	});
+}.bind(sorcerio.input);
 
 //////////////////////
 ////END OF MODULES////
