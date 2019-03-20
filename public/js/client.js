@@ -433,7 +433,7 @@ sorcerio.game.calculatePlayerAngle = function(player) {
 
 
 sorcerio.input.init = function() {
-	this.mouseCoords = {x: null, y: null};
+	this.mouseCoords = {x: 0, y: 0};
 }.bind(sorcerio.input);
 
 
