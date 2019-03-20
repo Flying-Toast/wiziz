@@ -64,7 +64,14 @@ sorcerio.init = function() {//called once, on page load
 
 
 sorcerio.mainLoop = function() {
+	const currentTime = performance.now();
+
 	sorcerio.renderer.render();
+
+	if (currentTime - sorcerio.input.lastInputSendTime >= sorcerio.input.inputSendInterval) {
+		//TODO: actually send the input
+		sorcerio.input.lastInputSendTime = currentTime;
+	}
 
 	if (sorcerio.events.isPlaying) {
 		window.requestAnimationFrame(sorcerio.mainLoop);
@@ -478,6 +485,8 @@ sorcerio.game.calculatePlayerAngle = function(player) {
 
 sorcerio.input.init = function() {
 	this.mouseCoords = {x: 0, y: 0};
+	this.inputSendInterval = 10;
+	this.lastInputSendTime = 0;
 	this.controls = {
 		up: "w",
 		down: "s",
