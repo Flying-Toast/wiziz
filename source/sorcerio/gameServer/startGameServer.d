@@ -4,6 +4,7 @@ import sorcerio;
 import std.concurrency;
 import vibe.vibe : WebSocket;
 import core.time;
+import core.thread;
 
 void startGameServer() {
 	ServerManager master = new ServerManager;
@@ -19,5 +20,6 @@ void startGameServer() {
 		);
 
 		master.tick();
+		Thread.sleep(dur!"msecs"(5));
 	}
 }
