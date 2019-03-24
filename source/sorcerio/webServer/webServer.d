@@ -38,7 +38,7 @@ private void handleSocket(scope WebSocket socket) {
 	try {
 		configJSON = parseJSON(socket.receiveText());
 		configJSON["nickname"];//verify that "nickname" exists in configJSON. this will throw JSONException if it fails
-	} catch (JSONException e) {//client send invalid playerConfig
+	} catch (JSONException e) {//client sent invalid playerConfig
 		socket.close();
 		return;
 	}
