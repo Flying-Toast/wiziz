@@ -1,6 +1,7 @@
 module sorcerio.webServer.webServer;
 
 import sorcerio;
+import sorcerio.webServer.messageQueue;
 import vibe.vibe;
 import std.concurrency;
 import std.json;
@@ -9,9 +10,11 @@ import std.conv;
 private Tid gameServerTid;
 private uint currentId = 0;
 private uint generateSocketId() {return currentId++;};
+private shared MessageQueue messageQueue;
 
-void startWebServer(ushort port, Tid gsTid) {
+void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue) {
 	gameServerTid = gsTid;
+	messageQueue = queue;
 
 	HTTPServerSettings settings = new HTTPServerSettings;
 	settings.port = port;
