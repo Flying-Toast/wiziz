@@ -69,7 +69,7 @@ sorcerio.mainLoop = function() {
 	sorcerio.renderer.render();
 
 	if (currentTime - sorcerio.input.lastInputSendTime >= sorcerio.input.inputSendInterval) {
-		//TODO: actually send the input
+		sorcerio.comm.ws.send(sorcerio.input.getInput());
 		sorcerio.input.lastInputSendTime = currentTime;
 	}
 
