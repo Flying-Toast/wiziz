@@ -51,7 +51,7 @@ private void handleSocket(scope WebSocket socket) {
 	std.concurrency.send(gameServerTid, cast(shared) cfg);
 
 	while (socket.waitForData()) {
-		vibe.core.core.yield();
+
 	}
 
 	std.concurrency.send(gameServerTid, currentSocketId);
