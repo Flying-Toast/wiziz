@@ -18,6 +18,7 @@ void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue) {
 
 	HTTPServerSettings settings = new HTTPServerSettings;
 	settings.port = port;
+	settings.errorPageHandler = toDelegate(&errorHandler);
 	URLRouter router = new URLRouter;
 
 	router.get("*", serveStaticFiles("public/"));
@@ -26,6 +27,15 @@ void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue) {
 
 	listenHTTP(settings, router);
 	runApplication();
+}
+
+private void errorHandler(HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo err) {
+	if (err.code == 404) {
+		sendFile(req, res, GenericPath!PosixPathFormat("public/404.html"));
+	} else {
+		import std.conv;
+		res.writeBody(err.code.to!string);
+	}
 }
 
 private void serveMetaJSON(HTTPServerRequest req, HTTPServerResponse res) {
