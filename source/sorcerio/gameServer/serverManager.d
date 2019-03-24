@@ -1,6 +1,7 @@
 module sorcerio.gameServer.serverManager;
 
 import sorcerio;
+import sorcerio.webServer.messageQueue;
 
 class ServerManager {
 	static private ushort currentServerId = 0;
@@ -22,6 +23,7 @@ class ServerManager {
 	}
 
 	private Server[ushort] servers;
+	private shared MessageQueue messageQueue;
 
 	ushort addPlayerToServer(PlayerConfig cfg) {
 		ushort serverId = getOrCreateServer();
@@ -45,7 +47,7 @@ class ServerManager {
 
 	private ushort createServer() {
 		immutable ushort id = ServerManager.generateServerId(servers);
-		Server newServer = new Server(id);
+		Server newServer = new Server(id, messageQueue);
 		servers[id] = newServer;
 		return id;
 	}
@@ -58,5 +60,9 @@ class ServerManager {
 		}
 
 		return createServer();
+	}
+
+	this(shared MessageQueue messageQueue) {
+		this.messageQueue = messageQueue;
 	}
 }

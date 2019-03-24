@@ -1,13 +1,15 @@
 module sorcerio.gameServer.startGameServer;
 
 import sorcerio;
+import sorcerio.webServer.messageQueue;
+
 import std.concurrency;
 import vibe.vibe : WebSocket;
 import core.time;
 import core.thread;
 
-void startGameServer() {
-	ServerManager master = new ServerManager;
+void startGameServer(shared MessageQueue queue) {
+	ServerManager master = new ServerManager(queue);
 
 	while (true) {
 		receiveTimeout(Duration.zero,
