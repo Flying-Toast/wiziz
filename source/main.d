@@ -4,7 +4,7 @@ import std.concurrency;
 
 void main() {
 	shared queue = new MessageQueue;
-	Tid gameServerTid = spawn(&startGameServer);
+	Tid gameServerTid = spawn(&startGameServer, queue);
 
 	startWebServer(8080u, gameServerTid, queue);
 }
