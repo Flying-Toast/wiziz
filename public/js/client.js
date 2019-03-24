@@ -376,7 +376,16 @@ sorcerio.events.handleServerMessage = function(message) {
 	switch (messageType) {
 		case "yourId":
 			sorcerio.game.myPlayerId = message.id;
-			sorcerio.events.newGameStarted();
+
+			//wait for next "update" message before calling newGameStarted().
+			window.intervalId = window.setInterval(function() {
+				if (sorcerio.game.latestAuthoritativeGameState !== null) {
+					sorcerio.events.newGameStarted();
+					window.clearInterval(window.intervalId);
+					window.intervalId = undefined;
+				}
+			}, 1);
+
 			break;
 		case "update":
 			sorcerio.game.latestAuthoritativeGameState = message;
