@@ -47,7 +47,7 @@ class ServerManager {
 
 	private ushort createServer() {
 		immutable ushort id = ServerManager.generateServerId(servers);
-		Server newServer = new Server(id);
+		Server newServer = new Server(id, messageQueue);
 		servers[id] = newServer;
 		return id;
 	}

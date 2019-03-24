@@ -1,6 +1,7 @@
 module sorcerio.gameServer.server;
 
 import sorcerio;
+import sorcerio.webServer.messageQueue;
 import vibe.vibe : WebSocket;
 import std.json;
 
@@ -31,6 +32,7 @@ class Server {
 	private long lastUpdate;
 	private long lastPhysicsTick;
 	private Spell[] spells;
+	private shared MessageQueue messageQueue;
 
 	int getMapSize() {
 		return mapSize;
@@ -143,10 +145,11 @@ class Server {
 		}
 	}
 
-	this(ushort id) {
+	this(ushort id, shared MessageQueue messageQueue) {
 		this.id = id;
 		this.mapSize = CONFIG.minMapSize;
 		this.lastUpdate = 0;
 		this.lastPhysicsTick = 0;
+		this.messageQueue = messageQueue;
 	}
 }
