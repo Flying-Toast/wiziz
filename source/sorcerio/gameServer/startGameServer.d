@@ -9,7 +9,7 @@ import core.time;
 import core.thread;
 
 void startGameServer(shared MessageQueue queue) {
-	ServerManager master = new ServerManager;
+	ServerManager master = new ServerManager(queue);
 
 	while (true) {
 		receiveTimeout(Duration.zero,
