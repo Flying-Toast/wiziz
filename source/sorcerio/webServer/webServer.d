@@ -54,7 +54,7 @@ private void handleSocket(scope WebSocket socket) {
 	std.concurrency.send(gameServerTid, cast(shared) cfg);
 
 	while (socket.waitForData()) {
-
+		messageQueue.queueMessage(currentSocketId, socket.receiveText());
 	}
 
 	std.concurrency.send(gameServerTid, currentSocketId);
