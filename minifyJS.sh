@@ -5,6 +5,6 @@ if [[ ! $(which terser) ]]; then
 	exit
 fi
 
-terser public/js/client.js --compress --mangle ---mangle-props keep_quoted -enclose --output public/js/client.js
+terser public/js/client.js --compress --mangle ---mangle-props keep_quoted --enclose --output public/js/client.js
 
 echo "minified public/js/client.js. Remember not to check it in!"
