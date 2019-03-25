@@ -219,6 +219,9 @@ sorcerio.ui.init = function() {
 	this.mainScreen = document.querySelector("#mainScreen");
 	this.spellWrapper = document.querySelector("#spellWrapper");
 	this.leadersList = document.querySelector("#leadersList");
+	this.xpNumberDisplay = document.querySelector("#xpNumberDisplay");
+	this.levelNumberDisplay = document.querySelector("#levelNumberDisplay");
+	this.healthPercentDisplay = document.querySelector("#healthPercentDisplay");
 }.bind(sorcerio.ui);
 
 sorcerio.ui.setup = function() {
@@ -252,6 +255,12 @@ sorcerio.ui.createHotbarSlots = function() {
 
 sorcerio.ui.hideMainScreen = function() {
 	this.mainScreen.style.display = "none";
+}.bind(sorcerio.ui);
+
+sorcerio.ui.updateStatsDisplay = function() {
+	this.xpNumberDisplay.innerText = sorcerio.game.myPlayer.xp;
+	this.levelNumberDisplay.innerText = sorcerio.game.myPlayer.level;
+	this.healthPercentDisplay.innerText = Math.round(sorcerio.game.myPlayer.health / sorcerio.game.myPlayer.maxHealth);
 }.bind(sorcerio.ui);
 
 sorcerio.ui.showMainScreen = function() {
@@ -303,7 +312,8 @@ sorcerio.ui.updateLeaderboard = function(players) {
 }.bind(sorcerio.ui);
 
 sorcerio.ui.render = function() {
-	sorcerio.ui.updateLeaderboard(sorcerio.game.getLeaders(10));
+	this.updateLeaderboard(sorcerio.game.getLeaders(10));
+	this.updateStatsDisplay();
 }.bind(sorcerio.ui);
 
 //////////
