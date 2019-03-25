@@ -71,6 +71,11 @@ sorcerio.mainLoop = function() {
 		sorcerio.input.lastInputSendTime = currentTime;
 	}
 
+	if (currentTime - sorcerio.ui.lastUIRenderTime >= sorcerio.ui.uiRenderInterval) {
+		sorcerio.ui.render();
+		sorcerio.ui.lastUIRenderTime = currentTime;
+	}
+
 	if (sorcerio.events.isPlaying) {
 		window.requestAnimationFrame(sorcerio.mainLoop);
 	}
@@ -180,6 +185,8 @@ sorcerio.renderer.renderGrid = function() {
 
 
 sorcerio.ui.init = function() {
+	this.uiRenderInterval = 15;
+	this.lastUIRenderTime = 0;
 	this.gameCanvas = document.querySelector("#gameCanvas");
 	this.gridCanvas = document.querySelector("#gridCanvas");
 
@@ -211,6 +218,7 @@ sorcerio.ui.init = function() {
 
 	this.mainScreen = document.querySelector("#mainScreen");
 	this.spellWrapper = document.querySelector("#spellWrapper");
+	this.leadersList = document.querySelector("#leadersList");
 }.bind(sorcerio.ui);
 
 sorcerio.ui.setup = function() {
@@ -261,6 +269,42 @@ sorcerio.ui.generatePlayerConfig = function() {
 	return JSON.stringify(cfg);
 }.bind(sorcerio.ui);
 
+sorcerio.ui.createPlayerLi = function(player, place) {
+	let playerLi = document.createElement("span");
+	playerLi.classList.add("playerLi");
+	if (player.id === sorcerio.game.myPlayerId) {
+		playerLi.classList.add("self");
+	}
+
+	let placeSpan = document.createElement("span");
+	placeSpan.classList.add("place");
+	placeSpan.innerText = place+".";
+	playerLi.appendChild(placeSpan);
+
+	let nicknameSpan = document.createElement("span");
+	nicknameSpan.classList.add("nickname");
+	nicknameSpan.innerText = player.nickname;
+	playerLi.appendChild(nicknameSpan);
+
+	let scoreSpan = document.createElement("span");
+	scoreSpan.classList.add("score");
+	scoreSpan.innerText = player.xp;
+	playerLi.appendChild(scoreSpan);
+
+	return playerLi;
+};
+
+sorcerio.ui.updateLeaderboard = function(players) {
+	sorcerio.ui.leadersList.innerHTML = "";//clear the leaderboard first
+	let leaders = sorcerio.game.getLeaders(10);
+	for (let i = 0; i < leaders.length; i++) {
+		sorcerio.ui.leadersList.appendChild(this.createPlayerLi(leaders[i], i+1));
+	}
+}.bind(sorcerio.ui);
+
+sorcerio.ui.render = function() {
+	sorcerio.ui.updateLeaderboard(sorcerio.game.getLeaders(10));
+}.bind(sorcerio.ui);
 
 //////////
 //@MEDIA//
@@ -484,6 +528,22 @@ sorcerio.game.globalCoords = function(localCoord, xOrY) {
 sorcerio.game.calculatePlayerAngle = function(player) {
 	return Math.atan2(player.facing.x - player.location.x, -(player.facing.y - player.location.y));
 };
+
+sorcerio.game.getLeaders = function(number) {
+	let sortedPlayers = JSON.parse(JSON.stringify(this.latestAuthoritativeGameState.players));//duplicate the players array
+	sortedPlayers.sort(function(a, b) {
+		if (a.xp > b.xp) {
+			return -1;
+		}
+		return 1;
+	});
+
+	if (sortedPlayers.length <= number) {
+		return sortedPlayers;
+	}
+
+	return sortedPlayers.splice(0, number);
+}.bind(sorcerio.game);
 
 
 ///////////
