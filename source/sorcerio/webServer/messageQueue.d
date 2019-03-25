@@ -21,4 +21,9 @@ shared class MessageQueue {
 		queue[socketId] = queue[socketId].remove(0);
 		return message;
 	}
+
+	///removes `socketId`'s queue
+	void removeSocket(uint socketId) {
+		queue.remove(socketId);
+	}
 }
