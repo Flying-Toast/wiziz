@@ -8,6 +8,8 @@ import sorcerio.gameServer.server;
 import sorcerio.gameServer.player;
 import sorcerio.gameServer.config;
 
+import std.json;
+
 abstract class ProjectileSpell : Spell {
 	protected {
 		Point origin;
@@ -34,6 +36,15 @@ abstract class ProjectileSpell : Spell {
 		lenOriginToTarget = origin.distance(target);
 
 		lastMove = millis();
+	}
+
+	override JSONValue JSONof() {
+		JSONValue json = JSONValue();
+
+		json["renderFunction"] = "projectileSpell";
+		//TODO: implement
+
+		return json;
 	}
 
 	abstract void affectPlayer(Player affectedPlayer);

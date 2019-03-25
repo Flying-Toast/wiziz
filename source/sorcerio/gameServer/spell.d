@@ -146,6 +146,17 @@ mixin template registerSpell(SpellName name, uint coolDownTime) {
 abstract class Spell {
 	bool removalFlag = false;///flags the spell to be removed from Server.spells on the next tick. ALWAYS use removalFlag instead of directly removing the spell from the Server.spells array.
 
+	/**
+	JSON that represents this Spell.
+
+	All spell JSONs $(B need) to have a string property called "renderFunction".
+	The "renderFunction" property is the name of a function in the clientside code, and the rest of the spell JSON will be passed to that function to render it.
+
+	For example, for projectile spells, there might be a single function called "renderProjectile" that can render all projectile spells.
+	Then, any spell that declares its renderFunction as "renderProjectile", and thus gets passed to the renderProjectile() function, needs to also implement various other properties (in this case, `location`, `radius`, etc) that are specific to that type of spell.
+	*/
+	abstract JSONValue JSONof();
+
 	protected Player caster;
 
 	abstract Spell create(Player caster);

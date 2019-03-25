@@ -65,8 +65,15 @@ class Server {
 			playerJSON ~= player.JSONof();
 		}
 
+		JSONValue[] spellJSON;
+
+		foreach (spell; spells) {
+			spellJSON ~= spell.JSONof();
+		}
+
 		state["players"] = playerJSON;
 		state["mapSize"] = mapSize;
+		state["spells"] = spellJSON;
 
 		return state;
 	}

@@ -22,7 +22,7 @@ sorcerio - global module, contains all submodules
 */
 
 const sorcerio = {
-	renderer: {},
+	renderer: {renderFunctions:{}},
 	ui: {},
 	media: {},
 	comm: {},
@@ -99,6 +99,14 @@ sorcerio.renderer.init = function() {
 	};
 }.bind(sorcerio.renderer);
 
+////////////////////
+//@RENDERFUNCTIONS//
+////////////////////
+
+sorcerio.renderer.renderFunctions.projectileSpell = function(spell) {
+	console.log(spell);//TODO: implement
+};
+
 sorcerio.renderer.setup = function() {
 	this.gridCtx = sorcerio.ui.gridCanvas.getContext("2d");
 	this.gameCtx = sorcerio.ui.gameCanvas.getContext("2d");
@@ -117,6 +125,11 @@ sorcerio.renderer.render = function() {
 		}
 
 		this.renderPlayer(player);
+	}
+
+	for (let i = 0; i < sorcerio.game.latestAuthoritativeGameState.spells.length; i++) {
+		let spell = sorcerio.game.latestAuthoritativeGameState.spells[i];
+		sorcerio.renderer.renderFunctions[spell.renderFunction](spell);
 	}
 
 	this.renderSelf();
