@@ -9,6 +9,11 @@ import core.time;
 import core.thread;
 
 void startGameServer(shared MessageQueue queue) {
+	scope (exit) {
+		import core.stdc.stdlib : _Exit;
+		_Exit(1);
+	}
+
 	ServerManager master = new ServerManager(queue);
 
 	while (true) {
