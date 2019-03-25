@@ -24,9 +24,14 @@ void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue) {
 	router.get("*", serveStaticFiles("public/"));
 	router.get("/ws", handleWebSockets(&handleSocket));
 	router.get("/meta.json", &serveMetaJSON);
+	router.get("/spellList", &serveSpellList);
 
 	listenHTTP(settings, router);
 	runApplication();
+}
+
+private void serveSpellList(HTTPServerRequest req, HTTPServerResponse res) {
+	res.render!("spellList.dt", req);
 }
 
 private void errorHandler(HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo err) {
