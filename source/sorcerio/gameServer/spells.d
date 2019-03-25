@@ -99,3 +99,25 @@ class FireSpell : ProjectileSpell {
 		affectedPlayer.doDamage(damage);
 	}
 }
+
+class TeleportSpell : ProjectileSpell {
+	mixin registerSpell!(SpellName.teleport, 7000);
+
+	override string humanReadableEffect() {
+		return "Teleports your player to its location when it either reaches its target or hits another player";
+	}
+
+	override void initialize() {
+		super.initialize();
+		radius = 10;
+		range = 600;
+		speed = 0.8;
+	}
+
+	override void affectPlayer(Player affectedPlayer) {}
+
+	override void die() {
+		caster.location.moveTo(location);
+		super.die();
+	}
+}
