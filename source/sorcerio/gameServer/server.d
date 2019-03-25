@@ -93,13 +93,16 @@ class Server {
 	}
 
 	private void physicsTick() {
-		import std.algorithm.mutation : remove;
+		immutable long currentTime = millis();
+		immutable long dt = currentTime - lastPhysicsTick;
 
 		foreach (player; players) {
 
 		}
 
 		for (size_t i = spells.length; i-- > 0;) {//loop backwards so that spells can be removed from the array from within the loop
+			import std.algorithm.mutation : remove;
+
 			Spell spell = spells[i];
 
 			if (spell.removalFlag) {
@@ -111,7 +114,7 @@ class Server {
 			spell.tick(this);
 		}
 
-		lastPhysicsTick = millis();
+		lastPhysicsTick = currentTime;
 	}
 
 	///tries to remove a player by their socketId, and returns whether on not a player with that socketId was in this server
