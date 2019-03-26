@@ -284,8 +284,7 @@ sorcerio.ui.showMainScreen = function() {
 
 sorcerio.ui.generatePlayerConfig = function() {
 	let cfg = {
-		//keep these quoted so that uglifyJS leaves them alone
-		"nickname": this.nicknameInput.value
+		nickname: this.nicknameInput.value
 	};
 
 	return JSON.stringify(cfg);
@@ -579,28 +578,25 @@ sorcerio.input.init = function() {
 	this.inputSendInterval = 10;
 	this.lastInputSendTime = 0;
 	this.controls = {
-		//keep these quoted so that uglifyJS leaves them alone
-		"up": "w",
-		"down": "s",
-		"left": "a",
-		"right": "d"
+		up: "w",
+		down: "s",
+		left: "a",
+		right: "d"
 	};
 	this.keyStates = {
-		//keep these quoted so that uglifyJS leaves them alone
-		"u": false,
-		"d": false,
-		"l": false,
-		"r": false
+		u: false,
+		d: false,
+		l: false,
+		r: false
 	};
 }.bind(sorcerio.input);
 
 //gets a JSON string of the current input states to send to the server
 sorcerio.input.getInput = function() {
 	return JSON.stringify({
-		//keep these quoted so that uglifyJS leaves them alone
-		"movement": {
-			"facing": this.mouseCoords,
-			"keys": this.keyStates
+		movement: {
+			facing: this.mouseCoords,
+			keys: this.keyStates
 		}
 	});
 }.bind(sorcerio.input);
