@@ -100,10 +100,10 @@ class FireSpell : ProjectileSpell {
 	}
 
 	override void initialize() {
-		super.initialize();
 		radius = 10;
 		range = 700;
 		speed = 1;
+		super.initialize();
 	}
 
 	override void affectPlayer(Player affectedPlayer) {
@@ -119,10 +119,10 @@ class TeleportSpell : ProjectileSpell {
 	}
 
 	override void initialize() {
-		super.initialize();
 		radius = 10;
 		range = 600;
 		speed = 0.8;
+		super.initialize();
 	}
 
 	override void affectPlayer(Player affectedPlayer) {}
