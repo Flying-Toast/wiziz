@@ -1,6 +1,7 @@
 module sorcerio.gameServer.server;
 
 import sorcerio;
+import sorcerio.gameServer.input;
 import sorcerio.webServer.messageQueue;
 import vibe.vibe : WebSocket;
 import std.json;
@@ -104,7 +105,11 @@ class Server {
 		immutable long dt = currentTime - lastPhysicsTick;
 
 		foreach (player; players) {
-
+			if (messageQueue.messageAvailable(player.socketId)) {
+				try {
+					auto input = new Input(messageQueue.nextMessage(player.socketId));
+				} catch (Exception e) {}//if this catches, then the client sent invalid input
+			}
 		}
 
 		for (size_t i = spells.length; i-- > 0;) {//loop backwards so that spells can be removed from the array from within the loop
