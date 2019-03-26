@@ -127,12 +127,12 @@ sorcerio.renderer.render = function() {
 		this.renderPlayer(player);
 	}
 
+	this.renderSelf();
+
 	for (let i = 0; i < sorcerio.game.latestAuthoritativeGameState.spells.length; i++) {
 		let spell = sorcerio.game.latestAuthoritativeGameState.spells[i];
 		sorcerio.renderer.renderFunctions[spell.renderFunction](spell);
 	}
-
-	this.renderSelf();
 }.bind(sorcerio.renderer);
 
 sorcerio.renderer.renderPlayer = function(player) {
