@@ -29,10 +29,9 @@ abstract class ProjectileSpell : Spell {
 	override void initialize() {
 		this.origin = caster.location.dup();
 		this.location = caster.location.dup();
-		this.target = new Point(
-			origin.x + (range / caster.facing.distance(origin) * (caster.facing.x - origin.x)),
-			origin.y + (range / caster.facing.distance(origin) * (caster.facing.y - origin.y))
-		);
+		this.target = caster.location.dup();
+		target.moveTowards(caster.facing, range);
+
 		lenOriginToTarget = origin.distance(target);
 
 		lastMove = millis();
