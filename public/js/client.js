@@ -273,7 +273,7 @@ sorcerio.ui.hideMainScreen = function() {
 sorcerio.ui.updateStatsDisplay = function() {
 	this.xpNumberDisplay.innerText = sorcerio.game.myPlayer.xp;
 	this.levelNumberDisplay.innerText = sorcerio.game.myPlayer.level;
-	this.healthPercentDisplay.innerText = Math.round(sorcerio.game.myPlayer.health / sorcerio.game.myPlayer.maxHealth);
+	this.healthPercentDisplay.innerText = Math.round((sorcerio.game.myPlayer.health / sorcerio.game.myPlayer.maxHealth) * 100);
 }.bind(sorcerio.ui);
 
 sorcerio.ui.showMainScreen = function() {
