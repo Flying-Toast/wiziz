@@ -134,6 +134,7 @@ mixin template registerSpell(SpellName name, uint coolDownTime) {
 
 	this(Player caster) {
 		this.caster = caster;
+		cast(SpellName) this.name = name;
 		initialize();
 	}
 
@@ -144,6 +145,8 @@ mixin template registerSpell(SpellName name, uint coolDownTime) {
 
 
 abstract class Spell {
+	const SpellName name;
+
 	bool removalFlag = false;///flags the spell to be removed from Server.spells on the next tick. ALWAYS use removalFlag instead of directly removing the spell from the Server.spells array.
 
 	/**
