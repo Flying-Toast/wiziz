@@ -597,7 +597,8 @@ sorcerio.input.getInput = function() {
 		movement: {
 			facing: this.mouseCoords,
 			keys: this.keyStates
-		}
+		},
+		dt: performance.now() - this.lastInputSendTime
 	});
 }.bind(sorcerio.input);
 

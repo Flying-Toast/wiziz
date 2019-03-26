@@ -1,6 +1,7 @@
 module sorcerio.gameServer.input;
 
 import sorcerio.gameServer.point;
+import sorcerio.gameServer.config;
 
 import std.json;
 
@@ -11,6 +12,7 @@ class Input {
 	immutable bool moveDown;
 	immutable bool moveLeft;
 	immutable bool moveRight;
+	immutable ubyte dt;
 
 	this(string json) {
 		JSONValue j = json.parseJSON();
@@ -20,5 +22,11 @@ class Input {
 		moveDown = j["movement"]["keys"]["d"].boolean;
 		moveLeft = j["movement"]["keys"]["l"].boolean;
 		moveRight = j["movement"]["keys"]["r"].boolean;
+
+		auto rawDT = cast(ubyte) j["dt"].integer;
+		if (rawDT > CONFIG.maxInputDT) {
+			rawDT = CONFIG.maxInputDT;
+		}
+		dt = rawDT;
 	}
 }
