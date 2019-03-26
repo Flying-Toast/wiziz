@@ -38,10 +38,13 @@ abstract class ProjectileSpell : Spell {
 	}
 
 	override JSONValue JSONof() {
+		import std.conv;
+
 		JSONValue json = JSONValue();
 
 		json["renderFunction"] = "projectileSpell";
-		//TODO: implement
+		json["name"] = name.to!string;
+		json["location"] = location.JSONof();
 
 		return json;
 	}
