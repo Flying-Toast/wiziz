@@ -22,10 +22,12 @@ class Point {
 	double y;
 
 	JSONValue JSONof() {
+		import std.conv;
+
 		JSONValue json = JSONValue();
 
-		json["x"] = x;
-		json["y"] = y;
+		json["x"] = x.to!uint;
+		json["y"] = y.to!uint;
 
 		return json;
 	}
