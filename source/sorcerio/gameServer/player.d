@@ -8,7 +8,7 @@ class Player {
 	immutable ushort id;
 	private immutable string nickname;
 	WebSocket socket;
-	private float speed;
+	float speed;
 	Point location;
 	Point facing;
 	uint socketId;

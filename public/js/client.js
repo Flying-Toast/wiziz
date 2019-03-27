@@ -161,8 +161,8 @@ sorcerio.renderer.renderSelf = function() {
 }.bind(sorcerio.renderer);
 
 sorcerio.renderer.renderGrid = function() {
-	this.grid.xOffset = this.grid.xOffset % this.grid.gridSize;
-	this.grid.yOffset = this.grid.yOffset % this.grid.gridSize;
+	this.grid.xOffset = -sorcerio.game.myPlayer.location.x % this.grid.gridSize;
+	this.grid.yOffset = -sorcerio.game.myPlayer.location.y % this.grid.gridSize;
 	this.gridCtx.lineWidth = this.grid.lineWidth;
 	this.gridCtx.fillStyle = this.grid.backgroundColor;
 	this.gridCtx.fillRect(0, 0, sorcerio.ui.gridCanvas.width, sorcerio.ui.gridCanvas.height);

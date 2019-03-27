@@ -2,6 +2,7 @@ module sorcerio.gameServer.server;
 
 import sorcerio;
 import sorcerio.gameServer.input;
+import sorcerio.gameServer.point;
 import sorcerio.webServer.messageQueue;
 import vibe.vibe : WebSocket;
 import std.json;
@@ -108,6 +109,20 @@ class Server {
 			if (messageQueue.messageAvailable(player.socketId)) {
 				try {
 					auto input = new Input(messageQueue.nextMessage(player.socketId));
+
+					Point target = player.location.dup();//an imaginary point that the player moves towards
+					//it doesn't matter how much the point is moved by, it is just used for direction
+					if (input.moveRight) target.x += 1;
+					if (input.moveLeft) target.x -= 1;
+					if (input.moveDown) target.y += 1;
+					if (input.moveUp) target.y -= 1;
+
+					player.location.moveTowards(target, input.dt * player.speed);
+
+					if (player.location.x < 0) player.location.x = 0;
+					if (player.location.y < 0) player.location.y = 0;
+					if (player.location.x > mapSize) player.location.x = mapSize;
+					if (player.location.y > mapSize) player.location.y = mapSize;
 				} catch (Exception e) {}//if this catches, then the client sent invalid input
 			}
 		}
