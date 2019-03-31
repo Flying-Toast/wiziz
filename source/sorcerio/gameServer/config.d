@@ -6,7 +6,7 @@ immutable struct CONFIG {
 	static enum string defaultNickname = "Unnamed Sorcerer";
 	static enum ubyte maxNameLength = 15;
 
-	static enum float defaultPlayerSpeed = 1.0 / 4.5;///the default player speed in pixels/millisecond
+	static enum float defaultPlayerSpeed = 1.0 / 6.5;///the default player speed in pixels/millisecond
 	static enum ubyte playerRadius = 65;
 	static enum long playerStartHealth = 1000;
 
