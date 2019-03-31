@@ -15,10 +15,15 @@ class Player {
 	private {
 		immutable string nickname;
 		InventorySpell[CONFIG.inventorySize] inventory;
+		ubyte selectedItemIndex;
 		long health;
 		long maxHealth;
 		uint xp;
 		ushort level;
+	}
+
+	invariant {
+		assert(selectedItemIndex < CONFIG.inventorySize, "Player selectedItemIndex out of bounds.");
 	}
 
 	///returns the amount of xp needed to get to `level`
@@ -47,6 +52,7 @@ class Player {
 		json["maxHealth"] = maxHealth;
 		json["xp"] = xp;
 		json["level"] = level;
+		json["selectedItem"] = selectedItemIndex;
 
 		return json;
 	}
