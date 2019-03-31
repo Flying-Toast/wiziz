@@ -6,17 +6,20 @@ import std.json;
 
 class Player {
 	immutable ushort id;
-	private immutable string nickname;
 	WebSocket socket;
 	float speed;
 	Point location;
 	Point facing;
 	uint socketId;
-	private InventorySpell[CONFIG.inventorySize] inventory;
-	private long health;
-	private long maxHealth;
-	private uint xp;
-	private ushort level;
+
+	private {
+		immutable string nickname;
+		InventorySpell[CONFIG.inventorySize] inventory;
+		long health;
+		long maxHealth;
+		uint xp;
+		ushort level;
+	}
 
 	///returns the amount of xp needed to get to `level`
 	static uint xpNeededForLevel(ushort level) {
