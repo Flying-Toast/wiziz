@@ -595,7 +595,7 @@ sorcerio.input.init = function() {
 sorcerio.input.getInput = function() {
 	return JSON.stringify({
 		movement: {
-			facing: this.mouseCoords,
+			facing: {x: sorcerio.game.globalCoords(this.mouseCoords.x, "x"), y: sorcerio.game.globalCoords(this.mouseCoords.y, "y")},
 			keys: this.keyStates
 		},
 		dt: performance.now() - this.lastInputSendTime

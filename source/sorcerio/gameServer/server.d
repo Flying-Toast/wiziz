@@ -114,6 +114,8 @@ class Server {
 					continue;
 				}
 
+				player.facing = input.facing;
+
 				Point target = player.location.dup();//an imaginary point that the player moves towards
 				//it doesn't matter how much the point is moved by, it is just used for direction
 				if (input.moveRight) target.x += 1;
