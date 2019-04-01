@@ -23,7 +23,7 @@ enum SpellName {
 	shock
 }
 
-///generates a JSON array of all spell types, used for /public/spells.json
+///generates a JSON array of all spell types, used for /public/meta.json
 JSONValue generateSpellTypesJSON() {
 	import std.traits;
 	import std.conv;
