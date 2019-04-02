@@ -13,6 +13,7 @@ class Input {
 	immutable bool moveLeft;
 	immutable bool moveRight;
 	immutable ubyte dt;
+	immutable bool isCasting;
 
 	this(string json) {
 		JSONValue j = json.parseJSON();
@@ -28,5 +29,7 @@ class Input {
 			rawDT = CONFIG.maxInputDT;
 		}
 		dt = rawDT;
+
+		isCasting = j["casting"].boolean;
 	}
 }

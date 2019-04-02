@@ -11,11 +11,11 @@ class Player {
 	Point location;
 	Point facing;
 	uint socketId;
+	InventorySpell[CONFIG.inventorySize] inventory;
+	ubyte selectedItemIndex;
 
 	private {
 		immutable string nickname;
-		InventorySpell[CONFIG.inventorySize] inventory;
-		ubyte selectedItemIndex;
 		long health;
 		long maxHealth;
 		uint xp;
@@ -78,5 +78,6 @@ class Player {
 		this.maxHealth = health;
 		this.xp = 0;
 		this.level = 1;
+		this.inventory[0] = new InventorySpell(SpellName.fire, this);//default starting inventory
 	}
 }

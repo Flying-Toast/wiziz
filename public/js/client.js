@@ -414,7 +414,12 @@ sorcerio.events.setup = function() {
 	window.addEventListener("keydown", this.keyDown);
 	window.addEventListener("blur", this.onWindowBlur);
 	window.addEventListener("keyup", this.keyUp);
+	document.querySelector("#game").addEventListener("click", this.gameClick);
 }.bind(sorcerio.events);
+
+sorcerio.events.gameClick = function() {
+	sorcerio.input.castSpell();
+};
 
 sorcerio.events.playButtonClick = function() {
 	if (this.isPlaying) {
@@ -589,15 +594,24 @@ sorcerio.input.init = function() {
 		l: false,
 		r: false
 	};
+	this.isCasting = false;
+}.bind(sorcerio.input);
+
+sorcerio.input.castSpell = function() {
+	this.isCasting = true;
 }.bind(sorcerio.input);
 
 //gets a JSON string of the current input states to send to the server
 sorcerio.input.getInput = function() {
+	const casting = this.isCasting;
+	this.isCasting = false;
+
 	return JSON.stringify({
 		movement: {
 			facing: {x: sorcerio.game.globalCoords(this.mouseCoords.x, "x"), y: sorcerio.game.globalCoords(this.mouseCoords.y, "y")},
 			keys: this.keyStates
 		},
+		casting: casting,
 		dt: performance.now() - this.lastInputSendTime
 	});
 }.bind(sorcerio.input);

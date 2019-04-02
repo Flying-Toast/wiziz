@@ -130,6 +130,10 @@ class Server {
 				if (player.location.y < 0) player.location.y = 0;
 				if (player.location.x > mapSize) player.location.x = mapSize;
 				if (player.location.y > mapSize) player.location.y = mapSize;
+
+				if (input.isCasting) {
+					player.inventory[player.selectedItemIndex].castSpell(this);
+				}
 			}
 		}
 
