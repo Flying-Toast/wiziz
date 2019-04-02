@@ -103,7 +103,6 @@ class Server {
 
 	private void physicsTick() {
 		immutable long currentTime = millis();
-		immutable long dt = currentTime - lastPhysicsTick;
 
 		foreach (player; players) {
 			if (messageQueue.messageAvailable(player.socketId)) {
