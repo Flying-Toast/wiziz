@@ -26,8 +26,8 @@ class Point {
 
 		JSONValue json = JSONValue();
 
-		json["x"] = x.to!uint;
-		json["y"] = y.to!uint;
+		json["x"] = x.to!int;
+		json["y"] = y.to!int;
 
 		return json;
 	}
