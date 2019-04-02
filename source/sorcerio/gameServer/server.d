@@ -92,11 +92,13 @@ class Server {
 	}
 
 	void tick() {
-		if (millis() - lastUpdate >= CONFIG.updateInterval) {
+		immutable long currentTime = millis();
+
+		if (currentTime - lastUpdate >= CONFIG.updateInterval) {
 			sendUpdateToClients();
 		}
 
-		if (millis() - lastPhysicsTick >= CONFIG.physicsInterval) {
+		if (currentTime - lastPhysicsTick >= CONFIG.physicsInterval) {
 			physicsTick();
 		}
 	}
