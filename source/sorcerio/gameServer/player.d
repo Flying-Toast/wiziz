@@ -63,6 +63,7 @@ class Player {
 		json["xp"] = xp;
 		json["level"] = level;
 		json["selectedItem"] = selectedItemIndex;
+		json["levelUpAtXp"] = levelUpAtXp;
 
 		return json;
 	}
