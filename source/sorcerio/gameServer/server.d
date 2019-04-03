@@ -137,7 +137,7 @@ class Server {
 			}
 
 			if (player.shouldLevelUp) {
-				player.level++;
+				player.levelUp();
 			}
 		}
 
