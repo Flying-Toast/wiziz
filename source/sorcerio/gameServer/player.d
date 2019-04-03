@@ -20,6 +20,7 @@ class Player {
 		long maxHealth;
 		uint xp;
 		ushort level;
+		uint levelUpAtXp;///the amount of XP needed to get to the next level
 	}
 
 	invariant {
@@ -34,10 +35,11 @@ class Player {
 	///increases the player's level by 1
 	void levelUp() {
 		level++;
+		levelUpAtXp = xpNeededForLevel(level);
 	}
 
 	bool shouldLevelUp() {
-		return xp >= xpNeededForLevel(cast(ushort) (level + 1));
+		return xp >= levelUpAtXp;
 	}
 
 	void doDamage(int damage) {
@@ -87,5 +89,6 @@ class Player {
 		this.xp = 0;
 		this.level = 1;
 		this.inventory[0] = new InventorySpell(SpellName.fire, this);//default starting inventory
+		this.levelUpAtXp = xpNeededForLevel(2);
 	}
 }
