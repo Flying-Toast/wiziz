@@ -414,7 +414,7 @@ sorcerio.events.setup = function() {
 	window.addEventListener("keydown", this.keyDown);
 	window.addEventListener("blur", this.onWindowBlur);
 	window.addEventListener("keyup", this.keyUp);
-	document.querySelector("#game").addEventListener("click", this.gameClick);
+	sorcerio.ui.gameCanvas.addEventListener("click", this.gameClick);
 }.bind(sorcerio.events);
 
 sorcerio.events.gameClick = function() {
