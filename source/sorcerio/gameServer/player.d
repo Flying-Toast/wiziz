@@ -28,8 +28,7 @@ class Player {
 
 	///returns the amount of xp needed to get to `level`
 	static uint xpNeededForLevel(ushort level) {
-		import std.conv;
-		return (((level / 0.9) ^^ 2) * 100).to!uint;
+		return cast(uint) (((level / 0.9) ^^ 2) * 100);
 	}
 
 	void doDamage(int damage) {
