@@ -232,6 +232,8 @@ sorcerio.ui.init = function() {
 	this.xpNumberDisplay = document.querySelector("#xpNumberDisplay");
 	this.levelNumberDisplay = document.querySelector("#levelNumberDisplay");
 	this.healthPercentDisplay = document.querySelector("#healthPercentDisplay");
+	this.xpSlider = document.querySelector("#xp");
+	this.healthSlider = document.querySelector("#health");
 }.bind(sorcerio.ui);
 
 sorcerio.ui.setup = function() {
@@ -323,6 +325,12 @@ sorcerio.ui.updateLeaderboard = function(players) {
 sorcerio.ui.render = function() {
 	this.updateLeaderboard(sorcerio.game.getLeaders(10));
 	this.updateStatsDisplay();
+	this.updateSliders();
+}.bind(sorcerio.ui);
+
+sorcerio.ui.updateSliders = function() {
+	this.healthSlider.style.width = `calc(${sorcerio.game.myPlayer.health / sorcerio.game.myPlayer.maxHealth * 100}% - 8px)`;
+	//TODO: this.xpSlider.style.width =
 }.bind(sorcerio.ui);
 
 //////////
