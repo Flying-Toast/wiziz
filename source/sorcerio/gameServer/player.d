@@ -21,6 +21,7 @@ class Player {
 		uint xp;
 		ushort level;
 		uint levelUpAtXp;///the amount of XP needed to get to the next level
+		uint lastLevelUpAtXp;///the amount of xp that _was_ needed to get to the current level. Used for rendering the xp slider on client side.
 	}
 
 	invariant {
@@ -35,6 +36,7 @@ class Player {
 	///increases the player's level by 1
 	void levelUp() {
 		level++;
+		lastLevelUpAtXp = levelUpAtXp;
 		levelUpAtXp = xpNeededForLevel(level);
 	}
 
@@ -64,6 +66,7 @@ class Player {
 		json["level"] = level;
 		json["selectedItem"] = selectedItemIndex;
 		json["levelUpAtXp"] = levelUpAtXp;
+		json["lastLevelUpAtXp"] = lastLevelUpAtXp;
 
 		return json;
 	}
@@ -91,5 +94,6 @@ class Player {
 		this.level = 1;
 		this.inventory[0] = new InventorySpell(SpellName.fire, this);//default starting inventory
 		this.levelUpAtXp = xpNeededForLevel(2);
+		this.lastLevelUpAtXp = xpNeededForLevel(1);
 	}
 }

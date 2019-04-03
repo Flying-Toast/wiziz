@@ -330,7 +330,7 @@ sorcerio.ui.render = function() {
 
 sorcerio.ui.updateSliders = function() {
 	this.healthSlider.style.width = `calc(${sorcerio.game.myPlayer.health / sorcerio.game.myPlayer.maxHealth * 100}% - 8px)`;
-	//TODO: this.xpSlider.style.width =
+	this.xpSlider.style.width = `calc(${(sorcerio.game.myPlayer.xp - sorcerio.game.myPlayer.lastLevelUpAtXp) / (sorcerio.game.myPlayer.levelUpAtXp - sorcerio.game.myPlayer.lastLevelUpAtXp) * 100}% - 8px)`
 }.bind(sorcerio.ui);
 
 //////////
