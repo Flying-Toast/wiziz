@@ -47,15 +47,15 @@ sorcerio.init = function() {//called once, on page load
 		sorcerio.input
 	];
 
-	for (let i = 0; i < subModules.length; i++) {
-		if (subModules[i].init !== undefined) {
-			subModules[i].init();
+	for (let module of subModules) {
+		if (module.init !== undefined) {
+			module.init();
 		}
 	}
 
-	for (let i = 0; i < subModules.length; i++) {
-		if (subModules[i].setup !== undefined) {
-			subModules[i].setup();
+	for (let module of subModules) {
+		if (module.setup !== undefined) {
+			module.setup();
 		}
 	}
 }.bind(sorcerio);
@@ -117,9 +117,7 @@ sorcerio.renderer.render = function() {
 
 	this.gameCtx.clearRect(0, 0, sorcerio.ui.gameCanvas.width, sorcerio.ui.gameCanvas.height);
 
-	for (let i = 0; i < sorcerio.game.latestAuthoritativeGameState.players.length; i++) {
-		let player = sorcerio.game.latestAuthoritativeGameState.players[i];
-
+	for (let player of sorcerio.game.latestAuthoritativeGameState.players) {
 		if (player.id === sorcerio.game.myPlayerId) {
 			continue;
 		}
@@ -129,8 +127,7 @@ sorcerio.renderer.render = function() {
 
 	this.renderSelf();
 
-	for (let i = 0; i < sorcerio.game.latestAuthoritativeGameState.spells.length; i++) {
-		let spell = sorcerio.game.latestAuthoritativeGameState.spells[i];
+	for (let spell of sorcerio.game.latestAuthoritativeGameState.spells) {
 		sorcerio.renderer.renderFunctions[spell.renderFunction](spell);
 	}
 }.bind(sorcerio.renderer);
@@ -343,9 +340,7 @@ sorcerio.media.init = function() {
 		selected: "/media/images/inventorySlotSelected.png"
 	};
 
-	for (let i = 0; i < sorcerio.meta.data.spellTypes.length; i++) {
-		const type = sorcerio.meta.data.spellTypes[i];
-
+	for (const type of sorcerio.meta.data.spellTypes) {
 		this.inventoryItems[type] = {
 			selected: `/media/images/${type}SpellSelected.png`,
 			unselected: `/media/images/${type}Spell.png`
