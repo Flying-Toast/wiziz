@@ -52,10 +52,7 @@ abstract class ProjectileSpell : Spell {
 	abstract void affectPlayer(Player affectedPlayer);
 
 	private bool hasReachedTarget() {
-		if (location.distance(origin) >= lenOriginToTarget) {
-			return true;
-		}
-		return false;
+		return location.distance(origin) >= lenOriginToTarget;
 	}
 
 	protected void die() {
