@@ -94,7 +94,7 @@ abstract class ProjectileSpell : Spell {
 class FireSpell : ProjectileSpell {
 	mixin registerSpell!(SpellName.fire, 500);
 
-	private ushort damage = 100;
+	private enum ushort damage = 100;
 
 	override string humanReadableEffect() {
 		import std.conv;
