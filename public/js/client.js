@@ -527,9 +527,9 @@ sorcerio.game.localCoords = function(globalCoord, xOrY) {
 	}
 
 	if (xOrY === "x") {
-		return (globalCoord + sorcerio.ui.gameCanvas.width / 2 - sorcerio.game.myPlayer.location.x);
+		return Math.round(globalCoord + sorcerio.ui.gameCanvas.width / 2 - sorcerio.game.myPlayer.location.x);
 	} else if (xOrY === "y") {
-		return (globalCoord + sorcerio.ui.gameCanvas.height / 2 - sorcerio.game.myPlayer.location.y);
+		return Math.round(globalCoord + sorcerio.ui.gameCanvas.height / 2 - sorcerio.game.myPlayer.location.y);
 	}
 }.bind(sorcerio.game);
 
@@ -540,9 +540,9 @@ sorcerio.game.globalCoords = function(localCoord, xOrY) {
 	}
 
 	if (xOrY === "x") {
-		return (localCoord - sorcerio.ui.gameCanvas.width / 2 + sorcerio.game.myPlayer.location.x);
+		return Math.round(localCoord - sorcerio.ui.gameCanvas.width / 2 + sorcerio.game.myPlayer.location.x);
 	} else if (xOrY === "y") {
-		return (localCoord - sorcerio.ui.gameCanvas.height / 2 + sorcerio.game.myPlayer.location.y);
+		return Math.round(localCoord - sorcerio.ui.gameCanvas.height / 2 + sorcerio.game.myPlayer.location.y);
 	}
 }.bind(sorcerio.game);
 
