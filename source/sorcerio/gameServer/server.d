@@ -135,6 +135,10 @@ class Server {
 					player.inventory[player.selectedItemIndex].castSpell(this);
 				}
 			}
+
+			if (player.shouldLevelUp) {
+				player.level++;
+			}
 		}
 
 		for (size_t i = spells.length; i-- > 0;) {//loop backwards so that spells can be removed from the array from within the loop

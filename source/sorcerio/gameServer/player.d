@@ -13,13 +13,13 @@ class Player {
 	uint socketId;
 	InventorySpell[CONFIG.inventorySize] inventory;
 	ubyte selectedItemIndex;
+	ushort level;
 
 	private {
 		immutable string nickname;
 		long health;
 		long maxHealth;
 		uint xp;
-		ushort level;
 	}
 
 	invariant {
@@ -29,6 +29,10 @@ class Player {
 	///returns the amount of xp needed to get to `level`
 	static uint xpNeededForLevel(ushort level) {
 		return cast(uint) (((level / 0.9) ^^ 2) * 100);
+	}
+
+	bool shouldLevelUp() {
+		return xp >= xpNeededForLevel(cast(ushort) (level + 1));
 	}
 
 	void doDamage(int damage) {
