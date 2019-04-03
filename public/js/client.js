@@ -58,7 +58,7 @@ sorcerio.init = function() {//called once, on page load
 			module.setup();
 		}
 	}
-}.bind(sorcerio);
+};
 
 
 sorcerio.mainLoop = function() {
