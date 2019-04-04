@@ -104,8 +104,9 @@ sorcerio.renderer.init = function() {
 ////////////////////
 
 sorcerio.renderer.renderFunctions.projectileSpell = function(spell) {
-	console.log(spell);//TODO: implement
-};
+	const sprite = sorcerio.media.sprites.spellEffects[spell.name];
+	this.gameCtx.drawImage(sprite, sorcerio.game.localCoords(spell.location.x, 'x') - (sprite.width / 2), sorcerio.game.localCoords(spell.location.y, 'y') - (sprite.height / 2));
+}.bind(sorcerio.renderer);
 
 sorcerio.renderer.setup = function() {
 	this.gridCtx = sorcerio.ui.gridCanvas.getContext("2d");
@@ -341,7 +342,7 @@ sorcerio.ui.updateSliders = function() {
 sorcerio.media.init = function() {
 	this.inventoryItems = {};
 	this.sounds = {spellSounds: {}};
-	this.sprites = {};
+	this.sprites = {spellEffects: {}};
 
 	this.inventoryItems.emptySlot = {
 		unselected: "/media/images/inventorySlot.png",
@@ -353,6 +354,8 @@ sorcerio.media.init = function() {
 			selected: `/media/images/${type}SpellSelected.png`,
 			unselected: `/media/images/${type}Spell.png`
 		};
+
+		this.sprites.spellEffects[type] = this.createImage(`/media/images/${type}Effect.png`);
 
 		this.sounds.spellSounds[type] = this.createSound(`/media/sounds/${type}Spell`);
 	}
