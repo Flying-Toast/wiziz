@@ -117,7 +117,7 @@ sorcerio.renderer.render = function() {
 
 	this.gameCtx.clearRect(0, 0, sorcerio.ui.gameCanvas.width, sorcerio.ui.gameCanvas.height);
 
-	for (let player of sorcerio.game.latestAuthoritativeGameState.players) {
+	for (let player of sorcerio.game.latestGameState.players) {
 		if (player.id === sorcerio.game.myPlayerId) {
 			continue;
 		}
@@ -127,7 +127,7 @@ sorcerio.renderer.render = function() {
 
 	this.renderSelf();
 
-	for (let spell of sorcerio.game.latestAuthoritativeGameState.spells) {
+	for (let spell of sorcerio.game.latestGameState.spells) {
 		sorcerio.renderer.renderFunctions[spell.renderFunction](spell);
 	}
 }.bind(sorcerio.renderer);
@@ -181,9 +181,9 @@ sorcerio.renderer.renderGrid = function() {
 	this.gridCtx.lineWidth = 40;
 	this.gridCtx.beginPath();
 	this.gridCtx.moveTo(sorcerio.game.localCoords(0, 'x'), sorcerio.game.localCoords(0, 'y'));
-	this.gridCtx.lineTo(sorcerio.game.localCoords(sorcerio.game.latestAuthoritativeGameState.mapSize, 'x'), sorcerio.game.localCoords(0, 'y'));
-	this.gridCtx.lineTo(sorcerio.game.localCoords(sorcerio.game.latestAuthoritativeGameState.mapSize, 'x'), sorcerio.game.localCoords(sorcerio.game.latestAuthoritativeGameState.mapSize, 'y'));
-	this.gridCtx.lineTo(sorcerio.game.localCoords(0, 'x'), sorcerio.game.localCoords(sorcerio.game.latestAuthoritativeGameState.mapSize, 'y'));
+	this.gridCtx.lineTo(sorcerio.game.localCoords(sorcerio.game.latestGameState.mapSize, 'x'), sorcerio.game.localCoords(0, 'y'));
+	this.gridCtx.lineTo(sorcerio.game.localCoords(sorcerio.game.latestGameState.mapSize, 'x'), sorcerio.game.localCoords(sorcerio.game.latestGameState.mapSize, 'y'));
+	this.gridCtx.lineTo(sorcerio.game.localCoords(0, 'x'), sorcerio.game.localCoords(sorcerio.game.latestGameState.mapSize, 'y'));
 	this.gridCtx.lineTo(sorcerio.game.localCoords(0, 'x'), sorcerio.game.localCoords(0, 'y') - this.gridCtx.lineWidth / 2);
 	this.gridCtx.stroke();
 }.bind(sorcerio.renderer);
@@ -463,7 +463,7 @@ sorcerio.events.handleServerMessage = function(message) {
 
 			//wait for next "update" message before calling newGameStarted().
 			window.intervalId = window.setInterval(function() {
-				if (sorcerio.game.latestAuthoritativeGameState !== null) {
+				if (sorcerio.game.latestGameState !== null) {
 					sorcerio.events.newGameStarted();
 					window.clearInterval(window.intervalId);
 					window.intervalId = undefined;
@@ -472,7 +472,7 @@ sorcerio.events.handleServerMessage = function(message) {
 
 			break;
 		case "update":
-			sorcerio.game.latestAuthoritativeGameState = message;
+			sorcerio.game.latestGameState = message;
 			let myPlayer = message.players.find(function(element) {return element.id === sorcerio.game.myPlayerId;});
 			if (myPlayer !== undefined) {
 				sorcerio.game.myPlayer = myPlayer;
@@ -534,7 +534,7 @@ sorcerio.events.onWindowBlur = function() {
 
 
 sorcerio.game.init = function() {
-	this.latestAuthoritativeGameState = null;
+	this.latestGameState = null;
 	this.myPlayerId = null;
 	this.myPlayer = null;
 }.bind(sorcerio.game);
@@ -571,7 +571,7 @@ sorcerio.game.calculatePlayerAngle = function(player) {
 };
 
 sorcerio.game.getLeaders = function(number) {
-	let sortedPlayers = JSON.parse(JSON.stringify(this.latestAuthoritativeGameState.players));//duplicate the players array
+	let sortedPlayers = JSON.parse(JSON.stringify(this.latestGameState.players));//duplicate the players array
 	sortedPlayers.sort(function(a, b) {
 		if (a.xp > b.xp) {
 			return -1;
