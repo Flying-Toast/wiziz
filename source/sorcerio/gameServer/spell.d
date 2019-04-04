@@ -63,6 +63,7 @@ final class InventorySpell {
 
 		json["spellName"] = name.to!string;
 		json["coolDownTime"] = coolDownTime;
+		json["cooling"] = isCooling;
 
 		return json;
 	}

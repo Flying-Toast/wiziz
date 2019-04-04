@@ -421,7 +421,18 @@ sorcerio.events.setup = function() {
 }.bind(sorcerio.events);
 
 sorcerio.events.gameClick = function() {
-	sorcerio.input.castSpell();
+	const selectedSpell = sorcerio.game.myPlayer.inventory[sorcerio.game.myPlayer.selectedItem];
+
+	if (!selectedSpell.cooling) {//only do stuff if the selected spell isn't in cooldown
+		sorcerio.input.castSpell();
+
+		const sound = sorcerio.media.sounds.spellSounds[selectedSpell.spellName];
+		if (!sound.ended) {//if the sound is currently playing, stop it and put the playhead back to start
+			sound.pause();
+			sound.currentTime = 0;
+		}
+		sorcerio.media.sounds.spellSounds[selectedSpell.spellName].play();//play the sound of the currently selected spell
+	}
 };
 
 sorcerio.events.playButtonClick = function() {
