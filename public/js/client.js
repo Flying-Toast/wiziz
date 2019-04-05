@@ -327,12 +327,32 @@ sorcerio.ui.render = function() {
 	this.updateLeaderboard(sorcerio.game.getLeaders(10));
 	this.updateStatsDisplay();
 	this.updateSliders();
+	this.updateInventory();
 }.bind(sorcerio.ui);
 
 sorcerio.ui.updateSliders = function() {
 	this.healthSlider.style.width = `calc(${sorcerio.game.myPlayer.health / sorcerio.game.myPlayer.maxHealth * 100}% - 8px)`;
 	this.xpSlider.style.width = `calc(${(sorcerio.game.myPlayer.xp - sorcerio.game.myPlayer.lastLevelUpAtXp) / (sorcerio.game.myPlayer.levelUpAtXp - sorcerio.game.myPlayer.lastLevelUpAtXp) * 100}% - 8px)`
 }.bind(sorcerio.ui);
+
+sorcerio.ui.updateInventory = function() {
+	for (let i = 0; i < sorcerio.game.myPlayer.inventory.length; i++) {
+		const item = sorcerio.game.myPlayer.inventory[i];
+		const slot = document.querySelector(`#inventorySlot${i+1}`);
+
+		let newSrc = "";//the new `src` of the image. It will be applied to the image only if it is different than the image's current `src`.
+
+		if (i === sorcerio.game.myPlayer.selectedItem) {//the current `item` is the player's selected spell:
+			newSrc = sorcerio.media.inventoryItems[item.spellName].selected;
+		} else {
+			newSrc = sorcerio.media.inventoryItems[item.spellName].unselected;
+		}
+
+		if (slot.attributes.src.nodeValue !== newSrc) {//only set the image's src if it is different
+			slot.src = newSrc;
+		}
+	}
+};
 
 //////////
 //@MEDIA//
