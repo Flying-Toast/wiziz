@@ -15,7 +15,7 @@
    viewBox="0 0 26.458334 26.458334"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.3 (unknown)"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    sodipodi:docname="fireSpell.svg"
    inkscape:export-filename="/home/octo/Downloads/sorcerio/public/media/images/fireSpell.png"
    inkscape:export-xdpi="90"
@@ -51,16 +51,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="-83.533691"
-     inkscape:cy="-21.924916"
+     inkscape:zoom="2.8284272"
+     inkscape:cx="-14.433215"
+     inkscape:cy="41.912649"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1215"
-     inkscape:window-height="1000"
-     inkscape:window-x="65"
-     inkscape:window-y="24"
+     inkscape:window-width="1280"
+     inkscape:window-height="965"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -86,20 +86,6 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(163.34706,-98.718438)">
-    <g
-       transform="matrix(0.19999999,0,0,0.19999999,-142.93635,91.176772)"
-       id="layer1-7"
-       inkscape:label="Layer 1"
-       style="fill:#747474;fill-opacity:1">
-      <rect
-         ry="7.6729188"
-         y="37.708332"
-         x="-102.05357"
-         height="132.29167"
-         width="132.29167"
-         id="rect817"
-         style="opacity:1;fill:#747474;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:3.96396852;stroke-opacity:0.66972477" />
-    </g>
     <g
        id="g889"
        transform="matrix(0.16999999,0,0,0.16999999,-144.01358,94.292397)">

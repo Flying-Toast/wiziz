@@ -14,9 +14,9 @@
    viewBox="0 0 26.458332 26.458332"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.3 (unknown)"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    sodipodi:docname="inventorySlot.svg"
-   inkscape:export-filename="/home/octo/Downloads/sorcerio/concepts/inventorySlot.png"
+   inkscape:export-filename="/home/octo/Downloads/sorcerio/public/media/images/inventorySlot.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -29,8 +29,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8"
-     inkscape:cx="-1.054906"
-     inkscape:cy="8.2198047"
+     inkscape:cx="81.980808"
+     inkscape:cy="10.005519"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -39,10 +39,10 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      units="mm"
-     inkscape:window-width="1215"
-     inkscape:window-height="1000"
-     inkscape:window-x="65"
-     inkscape:window-y="24"
+     inkscape:window-width="1280"
+     inkscape:window-height="965"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata5">
@@ -62,35 +62,18 @@
      id="layer1"
      transform="translate(-61.818011,-113.47366)">
     <g
-       id="g823">
-      <g
-         style="fill:#747474;fill-opacity:1"
-         inkscape:label="Layer 1"
-         id="layer1-7"
-         transform="matrix(0.19999999,0,0,0.19999999,82.228724,105.93199)">
-        <rect
-           style="opacity:1;fill:#747474;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:3.96396852;stroke-opacity:0.66972477"
-           id="rect817"
-           width="132.29167"
-           height="132.29167"
-           x="-102.05357"
-           y="37.708332"
-           ry="7.6729188" />
-      </g>
-      <g
-         transform="matrix(0.16999999,0,0,0.16999999,81.151492,109.04762)"
-         id="g993"
-         inkscape:label="Layer 1"
-         style="fill:#565656;fill-opacity:1">
-        <rect
-           ry="7.6729188"
-           y="37.708332"
-           x="-102.05357"
-           height="132.29167"
-           width="132.29167"
-           id="rect991"
-           style="opacity:1;fill:#565656;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:3.96396852;stroke-opacity:0.66972477" />
-      </g>
+       style="fill:#565656;fill-opacity:1"
+       inkscape:label="Layer 1"
+       id="g993"
+       transform="matrix(0.16999999,0,0,0.16999999,81.151492,109.04762)">
+      <rect
+         style="opacity:1;fill:#565656;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:3.96396852;stroke-opacity:0.66972477"
+         id="rect991"
+         width="132.29167"
+         height="132.29167"
+         x="-102.05357"
+         y="37.708332"
+         ry="7.6729188" />
     </g>
   </g>
 </svg>

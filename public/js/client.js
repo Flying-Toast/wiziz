@@ -249,21 +249,37 @@ sorcerio.ui.createHotbarSlots = function() {
 		coolDownDisplay.style.animation = "none";
 		this.spellWrapper.appendChild(coolDownDisplay);
 
-		let slotImage = sorcerio.media.createImage(sorcerio.media.inventoryItems.emptySlot.unselected);
+		let slotImage = sorcerio.media.createImage(sorcerio.media.inventoryItems.emptySlot);
+
+		//create the selection outline thingy:
+		let selectionOutline = document.createElement("span");
+		selectionOutline.className = "selectionOutline";
+		selectionOutline.id = `selectionOutline${i}`;
+		selectionOutline.style.width = `${slotImage.width}px`;
+		selectionOutline.style.height = `${slotImage.height}px`;
+
 		slotImage.addEventListener("dragstart", function(e) {
 			e.preventDefault();
 		});
 		slotImage.id = `inventorySlot${i}`;
 		slotImage.className = "inventorySlot"
-		spellWrapper.appendChild(slotImage);
+		selectionOutline.appendChild(slotImage);
+		this.spellWrapper.appendChild(selectionOutline);
 	}
 
 	let openStorage = sorcerio.media.createImage("/media/images/openStorage.png");
+
+	let dummySelectionOutline = document.createElement("span");
 	openStorage.className = "inventorySlot";
+	dummySelectionOutline.className = "selectionOutline";
+	dummySelectionOutline.style.width = `${openStorage.width}px`;
+	dummySelectionOutline.style.height = `${openStorage.height}px`;
+
 	openStorage.addEventListener("dragstart", function(e) {
 		e.preventDefault();
 	});
-	this.spellWrapper.appendChild(openStorage);
+	dummySelectionOutline.appendChild(openStorage);
+	this.spellWrapper.appendChild(dummySelectionOutline);
 }.bind(sorcerio.ui);
 
 sorcerio.ui.hideMainScreen = function() {
@@ -340,12 +356,12 @@ sorcerio.ui.updateInventory = function() {
 		const item = sorcerio.game.myPlayer.inventory[i];
 		const slot = document.querySelector(`#inventorySlot${i+1}`);
 
-		let newSrc = "";//the new `src` of the image. It will be applied to the image only if it is different than the image's current `src`.
+		let newSrc = sorcerio.media.inventoryItems[item.spellName];//the new `src` of the image. It will be applied to the image only if it is different than the image's current `src`.
 
 		if (i === sorcerio.game.myPlayer.selectedItem) {//the current `item` is the player's selected spell:
-			newSrc = sorcerio.media.inventoryItems[item.spellName].selected;
-		} else {
-			newSrc = sorcerio.media.inventoryItems[item.spellName].unselected;
+			document.querySelector(`#selectionOutline${i+1}`).style.backgroundColor = "#EED727";
+		} else {//else, clear the selectionOutline
+			document.querySelector(`#selectionOutline${i+1}`).style.backgroundColor = "";
 		}
 
 		if (slot.attributes.src.nodeValue !== newSrc) {//only set the image's src if it is different
@@ -364,16 +380,10 @@ sorcerio.media.init = function() {
 	this.sounds = {spellSounds: {}};
 	this.sprites = {spellEffects: {}};
 
-	this.inventoryItems.emptySlot = {
-		unselected: "/media/images/inventorySlot.png",
-		selected: "/media/images/inventorySlotSelected.png"
-	};
+	this.inventoryItems.emptySlot = "/media/images/inventorySlot.png";
 
 	for (const type of sorcerio.meta.data.spellTypes) {
-		this.inventoryItems[type] = {
-			selected: `/media/images/${type}SpellSelected.png`,
-			unselected: `/media/images/${type}Spell.png`
-		};
+		this.inventoryItems[type] = `/media/images/${type}Spell.png`;
 
 		this.sprites.spellEffects[type] = this.createImage(`/media/images/${type}Effect.png`);
 

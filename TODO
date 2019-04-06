@@ -9,5 +9,3 @@ make all sounds the same volume
 BEFORE RELEASE: add some sort of "food" / way of getting xp without killing players. (like shapes in diep.io)
 ===
 each levelup unlock choice should have choices for effect spells, and damage spells.
-===
-dynamically create 'selected' and 'unselected' backgrounds for inventoryItems, so that 2 images arent needed for each inventorySpell
