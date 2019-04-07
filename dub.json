@@ -1,12 +1,12 @@
 {
-	"name": "sorcerio",
 	"authors": [
 		"Flying-Toast"
 	],
+	"copyright": "Copyright © 2018, Flying-Toast",
 	"dependencies": {
-		"vibe-d": "~>0.8.2"
+		"vibe-d": "~>0.8.5"
 	},
 	"description": "Sorcer.io server",
-	"copyright": "Copyright © 2018, Flying-Toast",
-	"license": "GPL3"
+	"license": "GPL3",
+	"name": "sorcerio"
 }
