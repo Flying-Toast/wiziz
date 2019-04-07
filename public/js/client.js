@@ -534,7 +534,7 @@ sorcerio.events.keyDown = function(e) {
 
 	if (this.isPlaying) {
 		const keyNum = parseInt(e.key);//the integer of the key pressed, if it is a number key. otherwise, NaN
-		if (keyNum !== NaN && keyNum-1 < sorcerio.meta.data.inventorySize) {
+		if (keyNum !== NaN && keyNum > 0 && keyNum-1 < sorcerio.meta.data.inventorySize) {
 			sorcerio.input.selectedItem = keyNum-1;
 		}
 	}
