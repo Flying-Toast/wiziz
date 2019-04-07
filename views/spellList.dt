@@ -82,4 +82,4 @@ html
 			}
 	body
 		div.indent
-			p.indent Have an awesome idea for a new spell? Share your ideas on the #[a(href="https://www.reddit.com/r/sorcerIo/", target="_blank") sorcer.io subreddit], and there's a good chance they'll be added to the game!
+			p.indent Have an awesome idea for a new spell? Share your ideas on the #[a(href="https://www.reddit.com/r/sorcerIo/", target="_blank") sorcerio subreddit], and there's a good chance they'll be added to the game!

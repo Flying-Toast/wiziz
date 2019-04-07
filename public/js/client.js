@@ -694,7 +694,7 @@ sorcerio.input.getInput = function() {
 //////////////////////
 
 window.addEventListener("load", function() {
-	console.log("%cpsst!", "font-size:20px;font-style:italic;", "\nDid you know that sorcer.io is open source?\nCome check it out - contributions are welcome.\nhttps://github.com/Flying-Toast/sorcerio");
+	console.log("%cpsst!", "font-size:20px;font-style:italic;", "\nDid you know that sorcerio is open source?\nCome check it out - contributions are welcome.\nhttps://github.com/Flying-Toast/sorcerio");
 	fetch("/meta.json").then(function(resp){return resp.json();}).then(function(metadata) {
 		sorcerio.meta.data = metadata;
 		sorcerio.init();
