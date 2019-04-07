@@ -545,7 +545,7 @@ sorcerio.events.keyDown = function(e) {
 sorcerio.events.onScroll = function(e) {
 	let newIndex = sorcerio.input.selectedItem;
 
-	if (e.deltaY > 0) {//scroll
+	if (e.deltaY > 0) {//scroll direction
 		newIndex--;
 	} else {
 		newIndex++;
