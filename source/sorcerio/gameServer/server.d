@@ -131,6 +131,10 @@ class Server {
 				if (player.location.x > mapSize) player.location.x = mapSize;
 				if (player.location.y > mapSize) player.location.y = mapSize;
 
+				if (player.inventory[input.selectedItemIndex] !is null) {//make sure that there really is a spell at that index
+					player.selectedItemIndex = input.selectedItemIndex;
+				}
+
 				if (input.isCasting) {
 					player.inventory[player.selectedItemIndex].castSpell(this);
 				}

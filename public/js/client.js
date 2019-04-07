@@ -642,6 +642,7 @@ sorcerio.input.init = function() {
 		r: false
 	};
 	this.isCasting = false;
+	this.selectedItem = 0;
 }.bind(sorcerio.input);
 
 sorcerio.input.castSpell = function() {
@@ -657,6 +658,7 @@ sorcerio.input.getInput = function() {
 		facing: {x: sorcerio.game.globalCoords(this.mouseCoords.x, "x"), y: sorcerio.game.globalCoords(this.mouseCoords.y, "y")},
 		keys: this.keyStates,
 		casting: casting,
+		selectedItem: this.selectedItem,
 		dt: performance.now() - this.lastInputSendTime
 	});
 }.bind(sorcerio.input);

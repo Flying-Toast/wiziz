@@ -14,6 +14,7 @@ class Input {
 	immutable bool moveRight;
 	immutable ubyte dt;
 	immutable bool isCasting;
+	immutable ubyte selectedItemIndex;
 
 	this(string json) {
 		JSONValue j = json.parseJSON();
@@ -31,5 +32,12 @@ class Input {
 		dt = rawDT;
 
 		isCasting = j["casting"].boolean;
+
+		immutable rawSelectedItemIndex = cast(ubyte) j["selectedItem"].integer;
+		if (rawSelectedItemIndex < CONFIG.inventorySize) {//make sure that the selected item index that was sent is not out of bounds
+			selectedItemIndex = rawSelectedItemIndex;
+		} else {
+			selectedItemIndex = 0;
+		}
 	}
 }
