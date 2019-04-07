@@ -13,11 +13,11 @@ class Player {
 	uint socketId;
 	InventorySpell[CONFIG.inventorySize] inventory;
 	ubyte selectedItemIndex;
+	long health;
+	long maxHealth;
 
 	private {
 		immutable string nickname;
-		long health;
-		long maxHealth;
 		uint xp;
 		ushort level;
 		uint levelUpAtXp;///the amount of XP needed to get to the next level
@@ -46,10 +46,6 @@ class Player {
 
 	void doDamage(int damage) {
 		health -= damage;
-	}
-
-	void heal(int amount) {
-		doDamage(-amount);
 	}
 
 	JSONValue JSONof() {

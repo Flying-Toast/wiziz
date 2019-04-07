@@ -88,6 +88,33 @@ abstract class ProjectileSpell : Spell {
 	}
 }
 
+abstract class SelfSpell : Spell {
+	override void initialize() {}
+
+	override JSONValue JSONof() {
+		JSONValue json = JSONValue();
+
+		json["renderFunction"] = "nothing";
+
+		return json;
+	}
+
+	override void tick(Server game) {
+		if (removalFlag) {
+			return;
+		}
+
+		affect();
+		die();
+	}
+
+	abstract void affect();//affects the caster with the spells effect
+
+	protected void die() {
+		removalFlag = true;
+	}
+}
+
 class FireSpell : ProjectileSpell {
 	mixin registerSpell!(SpellName.fire, 500);
 
@@ -129,5 +156,21 @@ class TeleportSpell : ProjectileSpell {
 	override void die() {
 		caster.location.moveTo(location);
 		super.die();
+	}
+}
+
+class HealSpell : SelfSpell {
+	mixin registerSpell!(SpellName.heal, 15000);
+
+	private enum ubyte healPercent = 30;//the percent of the caster's lost health to heal
+
+	override string humanReadableEffect() {
+		import std.conv;
+		return "Heals you " ~ healPercent.to!string ~ "% closer to full health";
+	}
+
+	override void affect() {
+		immutable healthDiff = caster.maxHealth - caster.health;
+		caster.health += healthDiff * healPercent / 100;
 	}
 }
