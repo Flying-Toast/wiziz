@@ -44,10 +44,12 @@ private void errorHandler(HTTPServerRequest req, HTTPServerResponse res, HTTPSer
 }
 
 private void serveMetaJSON(HTTPServerRequest req, HTTPServerResponse res) {
-	enum response = JSONValue([
+	immutable response = JSONValue([
 		"spellTypes": generateSpellTypesJSON(),
-		"inventorySize": JSONValue(CONFIG.inventorySize)
+		"inventorySize": JSONValue(CONFIG.inventorySize),
+		"humanReadableEffects": JSONValue(SpellFactory.getHumanReadableEffects())
 	]);
+
 	res.writeJsonBody(response);
 }
 

@@ -123,6 +123,16 @@ final class SpellFactory {
 	static uint getCoolDownTime(SpellName name) {
 		return registry[name].coolDownTime;
 	}
+
+	static string[string] getHumanReadableEffects() {
+		import std.conv;
+
+		string[string] effects;
+		foreach (name, entry; registry) {
+			effects[name.to!string] = entry.spell.humanReadableEffect;
+		}
+		return effects;
+	}
 }
 
 
