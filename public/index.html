@@ -579,6 +579,10 @@
 				margin: 2.5px;
 				border-radius: 6px;
 			}
+
+			#spellListLink {
+				outline: 0;
+			}
 		</style>
 	</head>
 
@@ -596,8 +600,8 @@
 					<input type="text" id='nicknameInput' placeholder="Enter a Nickname" maxlength="15">
 					<button id='playButton'>Play</button>
 					<label for="instructionsToggle" id='tutorial'>How to Play</label>
-					<a href="/spellList" target="_blank">
-						<button id='spellList'>Spell List</button>
+					<a id="spellListLink" href="/spellList" target="_blank">
+						<span id='spellList'>Spell List</span>
 					</a>
 					<div id="socialMedia">
 						<a href="https://www.reddit.com/r/sorcerIo/" id='redditLink' draggable="false" class='socialLink' target="_blank"></a>
