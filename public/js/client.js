@@ -532,13 +532,19 @@ sorcerio.events.keyDown = function(e) {
 			break;
 	}
 
-	const keyNum = parseInt(e.key);//the integer of the key pressed, if it is a number key. otherwise, NaN
-	if (keyNum !== NaN && keyNum-1 < sorcerio.meta.data.inventorySize) {
-		sorcerio.input.selectedItem = keyNum-1;
+	if (this.isPlaying) {
+		const keyNum = parseInt(e.key);//the integer of the key pressed, if it is a number key. otherwise, NaN
+		if (keyNum !== NaN && keyNum-1 < sorcerio.meta.data.inventorySize) {
+			sorcerio.input.selectedItem = keyNum-1;
+		}
 	}
 };
 
 sorcerio.events.onScroll = function(e) {
+	if (!this.isPlaying) {
+		return;
+	}
+
 	let newIndex = sorcerio.input.selectedItem;
 
 	if (e.deltaY > 0) {//scroll direction
@@ -575,7 +581,7 @@ sorcerio.events.keyUp = function(e) {
 	}
 };
 
-sorcerio.events.onWindowBlur = function() {
+sorcerio.events.onWindowBlur = function() {//reset all keystates so that the player's movement does not miss the keyup event and get stuck
 	sorcerio.input.keyStates.r = false;
 	sorcerio.input.keyStates.l = false;
 	sorcerio.input.keyStates.d = false;
