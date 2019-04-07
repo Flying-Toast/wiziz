@@ -23,6 +23,23 @@ enum SpellName {
 	shock
 }
 
+///the spells that are unlocked at `level`
+SpellName[] unlockedSpells(ushort level) {
+	enum SpellName[][ushort] unlockedSpells = [
+		2: [SpellName.heal],
+		3: [SpellName.bomb, SpellName.slow],
+		4: [SpellName.blind, SpellName.speed],
+		5: [SpellName.shock, SpellName.freeze],
+		6: [SpellName.teleport, SpellName.cannon],
+		7: [SpellName.invisible]
+	];
+
+	if (level in unlockedSpells) {
+		return unlockedSpells[level];
+	}
+	return [];
+}
+
 ///generates a JSON array of all spell types, used for /public/meta.json
 JSONValue generateSpellTypesJSON() {
 	import std.traits;
