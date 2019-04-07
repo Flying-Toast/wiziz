@@ -654,10 +654,8 @@ sorcerio.input.getInput = function() {
 	this.isCasting = false;
 
 	return JSON.stringify({
-		movement: {
-			facing: {x: sorcerio.game.globalCoords(this.mouseCoords.x, "x"), y: sorcerio.game.globalCoords(this.mouseCoords.y, "y")},
-			keys: this.keyStates
-		},
+		facing: {x: sorcerio.game.globalCoords(this.mouseCoords.x, "x"), y: sorcerio.game.globalCoords(this.mouseCoords.y, "y")},
+		keys: this.keyStates,
 		casting: casting,
 		dt: performance.now() - this.lastInputSendTime
 	});

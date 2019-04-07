@@ -17,12 +17,12 @@ class Input {
 
 	this(string json) {
 		JSONValue j = json.parseJSON();
-		facing = new Point(j["movement"]["facing"]["x"].integer, j["movement"]["facing"]["y"].integer);
+		facing = new Point(j["facing"]["x"].integer, j["facing"]["y"].integer);
 
-		moveUp = j["movement"]["keys"]["u"].boolean;
-		moveDown = j["movement"]["keys"]["d"].boolean;
-		moveLeft = j["movement"]["keys"]["l"].boolean;
-		moveRight = j["movement"]["keys"]["r"].boolean;
+		moveUp = j["keys"]["u"].boolean;
+		moveDown = j["keys"]["d"].boolean;
+		moveLeft = j["keys"]["l"].boolean;
+		moveRight = j["keys"]["r"].boolean;
 
 		auto rawDT = cast(ubyte) j["dt"].integer;
 		if (rawDT > CONFIG.maxInputDT) {
