@@ -84,7 +84,7 @@ sorcerio.mainLoop = function() {
 
 
 sorcerio.renderer.init = function() {
-	this.grid = {
+	this.grid = {//stuff for drawing the grid in the background (gives the illusion of the player moving).
 		xOffset: 0,
 		yOffset: 0,
 		gridSize: 40,
@@ -115,7 +115,7 @@ sorcerio.renderer.render = function() {
 	this.gameCtx.clearRect(0, 0, sorcerio.ui.gameCanvas.width, sorcerio.ui.gameCanvas.height);
 
 	for (let player of sorcerio.game.latestGameState.players) {
-		if (player.id === sorcerio.game.myPlayerId) {
+		if (player.id === sorcerio.game.myPlayerId) {//skip the client's own player -- it is rendered separately
 			continue;
 		}
 
@@ -154,6 +154,7 @@ sorcerio.renderer.renderSelf = function() {
 	this.gameCtx.restore();
 }.bind(sorcerio.renderer);
 
+//renders the grid
 sorcerio.renderer.renderGrid = function() {
 	this.grid.xOffset = -sorcerio.game.myPlayer.location.x % this.grid.gridSize;
 	this.grid.yOffset = -sorcerio.game.myPlayer.location.y % this.grid.gridSize;
@@ -192,7 +193,7 @@ sorcerio.renderer.renderGrid = function() {
 
 
 sorcerio.ui.init = function() {
-	this.uiRenderInterval = 15;
+	this.uiRenderInterval = 15;//how often (in milliseconds) to render the ui.
 	this.lastUIRenderTime = 0;
 	this.gameCanvas = document.querySelector("#gameCanvas");
 	this.gridCanvas = document.querySelector("#gridCanvas");
@@ -202,7 +203,7 @@ sorcerio.ui.init = function() {
 	gridCanvas.width = devicePixelRatio * innerWidth;
 	gridCanvas.height = devicePixelRatio * innerHeight;
 
-	window.addEventListener("resize", function() {
+	window.addEventListener("resize", function() {//this prevents the client from cheating by zooming out to see farther
 		gridCanvas.width = devicePixelRatio * innerWidth;
 		gridCanvas.height = devicePixelRatio * innerHeight;
 		gameCanvas.width = devicePixelRatio * innerWidth;
@@ -237,6 +238,7 @@ sorcerio.ui.setup = function() {
 	this.createHotbarSlots();
 }.bind(sorcerio.ui);
 
+//fills the hotbar with empty slots
 sorcerio.ui.createHotbarSlots = function() {
 	for (let i = 1; i < sorcerio.meta.data.inventorySize + 1; i++) {//creates slotImage and coolDownDisplay
 		let coolDownDisplay = document.createElement("div");
@@ -278,10 +280,12 @@ sorcerio.ui.createHotbarSlots = function() {
 	this.spellWrapper.appendChild(dummySelectionOutline);
 }.bind(sorcerio.ui);
 
+//hides the main screen, revealing the actual game
 sorcerio.ui.hideMainScreen = function() {
 	this.mainScreen.style.display = "none";
 }.bind(sorcerio.ui);
 
+//updates the 'stats display' (the stats next to the xp bar)
 sorcerio.ui.updateStatsDisplay = function() {
 	this.xpNumberDisplay.innerText = sorcerio.game.myPlayer.xp;
 	this.levelNumberDisplay.innerText = sorcerio.game.myPlayer.level;
@@ -294,18 +298,20 @@ sorcerio.ui.showMainScreen = function() {
 	this.mainScreen.style.animationName = "death";
 }.bind(sorcerio.ui);
 
+//information about the player that is sent to the server in order to create a player
 sorcerio.ui.generatePlayerConfig = function() {
-	let cfg = {
+	const cfg = {
 		nickname: this.nicknameInput.value
 	};
 
 	return JSON.stringify(cfg);
 }.bind(sorcerio.ui);
 
+//returns a leaderboard entry to be added to the leaderboard
 sorcerio.ui.createPlayerLi = function(player, place) {
 	let playerLi = document.createElement("span");
 	playerLi.classList.add("playerLi");
-	if (player.id === sorcerio.game.myPlayerId) {
+	if (player.id === sorcerio.game.myPlayerId) {//the player is the client's player:
 		playerLi.classList.add("self");
 	}
 
@@ -327,14 +333,16 @@ sorcerio.ui.createPlayerLi = function(player, place) {
 	return playerLi;
 };
 
+//calculates the current leaders and renders the leaderboard
 sorcerio.ui.updateLeaderboard = function(players) {
-	sorcerio.ui.leadersList.innerHTML = "";//clear the leaderboard first
+	this.leadersList.innerHTML = "";//clear the leaderboard first
 	let leaders = sorcerio.game.getLeaders(10);
 	for (let i = 0; i < leaders.length; i++) {
-		sorcerio.ui.leadersList.appendChild(this.createPlayerLi(leaders[i], i+1));
+		this.leadersList.appendChild(this.createPlayerLi(leaders[i], i+1));
 	}
 }.bind(sorcerio.ui);
 
+//renders the ui
 sorcerio.ui.render = function() {
 	this.updateLeaderboard(sorcerio.game.getLeaders(10));
 	this.updateStatsDisplay();
@@ -342,11 +350,13 @@ sorcerio.ui.render = function() {
 	this.updateInventory();
 }.bind(sorcerio.ui);
 
+//updates the xp and health sliders
 sorcerio.ui.updateSliders = function() {
 	this.healthSlider.style.width = `calc(${sorcerio.game.myPlayer.health / sorcerio.game.myPlayer.maxHealth * 100}% - 8px)`;
 	this.xpSlider.style.width = `calc(${(sorcerio.game.myPlayer.xp - sorcerio.game.myPlayer.lastLevelUpAtXp) / (sorcerio.game.myPlayer.levelUpAtXp - sorcerio.game.myPlayer.lastLevelUpAtXp) * 100}% - 8px)`
 }.bind(sorcerio.ui);
 
+//updates the images in the inventory, and outlines the currently selected spell
 sorcerio.ui.updateInventory = function() {
 	for (let i = 0; i < sorcerio.game.myPlayer.inventory.length; i++) {
 		const item = sorcerio.game.myPlayer.inventory[i];
@@ -360,7 +370,7 @@ sorcerio.ui.updateInventory = function() {
 			document.querySelector(`#selectionOutline${i+1}`).style.backgroundColor = "";
 		}
 
-		if (slot.attributes.src.nodeValue !== newSrc) {//only set the image's src if it is different
+		if (slot.attributes.src.nodeValue !== newSrc) {//only set the image's src if it is different from the current src.
 			slot.src = newSrc;
 		}
 	}
@@ -372,7 +382,7 @@ sorcerio.ui.updateInventory = function() {
 
 
 sorcerio.media.init = function() {
-	this.inventoryItems = {};
+	this.inventoryItems = {};//images of the inventory spells
 	this.sounds = {spellSounds: {}};
 	this.sprites = {spellEffects: {}};
 
@@ -381,7 +391,7 @@ sorcerio.media.init = function() {
 	for (const type of sorcerio.meta.data.spellTypes) {
 		this.inventoryItems[type] = `/media/images/${type}Spell.png`;
 
-		this.sprites.spellEffects[type] = this.createImage(`/media/images/${type}Effect.png`);
+		this.sprites.spellEffects[type] = this.createImage(`/media/images/${type}Effect.png`);//the image of the spell entity
 
 		this.sounds.spellSounds[type] = this.createSound(`/media/sounds/${type}Spell`);
 	}
@@ -390,13 +400,15 @@ sorcerio.media.init = function() {
 	this.sprites.playerGreen = this.createImage('/media/images/playerGreen.png');
 }.bind(sorcerio.media);
 
+//creates an image element
 sorcerio.media.createImage = function(url) {
 	let image = document.createElement("img");
 	image.src = url;
 	return image;
 };
 
-sorcerio.media.createSound = function(url) {//creates a sound with sources {url}.ogg and {url}.mp3
+//creates a sound with sources {url}.ogg and {url}.mp3
+sorcerio.media.createSound = function(url) {
 	let sound = document.createElement("audio");
 	let mp3 = document.createElement("source");
 	let ogg = document.createElement("source");
@@ -415,14 +427,15 @@ sorcerio.media.createSound = function(url) {//creates a sound with sources {url}
 
 
 sorcerio.comm.init = function() {
-	this.ws = null;
+	this.ws = null;//the websocket
 }.bind(sorcerio.comm);
 
+//connects the websocket to the server
 sorcerio.comm.newWSConnection = function() {
 	this.ws = new WebSocket(`ws${(window.location.protocol==="https:")?"s":""}://${window.location.host}/ws`);
 
 	this.ws.addEventListener("open", function() {
-		sorcerio.comm.ws.send(sorcerio.ui.generatePlayerConfig());
+		sorcerio.comm.ws.send(sorcerio.ui.generatePlayerConfig());//send the player config to the server
 	});
 
 	this.ws.addEventListener("message", function(message) {
@@ -491,7 +504,7 @@ sorcerio.events.handleServerMessage = function(message) {
 		case "yourId":
 			sorcerio.game.myPlayerId = message.id;
 
-			//wait for next "update" message before calling newGameStarted().
+			//wait for next "update" message before calling newGameStarted():
 			window.intervalId = window.setInterval(function() {
 				if (sorcerio.game.latestGameState !== null) {
 					sorcerio.events.newGameStarted();
@@ -600,7 +613,7 @@ sorcerio.game.init = function() {
 	this.myPlayer = null;
 }.bind(sorcerio.game);
 
-
+//converts coordinates that are relative to the game into coordinates that are relative to the client's screen
 sorcerio.game.localCoords = function(globalCoord, xOrY) {
 	if (sorcerio.game.myPlayer === null) {
 		return 0;
@@ -613,7 +626,7 @@ sorcerio.game.localCoords = function(globalCoord, xOrY) {
 	}
 }.bind(sorcerio.game);
 
-
+//converts coordinates that are relative to the client's screen into coordinates that are relative to the game
 sorcerio.game.globalCoords = function(localCoord, xOrY) {
 	if (sorcerio.game.myPlayer === null) {
 		return 0;
@@ -626,11 +639,12 @@ sorcerio.game.globalCoords = function(localCoord, xOrY) {
 	}
 }.bind(sorcerio.game);
 
-
+//calculates the angle that the player needs to rotate in order to face the cursor
 sorcerio.game.calculatePlayerAngle = function(player) {
 	return Math.atan2(player.facing.x - player.location.x, -(player.facing.y - player.location.y));
 };
 
+//calculates the top `number` leaders
 sorcerio.game.getLeaders = function(number) {
 	let sortedPlayers = JSON.parse(JSON.stringify(this.latestGameState.players));//duplicate the players array
 	sortedPlayers.sort(function(a, b) {
@@ -654,7 +668,7 @@ sorcerio.game.getLeaders = function(number) {
 
 
 sorcerio.input.init = function() {
-	this.mouseCoords = {x: 0, y: 0};
+	this.mouseCoords = {x: 0, y: 0};//coordinates (localCoords, not globalCoords) of the current cursor location
 	this.inputSendInterval = 10;
 	this.lastInputSendTime = 0;
 	this.controls = {
@@ -663,7 +677,7 @@ sorcerio.input.init = function() {
 		left: "a",
 		right: "d"
 	};
-	this.keyStates = {
+	this.keyStates = {//current state of movement keys
 		u: false,
 		d: false,
 		l: false,
