@@ -534,6 +534,11 @@ sorcerio.events.keyDown = function(e) {
 			sorcerio.input.keyStates.r = true;
 			break;
 	}
+
+	const keyNum = parseInt(e.key);//the integer of the key pressed, if it is a number key. otherwise, NaN
+	if (keyNum !== NaN && keyNum-1 < sorcerio.meta.data.inventorySize) {
+		sorcerio.input.selectedItem = keyNum-1;
+	}
 };
 
 sorcerio.events.keyUp = function(e) {
