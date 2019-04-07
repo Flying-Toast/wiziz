@@ -47,7 +47,8 @@ private void serveMetaJSON(HTTPServerRequest req, HTTPServerResponse res) {
 	immutable response = JSONValue([
 		"spellTypes": generateSpellTypesJSON(),
 		"inventorySize": JSONValue(CONFIG.inventorySize),
-		"humanReadableEffects": JSONValue(SpellFactory.getHumanReadableEffects())
+		"humanReadableEffects": JSONValue(SpellFactory.getHumanReadableEffects()),
+		"maxNameLength": JSONValue(CONFIG.maxNameLength)
 	]);
 
 	res.writeJsonBody(response);
