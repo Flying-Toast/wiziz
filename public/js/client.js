@@ -256,8 +256,10 @@ sorcerio.ui.createHotbarSlots = function() {
 		let selectionOutline = document.createElement("span");
 		selectionOutline.className = "selectionOutline";
 		selectionOutline.id = `selectionOutline${i}`;
-		selectionOutline.style.width = `${slotImage.width}px`;
-		selectionOutline.style.height = `${slotImage.height}px`;
+		slotImage.addEventListener("load", function() {
+			selectionOutline.style.width = `${slotImage.width}px`;
+			selectionOutline.style.height = `${slotImage.height}px`;
+		});
 
 		slotImage.addEventListener("dragstart", function(e) {
 			e.preventDefault();
