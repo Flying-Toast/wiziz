@@ -450,6 +450,7 @@ sorcerio.events.setup = function() {
 	window.addEventListener("keydown", this.keyDown);
 	window.addEventListener("blur", this.onWindowBlur);
 	window.addEventListener("keyup", this.keyUp);
+	window.addEventListener("wheel", this.onScroll);
 	sorcerio.ui.gameCanvas.addEventListener("click", this.gameClick);
 }.bind(sorcerio.events);
 
@@ -540,6 +541,26 @@ sorcerio.events.keyDown = function(e) {
 		sorcerio.input.selectedItem = keyNum-1;
 	}
 };
+
+sorcerio.events.onScroll = function(e) {
+	let newIndex = sorcerio.input.selectedItem;
+
+	if (e.deltaY > 0) {//scroll
+		newIndex--;
+	} else {
+		newIndex++;
+	}
+
+	//jump to the other end if either side of the inventory was scrolled past:
+	if (newIndex < 0) {
+		newIndex = sorcerio.game.myPlayer.inventory.length - 1;
+	}
+	if (newIndex > sorcerio.game.myPlayer.inventory.length-1) {
+		newIndex = 0;
+	}
+
+	sorcerio.input.selectedItem = newIndex;
+}.bind(sorcerio.events);
 
 sorcerio.events.keyUp = function(e) {
 	switch (e.key.toLowerCase()) {
