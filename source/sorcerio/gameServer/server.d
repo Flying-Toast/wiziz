@@ -8,7 +8,6 @@ import vibe.vibe : WebSocket;
 import std.json;
 
 class Server {
-
 	static private ushort currentPlayerId = 0;
 	/++
 	+ Generates a unique id for a child Player. It needs to be passed the current child Players so it can re-use ids.
