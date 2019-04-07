@@ -538,7 +538,7 @@ sorcerio.events.keyDown = function(e) {
 			sorcerio.input.selectedItem = keyNum-1;
 		}
 	}
-};
+}.bind(sorcerio.events);
 
 sorcerio.events.onScroll = function(e) {
 	if (!this.isPlaying) {
