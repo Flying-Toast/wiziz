@@ -1,9 +1,5 @@
 'use strict';
 
-////////////////
-////@MODULES////
-////////////////
-
 /*
 
 {module}.init() should be completely independent from all other modules. It should initialize everything in the module.
@@ -693,6 +689,7 @@ sorcerio.input.getInput = function() {
 ////END OF MODULES////
 //////////////////////
 
+//'main' function:
 window.addEventListener("load", function() {
 	console.log("%cpsst!", "font-size:20px;font-style:italic;", "\nDid you know that sorcerio is open source?\nCome check it out - contributions are welcome.\nhttps://github.com/Flying-Toast/sorcerio");
 	fetch("/meta.json").then(function(resp){return resp.json();}).then(function(metadata) {
