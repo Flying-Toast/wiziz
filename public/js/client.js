@@ -375,6 +375,7 @@ sorcerio.ui.updateInventory = function() {
 
 		if (slot.attributes.src.nodeValue !== newSrc) {//only set the image's src if it is different from the current src.
 			slot.src = newSrc;
+			slot.title = sorcerio.meta.data.humanReadableEffects[item.spellName];
 		}
 	}
 };
