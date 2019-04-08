@@ -9,9 +9,11 @@ import core.time;
 import core.thread;
 
 void startGameServer(shared MessageQueue queue) {
-	scope (exit) {
-		import core.stdc.stdlib;
-		_Exit(EXIT_FAILURE);
+	version (Posix) {
+		scope (exit) {
+			import core.stdc.stdlib;
+			_Exit(EXIT_FAILURE);
+		}
 	}
 
 	ServerManager master = new ServerManager(queue);

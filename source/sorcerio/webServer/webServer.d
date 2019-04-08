@@ -36,7 +36,13 @@ private void serveSpellList(HTTPServerRequest req, HTTPServerResponse res) {
 
 private void errorHandler(HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo err) {
 	if (err.code == 404) {
-		sendFile(req, res, GenericPath!PosixPathFormat("public/404.html"));
+		version (Posix) {
+			sendFile(req, res, GenericPath!PosixPathFormat("public/404.html"));
+		}
+
+		version (Windows) {
+			sendFile(req, res, GenericPath!WindowsPathFormat("public/404.html"));
+		}
 	} else {
 		import std.conv;
 		res.writeBody(err.code.to!string);
