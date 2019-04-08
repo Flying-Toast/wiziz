@@ -29,7 +29,8 @@ Sorcerio is not tested on Windows, so there are no guarantees that these instruc
 1. Open PowerShell.
 2. Clone the git repo: `git clone https://github.com/Flying-Toast/sorcerio`.
 3. `cd .\sorcerio`.
-4. Compile and run with `dub run --arch=x86_mscoff`. (If you get an error about OPTLINK, try adding `"versions":["VibeNoSSL"],` to dub.json).
-5. Navigate to ht<span>tp://localhost:8080 in a web browser to test/preview changes.
+4. Compile and run with `dub run --arch=x86_mscoff`.
+5. If you get a dialog about Windows Firewall, click allow.
+6. Navigate to ht<span>tp://localhost:8080 in a web browser to test/preview changes.
 
 ---
