@@ -1,0 +1,6 @@
+name "sorcerio"
+description "Sorcer.io server"
+authors "Flying-Toast"
+copyright "Copyright © 2018, Flying-Toast"
+license "GPL-3.0"
+dependency "vibe-d" version="~>0.8.5"
