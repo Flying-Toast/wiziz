@@ -11,8 +11,13 @@ import core.thread;
 void startGameServer(shared MessageQueue queue) {
 	version (Posix) {
 		scope (exit) {
-			import core.stdc.stdlib;
-			_Exit(EXIT_FAILURE);
+			version (dubTest) {//for CI - don't fail when owner thread terminates
+				import core.stdc.stdlib;
+				_Exit(EXIT_SUCCESS);
+			} else {//normal behavior:
+				import core.stdc.stdlib;
+				_Exit(EXIT_FAILURE);
+			}
 		}
 	}
 
