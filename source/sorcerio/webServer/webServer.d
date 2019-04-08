@@ -38,7 +38,12 @@ void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue) {
 	router.get("/spellList", &serveSpellList);
 
 	listenHTTP(settings, router);
-	runApplication();
+
+	version (dubTest) {//this is for CI. If doing a test build, don't call runApplication() - it would freeze the CI build.
+		pragma(msg, "Building without vibe.d application.");
+	} else {
+		runApplication();
+	}
 }
 
 private void serveSpellList(HTTPServerRequest req, HTTPServerResponse res) {
