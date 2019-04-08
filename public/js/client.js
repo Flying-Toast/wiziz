@@ -276,8 +276,11 @@ sorcerio.ui.createHotbarSlots = function() {
 	let dummySelectionOutline = document.createElement("span");
 	openStorage.className = "inventorySlot";
 	dummySelectionOutline.className = "selectionOutline";
-	dummySelectionOutline.style.width = `${openStorage.width}px`;
-	dummySelectionOutline.style.height = `${openStorage.height}px`;
+
+	openStorage.addEventListener("load", function() {
+		dummySelectionOutline.style.width = `${openStorage.width}px`;
+		dummySelectionOutline.style.height = `${openStorage.height}px`;
+	});
 
 	openStorage.addEventListener("dragstart", function(e) {
 		e.preventDefault();
