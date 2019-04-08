@@ -12,9 +12,20 @@ private uint currentId = 0;
 private uint generateSocketId() {return currentId++;};
 private shared MessageQueue messageQueue;
 
+private JSONValue metaJSONResponse;
+private void serveMetaJSON(HTTPServerRequest req, HTTPServerResponse res) {
+	res.writeJsonBody(metaJSONResponse);
+}
+
 void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue) {
 	gameServerTid = gsTid;
 	messageQueue = queue;
+	metaJSONResponse = JSONValue([
+		"spellTypes": generateSpellTypesJSON(),
+		"inventorySize": JSONValue(CONFIG.inventorySize),
+		"humanReadableEffects": JSONValue(SpellFactory.getHumanReadableEffects()),
+		"maxNameLength": JSONValue(CONFIG.maxNameLength)
+	]);
 
 	HTTPServerSettings settings = new HTTPServerSettings;
 	settings.port = port;
@@ -47,17 +58,6 @@ private void errorHandler(HTTPServerRequest req, HTTPServerResponse res, HTTPSer
 		import std.conv;
 		res.writeBody(err.code.to!string);
 	}
-}
-
-private void serveMetaJSON(HTTPServerRequest req, HTTPServerResponse res) {
-	immutable response = JSONValue([
-		"spellTypes": generateSpellTypesJSON(),
-		"inventorySize": JSONValue(CONFIG.inventorySize),
-		"humanReadableEffects": JSONValue(SpellFactory.getHumanReadableEffects()),
-		"maxNameLength": JSONValue(CONFIG.maxNameLength)
-	]);
-
-	res.writeJsonBody(response);
 }
 
 private void handleSocket(scope WebSocket socket) {
