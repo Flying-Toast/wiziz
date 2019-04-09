@@ -19,21 +19,8 @@ void startGameServer(shared MessageQueue queue) {
 	ServerManager master = new ServerManager(queue);
 
 	while (true) {
-		version (dubTest) {//for CI - don't fail if owner thread terminates
-			try {
-				receiveTimeout(Duration.zero,
-					(shared PlayerConfig cfg) {
-						master.addPlayerToServer(cast(PlayerConfig) cfg);
-					},
-					(uint disconnectSocketId) {
-						master.removePlayerBySocketId(disconnectSocketId);
-					}
-				);
-			} catch (OwnerTerminated e) {
-				import core.stdc.stdlib;
-				_Exit(EXIT_SUCCESS);
-			}
-		} else {//normal behavior:
+		void receiveMessages() {
+			pragma(inline, true);
 			receiveTimeout(Duration.zero,
 				(shared PlayerConfig cfg) {
 					master.addPlayerToServer(cast(PlayerConfig) cfg);
@@ -42,6 +29,17 @@ void startGameServer(shared MessageQueue queue) {
 					master.removePlayerBySocketId(disconnectSocketId);
 				}
 			);
+		}
+
+		version (dubTest) {//for CI - don't fail if owner thread terminates
+			try {
+				receiveMessages();
+			} catch (OwnerTerminated e) {
+				import core.stdc.stdlib;
+				_Exit(EXIT_SUCCESS);
+			}
+		} else {//normal behavior:
+			receiveMessages();
 		}
 
 		master.tick();
