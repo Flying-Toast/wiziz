@@ -20,7 +20,6 @@ void startGameServer(shared MessageQueue queue) {
 
 	while (true) {
 		void receiveMessages() {
-			pragma(inline, true);
 			receiveTimeout(Duration.zero,
 				(shared PlayerConfig cfg) {
 					master.addPlayerToServer(cast(PlayerConfig) cfg);
