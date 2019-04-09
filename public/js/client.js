@@ -1,5 +1,4 @@
 'use strict';
-
 /*
 {module}.init() should be completely independent from all other modules. It should initialize everything in the module.
 {module}.setup() can use other modules
