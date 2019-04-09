@@ -1,8 +1,8 @@
 # Sorcerio
-master branch (development branch) status:  
+Master branch (development branch):  
 ![master branch build status](https://travis-ci.com/Flying-Toast/sorcerio.svg?branch=master)
 
-live branch (running at [sorcer.io](https://sorcer.io)) status:  
+Live branch (running at [sorcer.io](https://sorcer.io)):  
 ![master branch build status](https://travis-ci.com/Flying-Toast/sorcerio.svg?branch=live)
 
 ---
@@ -12,14 +12,14 @@ Play Sorcerio at [sorcer.io](https://sorcer.io).
 ---
 
 ## Building
-Sorcerio is written in D. In order to compile it, you need DMD (the D compiler) and dub (the D package/build manager). Both of these can be downloaded from [dlang.org](https://dlang.org).
+Sorcerio is written in D. In order to build it, you need DMD (the D compiler) and dub (the D package/build manager). Both of these can be downloaded from [dlang.org](https://dlang.org).
 
 ### Linux + macOS
 #### Prerequisites
 - [DMD](https://dlang.org)
 - dub (automatically installed with DMD)
 
-#### Build Instructions
+#### <span id="linuxBuildInstructions">Build Instructions</span>
 1. Clone the git repo: `git clone https://github.com/Flying-Toast/sorcerio`.
 2. `cd sorcerio`.
 3. Compile and run with `dub run` (this will also automatically fetch dependencies).
@@ -28,17 +28,24 @@ Sorcerio is written in D. In order to compile it, you need DMD (the D compiler) 
 ---
 
 ### Windows
-Sorcerio is not tested on Windows, so there are no guarantees that these instructions will work.
-#### Prerequisites
-- [git for windows](https://gitforwindows.org)
-- DMD & dub (use the [Windows installer](https://dlang.org))
+Sorcerio is not tested natively on Windows, but if you have Windows 10, you can run Sorcerio using the Windows Subsystem for Linux:
+
+### Setting up Windows Subsystem for Linux
+1. Open Control Panel -> Programs -> Turn Windows features on or off -> select "Windows Subsystem for Linux" and click OK. (Reboot if prompted).
+2. Install the ['Ubuntu' Windows app](https://www.microsoft.com/en-us/p/ubuntu-1804-lts/9n9tngvndl3q).
+3. Open the 'Ubuntu' app from the start menu.
+4. Enter a username and password as prompted.
+5. Close Ubuntu.
+6. Open PowerShell.
+7. Run `bash`.
+8. Run `curl https://raw.githubusercontent.com/Flying-Toast/sorcerio/master/wslSetup.sh | bash -s` (this will take a while).
+9. Close PowerShell.
+10. That's all for the setup! (You only have to do it once).
 
 ### Build Instructions
 1. Open PowerShell.
-2. Clone the git repo: `git clone https://github.com/Flying-Toast/sorcerio`.
-3. `cd .\sorcerio`.
-4. Compile and run with `dub run --arch=x86_mscoff`.
-5. If you get a dialog about Windows Firewall, click allow.
-6. Navigate to ht<span>tp://localhost:8080 in a web browser to test/preview changes.
+2. Run `bash`.
+3. Follow the [build instructions for Linux](#linuxBuildInstructions).
+
 
 ---
