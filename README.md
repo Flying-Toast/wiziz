@@ -31,7 +31,7 @@ Sorcerio is written in D. In order to build it, you need DMD (the D compiler) an
 Sorcerio is not tested natively on Windows, but if you have Windows 10, you can run Sorcerio using the Windows Subsystem for Linux:
 
 ### Setting up Windows Subsystem for Linux
-1. Open Control Panel -> Programs and Features -> Turn Windows features on or off -> Windows Subsystem for Linux.
+1. Open Control Panel -> Programs -> Turn Windows features on or off -> select "Windows Subsystem for Linux" and click OK. (Reboot if prompted).
 2. Install the ['Ubuntu' Windows app](https://www.microsoft.com/en-us/p/ubuntu-1804-lts/9n9tngvndl3q).
 3. Open the 'Ubuntu' app from the start menu.
 4. Enter a username and password as prompted.
