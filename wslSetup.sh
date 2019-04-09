@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script is for setting up the Windows Subsystem for Linux (Ubuntu) to develop sorcerio.
+# This script is for setting up the Windows Subsystem for Linux (Ubuntu) to develop Sorcerio.
 
 echo "Setting up development environment. This may take a while..."
 
