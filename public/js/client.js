@@ -1,7 +1,6 @@
 'use strict';
 
 /*
-
 {module}.init() should be completely independent from all other modules. It should initialize everything in the module.
 {module}.setup() can use other modules
 
@@ -14,7 +13,6 @@ sorcerio - global module, contains all submodules
 	meta - constants that are determined in the server code
 	game - game state
 	input - input stuff
-
 */
 
 const sorcerio = {
