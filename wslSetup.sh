@@ -19,3 +19,5 @@ echo "installed gcc."
 curl -fsS https://dlang.org/install.sh | bash -s dmd
 source ~/dlang/dmd-*/activate
 echo "source ~/dlang/dmd-*/activate" >> ~/.bashrc
+
+echo "Done! (You shouldn't ever have to run this again)."
