@@ -33,10 +33,6 @@ class Player {
 		return cast(uint) (((level / 0.9) ^^ 2) * 100);
 	}
 
-	bool isDead() {
-		return health <= 0;
-	}
-
 	///increases the player's level by 1
 	void levelUp() {
 		level++;
