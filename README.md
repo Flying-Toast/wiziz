@@ -1,8 +1,8 @@
 # Sorcerio
-master branch (development branch) status:  
+Master branch (development branch):  
 ![master branch build status](https://travis-ci.com/Flying-Toast/sorcerio.svg?branch=master)
 
-live branch (running at [sorcer.io](https://sorcer.io)) status:  
+Live branch (running at [sorcer.io](https://sorcer.io)):  
 ![master branch build status](https://travis-ci.com/Flying-Toast/sorcerio.svg?branch=live)
 
 ---
