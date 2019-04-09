@@ -528,6 +528,12 @@ sorcerio.events.handleServerMessage = function(message) {
 				sorcerio.game.myPlayer = myPlayer;
 			}
 			break;
+		case "death":
+			sorcerio.comm.ws.close();
+			sorcerio.events.isPlaying = false;
+			//TODO: reset game
+			sorcerio.ui.showMainScreen();
+		break;
 	}
 };
 

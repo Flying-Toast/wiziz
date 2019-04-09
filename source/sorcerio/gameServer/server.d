@@ -106,6 +106,12 @@ class Server {
 		immutable long currentTime = millis();
 
 		foreach (player; players) {
+			if (player.isDead) {
+				player.socket.send(`{"type":"death"}`);
+				players.remove(player.id);
+				continue;
+			}
+
 			if (messageQueue.messageAvailable(player.socketId)) {
 				Input input;
 				try {
