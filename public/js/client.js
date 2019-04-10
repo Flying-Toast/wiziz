@@ -101,9 +101,6 @@ sorcerio.renderer.renderFunctions.projectileSpell = function(spell) {
 	this.gameCtx.drawImage(sprite, sorcerio.game.localCoords(spell.location.x, 'x') - (sprite.width / 2), sorcerio.game.localCoords(spell.location.y, 'y') - (sprite.height / 2));
 }.bind(sorcerio.renderer);
 
-//do nothing
-sorcerio.renderer.renderFunctions.nothing = function(spell) {};
-
 sorcerio.renderer.setup = function() {
 	this.gridCtx = sorcerio.ui.gridCanvas.getContext("2d");
 	this.gameCtx = sorcerio.ui.gameCanvas.getContext("2d");

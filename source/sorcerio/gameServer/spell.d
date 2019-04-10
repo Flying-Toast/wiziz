@@ -185,6 +185,7 @@ abstract class Spell {
 
 	For example, for projectile spells, there might be a single function called "renderProjectile" that can render all projectile spells.
 	Then, any spell that declares its renderFunction as "renderProjectile", and thus gets passed to the renderProjectile() function, needs to also implement various other properties (in this case, `location`, `radius`, etc) that are specific to that type of spell.
+	Alternatively, a spell can specify "renderFunction":"nothing", and then the spell will not be sent to clients.
 	*/
 	abstract JSONValue JSONof();
 

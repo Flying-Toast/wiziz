@@ -69,7 +69,10 @@ class Server {
 		JSONValue[] spellJSON;
 
 		foreach (spell; spells) {
-			spellJSON ~= spell.JSONof();
+			JSONValue singleJSON = spell.JSONof();
+			if (singleJSON["renderFunction"].toString != "nothing") {//skip the spell if its renderFunction is "nothing"
+				spellJSON ~= singleJSON;
+			}
 		}
 
 		state["players"] = playerJSON;
