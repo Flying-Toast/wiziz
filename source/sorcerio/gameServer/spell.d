@@ -23,19 +23,30 @@ enum SpellName {
 	shock
 }
 
+private enum SpellName[][ushort] spellUnlocks = [
+	2: [SpellName.heal],
+	3: [SpellName.bomb, SpellName.slow],
+	4: [SpellName.blind, SpellName.speed],
+	5: [SpellName.shock, SpellName.freeze],
+	6: [SpellName.teleport, SpellName.cannon],
+	7: [SpellName.invisible]
+];
+
+version (dubTest) {
+	SpellName[] allUnlockableSpells() {///a single array of all SpellNames that are in spellUnlocks
+		import std.algorithm.iteration;
+
+		SpellName[] unlockableSpells;
+		spellUnlocks.values.each!(value => value.each!(item => unlockableSpells ~= item));
+
+		return unlockableSpells;
+	}
+}
+
 ///the spells that are unlocked at `level`
 SpellName[] unlockedSpells(ushort level) {
-	enum SpellName[][ushort] unlockedSpells = [
-		2: [SpellName.heal],
-		3: [SpellName.bomb, SpellName.slow],
-		4: [SpellName.blind, SpellName.speed],
-		5: [SpellName.shock, SpellName.freeze],
-		6: [SpellName.teleport, SpellName.cannon],
-		7: [SpellName.invisible]
-	];
-
-	if (level in unlockedSpells) {
-		return unlockedSpells[level];
+	if (level in spellUnlocks) {
+		return spellUnlocks[level];
 	}
 	return [];
 }

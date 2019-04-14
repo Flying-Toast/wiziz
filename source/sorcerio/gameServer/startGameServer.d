@@ -58,6 +58,12 @@ void startGameServer(shared MessageQueue queue) {
 				writeln("'", name.to!string, "' spell does not have a sound at ", baseSoundPath~"mp3");
 				error = true;
 			}
+
+			//warn if a spell is not unlockable:
+			import std.algorithm.searching : canFind;
+			if (!allUnlockableSpells.canFind(name)) {
+				writeln("NOTE: '", name.to!string, "' spell is not unlockable (not in `spellUnlocks`)");
+			}
 		}
 
 		if (error) {
