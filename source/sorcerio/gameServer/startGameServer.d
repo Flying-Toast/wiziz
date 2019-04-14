@@ -24,7 +24,7 @@ void startGameServer(shared MessageQueue queue) {
 
 		bool error = false;
 		foreach (name; [EnumMembers!SpellName]) {
-			//make sure that all spells in are registered:
+			//make sure that all spells are registered:
 			try {
 				SpellFactory.getCoolDownTime(name);
 			} catch (RangeError e) {
