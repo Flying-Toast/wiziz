@@ -1,11 +1,13 @@
 NOTE
+========
 
 The following license applies ONLY to the source code.
-All media (images, sounds, HTML/CSS, etc.) are Copyright (C) Sorcerio, all rights reserved.
-(Unless otherwised noted in public/credits.txt)
+All media* is Copyright (C) Sorcerio, all rights reserved.
+(Unless otherwised stated in public/credits.txt)
 
+* "media" refers to all images, sounds, fonts, HTML, and CSS.
+
+========
 END NOTE
-
-========================================================================================
 
 The source code for this project is licensed under the GNU GPL3 <https://www.gnu.org/licenses/gpl.txt>.
