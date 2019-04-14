@@ -129,7 +129,8 @@ final class SpellFactory {
 		if (name !in registry) {
 			registry[name] = new RegistryEntry(spell, coolDownTime);
 		} else {
-			throw new Exception("Spell already registered");
+			import std.conv;
+			throw new Exception(text("Spell '", name.to!string, "' already registered"));
 		}
 	}
 
