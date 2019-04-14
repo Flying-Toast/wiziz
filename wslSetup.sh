@@ -6,7 +6,7 @@ echo "Setting up development environment. This may take a while..."
 
 # install dependencies:
 sudo apt-get update
-sudo apt-get install man-db -y
+sudo apt-get install man-db -y # Hangs on 'processing triggers for man-db' without this for some reason.
 echo "installed man-db."
 sudo apt-get install libssl-dev -y
 echo "installed libssl."
@@ -16,8 +16,7 @@ sudo apt-get install gcc -y
 echo "installed gcc."
 
 # install D:
-curl -fsS https://dlang.org/install.sh | bash -s dmd
-source ~/dlang/dmd-*/activate
-echo "source ~/dlang/dmd-*/activate" >> ~/.bashrc
+echo "source $(curl -fsS https://dlang.org/install.sh | bash -s dmd --activate)" >> ~/.bashrc
+source ~/.bashrc
 
 echo "Done! (You shouldn't ever have to run this again)."
