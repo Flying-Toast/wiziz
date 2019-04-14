@@ -56,7 +56,7 @@ class Player {
 	void levelUp() {
 		level++;
 		lastLevelUpAtXp = levelUpAtXp;
-		levelUpAtXp = xpNeededForLevel(level);
+		levelUpAtXp = xpNeededForLevel(cast(ushort) (level+1));
 	}
 
 	bool shouldLevelUp() {
