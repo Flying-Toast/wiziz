@@ -59,7 +59,7 @@ final class InventorySpell {
 	private long timeOfLastCast;
 	private Player owner;///the player whose inventory contains this
 
-	static JSONValue JSONofInventory(InventorySpell[CONFIG.inventorySize] inventory) {
+	static JSONValue JSONofInventory(InventorySpell[] inventory) {
 		JSONValue[] inventorySpellsJSON;
 
 		foreach (spell; inventory) {

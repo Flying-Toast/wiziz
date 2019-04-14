@@ -12,6 +12,7 @@ class Player {
 	Point facing;
 	uint socketId;
 	InventorySpell[CONFIG.inventorySize] inventory;
+	InventorySpell[] storage;
 	ubyte selectedItemIndex;
 	long health;
 	long maxHealth;
@@ -31,6 +32,20 @@ class Player {
 	///returns the amount of xp needed to get to `level`
 	static uint xpNeededForLevel(ushort level) {
 		return cast(uint) (((level / 0.9) ^^ 2) * 100);
+	}
+
+	///adds `spell` to the player's inventory, or to storage if inventory is full.
+	void appendSpell(InventorySpell spell) {
+		if (inventory[$-1] !is null) {//inventory is full - append `spell` to storage
+			storage ~= spell;
+		} else {//inventory has room
+			foreach (index, item; inventory) {//replace the first null spell
+				if (item is null) {
+					inventory[index] = spell;
+					break;
+				}
+			}
+		}
 	}
 
 	bool isDead() {
@@ -60,6 +75,7 @@ class Player {
 		json["facing"] = facing.JSONof();
 		json["id"] = id;
 		json["inventory"] = InventorySpell.JSONofInventory(inventory);
+		json["storage"] = InventorySpell.JSONofInventory(storage);
 		json["health"] = health;
 		json["maxHealth"] = maxHealth;
 		json["xp"] = xp;
