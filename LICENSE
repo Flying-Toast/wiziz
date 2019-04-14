@@ -1,13 +1,17 @@
 NOTE
 ========
 
-The following license applies ONLY to the source code.
-All media* is Copyright (C) Sorcerio, all rights reserved.
-(Unless otherwised stated in public/credits.txt)
+The license following this 'NOTE' applies ONLY to the source code* for this project.
 
-* "media" refers to all images, sounds, fonts, HTML, and CSS.
+All media* is Copyright (C) Sorcerio, all rights reserved.
+Media CANNOT be publicly used or redistributed, and is exempt from the license following this 'NOTE'
+(Unless otherwised stated in public/credits.txt).
+
+* "media" refers to all images, sounds, fonts, videos, animations, HTML, DIET templates, and CSS.
+* "source code" refers to anything in this repository that does not qualify as "media".
 
 ========
 END NOTE
+
 
 The source code for this project is licensed under the GNU GPL3 <https://www.gnu.org/licenses/gpl.txt>.
