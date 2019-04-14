@@ -229,6 +229,11 @@ sorcerio.ui.init = function() {
 	this.healthPercentDisplay = document.querySelector("#healthPercentDisplay");
 	this.xpSlider = document.querySelector("#xp");
 	this.healthSlider = document.querySelector("#health");
+	this.chooseUnlockedSpells = document.querySelector('#chooseUnlockedSpells');
+	this.chooseUnlockedSpellsWrapper = document.querySelector('#chooseUnlockedSpellsWrapper');
+
+	this.isChoosingUnlocks = false;
+	this.lastChosenUnlocks = "";
 }.bind(sorcerio.ui);
 
 sorcerio.ui.setup = function() {
@@ -351,6 +356,34 @@ sorcerio.ui.render = function() {
 	this.updateStatsDisplay();
 	this.updateSliders();
 	this.updateInventory();
+	this.displayUnlocks();
+}.bind(sorcerio.ui);
+
+sorcerio.ui.displayUnlocks = function() {
+	if (sorcerio.game.myPlayer.unlocks.length === 0 || this.isChoosingUnlocks || this.lastChosenUnlocks === sorcerio.game.myPlayer.unlocks.join(",")) {
+		return;
+	}
+
+	this.isChoosingUnlocks = true;
+	this.chooseUnlockedSpells.innerHTML = "";
+	this.lastChosenUnlocks = sorcerio.game.myPlayer.unlocks.join(",");
+
+	for (const spellType of sorcerio.game.myPlayer.unlocks) {
+		let image = sorcerio.media.createImage(sorcerio.media.inventoryItems[spellType]);
+		image.dataset.spell = spellType;
+		image.title = sorcerio.meta.data.humanReadableEffects[spellType];
+		image.className = "spellUnlock";
+
+		this.chooseUnlockedSpells.appendChild(image);
+
+		image.addEventListener('click', function(e) {
+			sorcerio.input.chooseUnlock(sorcerio.game.myPlayer.unlocks.indexOf(e.target.dataset.spell));
+			sorcerio.ui.isChoosingUnlocks = false;
+			sorcerio.ui.chooseUnlockedSpellsWrapper.style.display = "";
+		});
+	}
+
+	this.chooseUnlockedSpellsWrapper.style.display = "inline-block";
 }.bind(sorcerio.ui);
 
 //updates the xp and health sliders
@@ -695,6 +728,14 @@ sorcerio.input.init = function() {
 	};
 	this.isCasting = false;
 	this.selectedItem = 0;
+
+	this.chosenUnlockIndex = -1;
+	this.hasChosenUnlock = false;
+}.bind(sorcerio.input);
+
+sorcerio.input.chooseUnlock = function(chosenUnlock) {
+	this.hasChosenUnlock = true;
+	this.chosenUnlockIndex = chosenUnlock;
 }.bind(sorcerio.input);
 
 sorcerio.input.castSpell = function() {
@@ -706,11 +747,18 @@ sorcerio.input.getInput = function() {
 	const casting = this.isCasting;
 	this.isCasting = false;
 
+	const hasChosen = this.hasChosenUnlock;
+	this.hasChosenUnlock = false;
+	const chosenIndex = hasChosen ? this.chosenUnlockIndex : undefined;
+	this.chosenUnlockIndex = -1;
+
 	return JSON.stringify({
 		facing: {x: sorcerio.game.globalCoords(this.mouseCoords.x, "x"), y: sorcerio.game.globalCoords(this.mouseCoords.y, "y")},
 		keys: this.keyStates,
 		casting: casting,
 		selectedItem: this.selectedItem,
+		hasChosenUnlock: hasChosen,
+		chosenUnlockIndex: chosenIndex,
 		dt: performance.now() - this.lastInputSendTime
 	});
 }.bind(sorcerio.input);

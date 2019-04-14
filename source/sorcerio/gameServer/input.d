@@ -15,6 +15,8 @@ class Input {
 	immutable ubyte dt;
 	immutable bool isCasting;
 	immutable ubyte selectedItemIndex;
+	immutable bool hasChosenUnlock;
+	immutable byte chosenUnlockIndex;
 
 	this(string json) {
 		JSONValue j = json.parseJSON();
@@ -38,6 +40,13 @@ class Input {
 			selectedItemIndex = rawSelectedItemIndex;
 		} else {
 			selectedItemIndex = 0;
+		}
+
+		hasChosenUnlock = j["hasChosenUnlock"].boolean;
+		if (hasChosenUnlock) {
+			chosenUnlockIndex = cast(byte) j["chosenUnlockIndex"].integer;
+		} else {
+			chosenUnlockIndex = -1;
 		}
 	}
 }

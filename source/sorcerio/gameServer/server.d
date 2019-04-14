@@ -146,6 +146,11 @@ class Server {
 				if (input.isCasting) {
 					player.inventory[player.selectedItemIndex].castSpell(this);
 				}
+
+				if (input.hasChosenUnlock && input.chosenUnlockIndex >= 0 && input.chosenUnlockIndex < player.unlocks.length) {
+					player.appendSpell(new InventorySpell(player.unlocks[input.chosenUnlockIndex], player));
+					player.unlocks = [];
+				}
 			}
 
 			if (player.shouldLevelUp) {
