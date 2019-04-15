@@ -1,19 +1,13 @@
 # Sorcerio ![build status](https://travis-ci.com/Flying-Toast/sorcerio.svg?branch=master)
 
-
 ## Building
-Sorcerio is written in D. In order to build it, you need DMD (the D compiler) and dub (the D package/build manager). Both of these can be downloaded from [dlang.org](https://dlang.org).
+Sorcerio is written in D. In order to build it, you need dmd (the D compiler) and dub (the D package/build manager). Both of these can be downloaded from [dlang.org](https://dlang.org).
 
-### Linux + macOS
-#### Prerequisites
-- [DMD](https://dlang.org)
-- dub (automatically installed with DMD)
-
-#### <span id="linuxBuildInstructions">Build Instructions</span>
+<h3 id="linuxBuildInstructions">Linux + macOS</h3>
 1. Clone the git repo: `git clone https://github.com/Flying-Toast/sorcerio`.
 2. `cd sorcerio`.
 3. Compile and run with `dub run` (this will also automatically fetch dependencies).
-4. Navigate to ht<span>tp://localhost:8080 in a web browser to test/preview changes.
+4. Navigate to ht<span></span>tp://localhost:8080 in a web browser to test/preview changes.
 
 ---
 
