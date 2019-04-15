@@ -28,7 +28,7 @@ void startGameServer(shared MessageQueue queue) {
 			);
 		}
 
-		version (dubTest) {//for CI - don't fail if owner thread terminates
+		version (unittest) {//for CI - don't fail if owner thread terminates
 			try {
 				receiveMessages();
 			} catch (OwnerTerminated e) {

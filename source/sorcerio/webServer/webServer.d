@@ -39,7 +39,7 @@ void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue) {
 
 	listenHTTP(settings, router);
 
-	version (dubTest) {//this is for CI. If doing a test build, don't call runApplication() - it would freeze the CI build.
+	version (unittest) {//this is for CI. If doing a test build, don't call runApplication() - it would freeze the CI build.
 		pragma(msg, "Building without vibe.d application.");
 	} else {
 		runApplication();

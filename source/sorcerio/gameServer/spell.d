@@ -32,7 +32,7 @@ private enum SpellName[][ushort] spellUnlocks = [
 	7: [SpellName.invisible]
 ];
 
-version (dubTest) {
+version (unittest) {
 	SpellName[] allUnlockableSpells() {///a single array of all SpellNames that are in spellUnlocks
 		import std.algorithm.iteration;
 
