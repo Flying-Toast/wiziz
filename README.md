@@ -10,8 +10,6 @@ Sorcerio is written in D. In order to build it, you need dmd (the D compiler) an
 3. Compile and run with `dub run` (this will also automatically fetch dependencies).
 4. Navigate to ht<span></span>tp://localhost:8080 in a web browser to test/preview changes.
 
----
-
 ### Windows
 Sorcerio is not tested natively on Windows, but if you have Windows 10, you can run Sorcerio using the Windows Subsystem for Linux:
 
