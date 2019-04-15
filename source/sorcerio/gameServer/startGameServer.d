@@ -9,11 +9,9 @@ import core.time;
 import core.thread;
 
 void startGameServer(shared MessageQueue queue) {
-	version (Posix) {
-		scope (exit) {
-			import core.stdc.stdlib;
-			_Exit(EXIT_FAILURE);
-		}
+	scope (exit) {
+		import core.stdc.stdlib;
+		_Exit(EXIT_FAILURE);
 	}
 
 	version (dubTest) {//make sure that all spells are implemented
