@@ -95,7 +95,14 @@ void startGameServer(shared MessageQueue queue) {
 			receiveMessages();
 		}
 
-		master.tick();
+		try {
+			master.tick();
+		} catch (Throwable e) {
+			import std.stdio;
+			stderr.writeln(e);
+			throw e;
+		}
+
 		Thread.sleep(dur!"msecs"(5));
 	}
 }
