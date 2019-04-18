@@ -70,7 +70,7 @@ private void handleSocket(scope WebSocket socket) {
 	}
 
 	uint currentSocketId = generateSocketId();
-	socket.send(`{"type":"yourId", "id":`~currentSocketId.to!string~`}`);
+	socket.send(`{"type":"yourId","id":`~currentSocketId.to!string~`}`);
 
 	PlayerConfig cfg = new PlayerConfig(configJSON["nickname"].str, socket, currentSocketId);
 
