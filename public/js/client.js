@@ -478,6 +478,13 @@ sorcerio.comm.newWSConnection = function() {
 	this.ws.addEventListener("message", function(message) {
 		sorcerio.events.handleServerMessage(JSON.parse(message.data));
 	});
+
+	//show a message if the websocket disconnects due to the server closing (i.e. because of update)
+	this.ws.addEventListener("close", function(e) {
+		if (e.code === 1006) {
+			document.querySelector("#disconnected").style.display = "block";
+		}
+	});
 }.bind(sorcerio.comm);
 
 
