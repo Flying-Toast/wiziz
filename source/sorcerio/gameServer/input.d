@@ -7,7 +7,7 @@ import std.json;
 
 ///a class to make it easier to handle client input, which comes in as JSON
 class Input {
-	Point facing;
+	immutable Point facing;
 	immutable bool moveUp;
 	immutable bool moveDown;
 	immutable bool moveLeft;
@@ -20,7 +20,7 @@ class Input {
 
 	this(string json) {
 		JSONValue j = json.parseJSON();
-		facing = new Point(j["facing"]["x"].integer, j["facing"]["y"].integer);
+		facing = cast(immutable) new Point(j["facing"]["x"].integer, j["facing"]["y"].integer);
 
 		moveUp = j["keys"]["u"].boolean;
 		moveDown = j["keys"]["d"].boolean;
