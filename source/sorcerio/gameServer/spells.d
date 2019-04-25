@@ -90,11 +90,15 @@ abstract class ProjectileSpell : Spell {
 
 abstract class SplashSpell : ProjectileSpell {
 	///whether the spell has splashed. When it hasn't splashed, the spell behaves like a ProjectileSpell.
-	private bool splashed;
+	private {
+		bool splashed;
+		long[ushort] lastAffectTimes;
+	}
 
 	protected {
 		ushort explosionRadius;///how big the effectArea is when exploded
 		string color;///color of the explosion area (can be any valid CSS color, but use hex if possible)
+		ushort effectDelay;///(millis) minimum time between the same player being affected.
 	}
 
 	///final override this to 'lock' it (because effects are applied using different logic than ProjectileSpells)
@@ -111,13 +115,19 @@ abstract class SplashSpell : ProjectileSpell {
 		}
 	}
 
+	///whether the player can be affected or not (if at least effectDelay has passed since they were last affected).
+	protected bool canAffectPlayer(Player player) {
+		return player.id !in lastAffectTimes || millis() - lastAffectTimes[player.id] >= effectDelay;
+	}
+
 	override void tick(Server game) {
 		if (!splashed) {
 			super.tick(game);
 		} else {//SplashSpell tick:
 			foreach (player; game.players) {
-				if (player.location.distance(location) <= explosionRadius + CONFIG.playerRadius) {
+				if (player.location.distance(location) <= explosionRadius + CONFIG.playerRadius && canAffectPlayer(player)) {
 					splashAffect(player);
+					lastAffectTimes[player.id] = millis();//update the time that the player was last affected
 				}
 			}
 		}
