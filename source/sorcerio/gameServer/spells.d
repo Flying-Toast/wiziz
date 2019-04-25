@@ -93,12 +93,14 @@ abstract class SplashSpell : ProjectileSpell {
 	private {
 		bool splashed;
 		long[ushort] lastAffectTimes;
+		long splashTime;///timestamp that the spell splashed
 	}
 
 	protected {
 		ushort explosionRadius;///how big the effectArea is when exploded
 		string color;///color of the explosion area (can be any valid CSS color, but use hex if possible)
 		ushort effectDelay;///(millis) minimum time between the same player being affected.
+		ushort explosionTTL;///explosion time to live
 	}
 
 	///final override this to 'lock' it (because effects are applied using different logic than ProjectileSpells)
@@ -110,6 +112,7 @@ abstract class SplashSpell : ProjectileSpell {
 	override void die() {
 		if (!splashed) {
 			splashed = true;
+			splashTime = millis();
 		} else {
 			super.die();
 		}
@@ -124,6 +127,11 @@ abstract class SplashSpell : ProjectileSpell {
 		if (!splashed) {
 			super.tick(game);
 		} else {//SplashSpell tick:
+			if (millis() - splashTime >= explosionTTL) {//if time to live has elapsed, die
+				die();
+				return;
+			}
+
 			foreach (player; game.players) {
 				if (player.location.distance(location) <= explosionRadius + CONFIG.playerRadius && canAffectPlayer(player)) {
 					splashAffect(player);
