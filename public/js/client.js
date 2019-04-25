@@ -101,6 +101,15 @@ sorcerio.renderer.renderFunctions.projectileSpell = function(spell) {
 	this.gameCtx.drawImage(sprite, sorcerio.game.localCoords(spell.location.x, 'x') - (sprite.width / 2), sorcerio.game.localCoords(spell.location.y, 'y') - (sprite.height / 2));
 }.bind(sorcerio.renderer);
 
+sorcerio.renderer.renderFunctions.splashSpell = function(spell) {
+	this.gameCtx.fillStyle = spell.color;
+	this.gameCtx.globalAlpha = 0.8;
+	this.gameCtx.beginPath();
+	this.gameCtx.arc(sorcerio.game.localCoords(spell.location.x, 'x'), sorcerio.game.localCoords(spell.location.y, 'y'), spell.radius, 0, Math.PI * 2);
+	this.gameCtx.fill();
+	this.gameCtx.globalAlpha = 1;
+}.bind(sorcerio.renderer);
+
 sorcerio.renderer.setup = function() {
 	this.gridCtx = sorcerio.ui.gridCanvas.getContext("2d");
 	this.gameCtx = sorcerio.ui.gameCanvas.getContext("2d");
@@ -774,7 +783,7 @@ sorcerio.input.getInput = function() {
 ////END OF MODULES////
 //////////////////////
 
-//'main' function:
+//entrypoint:
 window.addEventListener("load", function() {
 	console.log("%cpsst!", "font-size:20px;font-style:italic;", "\nDid you know that sorcerio is open source?\nCome check it out - contributions are welcome.\nhttps://github.com/Flying-Toast/sorcerio");
 	fetch("/meta.json").then(function(resp){return resp.json();}).then(function(metadata) {
