@@ -5,6 +5,7 @@ cd $(dirname $0)
 # install terser for minify script
 if [[ ! $(which terser) ]]; then
 	npm install -g terser
+	echo "Installed terser."
 fi
 
 # do a release build
