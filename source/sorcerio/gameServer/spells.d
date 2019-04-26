@@ -88,6 +88,72 @@ abstract class ProjectileSpell : Spell {
 	}
 }
 
+abstract class SplashSpell : ProjectileSpell {
+	///whether the spell has splashed. When it hasn't splashed, the spell behaves like a ProjectileSpell.
+	private {
+		bool splashed;
+		long[ushort] lastAffectTimes;
+		long splashTime;///timestamp that the spell splashed
+	}
+
+	protected {
+		ushort explosionRadius;///how big the effectArea is when exploded
+		string color;///color of the explosion area (can be any valid CSS color, but use hex if possible)
+		ushort effectDelay;///(millis) minimum time between the same player being affected.
+		ushort explosionTTL;///explosion time to live
+	}
+
+	///final override this to 'lock' it (because effects are applied using different logic than ProjectileSpells)
+	final override void affectPlayer(Player player) {}
+
+	///Affect `player` with the SplashSpell's effect.
+	abstract void splashAffect(Player player);
+
+	override void die() {
+		if (!splashed) {
+			splashed = true;
+			splashTime = millis();
+		} else {
+			super.die();
+		}
+	}
+
+	///whether the player can be affected or not (if at least effectDelay has passed since they were last affected).
+	protected bool canAffectPlayer(Player player) {
+		return player.id !in lastAffectTimes || millis() - lastAffectTimes[player.id] >= effectDelay;
+	}
+
+	override void tick(Server game) {
+		if (!splashed) {
+			super.tick(game);
+		} else {//SplashSpell tick:
+			if (millis() - splashTime >= explosionTTL) {//if time to live has elapsed, die
+				die();
+				return;
+			}
+
+			foreach (player; game.players) {
+				if (player.location.distance(location) <= explosionRadius + CONFIG.playerRadius && canAffectPlayer(player)) {
+					splashAffect(player);
+					lastAffectTimes[player.id] = millis();//update the time that the player was last affected
+				}
+			}
+		}
+	}
+
+	override JSONValue JSONof() {
+		auto json = super.JSONof;
+
+		if (splashed) {//SplashSpell specific JSON
+			json["renderFunction"] = "splashSpell";
+			json["radius"] = explosionRadius;
+			json["color"] = color;
+		}
+
+		return json;
+	}
+}
+
 abstract class SelfSpell : Spell {
 	override void initialize() {}
 
@@ -172,5 +238,31 @@ class HealSpell : SelfSpell {
 	override void affect() {
 		immutable healthDiff = caster.maxHealth - caster.health;
 		caster.health += healthDiff * healPercent / 100;
+	}
+}
+
+class BombSpell : SplashSpell {
+	mixin registerSpell!(SpellName.bomb, 2300);
+
+	private ushort damage = 100;
+
+	override void initialize() {
+		speed = 0.5;
+		range = 1500;
+		radius = 10;
+		explosionRadius = 300;
+		color = "#E80606";
+		explosionTTL = 700;
+		effectDelay = cast(ushort) (explosionTTL + 1);//set this to longer than explosionTTL so that it will only affect a given player once
+		super.initialize();
+	}
+
+	override string humanReadableEffect() {
+		import std.conv;
+		return "Affected players get -" ~ damage.to!string ~ " health";
+	}
+
+	override void splashAffect(Player player) {
+		player.doDamage(damage);
 	}
 }

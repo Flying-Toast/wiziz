@@ -69,7 +69,10 @@ class Server {
 		JSONValue[] spellJSON;
 
 		foreach (spell; spells) {
-			spellJSON ~= spell.JSONof();
+			JSONValue singleJSON = spell.JSONof();
+			if (singleJSON["renderFunction"].toString != "nothing") {//skip the spell if its renderFunction is "nothing"
+				spellJSON ~= singleJSON;
+			}
 		}
 
 		state["players"] = playerJSON;
@@ -106,6 +109,12 @@ class Server {
 		immutable long currentTime = millis();
 
 		foreach (player; players) {
+			if (player.isDead) {
+				player.socket.send(`{"type":"death"}`);
+				players.remove(player.id);
+				continue;
+			}
+
 			if (messageQueue.messageAvailable(player.socketId)) {
 				Input input;
 				try {
@@ -114,7 +123,7 @@ class Server {
 					continue;
 				}
 
-				player.facing = input.facing;
+				player.facing = cast(Point) input.facing;
 
 				Point target = player.location.dup();//an imaginary point that the player moves towards
 				//it doesn't matter how much the point is moved by, it is just used for direction
@@ -136,6 +145,11 @@ class Server {
 
 				if (input.isCasting) {
 					player.inventory[player.selectedItemIndex].castSpell(this);
+				}
+
+				if (input.hasChosenUnlock && input.chosenUnlockIndex >= 0 && input.chosenUnlockIndex < player.unlocks.length) {
+					player.appendSpell(new InventorySpell(player.unlocks[input.chosenUnlockIndex], player));
+					player.unlocks = [];
 				}
 			}
 

@@ -580,13 +580,38 @@
 				border-radius: 6px;
 			}
 
+			.spellUnlock {
+				background-color: #747474;
+				border-radius: 6px;
+			}
+
 			#spellListLink {
 				outline: 0;
+			}
+
+			#disconnected {
+				z-index: 30;
+				font-size: 300%;
+				position: absolute;
+				text-align: center;
+				width: 100%;
+				top: 10vh;
+				-moz-user-select: none;
+				-webkit-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				-o-user-select: none;
+				display: none;
+			}
+
+			#reload {
+				font-size: 16px;
 			}
 		</style>
 	</head>
 
 	<body>
+		<div id="disconnected">Server disconnected.<div id="reload"><a href="javascript:location.reload()">Reload</a> to reconnect.</div></div>
 		<div id='loading'>
 			<p id='loaderText'>Loading</p>
 			<img src="media/images/backgroundImage.svg" draggable="false" class="backgroundImage">

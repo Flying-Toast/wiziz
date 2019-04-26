@@ -23,19 +23,30 @@ enum SpellName {
 	shock
 }
 
+private enum SpellName[][ushort] spellUnlocks = [
+	2: [SpellName.heal],
+	3: [SpellName.bomb, SpellName.slow],
+	4: [SpellName.blind, SpellName.speed],
+	5: [SpellName.shock, SpellName.freeze],
+	6: [SpellName.teleport, SpellName.cannon],
+	7: [SpellName.invisible]
+];
+
+version (unittest) {
+	SpellName[] allUnlockableSpells() {///a single array of all SpellNames that are in spellUnlocks
+		import std.algorithm.iteration;
+
+		SpellName[] unlockableSpells;
+		spellUnlocks.values.each!(value => value.each!(item => unlockableSpells ~= item));
+
+		return unlockableSpells;
+	}
+}
+
 ///the spells that are unlocked at `level`
 SpellName[] unlockedSpells(ushort level) {
-	enum SpellName[][ushort] unlockedSpells = [
-		2: [SpellName.heal],
-		3: [SpellName.bomb, SpellName.slow],
-		4: [SpellName.blind, SpellName.speed],
-		5: [SpellName.shock, SpellName.freeze],
-		6: [SpellName.teleport, SpellName.cannon],
-		7: [SpellName.invisible]
-	];
-
-	if (level in unlockedSpells) {
-		return unlockedSpells[level];
+	if (level in spellUnlocks) {
+		return spellUnlocks[level];
 	}
 	return [];
 }
@@ -59,7 +70,7 @@ final class InventorySpell {
 	private long timeOfLastCast;
 	private Player owner;///the player whose inventory contains this
 
-	static JSONValue JSONofInventory(InventorySpell[CONFIG.inventorySize] inventory) {
+	static JSONValue JSONofInventory(InventorySpell[] inventory) {
 		JSONValue[] inventorySpellsJSON;
 
 		foreach (spell; inventory) {
@@ -129,7 +140,8 @@ final class SpellFactory {
 		if (name !in registry) {
 			registry[name] = new RegistryEntry(spell, coolDownTime);
 		} else {
-			throw new Exception("Spell already registered");
+			import std.conv;
+			throw new Exception(text("Spell '", name.to!string, "' already registered"));
 		}
 	}
 
@@ -185,6 +197,7 @@ abstract class Spell {
 
 	For example, for projectile spells, there might be a single function called "renderProjectile" that can render all projectile spells.
 	Then, any spell that declares its renderFunction as "renderProjectile", and thus gets passed to the renderProjectile() function, needs to also implement various other properties (in this case, `location`, `radius`, etc) that are specific to that type of spell.
+	Alternatively, a spell can specify "renderFunction":"nothing", and then the spell will not be sent to clients.
 	*/
 	abstract JSONValue JSONof();
 

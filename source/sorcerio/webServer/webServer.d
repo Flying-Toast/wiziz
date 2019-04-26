@@ -39,7 +39,7 @@ void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue) {
 
 	listenHTTP(settings, router);
 
-	version (dubTest) {//this is for CI. If doing a test build, don't call runApplication() - it would freeze the CI build.
+	version (unittest) {//this is for CI. If doing a test build, don't call runApplication() - it would freeze the CI build.
 		pragma(msg, "Building without vibe.d application.");
 	} else {
 		runApplication();
@@ -52,13 +52,7 @@ private void serveSpellList(HTTPServerRequest req, HTTPServerResponse res) {
 
 private void errorHandler(HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo err) {
 	if (err.code == 404) {
-		version (Posix) {
-			sendFile(req, res, GenericPath!PosixPathFormat("public/404.html"));
-		}
-
-		version (Windows) {
-			sendFile(req, res, GenericPath!WindowsPathFormat("public/404.html"));
-		}
+		sendFile(req, res, GenericPath!PosixPathFormat("public/404.html"));
 	} else {
 		import std.conv;
 		res.writeBody(err.code.to!string);
@@ -76,7 +70,7 @@ private void handleSocket(scope WebSocket socket) {
 	}
 
 	uint currentSocketId = generateSocketId();
-	socket.send(`{"type":"yourId", "id":`~currentSocketId.to!string~`}`);
+	socket.send(`{"type":"yourId","id":`~currentSocketId.to!string~`}`);
 
 	PlayerConfig cfg = new PlayerConfig(configJSON["nickname"].str, socket, currentSocketId);
 

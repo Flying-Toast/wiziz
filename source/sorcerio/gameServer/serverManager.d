@@ -38,9 +38,9 @@ class ServerManager {
 	}
 
 	void removePlayerBySocketId(uint sockId) {
+		messageQueue.removeSocket(sockId);
 		foreach (server; servers) {
 			if (server.removePlayerBySocketId(sockId)) {
-				messageQueue.removeSocket(sockId);
 				return;
 			}
 		}
