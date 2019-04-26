@@ -7,5 +7,5 @@ jobs:
     include:
         - stage: deploy
           d: ldc
-          script: echo "Minify clientside & build release version (ldc) & deploy to digitalocean (TODO)"
+          script: bash deploy/deploy.sh
           if: branch = live AND type = push

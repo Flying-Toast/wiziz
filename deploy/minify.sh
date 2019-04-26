@@ -17,10 +17,4 @@ if [[ $FAIL == 1 ]]; then
 	exit
 fi
 
-if [[ $1 == "--clean" ]]; then
-	git checkout -- public/js/client.js
-	echo "Un-minified. It is now okay to commit to git."
-else
-	terser public/js/client.js --compress --mangle --enclose --output public/js/client.js
-	printf "Minified. \033[1;31mRemember to not check minified files in!\033[0m\n"
-fi
+terser public/js/client.js --compress --mangle --enclose --output public/js/client.js
