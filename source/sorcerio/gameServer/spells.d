@@ -124,6 +124,10 @@ abstract class SplashSpell : ProjectileSpell {
 	}
 
 	override void tick(Server game) {
+		if (removalFlag) {
+			return;
+		}
+
 		if (!splashed) {
 			super.tick(game);
 		} else {//SplashSpell tick:
