@@ -313,6 +313,9 @@ sorcerio.ui.updateStatsDisplay = function() {
 }.bind(sorcerio.ui);
 
 sorcerio.ui.showMainScreen = function() {
+	//OPERATOR: WE GET SIGNAL.
+	//CAPTAIN: WHAT!
+	//OPERATOR: MAIN SCREEN TURN ON.
 	this.mainScreen.style.display = "";
 	this.mainScreen.style.animationName = "";
 	this.mainScreen.style.animationName = "death";
