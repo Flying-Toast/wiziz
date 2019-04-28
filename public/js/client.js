@@ -53,6 +53,15 @@ sorcerio.init = function() {//called once, on page load
 	}
 };
 
+sorcerio.reset = function() {
+	//clear ui elements
+	sorcerio.ui.spellWrapper.innerHTML = "";
+	sorcerio.ui.chooseUnlockedSpells.innerHTML = "";
+	sorcerio.ui.leadersList.innerHTML = "";
+	//re-init
+	sorcerio.init();
+};
+
 
 sorcerio.mainLoop = function() {
 	const currentTime = performance.now();
@@ -591,7 +600,7 @@ sorcerio.events.handleServerMessage = function(message) {
 		case "death":
 			sorcerio.comm.ws.close();
 			sorcerio.events.isPlaying = false;
-			//TODO: reset game
+			sorcerio.reset();
 			sorcerio.ui.showMainScreen();
 		break;
 	}
