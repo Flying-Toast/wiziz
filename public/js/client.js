@@ -238,8 +238,9 @@ sorcerio.ui.init = function() {
 	this.healthPercentDisplay = document.querySelector("#healthPercentDisplay");
 	this.xpSlider = document.querySelector("#xp");
 	this.healthSlider = document.querySelector("#health");
-	this.chooseUnlockedSpells = document.querySelector('#chooseUnlockedSpells');
-	this.chooseUnlockedSpellsWrapper = document.querySelector('#chooseUnlockedSpellsWrapper');
+	this.chooseUnlockedSpells = document.querySelector("#chooseUnlockedSpells");
+	this.chooseUnlockedSpellsWrapper = document.querySelector("#chooseUnlockedSpellsWrapper");
+	this.storageWrapper = document.querySelector("#storageWrapper");
 
 	this.isChoosingUnlocks = false;
 	this.lastChosenUnlocks = "";
@@ -280,6 +281,8 @@ sorcerio.ui.createHotbarSlots = function() {
 	}
 
 	let openStorage = sorcerio.media.createImage("/media/images/openStorage.png");
+
+	openStorage.addEventListener("click", this.toggleStorage);
 
 	let dummySelectionOutline = document.createElement("span");
 	openStorage.className = "inventorySlot";
@@ -322,6 +325,14 @@ sorcerio.ui.generatePlayerConfig = function() {
 	};
 
 	return JSON.stringify(cfg);
+}.bind(sorcerio.ui);
+
+sorcerio.ui.toggleStorage = function() {
+	if (this.storageWrapper.style.display === "") {
+		this.storageWrapper.style.display = "block";
+	} else {
+		this.storageWrapper.style.display = "";
+	}
 }.bind(sorcerio.ui);
 
 //returns a leaderboard entry to be added to the leaderboard
@@ -602,6 +613,9 @@ sorcerio.events.keyDown = function(e) {
 		case sorcerio.input.controls.right:
 			sorcerio.input.keyStates.r = true;
 			break;
+		case sorcerio.input.controls.storage:
+			sorcerio.ui.toggleStorage();
+			break;
 	}
 
 	if (this.isPlaying) {
@@ -721,9 +735,9 @@ sorcerio.game.getLeaders = function(number) {
 }.bind(sorcerio.game);
 
 
-///////////
-//@INPUTS//
-///////////
+//////////
+//@INPUT//
+//////////
 
 
 sorcerio.input.init = function() {
@@ -734,7 +748,8 @@ sorcerio.input.init = function() {
 		up: "w",
 		down: "s",
 		left: "a",
-		right: "d"
+		right: "d",
+		storage: "e"
 	};
 	this.keyStates = {//current state of movement keys
 		u: false,
