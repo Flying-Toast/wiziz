@@ -323,7 +323,7 @@ sorcerio.ui.updateStatsDisplay = function() {
 
 sorcerio.ui.showMainScreen = function() {
 	//OPERATOR: WE GET SIGNAL.
-	//CAPTAIN: WHAT!
+	//CAPTAIN: WHAT !
 	//OPERATOR: MAIN SCREEN TURN ON.
 	this.mainScreen.style.display = "";
 	this.mainScreen.style.animationName = "";
