@@ -32,7 +32,7 @@ final class EventManager {
 ///A wrapper that contains a timestamp and a callback function
 private final class Event {
 	private {
-		immutable long fireTime;///Time at which that the spell should be fired
+		immutable long fireTime;///millis timestamp at which to fire the event
 		void delegate(Server) callback;
 		bool dead;
 	}
