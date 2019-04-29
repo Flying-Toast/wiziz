@@ -11,6 +11,7 @@ import sorcerio.gameServer.point;
 import sorcerio.gameServer.player;
 import sorcerio.gameServer.spell;
 import sorcerio.gameServer.config;
+import sorcerio.gameServer.event;
 
 class Server {
 	static private ushort currentPlayerId = 0;
@@ -111,6 +112,8 @@ class Server {
 
 	private void physicsTick() {
 		immutable long currentTime = millis();
+
+		EventManager.tick(this);
 
 		foreach (player; players) {
 			if (player.isDead) {
