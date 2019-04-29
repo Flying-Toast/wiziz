@@ -1,11 +1,16 @@
 module sorcerio.gameServer.server;
 
-import sorcerio;
-import sorcerio.gameServer.input;
-import sorcerio.gameServer.point;
-import sorcerio.webServer.messageQueue;
 import vibe.vibe : WebSocket;
 import std.json;
+
+import sorcerio : millis;
+import sorcerio.webServer.messageQueue;
+import sorcerio.webServer.playerConfig;
+import sorcerio.gameServer.input;
+import sorcerio.gameServer.point;
+import sorcerio.gameServer.player;
+import sorcerio.gameServer.spell;
+import sorcerio.gameServer.config;
 
 class Server {
 	static private ushort currentPlayerId = 0;

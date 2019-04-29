@@ -1,11 +1,14 @@
 module sorcerio.webServer.webServer;
 
-import sorcerio;
-import sorcerio.webServer.messageQueue;
 import vibe.vibe;
-import std.concurrency;
 import std.json;
 import std.conv;
+import std.concurrency;
+
+import sorcerio.webServer.messageQueue;
+import sorcerio.webServer.playerConfig;
+import sorcerio.gameServer.spell;
+import sorcerio.gameServer.config;
 
 private Tid gameServerTid;
 private uint currentId = 0;
