@@ -3,7 +3,6 @@ module sorcerio.gameServer.spell;
 
 import std.json : JSONValue;
 
-public import sorcerio.gameServer.spells;
 import sorcerio : millis;
 import sorcerio.gameServer.server;
 import sorcerio.gameServer.player;
