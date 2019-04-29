@@ -1,6 +1,7 @@
 #!/bin/bash
 
-cd $(dirname $0)
+# cd into deploy, in case the script is called from the root project dir
+cd deploy
 
 # install terser for minify script
 if [[ ! $(which terser) ]]; then
