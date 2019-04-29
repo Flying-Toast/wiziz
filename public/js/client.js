@@ -25,7 +25,11 @@ const sorcerio = {
 	input: {}
 };
 
-sorcerio.init = function() {//called once, on page load
+/**
+	Initializes the game.
+	`reset` is true if it is not the first initialization.
+*/
+sorcerio.init = function(reset = true) {
 	document.querySelector("#loading").style.display = "none";
 	document.querySelector("#instructionsToggle").checked = true;
 
@@ -42,6 +46,10 @@ sorcerio.init = function() {//called once, on page load
 
 	for (let module of subModules) {
 		if (module.init !== undefined) {
+			if (reset && module === sorcerio.media) {//skip the media module unless it is the first initialization
+				console.log("skipping media");
+				continue;
+			}
 			module.init();
 		}
 	}
@@ -816,6 +824,6 @@ window.addEventListener("load", function() {
 	fetch("/meta.json").then(function(resp){return resp.json();}).then(function(metadata) {
 		sorcerio.meta.data = metadata;
 		document.querySelector("#nicknameInput").attributes["maxlength"].nodeValue = sorcerio.meta.data.maxNameLength.toString();//update the maxlength of the nickname input
-		sorcerio.init();
+		sorcerio.init(false);
 	});
 });
