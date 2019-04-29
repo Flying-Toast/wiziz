@@ -14,9 +14,8 @@ import sorcerio.gameServer.config;
 
 class Server {
 	static private ushort currentPlayerId = 0;
-	/++
-	+ Generates a unique id for a child Player. It needs to be passed the current child Players so it can re-use ids.
-	+/
+
+	///Generates a unique id for a child Player. It needs to be passed the current child Players so it can re-use ids.
 	static private ushort generatePlayerId(Player[ushort] players) {
 		if (currentPlayerId == currentPlayerId.max) {
 			foreach (ushort i; 0 .. currentPlayerId.max) {//find an unused id
