@@ -58,6 +58,8 @@ unittest {//make sure that all spells are implemented
 	import std.stdio;
 	import std.conv;
 
+	import sorcerio.gameServer.spell;
+
 	bool error = false;
 	foreach (name; [EnumMembers!SpellName]) {
 		//make sure that all spells are registered:
