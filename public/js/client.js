@@ -800,10 +800,10 @@ sorcerio.input.getInput = function() {
 
 	const hasChosen = this.hasChosenUnlock;
 	this.hasChosenUnlock = false;
-	const chosenIndex = hasChosen ? this.chosenUnlockIndex : undefined;
+	const chosenIndex = hasChosen ? this.chosenUnlockIndex : null;
 	this.chosenUnlockIndex = -1;
 
-	return JSON.stringify({
+	const input = {
 		facing: {x: sorcerio.game.globalCoords(this.mouseCoords.x, "x"), y: sorcerio.game.globalCoords(this.mouseCoords.y, "y")},
 		keys: this.keyStates,
 		casting: casting,
@@ -811,7 +811,13 @@ sorcerio.input.getInput = function() {
 		hasChosenUnlock: hasChosen,
 		chosenUnlockIndex: chosenIndex,
 		dt: performance.now() - this.lastInputSendTime
-	});
+	};
+
+	if (input.chosenUnlockIndex === null) {//don't send an unneeded property to the server
+		delete input.chosenUnlockIndex;
+	}
+
+	return JSON.stringify(input);
 }.bind(sorcerio.input);
 
 //////////////////////
