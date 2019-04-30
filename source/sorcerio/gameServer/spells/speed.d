@@ -20,7 +20,7 @@ class SpeedSpell : SelfSpell {
 
 	override void affect() {
 		caster.speed *= speedMultiplier;
-		EventManager.registerEvent(millis() + effectDuration, delegate void (Server) {
+		EventManager.registerEvent(effectDuration, delegate void (Server) {
 			caster.speed /= speedMultiplier;
 		});
 	}

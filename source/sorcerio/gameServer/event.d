@@ -7,8 +7,8 @@ import sorcerio.gameServer.server;
 final class EventManager {
 	private static Event[] events;
 
-	static void registerEvent(long fireTime, void delegate(Server) callback) {
-		events ~= new Event(fireTime, callback);
+	static void registerEvent(long delay, void delegate(Server) callback) {
+		events ~= new Event(millis() + delay, callback);
 	}
 
 	static void tick(Server game) {

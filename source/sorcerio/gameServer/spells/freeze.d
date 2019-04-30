@@ -26,7 +26,7 @@ class FreezeSpell : ProjectileSpell {
 	override void affectPlayer(Player player) {
 		immutable initialSpeed = player.speed;
 		player.speed = 0;
-		EventManager.registerEvent(millis() + freezeDuration, delegate void (Server game) {
+		EventManager.registerEvent(freezeDuration, delegate void (Server game) {
 			player.speed = initialSpeed;
 		});
 	}

@@ -31,7 +31,7 @@ class ShockSpell : ProjectileSpell {
 	}
 
 	override void affectPlayer(Player player) {
-		long time = millis();
+		long time = 0;
 		foreach (i; 0 .. totalZaps) {
 			time += zapDelay;
 			EventManager.registerEvent(time, &effectCallback);
