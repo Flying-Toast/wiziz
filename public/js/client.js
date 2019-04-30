@@ -25,7 +25,11 @@ const sorcerio = {
 	input: {}
 };
 
-sorcerio.init = function() {//called once, on page load
+/**
+	Initializes the game.
+	`reset` is true if it is not the first initialization.
+*/
+sorcerio.init = function(reset = true) {
 	document.querySelector("#loading").style.display = "none";
 	document.querySelector("#instructionsToggle").checked = true;
 
@@ -42,6 +46,10 @@ sorcerio.init = function() {//called once, on page load
 
 	for (let module of subModules) {
 		if (module.init !== undefined) {
+			if (reset && module === sorcerio.media) {//skip the media module unless it is the first initialization
+				console.log("skipping media");
+				continue;
+			}
 			module.init();
 		}
 	}
@@ -51,6 +59,15 @@ sorcerio.init = function() {//called once, on page load
 			module.setup();
 		}
 	}
+};
+
+sorcerio.reset = function() {
+	//clear ui elements
+	sorcerio.ui.spellWrapper.innerHTML = "";
+	sorcerio.ui.chooseUnlockedSpells.innerHTML = "";
+	sorcerio.ui.leadersList.innerHTML = "";
+	//re-init
+	sorcerio.init();
 };
 
 
@@ -238,8 +255,9 @@ sorcerio.ui.init = function() {
 	this.healthPercentDisplay = document.querySelector("#healthPercentDisplay");
 	this.xpSlider = document.querySelector("#xp");
 	this.healthSlider = document.querySelector("#health");
-	this.chooseUnlockedSpells = document.querySelector('#chooseUnlockedSpells');
-	this.chooseUnlockedSpellsWrapper = document.querySelector('#chooseUnlockedSpellsWrapper');
+	this.chooseUnlockedSpells = document.querySelector("#chooseUnlockedSpells");
+	this.chooseUnlockedSpellsWrapper = document.querySelector("#chooseUnlockedSpellsWrapper");
+	this.storageWrapper = document.querySelector("#storageWrapper");
 
 	this.isChoosingUnlocks = false;
 	this.lastChosenUnlocks = "";
@@ -281,6 +299,8 @@ sorcerio.ui.createHotbarSlots = function() {
 
 	let openStorage = sorcerio.media.createImage("/media/images/openStorage.png");
 
+	openStorage.addEventListener("click", this.toggleStorage);
+
 	let dummySelectionOutline = document.createElement("span");
 	openStorage.className = "inventorySlot";
 	dummySelectionOutline.className = "selectionOutline";
@@ -310,6 +330,9 @@ sorcerio.ui.updateStatsDisplay = function() {
 }.bind(sorcerio.ui);
 
 sorcerio.ui.showMainScreen = function() {
+	//OPERATOR: WE GET SIGNAL.
+	//CAPTAIN: WHAT !
+	//OPERATOR: MAIN SCREEN TURN ON.
 	this.mainScreen.style.display = "";
 	this.mainScreen.style.animationName = "";
 	this.mainScreen.style.animationName = "death";
@@ -322,6 +345,14 @@ sorcerio.ui.generatePlayerConfig = function() {
 	};
 
 	return JSON.stringify(cfg);
+}.bind(sorcerio.ui);
+
+sorcerio.ui.toggleStorage = function() {
+	if (this.storageWrapper.style.display === "") {
+		this.storageWrapper.style.display = "block";
+	} else {
+		this.storageWrapper.style.display = "";
+	}
 }.bind(sorcerio.ui);
 
 //returns a leaderboard entry to be added to the leaderboard
@@ -577,7 +608,7 @@ sorcerio.events.handleServerMessage = function(message) {
 		case "death":
 			sorcerio.comm.ws.close();
 			sorcerio.events.isPlaying = false;
-			//TODO: reset game
+			sorcerio.reset();
 			sorcerio.ui.showMainScreen();
 		break;
 	}
@@ -601,6 +632,9 @@ sorcerio.events.keyDown = function(e) {
 			break;
 		case sorcerio.input.controls.right:
 			sorcerio.input.keyStates.r = true;
+			break;
+		case sorcerio.input.controls.storage:
+			sorcerio.ui.toggleStorage();
 			break;
 	}
 
@@ -721,9 +755,9 @@ sorcerio.game.getLeaders = function(number) {
 }.bind(sorcerio.game);
 
 
-///////////
-//@INPUTS//
-///////////
+//////////
+//@INPUT//
+//////////
 
 
 sorcerio.input.init = function() {
@@ -734,7 +768,8 @@ sorcerio.input.init = function() {
 		up: "w",
 		down: "s",
 		left: "a",
-		right: "d"
+		right: "d",
+		storage: "e"
 	};
 	this.keyStates = {//current state of movement keys
 		u: false,
@@ -765,10 +800,10 @@ sorcerio.input.getInput = function() {
 
 	const hasChosen = this.hasChosenUnlock;
 	this.hasChosenUnlock = false;
-	const chosenIndex = hasChosen ? this.chosenUnlockIndex : undefined;
+	const chosenIndex = hasChosen ? this.chosenUnlockIndex : null;
 	this.chosenUnlockIndex = -1;
 
-	return JSON.stringify({
+	const input = {
 		facing: {x: sorcerio.game.globalCoords(this.mouseCoords.x, "x"), y: sorcerio.game.globalCoords(this.mouseCoords.y, "y")},
 		keys: this.keyStates,
 		casting: casting,
@@ -776,7 +811,13 @@ sorcerio.input.getInput = function() {
 		hasChosenUnlock: hasChosen,
 		chosenUnlockIndex: chosenIndex,
 		dt: performance.now() - this.lastInputSendTime
-	});
+	};
+
+	if (input.chosenUnlockIndex === null) {//don't send an unneeded property to the server
+		delete input.chosenUnlockIndex;
+	}
+
+	return JSON.stringify(input);
 }.bind(sorcerio.input);
 
 //////////////////////
@@ -789,6 +830,6 @@ window.addEventListener("load", function() {
 	fetch("/meta.json").then(function(resp){return resp.json();}).then(function(metadata) {
 		sorcerio.meta.data = metadata;
 		document.querySelector("#nicknameInput").attributes["maxlength"].nodeValue = sorcerio.meta.data.maxNameLength.toString();//update the maxlength of the nickname input
-		sorcerio.init();
+		sorcerio.init(false);
 	});
 });

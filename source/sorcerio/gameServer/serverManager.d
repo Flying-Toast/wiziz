@@ -1,7 +1,9 @@
 module sorcerio.gameServer.serverManager;
 
-import sorcerio;
 import sorcerio.webServer.messageQueue;
+import sorcerio.webServer.playerConfig;
+import sorcerio.gameServer.server;
+import sorcerio.gameServer.config;
 
 class ServerManager {
 	static private ushort currentServerId = 0;

@@ -3,7 +3,6 @@ module sorcerio.gameServer.spell;
 
 import std.json : JSONValue;
 
-public import sorcerio.gameServer.spells;
 import sorcerio : millis;
 import sorcerio.gameServer.server;
 import sorcerio.gameServer.player;
@@ -23,6 +22,11 @@ enum SpellName {
 	shock
 }
 
+/**
+ Determines at what level spells get unlocked.
+
+ The key is the level that they get unlocked at.
+*/
 private enum SpellName[][ushort] spellUnlocks = [
 	2: [SpellName.heal],
 	3: [SpellName.bomb, SpellName.slow],
@@ -64,6 +68,7 @@ JSONValue generateSpellTypesJSON() {
 	return JSONValue(types);
 }
 
+///A spell in a player's inventory
 final class InventorySpell {
 	immutable SpellName name;
 	private immutable uint coolDownTime;
@@ -133,6 +138,7 @@ private class RegistryEntry {
 	}
 }
 
+///Manages the creating of spells
 final class SpellFactory {
 	private static RegistryEntry[SpellName] registry;
 
@@ -165,6 +171,7 @@ final class SpellFactory {
 }
 
 
+///Registers a spell with the SpellFactory
 mixin template registerSpell(SpellName name, uint coolDownTime) {
 	static this() {
 		SpellFactory.registerSpell(name, coolDownTime, new typeof(this));
@@ -184,6 +191,7 @@ mixin template registerSpell(SpellName name, uint coolDownTime) {
 }
 
 
+///A spell entity
 abstract class Spell {
 	const SpellName name;
 

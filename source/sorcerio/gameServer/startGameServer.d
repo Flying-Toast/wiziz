@@ -1,12 +1,13 @@
 module sorcerio.gameServer.startGameServer;
 
-import sorcerio;
-import sorcerio.webServer.messageQueue;
-
-import std.concurrency;
 import vibe.vibe : WebSocket;
+import std.concurrency;
 import core.time;
 import core.thread;
+
+import sorcerio.webServer.messageQueue;
+import sorcerio.webServer.playerConfig;
+import sorcerio.gameServer.serverManager;
 
 void startGameServer(shared MessageQueue queue) {
 	scope (exit) {
@@ -56,6 +57,8 @@ unittest {//make sure that all spells are implemented
 	import core.exception;
 	import std.stdio;
 	import std.conv;
+
+	import sorcerio.gameServer.spell;
 
 	bool error = false;
 	foreach (name; [EnumMembers!SpellName]) {

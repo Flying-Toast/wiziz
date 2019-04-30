@@ -1,17 +1,22 @@
 module sorcerio.gameServer.server;
 
-import sorcerio;
-import sorcerio.gameServer.input;
-import sorcerio.gameServer.point;
-import sorcerio.webServer.messageQueue;
 import vibe.vibe : WebSocket;
 import std.json;
 
+import sorcerio : millis;
+import sorcerio.webServer.messageQueue;
+import sorcerio.webServer.playerConfig;
+import sorcerio.gameServer.input;
+import sorcerio.gameServer.point;
+import sorcerio.gameServer.player;
+import sorcerio.gameServer.spell;
+import sorcerio.gameServer.config;
+import sorcerio.gameServer.event;
+
 class Server {
 	static private ushort currentPlayerId = 0;
-	/++
-	+ Generates a unique id for a child Player. It needs to be passed the current child Players so it can re-use ids.
-	+/
+
+	///Generates a unique id for a child Player. It needs to be passed the current child Players so it can re-use ids.
 	static private ushort generatePlayerId(Player[ushort] players) {
 		if (currentPlayerId == currentPlayerId.max) {
 			foreach (ushort i; 0 .. currentPlayerId.max) {//find an unused id
@@ -107,6 +112,8 @@ class Server {
 
 	private void physicsTick() {
 		immutable long currentTime = millis();
+
+		EventManager.tick(this);
 
 		foreach (player; players) {
 			if (player.isDead) {

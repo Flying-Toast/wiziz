@@ -1,6 +1,8 @@
-import sorcerio;
-import sorcerio.webServer.messageQueue;
 import std.concurrency;
+
+import sorcerio.webServer.messageQueue;
+import sorcerio.webServer.webServer;
+import sorcerio.gameServer.startGameServer;
 
 void main() {
 	shared queue = new MessageQueue;

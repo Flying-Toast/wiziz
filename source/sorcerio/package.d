@@ -1,4 +1,6 @@
 module sorcerio;
 
-public import sorcerio.webServer;
-public import sorcerio.gameServer;
+import core.time;
+long millis() {
+	return ticksToNSecs(MonoTime.currTime.ticks) / 1000000;
+}

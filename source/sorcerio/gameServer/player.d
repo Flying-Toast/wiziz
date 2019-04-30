@@ -1,8 +1,11 @@
 module sorcerio.gameServer.player;
 
-import sorcerio;
 import vibe.vibe : WebSocket;
 import std.json;
+
+import sorcerio.gameServer.point;
+import sorcerio.gameServer.config;
+import sorcerio.gameServer.spell;
 
 class Player {
 	immutable ushort id;

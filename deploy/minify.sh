@@ -1,10 +1,6 @@
 #!/bin/bash
 
-# Minifies clientside javascript.
-# This shouldn't really need to be used too often, it is just here for making releases.
-#
-# When called with no arguments, it minifies the all of the clientside javascript, overwriting the files with the minified versions.
-# The `--clean` argument un-minifies/resets the clientside javascript by checking it out from git.
+# This script minifies clientside javascript using terser.
 
 FAIL=0
 
