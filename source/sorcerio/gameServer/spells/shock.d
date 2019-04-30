@@ -26,15 +26,13 @@ class ShockSpell : ProjectileSpell {
 		super.initialize();
 	}
 
-	private void effectCallback(Server game) {
-		caster.doDamage(zapDamage);
-	}
-
 	override void affectPlayer(Player player) {
 		long time = 0;
 		foreach (i; 0 .. totalZaps) {
 			time += zapDelay;
-			EventManager.registerEvent(time, &effectCallback);
+			EventManager.registerEvent(time, delegate void (Server) {
+				player.doDamage(zapDamage);
+			});
 		}
 	}
 }
