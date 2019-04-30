@@ -27,4 +27,8 @@ echo "Minified."
 tar -czf sorcerio.tar.gz ./public/ ./sorcerio
 echo "Packaged."
 
-# TODO: scp it to the server and restart the server
+# Deploy
+openssl aes-256-cbc -K $encrypted_85a0c774629c_key -iv $encrypted_85a0c774629c_iv -in private.key.enc -out ~/.ssh/private.key -d
+echo "3072 SHA256:rjWI35wZvEfKkJ1MjPPPWVh38Gf7HvffrL+2UJFDWF8" >> ~/.ssh/known_hosts
+scp sorcerio.tar.gz sorcer@47.90.255.213:~/sorcerio/
+echo "Deployed."
