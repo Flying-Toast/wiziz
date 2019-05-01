@@ -9,9 +9,8 @@ import sorcerio.gameServer.server;
 import sorcerio.gameServer.config;
 
 abstract class SplashSpell : ProjectileSpell {
-	///whether the spell has splashed. When it hasn't splashed, the spell behaves like a ProjectileSpell.
 	private {
-		bool splashed;
+		bool splashed;///whether the spell has splashed. When it hasn't splashed, the spell behaves like a ProjectileSpell.
 		long[ushort] lastAffectTimes;
 		long splashTime;///timestamp that the spell splashed
 	}
