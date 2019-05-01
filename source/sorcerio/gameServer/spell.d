@@ -8,6 +8,7 @@ import sorcerio.gameServer.server;
 import sorcerio.gameServer.player;
 import sorcerio.gameServer.config;
 
+///
 enum SpellName {
 	fire,
 	cannon,
@@ -128,6 +129,7 @@ final class InventorySpell {
 	}
 }
 
+///an entry in the SpellFactory. This class is completely internal to SpellFactory.
 private class RegistryEntry {
 	Spell spell;
 	uint coolDownTime;///the coolDownTime of the inventory spell

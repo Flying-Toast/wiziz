@@ -27,18 +27,21 @@ class ServerManager {
 	private Server[ushort] servers;
 	private shared MessageQueue messageQueue;
 
+	///Creates a player from `cfg` in an available server
 	ushort addPlayerToServer(PlayerConfig cfg) {
 		ushort serverId = getOrCreateServer();
 		servers[serverId].addPlayer(cfg);
 		return serverId;
 	}
 
+	///tick all the servers
 	void tick() {
 		foreach(server; servers) {
 			server.tick();
 		}
 	}
 
+	///removes the player with the given socket id from their server
 	void removePlayerBySocketId(uint sockId) {
 		messageQueue.removeSocket(sockId);
 		foreach (server; servers) {
@@ -48,6 +51,7 @@ class ServerManager {
 		}
 	}
 
+	///creates a new server, adds it to `servers`, and returns the new server's id
 	private ushort createServer() {
 		immutable ushort id = ServerManager.generateServerId(servers);
 		Server newServer = new Server(id, messageQueue);
@@ -55,6 +59,7 @@ class ServerManager {
 		return id;
 	}
 
+	///Returns the id of a non-full server, creating a new server if there isn't an available one
 	private ushort getOrCreateServer() {
 		foreach (server; servers) {
 			if (!server.isFull) {

@@ -12,14 +12,14 @@ class Player {
 	WebSocket socket;
 	float speed;
 	Point location;
-	Point facing;
+	Point facing;///global coords of the client's cursor
 	uint socketId;
 	InventorySpell[CONFIG.inventorySize] inventory;
 	InventorySpell[] storage;
-	SpellName[] unlocks;//the current choice of unlocked spells
-	ubyte selectedItemIndex;
+	SpellName[] unlocks;///the current choice of unlocked spells
+	ubyte selectedItemIndex;///the index of the currently selected item in the inventory, i.e. `inventory[selectedItemIndex]` is the currently selected spell.
 	long health;
-	long maxHealth;
+	long maxHealth;///How much the player has at full health
 
 	private {
 		immutable string nickname;
@@ -64,14 +64,17 @@ class Player {
 		unlocks = unlockedSpells(level);
 	}
 
+	///checks if the player is able to level up
 	bool shouldLevelUp() {
 		return xp >= levelUpAtXp && unlocks.length == 0;//dont level up if the player has not chosen unlocked spells
 	}
 
+	///subtracts `damage` from the player's health
 	void doDamage(int damage) {
 		health -= damage;
 	}
 
+	///JSON representation of the player that is sent to the clients
 	JSONValue JSONof() {
 		import std.conv;
 

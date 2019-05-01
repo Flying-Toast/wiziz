@@ -9,6 +9,7 @@ import sorcerio.webServer.messageQueue;
 import sorcerio.webServer.playerConfig;
 import sorcerio.gameServer.serverManager;
 
+///
 void startGameServer(shared MessageQueue queue) {
 	scope (exit) {
 		import core.stdc.stdlib;
@@ -52,7 +53,7 @@ void startGameServer(shared MessageQueue queue) {
 	}
 }
 
-unittest {//make sure that all spells are implemented
+unittest {///make sure that all spells are implemented
 	import std.traits;
 	import core.exception;
 	import std.stdio;
