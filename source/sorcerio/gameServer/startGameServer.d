@@ -67,8 +67,8 @@ unittest {///make sure that all spells are implemented
 		try {
 			SpellFactory.getCoolDownTime(name);
 		} catch (RangeError e) {
-			writeln("Spell not registered with SpellFactory: ", name);
-			//error = true;//TODO: uncomment this once all spells are implemented
+			writeln("'", name.to!string, "' spell is not registered with SpellFactory.");
+			error = true;
 		}
 
 		//make sure that all spells have images for their inventory slot:
