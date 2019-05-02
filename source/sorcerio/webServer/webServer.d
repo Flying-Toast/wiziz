@@ -4,6 +4,9 @@ import vibe.vibe;
 import std.json;
 import std.conv;
 import std.concurrency;
+import std.traits;
+import std.algorithm : map;
+import std.range : array;
 
 import sorcerio.webServer.messageQueue;
 import sorcerio.webServer.playerConfig;
@@ -20,15 +23,22 @@ private void serveMetaJSON(HTTPServerRequest req, HTTPServerResponse res) {
 	res.writeJsonBody(metaJSONResponse);
 }
 
+private enum string[] spellTypes = [EnumMembers!SpellName].map!(a => a.to!string).array;
+private string[string] humanReadableEffects;
+
 void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue) {
 	gameServerTid = gsTid;
 	messageQueue = queue;
+
+	humanReadableEffects = SpellFactory.getHumanReadableEffects;
+
 	metaJSONResponse = JSONValue([
 		"spellTypes": generateSpellTypesJSON(),
 		"inventorySize": JSONValue(CONFIG.inventorySize),
-		"humanReadableEffects": JSONValue(SpellFactory.getHumanReadableEffects()),
+		"humanReadableEffects": JSONValue(humanReadableEffects),
 		"maxNameLength": JSONValue(CONFIG.maxNameLength)
 	]);
+
 
 	HTTPServerSettings settings = new HTTPServerSettings;
 	settings.port = port;
@@ -50,7 +60,7 @@ void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue) {
 }
 
 private void serveSpellList(HTTPServerRequest req, HTTPServerResponse res) {
-	res.render!("spellList.dt");
+	res.render!("spellList.dt", spellTypes, humanReadableEffects);
 }
 
 private void errorHandler(HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo err) {
