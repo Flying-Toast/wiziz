@@ -50,7 +50,7 @@ void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue) {
 }
 
 private void serveSpellList(HTTPServerRequest req, HTTPServerResponse res) {
-	res.render!("spellList.dt", req);
+	res.render!("spellList.dt");
 }
 
 private void errorHandler(HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo err) {
