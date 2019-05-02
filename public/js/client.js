@@ -156,20 +156,33 @@ sorcerio.renderer.render = function() {
 	}
 }.bind(sorcerio.renderer);
 
+//renders an invisible player at 0,0. the ctx needs to be translated to the proper location before calling this.
+sorcerio.renderer.renderInvisiblePlayer = function() {
+	this.gameCtx.fillStyle = this.grid.backgroundColor;
+	this.gameCtx.globalAlpha = 0.6;
+	this.gameCtx.beginPath();
+	this.gameCtx.arc(0, 0, 65, 0, Math.PI * 2);
+	this.gameCtx.fill();
+}.bind(sorcerio.renderer);
+
 sorcerio.renderer.renderPlayer = function(player) {
 	this.gameCtx.save();
 	this.gameCtx.translate(sorcerio.game.localCoords(player.location.x, 'x'), sorcerio.game.localCoords(player.location.y, 'y'));
 	this.gameCtx.rotate(sorcerio.game.calculatePlayerAngle(player));
-	this.gameCtx.drawImage(sorcerio.media.sprites.playerRed, -sorcerio.media.sprites.playerRed.width / 2, -sorcerio.media.sprites.playerRed.height / 2);
-	this.gameCtx.restore();
-	this.gameCtx.save();
-	this.gameCtx.translate(sorcerio.game.localCoords(player.location.x, 'x'), sorcerio.game.localCoords(player.location.y, 'y'));
-	this.gameCtx.font = "20px newRocker";
-	this.gameCtx.fillStyle = '#2dafaf';
-	this.gameCtx.fillText(player.nickname, -(this.gameCtx.measureText(player.nickname).width / 2), 80);
-	this.gameCtx.font = "18px agane";
-	this.gameCtx.fillStyle = '#2dafaf';
-	this.gameCtx.fillText('lvl ' + player.level, -(this.gameCtx.measureText('lvl ' + player.level).width / 2), 100);
+	if (!player.flags.invisible) {
+		this.gameCtx.drawImage(sorcerio.media.sprites.playerRed, -sorcerio.media.sprites.playerRed.width / 2, -sorcerio.media.sprites.playerRed.height / 2);
+		this.gameCtx.restore();
+		this.gameCtx.save();
+		this.gameCtx.translate(sorcerio.game.localCoords(player.location.x, 'x'), sorcerio.game.localCoords(player.location.y, 'y'));
+		this.gameCtx.font = "20px newRocker";
+		this.gameCtx.fillStyle = '#2dafaf';
+		this.gameCtx.fillText(player.nickname, -(this.gameCtx.measureText(player.nickname).width / 2), 80);
+		this.gameCtx.font = "18px agane";
+		this.gameCtx.fillStyle = '#2dafaf';
+		this.gameCtx.fillText('lvl ' + player.level, -(this.gameCtx.measureText('lvl ' + player.level).width / 2), 100);
+	} else {
+		this.renderInvisiblePlayer();
+	}
 	this.gameCtx.restore();
 }.bind(sorcerio.renderer);
 
@@ -177,7 +190,11 @@ sorcerio.renderer.renderSelf = function() {
 	this.gameCtx.save();
 	this.gameCtx.translate(sorcerio.ui.gameCanvas.width / 2, sorcerio.ui.gameCanvas.height / 2);
 	this.gameCtx.rotate(Math.atan2(sorcerio.input.mouseCoords.x - sorcerio.ui.gameCanvas.width / 2, -(sorcerio.input.mouseCoords.y - sorcerio.ui.gameCanvas.height / 2)));
-	this.gameCtx.drawImage(sorcerio.media.sprites.playerGreen, -sorcerio.media.sprites.playerGreen.width / 2, -sorcerio.media.sprites.playerGreen.height / 2);
+	if (!sorcerio.game.myPlayer.flags.invisible) {
+		this.gameCtx.drawImage(sorcerio.media.sprites.playerGreen, -sorcerio.media.sprites.playerGreen.width / 2, -sorcerio.media.sprites.playerGreen.height / 2);
+	} else {
+		this.renderInvisiblePlayer();
+	}
 	this.gameCtx.restore();
 }.bind(sorcerio.renderer);
 

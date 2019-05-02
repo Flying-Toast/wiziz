@@ -11,7 +11,7 @@ class BlindSpell : SplashSpell {
 
 	override string humanReadableEffect() {
 		import std.conv;
-		return "Affected players become \"blinded\" and their screens go dark for " ~ duration.to!string ~ " seconds";
+		return "Affected players become \"blinded\" and their screens go dark for " ~ (duration / 1000).to!string ~ " seconds";
 	}
 
 	override void initialize() {
