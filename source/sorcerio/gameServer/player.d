@@ -20,6 +20,7 @@ class Player {
 	ubyte selectedItemIndex;///the index of the currently selected item in the inventory, i.e. `inventory[selectedItemIndex]` is the currently selected spell.
 	long health;
 	long maxHealth;///How much the player has at full health
+	bool[string] effectFlags;///Flags for sending extra data about the effects on a player to the clients
 
 	private {
 		immutable string nickname;
@@ -94,6 +95,7 @@ class Player {
 		json["levelUpAtXp"] = levelUpAtXp;
 		json["lastLevelUpAtXp"] = lastLevelUpAtXp;
 		json["unlocks"] = JSONValue(unlocks.to!(string[]));
+		json["flags"] = effectFlags;
 
 		return json;
 	}

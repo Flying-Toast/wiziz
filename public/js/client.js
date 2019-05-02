@@ -149,6 +149,11 @@ sorcerio.renderer.render = function() {
 	for (let spell of sorcerio.game.latestGameState.spells) {
 		sorcerio.renderer.renderFunctions[spell.renderFunction](spell);
 	}
+
+	if (sorcerio.game.myPlayer.flags.blind) {
+		this.gameCtx.fillStyle = "rgba(0, 0, 0, 0.98)";
+		this.gameCtx.fillRect(0, 0, sorcerio.ui.gameCanvas.width, sorcerio.ui.gameCanvas.height);
+	}
 }.bind(sorcerio.renderer);
 
 sorcerio.renderer.renderPlayer = function(player) {
