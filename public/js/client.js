@@ -47,7 +47,6 @@ sorcerio.init = function(reset = true) {
 	for (let module of subModules) {
 		if (module.init !== undefined) {
 			if (reset && module === sorcerio.media) {//skip the media module unless it is the first initialization
-				console.log("skipping media");
 				continue;
 			}
 			module.init();
