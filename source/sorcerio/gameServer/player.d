@@ -96,6 +96,7 @@ class Player {
 		json["lastLevelUpAtXp"] = lastLevelUpAtXp;
 		json["unlocks"] = JSONValue(unlocks.to!(string[]));
 		json["flags"] = effectFlags;
+		json["speed"] = speed;
 
 		return json;
 	}

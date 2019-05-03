@@ -165,6 +165,11 @@ sorcerio.renderer.renderInvisiblePlayer = function() {
 	this.gameCtx.fill();
 }.bind(sorcerio.renderer);
 
+//renders the ice overlay for a frozen player at 0,0. the ctx needs to be translated to the proper location before calling this.
+sorcerio.renderer.renderFrozenOverlay = function() {
+	this.gameCtx.drawImage(sorcerio.media.sprites.frozenOverlay, -sorcerio.media.sprites.frozenOverlay.width / 2, -sorcerio.media.sprites.frozenOverlay.height / 2);
+}.bind(sorcerio.renderer);
+
 sorcerio.renderer.renderPlayer = function(player) {
 	this.gameCtx.save();
 	this.gameCtx.translate(sorcerio.game.localCoords(player.location.x, 'x'), sorcerio.game.localCoords(player.location.y, 'y'));
@@ -180,6 +185,10 @@ sorcerio.renderer.renderPlayer = function(player) {
 		this.gameCtx.font = "18px agane";
 		this.gameCtx.fillStyle = '#2dafaf';
 		this.gameCtx.fillText('lvl ' + player.level, -(this.gameCtx.measureText('lvl ' + player.level).width / 2), 100);
+		if (player.speed === 0) {
+			this.gameCtx.rotate(sorcerio.game.calculatePlayerAngle(player));
+			this.renderFrozenOverlay();
+		}
 	} else {
 		this.renderInvisiblePlayer();
 	}
@@ -192,6 +201,9 @@ sorcerio.renderer.renderSelf = function() {
 	this.gameCtx.rotate(Math.atan2(sorcerio.input.mouseCoords.x - sorcerio.ui.gameCanvas.width / 2, -(sorcerio.input.mouseCoords.y - sorcerio.ui.gameCanvas.height / 2)));
 	if (!sorcerio.game.myPlayer.flags.invisible) {
 		this.gameCtx.drawImage(sorcerio.media.sprites.playerGreen, -sorcerio.media.sprites.playerGreen.width / 2, -sorcerio.media.sprites.playerGreen.height / 2);
+		if (sorcerio.game.myPlayer.speed === 0) {
+			this.renderFrozenOverlay();
+		}
 	} else {
 		this.renderInvisiblePlayer();
 	}
@@ -496,6 +508,7 @@ sorcerio.media.init = function() {
 
 	this.sprites.playerRed = this.createImage('/media/images/playerRed.png');
 	this.sprites.playerGreen = this.createImage('/media/images/playerGreen.png');
+	this.sprites.frozenOverlay = this.createImage('/media/images/frozenOverlay.png');
 }.bind(sorcerio.media);
 
 //creates an image element
