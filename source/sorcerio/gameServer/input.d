@@ -7,16 +7,16 @@ import std.json;
 
 ///a class to make it easier to handle client input, which comes in as JSON
 class Input {
-	immutable Point facing;
-	immutable bool moveUp;
-	immutable bool moveDown;
-	immutable bool moveLeft;
-	immutable bool moveRight;
-	immutable ubyte dt;
-	immutable bool isCasting;
-	immutable ubyte selectedItemIndex;
-	immutable bool hasChosenUnlock;
-	immutable byte chosenUnlockIndex;
+	immutable Point facing;///The global coords of the client's cursor
+	immutable bool moveUp;///if the client is pressing the up key
+	immutable bool moveDown;///if the client is pressing the down key
+	immutable bool moveLeft;///if the client is pressing the left key
+	immutable bool moveRight;///if the client is pressing the right key
+	immutable ubyte dt;///elapsed time (millis) since the client sent the previous input
+	immutable bool isCasting;///if the client is casting their selected spell.
+	immutable ubyte selectedItemIndex;///see Player.selectedItemIndex
+	immutable bool hasChosenUnlock;///if the client made their choice from their unlocks
+	immutable byte chosenUnlockIndex;///index of the chosen item in the players `unlocks`
 
 	this(string json) {
 		JSONValue j = json.parseJSON();

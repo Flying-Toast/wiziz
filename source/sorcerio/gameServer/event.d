@@ -7,10 +7,12 @@ import sorcerio.gameServer.server;
 final class EventManager {
 	private static Event[] events;
 
+	///calls `callback` after `delay` millis.
 	static void registerEvent(long delay, void delegate(Server) callback) {
 		events ~= new Event(millis() + delay, callback);
 	}
 
+	///Fire the events that are ready
 	static void tick(Server game) {
 		immutable long currentTime = millis();
 
@@ -37,10 +39,18 @@ private final class Event {
 		bool dead;
 	}
 
+	///if the event is done and can be removed from the EventManager
 	bool removalFlag() {
 		return dead;
 	}
 
+	/**
+	 Fires the event if it is ready.
+
+	Params:
+		currentTime = the current timestamp at the time of the tick
+		game = the current game state
+	*/
 	void tick(long currentTime, Server game) {
 		if (dead) {
 			return;

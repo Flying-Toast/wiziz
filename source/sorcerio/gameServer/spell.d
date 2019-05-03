@@ -8,9 +8,10 @@ import sorcerio.gameServer.server;
 import sorcerio.gameServer.player;
 import sorcerio.gameServer.config;
 
+///
 enum SpellName {
 	fire,
-	cannon,
+	//cannon,
 	slow,
 	freeze,
 	blind,
@@ -32,7 +33,7 @@ private enum SpellName[][ushort] spellUnlocks = [
 	3: [SpellName.bomb, SpellName.slow],
 	4: [SpellName.blind, SpellName.speed],
 	5: [SpellName.shock, SpellName.freeze],
-	6: [SpellName.teleport, SpellName.cannon],
+	6: [SpellName.teleport/*, SpellName.cannon*/],
 	7: [SpellName.invisible]
 ];
 
@@ -128,6 +129,7 @@ final class InventorySpell {
 	}
 }
 
+///an entry in the SpellFactory. This class is completely internal to SpellFactory.
 private class RegistryEntry {
 	Spell spell;
 	uint coolDownTime;///the coolDownTime of the inventory spell

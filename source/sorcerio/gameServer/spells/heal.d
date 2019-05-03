@@ -5,7 +5,7 @@ import sorcerio.gameServer.spells.base.self;
 class HealSpell : SelfSpell {
 	mixin registerSpell!(SpellName.heal, 15000);
 
-	private enum ubyte healPercent = 30;//the percent of the caster's lost health to heal
+	private enum ubyte healPercent = 30;///the percent of the caster's lost health to heal
 
 	override string humanReadableEffect() {
 		import std.conv;

@@ -3,24 +3,28 @@ module sorcerio.gameServer.point;
 import sorcerio;
 import std.json;
 
-///
+///a 2D point
 class Point {
+	///Calculates the distance between `a` and `b`
 	static double distance(Point a, Point b) {///
 		import std.math;
 		return sqrt( ((a.x - b.x)^^2) + ((a.y - b.y)^^2) );
 	}
 
+	///Calculates the distance from this to `b`
 	double distance(Point b) {
 		return Point.distance(this, b);
 	}
 
+	///returns a copy (new instance with same properties) of this point
 	Point dup() {
 		return new Point(x, y);
 	}
 
-	double x;
-	double y;
+	double x;///
+	double y;///
 
+	///
 	JSONValue JSONof() {
 		JSONValue json = JSONValue();
 
@@ -30,10 +34,12 @@ class Point {
 		return json;
 	}
 
+	///Move this point to the location of `point`
 	void moveTo(Point point) {
 		moveTo(point.x, point.y);
 	}
 
+	///Move this point to (`x`, `y`)
 	void moveTo(double x, double y) {
 		this.x = x;
 		this.y = y;
@@ -73,6 +79,7 @@ class Point {
 	}
 }
 
+///random integer between `min` and `max`, inclusive
 private int randInt(int min, int max) {
 	import std.random;
 	Random generator = Random(unpredictableSeed);

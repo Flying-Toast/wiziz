@@ -75,7 +75,7 @@ class Server {
 
 		foreach (spell; spells) {
 			JSONValue singleJSON = spell.JSONof();
-			if (singleJSON["renderFunction"].toString != "nothing") {//skip the spell if its renderFunction is "nothing"
+			if (singleJSON["renderFunction"].str != "nothing") {//skip the spell if its renderFunction is "nothing"
 				spellJSON ~= singleJSON;
 			}
 		}
