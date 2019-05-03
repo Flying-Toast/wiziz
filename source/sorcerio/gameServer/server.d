@@ -111,7 +111,7 @@ class Server {
 	}
 
 	private void physicsTick() {
-		immutable long currentTime = millis();
+		immutable currentTime = millis();
 
 		EventManager.tick(this);
 

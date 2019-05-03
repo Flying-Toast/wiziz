@@ -63,8 +63,8 @@ abstract class ProjectileSpell : Spell {
 			return;
 		}
 
-		long currentTime = millis();
-		long dt = currentTime - lastMove;
+		immutable currentTime = millis();
+		immutable long dt = currentTime - lastMove;
 
 		foreach (player; game.players) {
 			if (player == caster) {//skip the caster of this spell
