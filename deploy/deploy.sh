@@ -29,7 +29,7 @@ echo "Packaged."
 
 # Deploy
 openssl aes-256-cbc -K $encrypted_85a0c774629c_key -iv $encrypted_85a0c774629c_iv -in private.key.enc -out ~/.ssh/id_rsa -d
-echo "47.90.255.213 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAvIQnJnIc40u3Dq96TiZ5O3EcANBFlNW0c3vQWFWb5W64jUwwG1sZRxI5n1jc3XGNtR9l/6oWdHfSo+HYBppTvzoTU3zOwaN3mkZ432XCfW0lmQZ2woyzfbMqsy5CCChaR0rNcS0/sreIKpqlRqKw05rAh26rA/bpBcgSjsxPfGjk+fTNUqP4FvZmjh+MxKBN/ZKAOgT+Hz79OhvZB2D7KbXvWw+T3ta8F6Kcg3m2l+y2TAJfLwTXKkpk+4ZjrnlpfEpysSqaX7oCYzJeYTwRICDMTRSUPC9/twvlnbwZRkKxQXsM2Sj9hGITxBgFKGfQC99lyYI+mxoDepMu+mWl" >> ~/.ssh/known_hosts # generate with ssh-keyscan -t rsa ip_of_vps
-scp sorcerio.tar.gz sorcer@47.90.255.213:~/sorcerio/
+echo "192.81.210.68 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAVTR51Ei/wsV2cv4A+KmT8I4P+530j2x2Urm4anUsy4Z3ammDuMCbw1xlR4pp7q4vo3hJP1U0k2OJfO7dznwg0OKjTMhds2wwTmOgUK+u+wva/P1SY8YrQFOKSf/TuTTPVDNAMOdVOY9/xzCdKgemMQ8u4P3jXHIf23dHMyDydONiFcf9CxqddXnATH6T6Imgusu4/zoC5Zy804WSf2r3RuKkGjSDaqPS4hhLIcZAHTGo4+7sZBiqmY3RoQwMaLeNCmehPjqY2PuS4xQd5aggKKD6mkp6mHzSDD8/e1ZcqXq0s3QAs/pjo4fvrClnoDF9lZyeZl358NDtgCHBfomV" >> ~/.ssh/known_hosts # generate with ssh-keyscan -t rsa ip_of_vps
+scp sorcerio.tar.gz sorcerio@192.81.210.68:~/sorcerio/
 # (TODO) restart systemd service
 echo "Deployed."
