@@ -644,7 +644,7 @@ sorcerio.events.handleServerMessage = function(message) {
 			sorcerio.events.isPlaying = false;
 			sorcerio.reset();
 			sorcerio.ui.showMainScreen();
-		break;
+			break;
 	}
 };
 
