@@ -11,7 +11,6 @@ import sorcerio.gameServer.config;
 ///
 enum SpellName {
 	fire,
-	//cannon,
 	slow,
 	freeze,
 	blind,
@@ -33,7 +32,7 @@ private enum SpellName[][ushort] spellUnlocks = [
 	3: [SpellName.bomb, SpellName.slow],
 	4: [SpellName.blind, SpellName.speed],
 	5: [SpellName.shock, SpellName.freeze],
-	6: [SpellName.teleport/*, SpellName.cannon*/],
+	6: [SpellName.teleport],
 	7: [SpellName.invisible]
 ];
 
