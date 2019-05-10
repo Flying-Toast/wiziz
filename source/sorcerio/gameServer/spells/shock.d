@@ -27,10 +27,8 @@ class ShockSpell : ProjectileSpell {
 	}
 
 	override void affectPlayer(Player player) {
-		long time = 0;
-		foreach (i; 0 .. totalZaps) {
-			time += zapDelay;
-			EventManager.registerEvent(time, delegate void (Server) {
+		for (int i = 1; i <= totalZaps; i++) {
+			EventManager.registerEvent(i * zapDelay, delegate void (Server) {
 				player.doDamage(zapDamage);
 			});
 		}
