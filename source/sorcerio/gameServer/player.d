@@ -71,15 +71,9 @@ class Player {
 		return xp >= levelUpAtXp && unlocks.length == 0;//dont level up if the player has not chosen unlocked spells
 	}
 
-	/**
-		subtracts `damage` from the player's health
-
-		Returns: Whether the player was killed by the damage dealt
-	*/
-	bool doDamage(int damage) {
-		immutable wasAlreadyDead = isDead;
+	///subtracts `damage` from the player's health
+	void doDamage(int damage) {
 		health -= damage;
-		return !wasAlreadyDead && isDead;
 	}
 
 	///JSON representation of the player that is sent to the clients
