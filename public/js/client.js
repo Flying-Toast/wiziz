@@ -300,6 +300,7 @@ sorcerio.ui.init = function() {
 
 sorcerio.ui.setup = function() {
 	this.createHotbarSlots();
+	this.storage.appendChild(this.createSpellSlot(this.storage.children.length + 1));//add one empty slot to storage
 }.bind(sorcerio.ui);
 
 //fills the hotbar with empty slots
@@ -431,6 +432,7 @@ sorcerio.ui.render = function() {
 	this.updateStatsDisplay();
 	this.updateSliders();
 	this.updateInventory();
+	this.updateStorage();
 	this.displayUnlocks();
 }.bind(sorcerio.ui);
 
@@ -487,6 +489,38 @@ sorcerio.ui.updateInventory = function() {
 		}
 	}
 };
+
+//creates a slot for the inventory/storage
+sorcerio.ui.createSpellSlot = function(id) {
+	let slotImage = sorcerio.media.createImage(sorcerio.media.inventoryItems.emptySlot);
+	slotImage.classList.add("selectionOutline");
+	slotImage.id = `storageSlot${id}`;
+	slotImage.style.zIndex = 0;
+
+	return slotImage;
+};
+
+//updates the images in the storage
+sorcerio.ui.updateStorage = function() {
+	const itemsInStorage = sorcerio.game.myPlayer.storage.length;//how many spells are in storage
+	const availableStorageSlots = this.storage.children.length;//how many slots there currently are in the storage ui element
+
+	if (itemsInStorage > availableStorageSlots) {//add more slots to the storage ui element if there aren't enough
+		for (let i = 0; i < itemsInStorage - availableStorageSlots; i++) {
+			this.storage.appendChild(this.createSpellSlot(this.storage.children.length + 1));
+		}
+	}
+
+	for (let i = 0; i < sorcerio.game.myPlayer.storage.length; i++) {
+		const name = sorcerio.game.myPlayer.storage[i].spellName;
+		let slot = document.querySelector(`#storageSlot${i+1}`);
+		const newSrc = sorcerio.media.inventoryItems[name];
+
+		if (slot.src !== newSrc) {//change the src of the slot if it does not match the spell
+			slot.src = newSrc;
+		}
+	}
+}.bind(sorcerio.ui);
 
 //////////
 //@MEDIA//
