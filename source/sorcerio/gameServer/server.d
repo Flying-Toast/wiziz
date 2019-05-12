@@ -158,6 +158,14 @@ class Server {
 					player.appendSpell(new InventorySpell(player.unlocks[input.chosenUnlockIndex], player));
 					player.unlocks = [];
 				}
+
+				if (input.storageSwapIndex >= 0 && input.storageSwapIndex < player.storage.length) {
+					auto oldInventoryItem = player.inventory[player.selectedItemIndex];
+					auto oldStorageItem = player.storage[input.storageSwapIndex];
+
+					player.inventory[player.selectedItemIndex] = oldStorageItem;
+					player.storage[input.storageSwapIndex] = oldInventoryItem;
+				}
 			}
 
 			if (player.shouldLevelUp) {

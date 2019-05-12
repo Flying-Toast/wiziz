@@ -300,7 +300,7 @@ sorcerio.ui.init = function() {
 
 sorcerio.ui.setup = function() {
 	this.createHotbarSlots();
-	this.storage.appendChild(this.createSpellSlot(this.storage.children.length + 1));//add one empty slot to storage
+	this.storage.appendChild(this.createStorageSpellSlot(this.storage.children.length + 1));//add one empty slot to storage
 }.bind(sorcerio.ui);
 
 //fills the hotbar with empty slots
@@ -490,12 +490,14 @@ sorcerio.ui.updateInventory = function() {
 	}
 };
 
-//creates a slot for the inventory/storage
-sorcerio.ui.createSpellSlot = function(id) {
+//creates a slot for the storage
+sorcerio.ui.createStorageSpellSlot = function(id) {
 	let slotImage = sorcerio.media.createImage(sorcerio.media.inventoryItems.emptySlot);
 	slotImage.classList.add("selectionOutline");
 	slotImage.id = `storageSlot${id}`;
 	slotImage.style.zIndex = 0;
+
+	slotImage.addEventListener("click", sorcerio.events.storageSlotClick);
 
 	return slotImage;
 };
@@ -507,7 +509,7 @@ sorcerio.ui.updateStorage = function() {
 
 	if (itemsInStorage > availableStorageSlots) {//add more slots to the storage ui element if there aren't enough
 		for (let i = 0; i < itemsInStorage - availableStorageSlots; i++) {
-			this.storage.appendChild(this.createSpellSlot(this.storage.children.length + 1));
+			this.storage.appendChild(this.createStorageSpellSlot(this.storage.children.length + 1));
 		}
 	}
 
@@ -641,6 +643,10 @@ sorcerio.events.playButtonClick = function() {
 
 	this.isPlaying = true;
 }.bind(sorcerio.events);
+
+sorcerio.events.storageSlotClick = function(e) {
+	sorcerio.input.swapStorage(parseInt(e.target.id.split("storageSlot")[1]) - 1);
+};
 
 sorcerio.events.startNewGame = function() {
 	sorcerio.comm.newWSConnection();
@@ -852,11 +858,18 @@ sorcerio.input.init = function() {
 
 	this.chosenUnlockIndex = -1;
 	this.hasChosenUnlock = false;
+
+	this.storageSwapIndex = -1;
 }.bind(sorcerio.input);
 
 sorcerio.input.chooseUnlock = function(chosenUnlock) {
 	this.hasChosenUnlock = true;
 	this.chosenUnlockIndex = chosenUnlock;
+}.bind(sorcerio.input);
+
+//storageIndex is 0-based index
+sorcerio.input.swapStorage = function(storageIndex) {
+	this.storageSwapIndex = storageIndex;
 }.bind(sorcerio.input);
 
 sorcerio.input.castSpell = function() {
@@ -873,6 +886,9 @@ sorcerio.input.getInput = function() {
 	const chosenIndex = hasChosen ? this.chosenUnlockIndex : null;
 	this.chosenUnlockIndex = -1;
 
+	const storageIndex = this.storageSwapIndex;
+	this.storageSwapIndex = -1;
+
 	const input = {
 		facing: {x: sorcerio.game.globalCoords(this.mouseCoords.x, "x"), y: sorcerio.game.globalCoords(this.mouseCoords.y, "y")},
 		keys: this.keyStates,
@@ -880,6 +896,7 @@ sorcerio.input.getInput = function() {
 		selectedItem: this.selectedItem,
 		hasChosenUnlock: hasChosen,
 		chosenUnlockIndex: chosenIndex,
+		storageSwapIndex: storageIndex,
 		dt: performance.now() - this.lastInputSendTime
 	};
 
