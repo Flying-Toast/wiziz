@@ -5,6 +5,7 @@ import sorcerio.webServer.playerConfig;
 import sorcerio.gameServer.server;
 import sorcerio.gameServer.config;
 
+///master server, contains multiple `Server`s.
 class ServerManager {
 	static private ushort currentServerId = 0;
 	/++

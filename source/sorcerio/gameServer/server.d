@@ -13,6 +13,7 @@ import sorcerio.gameServer.spell;
 import sorcerio.gameServer.config;
 import sorcerio.gameServer.event;
 
+///A single game server
 class Server {
 	static private ushort currentPlayerId = 0;
 
