@@ -128,19 +128,19 @@ final class InventorySpell {
 	}
 }
 
-///an entry in the SpellFactory. This class is completely internal to SpellFactory.
-private class RegistryEntry {
-	Spell spell;
-	uint coolDownTime;///the coolDownTime of the inventory spell
-
-	this(Spell spell, uint coolDownTime) {
-		this.spell = spell;
-		this.coolDownTime = coolDownTime;
-	}
-}
-
 ///Manages the creating of spells
 final class SpellFactory {
+	///an entry in the SpellFactory's registry
+	private static class RegistryEntry {
+		Spell spell;
+		uint coolDownTime;///the coolDownTime of the inventory spell
+
+		this(Spell spell, uint coolDownTime) {
+			this.spell = spell;
+			this.coolDownTime = coolDownTime;
+		}
+	}
+
 	private static RegistryEntry[SpellName] registry;
 
 	static void registerSpell(SpellName name, uint coolDownTime, Spell spell) {
