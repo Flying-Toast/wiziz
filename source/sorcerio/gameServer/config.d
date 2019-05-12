@@ -2,6 +2,7 @@ module sorcerio.gameServer.config;
 
 import sorcerio;
 
+///Various configuration settings
 immutable struct CONFIG {
 	static enum string defaultNickname = "Unnamed Sorcerer";
 	static enum ubyte maxNameLength = 15;

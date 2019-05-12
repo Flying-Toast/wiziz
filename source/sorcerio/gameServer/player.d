@@ -7,6 +7,7 @@ import sorcerio.gameServer.point;
 import sorcerio.gameServer.config;
 import sorcerio.gameServer.spell;
 
+///
 class Player {
 	immutable ushort id;
 	WebSocket socket;
