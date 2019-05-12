@@ -65,6 +65,7 @@ sorcerio.reset = function() {
 	sorcerio.ui.spellWrapper.innerHTML = "";
 	sorcerio.ui.chooseUnlockedSpells.innerHTML = "";
 	sorcerio.ui.leadersList.innerHTML = "";
+	sorcerio.ui.storage.innerHTML = "";
 	//re-init
 	sorcerio.init();
 };
@@ -291,6 +292,7 @@ sorcerio.ui.init = function() {
 	this.chooseUnlockedSpells = document.querySelector("#chooseUnlockedSpells");
 	this.chooseUnlockedSpellsWrapper = document.querySelector("#chooseUnlockedSpellsWrapper");
 	this.storageWrapper = document.querySelector("#storageWrapper");
+	this.storage = document.querySelector("#storage");
 
 	this.isChoosingUnlocks = false;
 	this.lastChosenUnlocks = "";
