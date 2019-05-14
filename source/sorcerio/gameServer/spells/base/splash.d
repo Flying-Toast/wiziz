@@ -6,7 +6,7 @@ import sorcerio : millis;
 import sorcerio.gameServer.spells.base.projectile;
 import sorcerio.gameServer.player;
 import sorcerio.gameServer.server;
-import sorcerio.gameServer.config;
+import CONFIG = sorcerio.gameServer.config;
 
 abstract class SplashSpell : ProjectileSpell {
 	private {

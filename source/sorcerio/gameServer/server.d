@@ -10,7 +10,7 @@ import sorcerio.gameServer.input;
 import sorcerio.gameServer.point;
 import sorcerio.gameServer.player;
 import sorcerio.gameServer.spell;
-import sorcerio.gameServer.config;
+import CONFIG = sorcerio.gameServer.config;
 import sorcerio.gameServer.event;
 
 ///A single game server

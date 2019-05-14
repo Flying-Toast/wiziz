@@ -4,7 +4,7 @@ import vibe.vibe : WebSocket;
 import std.json;
 
 import sorcerio.gameServer.point;
-import sorcerio.gameServer.config;
+import CONFIG = sorcerio.gameServer.config;
 import sorcerio.gameServer.spell;
 
 ///

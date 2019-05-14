@@ -7,7 +7,7 @@ import sorcerio.gameServer.spell;
 import sorcerio.gameServer.point;
 import sorcerio.gameServer.server;
 import sorcerio.gameServer.player;
-import sorcerio.gameServer.config;
+import CONFIG = sorcerio.gameServer.config;
 
 abstract class ProjectileSpell : Spell {
 	protected {

@@ -1,7 +1,7 @@
 module sorcerio.gameServer.input;
 
 import sorcerio.gameServer.point;
-import sorcerio.gameServer.config;
+import CONFIG = sorcerio.gameServer.config;
 
 import std.json;
 

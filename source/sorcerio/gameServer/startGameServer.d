@@ -8,7 +8,7 @@ import core.thread;
 import sorcerio.webServer.messageQueue;
 import sorcerio.webServer.playerConfig;
 import sorcerio.gameServer.serverManager;
-import sorcerio.gameServer.config;
+import CONFIG = sorcerio.gameServer.config;
 
 ///
 void startGameServer(shared MessageQueue queue) {
