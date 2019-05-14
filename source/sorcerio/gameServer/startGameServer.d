@@ -8,6 +8,7 @@ import core.thread;
 import sorcerio.webServer.messageQueue;
 import sorcerio.webServer.playerConfig;
 import sorcerio.gameServer.serverManager;
+import sorcerio.gameServer.config;
 
 ///
 void startGameServer(shared MessageQueue queue) {
@@ -49,6 +50,6 @@ void startGameServer(shared MessageQueue queue) {
 			throw e;
 		}
 
-		Thread.sleep(dur!"msecs"(5));
+		Thread.sleep(dur!"msecs"(CONFIG.masterLoopInterval));
 	}
 }

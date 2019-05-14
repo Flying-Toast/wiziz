@@ -9,12 +9,12 @@ import sorcerio.gameServer.spell;
 
 ///
 class Player {
-	immutable ushort id;
+	immutable ushort id;///an id that is uniqie to players in this `Server`
 	WebSocket socket;
 	float speed;
-	Point location;
+	Point location;///the player's current location
 	Point facing;///global coords of the client's cursor
-	uint socketId;
+	uint socketId;///An id that is unique throughout all `Server`s.
 	InventorySpell[CONFIG.inventorySize] inventory;
 	InventorySpell[] storage;
 	SpellName[] unlocks;///the current choice of unlocked spells
