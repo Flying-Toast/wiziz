@@ -897,7 +897,7 @@ sorcerio.input.getInput = function() {
 		hasChosenUnlock: hasChosen,
 		chosenUnlockIndex: chosenIndex,
 		storageSwapIndex: storageIndex,
-		dt: performance.now() - this.lastInputSendTime
+		dt: Math.round(performance.now() - this.lastInputSendTime)
 	};
 
 	if (input.chosenUnlockIndex === null) {//don't send an unneeded property to the server
