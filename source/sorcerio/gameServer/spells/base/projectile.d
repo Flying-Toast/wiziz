@@ -9,6 +9,7 @@ import sorcerio.gameServer.server;
 import sorcerio.gameServer.player;
 import CONFIG = sorcerio.gameServer.config;
 
+///A spell that moves towards its target and affects any player it hits on the way
 abstract class ProjectileSpell : Spell {
 	protected {
 		Point origin;
