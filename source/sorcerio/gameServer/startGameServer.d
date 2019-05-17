@@ -12,7 +12,7 @@ import CONFIG = sorcerio.gameServer.config;
 
 ///
 void startGameServer(shared MessageQueue queue) {
-	scope (exit) {
+	scope (exit) {//if this thread crashes, kill the webserver thread (and all other threads) too (so that the program fully exits and it can be restarted):
 		import core.stdc.stdlib;
 		_Exit(EXIT_FAILURE);
 	}
