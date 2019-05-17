@@ -21,14 +21,23 @@ void startGameServer(shared MessageQueue queue) {
 
 	while (true) {
 		void receiveMessages() {
-			receiveTimeout(Duration.zero,
-				(shared PlayerConfig cfg) {
-					master.addPlayerToServer(cast(PlayerConfig) cfg);
-				},
-				(uint disconnectSocketId) {
-					master.removePlayerBySocketId(disconnectSocketId);
-				}
-			);
+			immutable serverCount = master.serverCount;
+			//the max # of messages to receive is the # of servers multiplied by CONFIG.maxConnectionMessagesPerServer, but if the server count is 0, multiply by 1 instead of 0:
+			immutable maxMessages = (serverCount == 0 ? 1 : serverCount) * CONFIG.maxConnectionMessagesPerServer;
+			ushort totalReceived = 0;
+
+			while (totalReceived < maxMessages &&
+				receiveTimeout(Duration.zero,
+					(shared PlayerConfig cfg) {
+						master.addPlayerToServer(cast(PlayerConfig) cfg);
+					},
+					(uint disconnectSocketId) {
+						master.removePlayerBySocketId(disconnectSocketId);
+					}
+				)
+			) {
+				totalReceived++;
+			}
 		}
 
 		version (unittest) {//for CI - don't fail if owner thread terminates

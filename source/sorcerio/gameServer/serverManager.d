@@ -35,6 +35,11 @@ class ServerManager {
 		return serverId;
 	}
 
+	///how many servers are in the ServerManager
+	auto serverCount() {
+		return servers.length;
+	}
+
 	///tick all the servers
 	void tick() {
 		foreach(server; servers) {

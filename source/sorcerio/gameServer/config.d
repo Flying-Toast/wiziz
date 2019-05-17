@@ -40,3 +40,6 @@ enum ubyte masterLoopInterval = 5;
 
 ///how many slots are in a player's inventory
 enum ubyte inventorySize = 4;
+
+///the maximum number of socket connect/disconnect messages to receive per server per master tick
+enum ubyte maxConnectionMessagesPerServer = 10;
