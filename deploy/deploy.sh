@@ -32,8 +32,8 @@ echo "Packaged."
 SORCERIO_DEPLOY_IP="192.81.210.68"
 SORCERIO_SSH_USER="sorcerio"
 SORCERIO_SSH_PORT="31415"
-# The directory containing public/ and the executable:
-SORCERIO_DEPLOY_BASEPATH="/home/$SORCERIO_SSH_USER/sorcerio"
+# The directory containing public/ and the executable (no trailing slash):
+SORCERIO_DEPLOY_BASEPATH="/home/$SORCERIO_SSH_USER/sorcerio-server"
 
 if [[ $TRAVIS = "true" ]]
 then

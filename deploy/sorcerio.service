@@ -6,8 +6,8 @@ Description=Sorcerio server
 [Service]
 Type=simple
 Restart=always
-WorkingDirectory=/home/sorcerio/
-ExecStart=/home/sorcerio/sorcerio
+WorkingDirectory=/home/sorcerio/sorcerio-server/
+ExecStart=/home/sorcerio/sorcerio-server/sorcerio
 ExecStop=/usr/bin/pkill sorcerio
 
 [Install]
