@@ -29,7 +29,7 @@ tar -czf sorcerio.tar.gz ./public/ ./sorcerio
 echo "Packaged."
 
 # Deploy
-SORCERIO_DEPLOY_IP="192.81.210.68"
+SORCERIO_DEPLOY_IP="108.26.225.227"
 SORCERIO_SSH_USER="sorcerio"
 SORCERIO_SSH_PORT="31415"
 # The directory containing public/ and the executable (no trailing slash):
@@ -39,7 +39,7 @@ if [[ $TRAVIS = "true" ]]
 then
 	openssl aes-256-cbc -K $encrypted_85a0c774629c_key -iv $encrypted_85a0c774629c_iv -in private.key.enc -out ~/.ssh/id_rsa -d
 	# generate with `ssh-keyscan -p {port} -t rsa {ip}`:
-	echo "[192.81.210.68]:31415 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAVTR51Ei/wsV2cv4A+KmT8I4P+530j2x2Urm4anUsy4Z3ammDuMCbw1xlR4pp7q4vo3hJP1U0k2OJfO7dznwg0OKjTMhds2wwTmOgUK+u+wva/P1SY8YrQFOKSf/TuTTPVDNAMOdVOY9/xzCdKgemMQ8u4P3jXHIf23dHMyDydONiFcf9CxqddXnATH6T6Imgusu4/zoC5Zy804WSf2r3RuKkGjSDaqPS4hhLIcZAHTGo4+7sZBiqmY3RoQwMaLeNCmehPjqY2PuS4xQd5aggKKD6mkp6mHzSDD8/e1ZcqXq0s3QAs/pjo4fvrClnoDF9lZyeZl358NDtgCHBfomV" >> ~/.ssh/known_hosts
+	echo "[108.26.225.227]:31415 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIYKzslMEMzHzl+iNIt0zEjUqR3jc/SuOea/Wv3uv8d9sCbY/BNI0OjOU2e9NR49XcgaKm3139lz1fhKVkF9MYjCzhBsHEF5p/G+t4aG/7g3srX3GDXTnO+u5d9FoHpevAJjCpMGH1XebNAWwTxTi7jhHGPpNHBfUwnb37rRiBHPnSyqBDhrMOSlOC45ZdztYDrYliYXE8jBCL8/VUiJ1sue5PJmATWf18t0kVj6P8UCFUeYsWalxs1LKcpfjapishp6P+dgRdlVsjZb7N5s6LvYEKBBFpI01CvujiEQ6jHQqZXmqF+12VSyl/atqjyeKvNhmObT7zOTEh1eruHmIb" >> ~/.ssh/known_hosts
 fi
 
 scp -P $SORCERIO_SSH_PORT sorcerio.tar.gz $SORCERIO_SSH_USER@$SORCERIO_DEPLOY_IP:"$SORCERIO_DEPLOY_BASEPATH/"
