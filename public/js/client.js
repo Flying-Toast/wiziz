@@ -255,18 +255,12 @@ sorcerio.ui.init = function() {
 	this.gameCanvas = document.querySelector("#gameCanvas");
 	this.gridCanvas = document.querySelector("#gridCanvas");
 
-	gameCanvas.width = devicePixelRatio * innerWidth;
-	gameCanvas.height = devicePixelRatio * innerHeight;
-	gridCanvas.width = devicePixelRatio * innerWidth;
-	gridCanvas.height = devicePixelRatio * innerHeight;
+	gameCanvas.width = innerWidth;
+	gameCanvas.height = innerHeight;
+	gridCanvas.width = innerWidth;
+	gridCanvas.height = innerHeight;
 
-	window.addEventListener("resize", function() {//this prevents the client from cheating by zooming out to see farther
-		gridCanvas.width = devicePixelRatio * innerWidth;
-		gridCanvas.height = devicePixelRatio * innerHeight;
-		gameCanvas.width = devicePixelRatio * innerWidth;
-		gameCanvas.height = devicePixelRatio * innerHeight;
-		gameCanvas.style.transform = `scale(${innerWidth/gameCanvas.width})`;
-		gridCanvas.style.transform = `scale(${innerWidth/gridCanvas.width})`;
+	window.addEventListener("resize", function() {
 		gridCanvas.width = innerWidth;
 		gridCanvas.height = innerHeight;
 		gameCanvas.width = innerWidth;
