@@ -13,7 +13,7 @@ class FreezeSpell : ProjectileSpell {
 
 	override string humanReadableEffect() {
 		import std.conv;
-		return `Affected player gets "frozen" and cannot move for ` ~ freezeDuration.to!string ~ " seconds";
+		return `Affected player gets "frozen" and cannot move for ` ~ (freezeDuration / 1000).to!string ~ " seconds";
 	}
 
 	override void initialize() {
