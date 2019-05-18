@@ -82,7 +82,7 @@ SORCERIO_DEPLOY_BASEPATH="/home/$SORCERIO_SSH_USER/sorcerio-server"
 openssl aes-256-cbc -K $encrypted_8e3c5413c411_key -iv $encrypted_8e3c5413c411_iv -in private.key.enc -out ~/.ssh/id_rsa -d
 chmod 600 ~/.ssh/id_rsa
 # generate with `ssh-keyscan -p {port} -t rsa {ip}`:
-echo "[108.26.225.227]:31415 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIYKzslMEMzHzl+iNIt0zEjUqR3jc/SuOea/Wv3uv8d9sCbY/BNI0OjOU2e9NR49XcgaKm3139lz1fhKVkF9MYjCzhBsHEF5p/G+t4aG/7g3srX3GDXTnO+u5d9FoHpevAJjCpMGH1XebNAWwTxTi7jhHGPpNHBfUwnb37rRiBHPnSyqBDhrMOSlOC45ZdztYDrYliYXE8jBCL8/VUiJ1sue5PJmATWf18t0kVj6P8UCFUeYsWalxs1LKcpfjapishp6P+dgRdlVsjZb7N5s6LvYEKBBFpI01CvujiEQ6jHQqZXmqF+12VSyl/atqjyeKvNhmObT7zOTEh1eruHmIb" >> ~/.ssh/known_hosts
+echo "[$SORCERIO_DEPLOY_IP]:$SORCERIO_SSH_PORT ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIYKzslMEMzHzl+iNIt0zEjUqR3jc/SuOea/Wv3uv8d9sCbY/BNI0OjOU2e9NR49XcgaKm3139lz1fhKVkF9MYjCzhBsHEF5p/G+t4aG/7g3srX3GDXTnO+u5d9FoHpevAJjCpMGH1XebNAWwTxTi7jhHGPpNHBfUwnb37rRiBHPnSyqBDhrMOSlOC45ZdztYDrYliYXE8jBCL8/VUiJ1sue5PJmATWf18t0kVj6P8UCFUeYsWalxs1LKcpfjapishp6P+dgRdlVsjZb7N5s6LvYEKBBFpI01CvujiEQ6jHQqZXmqF+12VSyl/atqjyeKvNhmObT7zOTEh1eruHmIb" >> ~/.ssh/known_hosts
 
 scp -P $SORCERIO_SSH_PORT sorcerio.tar.gz $SORCERIO_SSH_USER@$SORCERIO_DEPLOY_IP:"$SORCERIO_DEPLOY_BASEPATH/"
 ssh -p $SORCERIO_SSH_PORT $SORCERIO_SSH_USER@$SORCERIO_DEPLOY_IP "rm -rf $SORCERIO_DEPLOY_BASEPATH/sorcerio $SORCERIO_DEPLOY_BASEPATH/public ; cd $SORCERIO_DEPLOY_BASEPATH ; tar -xf sorcerio.tar.gz ; rm sorcerio.tar.gz ; systemctl --user restart sorcerio.service"
