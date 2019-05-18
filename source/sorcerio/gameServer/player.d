@@ -22,10 +22,10 @@ class Player {
 	long health;
 	long maxHealth;///How much the player has at full health
 	bool[string] effectFlags;///Flags for sending extra data about the effects on a player to the clients
+	uint xp;///The player's experience points
 
 	private {
 		immutable string nickname;
-		uint xp;
 		ushort level;
 		uint levelUpAtXp;///the amount of XP needed to get to the next level
 		uint lastLevelUpAtXp;///the amount of xp that _was_ needed to get to the current level. Used for rendering the xp slider on client side.
@@ -71,9 +71,28 @@ class Player {
 		return xp >= levelUpAtXp && unlocks.length == 0;//dont level up if the player has not chosen unlocked spells
 	}
 
-	///subtracts `damage` from the player's health
-	void doDamage(int damage) {
+	/**
+		subtracts `damage` from the player's health
+
+		Returns: whether or not the damage dealt killed the player
+	*/
+	bool doDamage(int damage) {
+		immutable wasDeadBefore = isDead;
 		health -= damage;
+		return isDead && !wasDeadBefore;
+	}
+
+	/**
+		Deals `damage` to this player, increasing `attacker`'s xp if this player is killed by the damage
+
+		Params:
+			damage = the amount of damage to deal
+			attacker = the player who dealt the damage
+	*/
+	void doRewardedDamage(int damage, Player attacker) {
+		if (doDamage(damage)) {
+			attacker.xp += cast(uint) ((level + 1.5) ^^ 2) * 100;
+		}
 	}
 
 	///JSON representation of the player that is sent to the clients
