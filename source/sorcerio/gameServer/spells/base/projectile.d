@@ -7,8 +7,9 @@ import sorcerio.gameServer.spell;
 import sorcerio.gameServer.point;
 import sorcerio.gameServer.server;
 import sorcerio.gameServer.player;
-import sorcerio.gameServer.config;
+import CONFIG = sorcerio.gameServer.config;
 
+///A spell that moves towards its target and affects any player it hits on the way
 abstract class ProjectileSpell : Spell {
 	protected {
 		Point origin;
@@ -63,8 +64,8 @@ abstract class ProjectileSpell : Spell {
 			return;
 		}
 
-		long currentTime = millis();
-		long dt = currentTime - lastMove;
+		immutable currentTime = millis();
+		immutable long dt = currentTime - lastMove;
 
 		foreach (player; game.players) {
 			if (player == caster) {//skip the caster of this spell

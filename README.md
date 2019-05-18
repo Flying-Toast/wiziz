@@ -1,4 +1,4 @@
-# Sorcerio ![build status](https://travis-ci.com/Flying-Toast/sorcerio.svg?branch=master)
+# Sorcerio [![Build Status](https://travis-ci.com/Flying-Toast/sorcerio.svg?branch=master)](https://travis-ci.com/Flying-Toast/sorcerio)
 
 ## Building
 Sorcerio is written in D. In order to build it, you need dmd (the D compiler) and dub (the D package/build manager). Both of these can be downloaded from [dlang.org](https://dlang.org).

@@ -5,6 +5,7 @@ import std.json : JSONValue;
 import sorcerio.gameServer.spell;
 import sorcerio.gameServer.server;
 
+///A spell that deals its effect to the caster
 abstract class SelfSpell : Spell {
 	override void initialize() {}
 

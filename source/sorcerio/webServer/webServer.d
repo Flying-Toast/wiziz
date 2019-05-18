@@ -11,7 +11,7 @@ import std.range : array;
 import sorcerio.webServer.messageQueue;
 import sorcerio.webServer.playerConfig;
 import sorcerio.gameServer.spell;
-import sorcerio.gameServer.config;
+import CONFIG = sorcerio.gameServer.config;
 
 private Tid gameServerTid;
 private uint currentId = 0;

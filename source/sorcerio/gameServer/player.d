@@ -4,16 +4,17 @@ import vibe.vibe : WebSocket;
 import std.json;
 
 import sorcerio.gameServer.point;
-import sorcerio.gameServer.config;
+import CONFIG = sorcerio.gameServer.config;
 import sorcerio.gameServer.spell;
 
+///
 class Player {
-	immutable ushort id;
+	immutable ushort id;///an id that is uniqie to players in this `Server`
 	WebSocket socket;
 	float speed;
-	Point location;
+	Point location;///the player's current location
 	Point facing;///global coords of the client's cursor
-	uint socketId;
+	uint socketId;///An id that is unique throughout all `Server`s.
 	InventorySpell[CONFIG.inventorySize] inventory;
 	InventorySpell[] storage;
 	SpellName[] unlocks;///the current choice of unlocked spells
@@ -96,6 +97,7 @@ class Player {
 		json["lastLevelUpAtXp"] = lastLevelUpAtXp;
 		json["unlocks"] = JSONValue(unlocks.to!(string[]));
 		json["flags"] = effectFlags;
+		json["speed"] = speed;
 
 		return json;
 	}

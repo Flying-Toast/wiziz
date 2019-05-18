@@ -6,8 +6,9 @@ import sorcerio : millis;
 import sorcerio.gameServer.spells.base.projectile;
 import sorcerio.gameServer.player;
 import sorcerio.gameServer.server;
-import sorcerio.gameServer.config;
+import CONFIG = sorcerio.gameServer.config;
 
+///Acts like a `ProjectileSpell`, but when it hits a player or reaches its target, it leaves an explosion area behind
 abstract class SplashSpell : ProjectileSpell {
 	private {
 		bool splashed;///whether the spell has splashed. When it hasn't splashed, the spell behaves like a ProjectileSpell.

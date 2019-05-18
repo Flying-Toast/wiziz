@@ -10,9 +10,10 @@ import sorcerio.gameServer.input;
 import sorcerio.gameServer.point;
 import sorcerio.gameServer.player;
 import sorcerio.gameServer.spell;
-import sorcerio.gameServer.config;
+import CONFIG = sorcerio.gameServer.config;
 import sorcerio.gameServer.event;
 
+///A single game server
 class Server {
 	static private ushort currentPlayerId = 0;
 
@@ -111,7 +112,7 @@ class Server {
 	}
 
 	private void physicsTick() {
-		immutable long currentTime = millis();
+		immutable currentTime = millis();
 
 		EventManager.tick(this);
 
@@ -157,6 +158,14 @@ class Server {
 				if (input.hasChosenUnlock && input.chosenUnlockIndex >= 0 && input.chosenUnlockIndex < player.unlocks.length) {
 					player.appendSpell(new InventorySpell(player.unlocks[input.chosenUnlockIndex], player));
 					player.unlocks = [];
+				}
+
+				if (input.storageSwapIndex >= 0 && input.storageSwapIndex < player.storage.length) {
+					auto oldInventoryItem = player.inventory[player.selectedItemIndex];
+					auto oldStorageItem = player.storage[input.storageSwapIndex];
+
+					player.inventory[player.selectedItemIndex] = oldStorageItem;
+					player.storage[input.storageSwapIndex] = oldInventoryItem;
 				}
 			}
 

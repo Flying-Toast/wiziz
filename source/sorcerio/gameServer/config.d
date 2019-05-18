@@ -1,23 +1,45 @@
+///Various configuration settings
 module sorcerio.gameServer.config;
 
-import sorcerio;
 
-immutable struct CONFIG {
-	static enum string defaultNickname = "Unnamed Sorcerer";
-	static enum ubyte maxNameLength = 15;
+///The default nickname if one isn't provided
+enum defaultNickname = "Unnamed Sorcerer";
 
-	static enum float defaultPlayerSpeed = 1.0 / 6.5;///the default player speed in pixels/millisecond
-	static enum ubyte playerRadius = 65;
-	static enum long playerStartHealth = 1000;
+///Maximum number of characters allowed in a player's nickname
+enum ubyte maxNameLength = 15;
 
-	static enum ushort maxPlayers = 100;///the maximum players allowed in a single Server
+///the default player speed in pixels/millisecond
+enum float defaultPlayerSpeed = 1.0 / 6.5;
 
-	static enum int minMapSize = 3000;
-	static enum int maxMapSize = 20000;
+///The collision radius of players
+enum ubyte playerRadius = 65;
 
-	static enum long updateInterval = 100;///the delay, in milliseconds, between updates being sent to clients
-	static enum long physicsInterval = 10;///the delay, in milliseconds between iterations of the physics loop
-	static enum ubyte maxInputDT = 20;///the maximum dt to trust from the client
+///
+enum long playerStartHealth = 1000;
 
-	static enum ubyte inventorySize = 4;///how many slots are in a player's inventory
-}
+///the maximum players allowed in a single Server
+enum ushort maxPlayers = 100;
+
+///
+enum int minMapSize = 3000;
+
+///
+enum int maxMapSize = 20000;
+
+///the delay, in milliseconds, between updates being sent to clients
+enum long updateInterval = 100;
+
+///the delay, in milliseconds between iterations of the physics loop
+enum long physicsInterval = 10;
+
+///the maximum dt to trust from the client
+enum ubyte maxInputDT = 20;
+
+///millis between ticks of the master loop
+enum ubyte masterLoopInterval = 5;
+
+///how many slots are in a player's inventory
+enum ubyte inventorySize = 4;
+
+///the maximum number of socket connect/disconnect messages to receive per server per master tick
+enum ubyte maxConnectionMessagesPerServer = 10;

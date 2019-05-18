@@ -11,7 +11,6 @@ import sorcerio.gameServer.config;
 ///
 enum SpellName {
 	fire,
-	//cannon,
 	slow,
 	freeze,
 	blind,
@@ -33,7 +32,7 @@ private enum SpellName[][ushort] spellUnlocks = [
 	3: [SpellName.bomb, SpellName.slow],
 	4: [SpellName.blind, SpellName.speed],
 	5: [SpellName.shock, SpellName.freeze],
-	6: [SpellName.teleport/*, SpellName.cannon*/],
+	6: [SpellName.teleport],
 	7: [SpellName.invisible]
 ];
 
@@ -129,19 +128,19 @@ final class InventorySpell {
 	}
 }
 
-///an entry in the SpellFactory. This class is completely internal to SpellFactory.
-private class RegistryEntry {
-	Spell spell;
-	uint coolDownTime;///the coolDownTime of the inventory spell
-
-	this(Spell spell, uint coolDownTime) {
-		this.spell = spell;
-		this.coolDownTime = coolDownTime;
-	}
-}
-
 ///Manages the creating of spells
 final class SpellFactory {
+	///an entry in the SpellFactory's registry
+	private static class RegistryEntry {
+		Spell spell;
+		uint coolDownTime;///the coolDownTime of the inventory spell
+
+		this(Spell spell, uint coolDownTime) {
+			this.spell = spell;
+			this.coolDownTime = coolDownTime;
+		}
+	}
+
 	private static RegistryEntry[SpellName] registry;
 
 	static void registerSpell(SpellName name, uint coolDownTime, Spell spell) {
@@ -222,4 +221,57 @@ abstract class Spell {
 
 	///returns a string describing the effects of the spell
 	abstract string humanReadableEffect();
+}
+
+unittest {///make sure that all spells are implemented
+	import std.traits;
+	import core.exception;
+	import std.stdio;
+	import std.conv;
+
+	bool error = false;
+	foreach (name; [EnumMembers!SpellName]) {
+		//make sure that all spells are registered:
+		try {
+			SpellFactory.getCoolDownTime(name);
+		} catch (RangeError e) {
+			writeln("'", name.to!string, "' spell is not registered with SpellFactory.");
+			error = true;
+		}
+
+		//make sure that all spells have images for their inventory slot:
+		bool fileExists(string path) {
+			import std.file;
+			if (path.exists && path.isFile) {
+				return true;
+			}
+			return false;
+		}
+
+		string inventoryItemPath = "public/media/images/" ~ name.to!string ~ "Spell.png";
+		if (!fileExists(inventoryItemPath)) {
+			writeln("'", name.to!string, "' spell does not have an inventory image at ", inventoryItemPath);
+			error = true;
+		}
+
+		//make sure that all spells have sounds:
+		string baseSoundPath = "public/media/sounds/" ~ name.to!string ~ "Spell.";
+		if (!fileExists(baseSoundPath~"ogg")) {
+			writeln("'", name.to!string, "' spell does not have a sound at ", baseSoundPath~"ogg");
+			error = true;
+		}
+
+		if (!fileExists(baseSoundPath~"mp3")) {
+			writeln("'", name.to!string, "' spell does not have a sound at ", baseSoundPath~"mp3");
+			error = true;
+		}
+
+		//warn if a spell is not unlockable:
+		import std.algorithm.searching : canFind;
+		if (!allUnlockableSpells.canFind(name)) {
+			writeln("NOTE: '", name.to!string, "' spell is not unlockable (not in `spellUnlocks`)");
+		}
+	}
+
+	assert(!error, "Not all spells defined in SpellName are fully implemented (see above messages).");
 }

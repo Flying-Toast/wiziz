@@ -5,6 +5,7 @@ import sorcerio.webServer.playerConfig;
 import sorcerio.gameServer.server;
 import sorcerio.gameServer.config;
 
+///master server, contains multiple `Server`s.
 class ServerManager {
 	static private ushort currentServerId = 0;
 	/++
@@ -34,9 +35,19 @@ class ServerManager {
 		return serverId;
 	}
 
+	///how many servers are in the ServerManager
+	auto serverCount() {
+		return servers.length;
+	}
+
 	///tick all the servers
 	void tick() {
 		foreach(server; servers) {
+			if (server.players.length == 0) {//remove the server if it is empty
+				servers.remove(server.id);
+				continue;
+			}
+
 			server.tick();
 		}
 	}

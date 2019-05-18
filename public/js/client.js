@@ -65,6 +65,7 @@ sorcerio.reset = function() {
 	sorcerio.ui.spellWrapper.innerHTML = "";
 	sorcerio.ui.chooseUnlockedSpells.innerHTML = "";
 	sorcerio.ui.leadersList.innerHTML = "";
+	sorcerio.ui.storage.innerHTML = "";
 	//re-init
 	sorcerio.init();
 };
@@ -165,6 +166,11 @@ sorcerio.renderer.renderInvisiblePlayer = function() {
 	this.gameCtx.fill();
 }.bind(sorcerio.renderer);
 
+//renders the ice overlay for a frozen player at 0,0. the ctx needs to be translated to the proper location before calling this.
+sorcerio.renderer.renderFrozenOverlay = function() {
+	this.gameCtx.drawImage(sorcerio.media.sprites.frozenOverlay, -sorcerio.media.sprites.frozenOverlay.width / 2, -sorcerio.media.sprites.frozenOverlay.height / 2);
+}.bind(sorcerio.renderer);
+
 sorcerio.renderer.renderPlayer = function(player) {
 	this.gameCtx.save();
 	this.gameCtx.translate(sorcerio.game.localCoords(player.location.x, 'x'), sorcerio.game.localCoords(player.location.y, 'y'));
@@ -180,6 +186,10 @@ sorcerio.renderer.renderPlayer = function(player) {
 		this.gameCtx.font = "18px agane";
 		this.gameCtx.fillStyle = '#2dafaf';
 		this.gameCtx.fillText('lvl ' + player.level, -(this.gameCtx.measureText('lvl ' + player.level).width / 2), 100);
+		if (player.speed === 0) {
+			this.gameCtx.rotate(sorcerio.game.calculatePlayerAngle(player));
+			this.renderFrozenOverlay();
+		}
 	} else {
 		this.renderInvisiblePlayer();
 	}
@@ -192,6 +202,9 @@ sorcerio.renderer.renderSelf = function() {
 	this.gameCtx.rotate(Math.atan2(sorcerio.input.mouseCoords.x - sorcerio.ui.gameCanvas.width / 2, -(sorcerio.input.mouseCoords.y - sorcerio.ui.gameCanvas.height / 2)));
 	if (!sorcerio.game.myPlayer.flags.invisible) {
 		this.gameCtx.drawImage(sorcerio.media.sprites.playerGreen, -sorcerio.media.sprites.playerGreen.width / 2, -sorcerio.media.sprites.playerGreen.height / 2);
+		if (sorcerio.game.myPlayer.speed === 0) {
+			this.renderFrozenOverlay();
+		}
 	} else {
 		this.renderInvisiblePlayer();
 	}
@@ -242,18 +255,12 @@ sorcerio.ui.init = function() {
 	this.gameCanvas = document.querySelector("#gameCanvas");
 	this.gridCanvas = document.querySelector("#gridCanvas");
 
-	gameCanvas.width = devicePixelRatio * innerWidth;
-	gameCanvas.height = devicePixelRatio * innerHeight;
-	gridCanvas.width = devicePixelRatio * innerWidth;
-	gridCanvas.height = devicePixelRatio * innerHeight;
+	gameCanvas.width = innerWidth;
+	gameCanvas.height = innerHeight;
+	gridCanvas.width = innerWidth;
+	gridCanvas.height = innerHeight;
 
-	window.addEventListener("resize", function() {//this prevents the client from cheating by zooming out to see farther
-		gridCanvas.width = devicePixelRatio * innerWidth;
-		gridCanvas.height = devicePixelRatio * innerHeight;
-		gameCanvas.width = devicePixelRatio * innerWidth;
-		gameCanvas.height = devicePixelRatio * innerHeight;
-		gameCanvas.style.transform = `scale(${innerWidth/gameCanvas.width})`;
-		gridCanvas.style.transform = `scale(${innerWidth/gridCanvas.width})`;
+	window.addEventListener("resize", function() {
 		gridCanvas.width = innerWidth;
 		gridCanvas.height = innerHeight;
 		gameCanvas.width = innerWidth;
@@ -279,6 +286,7 @@ sorcerio.ui.init = function() {
 	this.chooseUnlockedSpells = document.querySelector("#chooseUnlockedSpells");
 	this.chooseUnlockedSpellsWrapper = document.querySelector("#chooseUnlockedSpellsWrapper");
 	this.storageWrapper = document.querySelector("#storageWrapper");
+	this.storage = document.querySelector("#storage");
 
 	this.isChoosingUnlocks = false;
 	this.lastChosenUnlocks = "";
@@ -286,6 +294,7 @@ sorcerio.ui.init = function() {
 
 sorcerio.ui.setup = function() {
 	this.createHotbarSlots();
+	this.storage.appendChild(this.createStorageSpellSlot(this.storage.children.length + 1));//add one empty slot to storage
 }.bind(sorcerio.ui);
 
 //fills the hotbar with empty slots
@@ -417,6 +426,7 @@ sorcerio.ui.render = function() {
 	this.updateStatsDisplay();
 	this.updateSliders();
 	this.updateInventory();
+	this.updateStorage();
 	this.displayUnlocks();
 }.bind(sorcerio.ui);
 
@@ -474,6 +484,40 @@ sorcerio.ui.updateInventory = function() {
 	}
 };
 
+//creates a slot for the storage
+sorcerio.ui.createStorageSpellSlot = function(id) {
+	let slotImage = sorcerio.media.createImage(sorcerio.media.inventoryItems.emptySlot);
+	slotImage.classList.add("selectionOutline");
+	slotImage.id = `storageSlot${id}`;
+	slotImage.style.zIndex = 0;
+
+	slotImage.addEventListener("click", sorcerio.events.storageSlotClick);
+
+	return slotImage;
+};
+
+//updates the images in the storage
+sorcerio.ui.updateStorage = function() {
+	const itemsInStorage = sorcerio.game.myPlayer.storage.length;//how many spells are in storage
+	const availableStorageSlots = this.storage.children.length;//how many slots there currently are in the storage ui element
+
+	if (itemsInStorage > availableStorageSlots) {//add more slots to the storage ui element if there aren't enough
+		for (let i = 0; i < itemsInStorage - availableStorageSlots; i++) {
+			this.storage.appendChild(this.createStorageSpellSlot(this.storage.children.length + 1));
+		}
+	}
+
+	for (let i = 0; i < sorcerio.game.myPlayer.storage.length; i++) {
+		const name = sorcerio.game.myPlayer.storage[i].spellName;
+		let slot = document.querySelector(`#storageSlot${i+1}`);
+		const newSrc = sorcerio.media.inventoryItems[name];
+
+		if (slot.src !== newSrc) {//change the src of the slot if it does not match the spell
+			slot.src = newSrc;
+		}
+	}
+}.bind(sorcerio.ui);
+
 //////////
 //@MEDIA//
 //////////
@@ -496,6 +540,7 @@ sorcerio.media.init = function() {
 
 	this.sprites.playerRed = this.createImage('/media/images/playerRed.png');
 	this.sprites.playerGreen = this.createImage('/media/images/playerGreen.png');
+	this.sprites.frozenOverlay = this.createImage('/media/images/frozenOverlay.png');
 }.bind(sorcerio.media);
 
 //creates an image element
@@ -593,6 +638,10 @@ sorcerio.events.playButtonClick = function() {
 	this.isPlaying = true;
 }.bind(sorcerio.events);
 
+sorcerio.events.storageSlotClick = function(e) {
+	sorcerio.input.swapStorage(parseInt(e.target.id.split("storageSlot")[1]) - 1);
+};
+
 sorcerio.events.startNewGame = function() {
 	sorcerio.comm.newWSConnection();
 };
@@ -631,7 +680,7 @@ sorcerio.events.handleServerMessage = function(message) {
 			sorcerio.events.isPlaying = false;
 			sorcerio.reset();
 			sorcerio.ui.showMainScreen();
-		break;
+			break;
 	}
 };
 
@@ -803,11 +852,18 @@ sorcerio.input.init = function() {
 
 	this.chosenUnlockIndex = -1;
 	this.hasChosenUnlock = false;
+
+	this.storageSwapIndex = -1;
 }.bind(sorcerio.input);
 
 sorcerio.input.chooseUnlock = function(chosenUnlock) {
 	this.hasChosenUnlock = true;
 	this.chosenUnlockIndex = chosenUnlock;
+}.bind(sorcerio.input);
+
+//storageIndex is 0-based index
+sorcerio.input.swapStorage = function(storageIndex) {
+	this.storageSwapIndex = storageIndex;
 }.bind(sorcerio.input);
 
 sorcerio.input.castSpell = function() {
@@ -824,6 +880,9 @@ sorcerio.input.getInput = function() {
 	const chosenIndex = hasChosen ? this.chosenUnlockIndex : null;
 	this.chosenUnlockIndex = -1;
 
+	const storageIndex = this.storageSwapIndex;
+	this.storageSwapIndex = -1;
+
 	const input = {
 		facing: {x: sorcerio.game.globalCoords(this.mouseCoords.x, "x"), y: sorcerio.game.globalCoords(this.mouseCoords.y, "y")},
 		keys: this.keyStates,
@@ -831,7 +890,8 @@ sorcerio.input.getInput = function() {
 		selectedItem: this.selectedItem,
 		hasChosenUnlock: hasChosen,
 		chosenUnlockIndex: chosenIndex,
-		dt: performance.now() - this.lastInputSendTime
+		storageSwapIndex: storageIndex,
+		dt: Math.round(performance.now() - this.lastInputSendTime)
 	};
 
 	if (input.chosenUnlockIndex === null) {//don't send an unneeded property to the server

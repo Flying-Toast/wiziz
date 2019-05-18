@@ -8,10 +8,11 @@ import core.thread;
 import sorcerio.webServer.messageQueue;
 import sorcerio.webServer.playerConfig;
 import sorcerio.gameServer.serverManager;
+import CONFIG = sorcerio.gameServer.config;
 
 ///
 void startGameServer(shared MessageQueue queue) {
-	scope (exit) {
+	scope (exit) {//if this thread crashes, kill the webserver thread (and all other threads) too (so that the program fully exits and it can be restarted):
 		import core.stdc.stdlib;
 		_Exit(EXIT_FAILURE);
 	}
@@ -20,14 +21,23 @@ void startGameServer(shared MessageQueue queue) {
 
 	while (true) {
 		void receiveMessages() {
-			receiveTimeout(Duration.zero,
-				(shared PlayerConfig cfg) {
-					master.addPlayerToServer(cast(PlayerConfig) cfg);
-				},
-				(uint disconnectSocketId) {
-					master.removePlayerBySocketId(disconnectSocketId);
-				}
-			);
+			immutable serverCount = master.serverCount;
+			//the max # of messages to receive is the # of servers multiplied by CONFIG.maxConnectionMessagesPerServer, but if the server count is 0, multiply by 1 instead of 0:
+			immutable maxMessages = (serverCount == 0 ? 1 : serverCount) * CONFIG.maxConnectionMessagesPerServer;
+			ushort totalReceived = 0;
+
+			while (totalReceived < maxMessages &&
+				receiveTimeout(Duration.zero,
+					(shared PlayerConfig cfg) {
+						master.addPlayerToServer(cast(PlayerConfig) cfg);
+					},
+					(uint disconnectSocketId) {
+						master.removePlayerBySocketId(disconnectSocketId);
+					}
+				)
+			) {
+				totalReceived++;
+			}
 		}
 
 		version (unittest) {//for CI - don't fail if owner thread terminates
@@ -49,61 +59,6 @@ void startGameServer(shared MessageQueue queue) {
 			throw e;
 		}
 
-		Thread.sleep(dur!"msecs"(5));
+		Thread.sleep(dur!"msecs"(CONFIG.masterLoopInterval));
 	}
-}
-
-unittest {///make sure that all spells are implemented
-	import std.traits;
-	import core.exception;
-	import std.stdio;
-	import std.conv;
-
-	import sorcerio.gameServer.spell;
-
-	bool error = false;
-	foreach (name; [EnumMembers!SpellName]) {
-		//make sure that all spells are registered:
-		try {
-			SpellFactory.getCoolDownTime(name);
-		} catch (RangeError e) {
-			writeln("'", name.to!string, "' spell is not registered with SpellFactory.");
-			error = true;
-		}
-
-		//make sure that all spells have images for their inventory slot:
-		bool fileExists(string path) {
-			import std.file;
-			if (path.exists && path.isFile) {
-				return true;
-			}
-			return false;
-		}
-
-		string inventoryItemPath = "public/media/images/" ~ name.to!string ~ "Spell.png";
-		if (!fileExists(inventoryItemPath)) {
-			writeln("'", name.to!string, "' spell does not have an inventory image at ", inventoryItemPath);
-			error = true;
-		}
-
-		//make sure that all spells have sounds:
-		string baseSoundPath = "public/media/sounds/" ~ name.to!string ~ "Spell.";
-		if (!fileExists(baseSoundPath~"ogg")) {
-			writeln("'", name.to!string, "' spell does not have a sound at ", baseSoundPath~"ogg");
-			error = true;
-		}
-
-		if (!fileExists(baseSoundPath~"mp3")) {
-			writeln("'", name.to!string, "' spell does not have a sound at ", baseSoundPath~"mp3");
-			error = true;
-		}
-
-		//warn if a spell is not unlockable:
-		import std.algorithm.searching : canFind;
-		if (!allUnlockableSpells.canFind(name)) {
-			writeln("NOTE: '", name.to!string, "' spell is not unlockable (not in `spellUnlocks`)");
-		}
-	}
-
-	assert(!error, "Not all spells defined in SpellName are fully implemented (see above messages).");
 }

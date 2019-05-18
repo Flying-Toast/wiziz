@@ -7,7 +7,7 @@
 		<meta charset="utf-8">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-		<title>Sorcer.io</title>
+		<title>Sorcerio</title>
 		<style>
 			@font-face {
 				font-family: 'newrocker';
@@ -436,6 +436,12 @@
 				box-shadow: 0 5px #d04613;
 			}
 
+			#githubLink {
+				background-image: url("/media/images/githubIcon.png");
+				background-color: #C7BABA;
+				box-shadow: 0 5px #958A8A;
+			}
+
 			.socialLink {
 				display: inline-block;
 				width: 32px;
@@ -611,7 +617,7 @@
 		</div>
 		<div id="mainScreen">
 			<header>
-				<h1>Sorcer.io</h1>
+				<h1>Sorcerio</h1>
 			</header>
 			<div id='mainPane'>
 				<div id='mainBlock'>
@@ -623,6 +629,7 @@
 					</a>
 					<div id="socialMedia">
 						<a href="https://www.reddit.com/r/sorcerIo/" id='redditLink' draggable="false" class='socialLink' target="_blank"></a>
+						<a href="https://github.com/Flying-Toast/sorcerio" id='githubLink' draggable="false" class='socialLink' target="_blank"></a>
 					</div>
 				</div>
 				<input type="checkbox" id="instructionsToggle">
@@ -655,7 +662,7 @@
 				</div>
 			</div>
 			<footer>
-				<span id='copyright'>Copyright © 2019 Sorcerio All Rights Reserved.</span>
+				<span id='copyright'>Copyright © 2019 Sorcerio</span>
 				<a href="/credits.txt" target='_blank'>credits</a>
 				<a target='_blank' href="https://iogames.space">More .io Games</a>
 			</footer>
@@ -705,6 +712,7 @@
 			popButtons.push(document.querySelector("#tutorial"));
 			popButtons.push(document.querySelector("#spellList"));
 			popButtons.push(document.querySelector("#redditLink"));
+			popButtons.push(document.querySelector("#githubLink"));
 
 			for (let i = 0; i < popButtons.length; i++) {
 				popButtons[i].addEventListener("mousedown", function(mouseDownEvent) {
