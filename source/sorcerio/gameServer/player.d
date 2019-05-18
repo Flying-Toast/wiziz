@@ -142,7 +142,9 @@ class Player {
 		this.maxHealth = health;
 		this.xp = 0;
 		this.level = 1;
-		this.inventory[0] = new InventorySpell(SpellName.fire, this);//default starting inventory
+		static foreach (i; unlockedSpells(1)) {//fill the inventory with the default spells
+			appendSpell(new InventorySpell(i, this));
+		}
 		this.levelUpAtXp = xpNeededForLevel(2);
 		this.lastLevelUpAtXp = xpNeededForLevel(1);
 	}
