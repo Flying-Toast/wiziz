@@ -20,6 +20,6 @@ class FireSpell : ProjectileSpell {
 	}
 
 	override void affectPlayer(Player affectedPlayer) {
-		affectedPlayer.doDamage(damage);
+		affectedPlayer.doRewardedDamage(damage, caster);
 	}
 }

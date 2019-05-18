@@ -24,6 +24,6 @@ class BombSpell : SplashSpell {
 	}
 
 	override void splashAffect(Player player) {
-		player.doDamage(damage);
+		player.doRewardedDamage(damage, caster);
 	}
 }
