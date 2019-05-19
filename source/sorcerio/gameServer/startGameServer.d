@@ -20,7 +20,18 @@ void startGameServer(shared MessageQueue queue) {
 	ServerManager master = new ServerManager(queue);
 
 	while (true) {
-		void receiveMessages() {
+		version (unittest) {//during a unittest build, tick the master server, then exit successfully if master.tick() didn't fail.
+			try {
+				master.tick();
+			} catch (Throwable e) {
+				import std.stdio;
+				stderr.writeln(e);
+				throw e;
+			}
+
+			import core.stdc.stdlib;
+			_Exit(EXIT_SUCCESS);
+		} else {//normal behavior:
 			immutable serverCount = master.serverCount;
 			//the max # of messages to receive is the # of servers multiplied by CONFIG.maxConnectionMessagesPerServer, but if the server count is 0, multiply by 1 instead of 0:
 			immutable maxMessages = (serverCount == 0 ? 1 : serverCount) * CONFIG.maxConnectionMessagesPerServer;
@@ -38,17 +49,6 @@ void startGameServer(shared MessageQueue queue) {
 			) {
 				totalReceived++;
 			}
-		}
-
-		version (unittest) {//for CI - don't fail if owner thread terminates
-			try {
-				receiveMessages();
-			} catch (OwnerTerminated e) {
-				import core.stdc.stdlib;
-				_Exit(EXIT_SUCCESS);
-			}
-		} else {//normal behavior:
-			receiveMessages();
 		}
 
 		try {

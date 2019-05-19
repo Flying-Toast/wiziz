@@ -482,6 +482,7 @@ sorcerio.ui.updateInventory = function() {
 		if (slot.attributes.src.nodeValue !== newSrc) {//only set the image's src if it is different from the current src.
 			slot.src = newSrc;
 			slot.title = sorcerio.meta.data.humanReadableEffects[item.spellName];
+			document.querySelector(`#coolDownDisplay${i+1}`).style.animation = "none";
 		}
 	}
 };
@@ -620,6 +621,12 @@ sorcerio.events.gameClick = function() {
 
 	if (!selectedSpell.cooling) {//only do stuff if the selected spell isn't in cooldown
 		sorcerio.input.castSpell();
+		const coolDownDisplay = document.querySelector(`#coolDownDisplay${sorcerio.game.myPlayer.selectedItem + 1}`);
+		coolDownDisplay.style.animation = "";
+		coolDownDisplay.style.animationDuration = selectedSpell.coolDownTime + "ms";
+		setTimeout(function() {
+			coolDownDisplay.style.animation = "none";
+		}, selectedSpell.coolDownTime);
 
 		const sound = sorcerio.media.sounds.spellSounds[selectedSpell.spellName];
 		if (!sound.ended) {//if the sound is currently playing, stop it and put the playhead back to start
