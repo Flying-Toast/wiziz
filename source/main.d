@@ -8,7 +8,7 @@ void main() {
 	shared queue = new MessageQueue;
 	Tid gameServerTid = spawn(&startGameServer, queue);
 
-	version (unittest) {//during a test build, wait a little bit for tests in game server thread to finish before starting web server.
+	version (unittest) {//during a test build, give some time for the gameServer to run before exiting
 		import core.thread;
 		Thread.sleep(dur!"msecs"(3000));
 	}
