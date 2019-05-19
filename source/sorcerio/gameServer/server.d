@@ -1,6 +1,6 @@
 module sorcerio.gameServer.server;
 
-import vibe.vibe : WebSocket;
+import vibe.vibe : WebSocket, WebSocketException;
 import std.json;
 
 import sorcerio : millis;
