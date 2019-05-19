@@ -94,7 +94,9 @@ class Server {
 		string stateString = state.toString();
 
 		foreach (player; players) {
-			player.socket.send(stateString);
+			try {
+				player.socket.send(stateString);
+			} catch (WebSocketException e) {}//TEMP: until I find a better way to make cross-thread WebSockets work
 		}
 		this.lastUpdate = millis();
 	}
@@ -118,7 +120,9 @@ class Server {
 
 		foreach (player; players) {
 			if (player.isDead) {
-				player.socket.send(`{"type":"death"}`);
+				try {
+					player.socket.send(`{"type":"death"}`);
+				} catch (WebSocketException e) {}//TEMP: until I find a better way to make cross-thread WebSockets work
 				players.remove(player.id);
 				continue;
 			}
