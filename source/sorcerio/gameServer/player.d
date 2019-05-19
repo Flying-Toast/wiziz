@@ -63,13 +63,17 @@ class Player {
 		return health <= 0;
 	}
 
-	///increases the player's level by 1
+	///increases the player's level by 1 and updates level-dependent things
 	void levelUp() {
 		level++;
 		lastLevelUpAtXp = levelUpAtXp;
 		levelUpAtXp = xpNeededForLevel(cast(ushort) (level+1));
 		unlocks = unlockedSpells(level);
+
+		//update maxHealth, and increase the current health so that the % health is the same as it was before
+		immutable initialMaxHealth = maxHealth;
 		maxHealth = maxHealthAtLevel(level);
+		health = (health * (maxHealth)) / (initialMaxHealth);
 	}
 
 	///checks if the player is able to level up
