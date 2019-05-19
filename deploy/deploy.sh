@@ -6,6 +6,17 @@ then
 	exit
 fi
 
+# Configuration:
+
+SORCERIO_DEPLOY_IP="108.26.225.227"
+SORCERIO_SSH_USER="sorcerio"
+SORCERIO_SSH_PORT="31415"
+# The directory (on the server) containing public/ and the executable (no trailing slash):
+SORCERIO_DEPLOY_BASEPATH="/home/$SORCERIO_SSH_USER/sorcerio-server"
+# set this "true" if the build should be for ARMhf (e.g. raspberry pi):
+SORCERIO_BUILD_ARM="true"
+
+
 # cd into deploy, in case the script is called from the root project dir
 cd deploy
 
@@ -17,10 +28,6 @@ then
 fi
 
 # do a release build
-
-# set this "true" if the build should be for ARMhf (e.g. raspberry pi):
-SORCERIO_BUILD_ARM="true"
-# don't change this manually:
 SORCERIO_COMPILER="ldc2"
 
 if [[ $SORCERIO_BUILD_ARM = "true" ]]
@@ -73,11 +80,6 @@ tar -czf sorcerio.tar.gz ./public/ ./sorcerio
 echo "Packaged."
 
 # Deploy
-SORCERIO_DEPLOY_IP="108.26.225.227"
-SORCERIO_SSH_USER="sorcerio"
-SORCERIO_SSH_PORT="31415"
-# The directory containing public/ and the executable (no trailing slash):
-SORCERIO_DEPLOY_BASEPATH="/home/$SORCERIO_SSH_USER/sorcerio-server"
 
 openssl aes-256-cbc -K $encrypted_8e3c5413c411_key -iv $encrypted_8e3c5413c411_iv -in private.key.enc -out ~/.ssh/id_rsa -d
 chmod 600 ~/.ssh/id_rsa

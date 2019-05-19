@@ -23,11 +23,15 @@ enum SpellName {
 }
 
 /**
- Determines at what level spells get unlocked.
+	Determines at what level spells get unlocked.
 
- The key is the level that they get unlocked at.
+	The array key is the level that they get unlocked at.
+	The spells at `[1]` are the default spells that players start with.
 */
 private enum SpellName[][ushort] spellUnlocks = [
+	//These ones are the default starting spells:
+	1: [SpellName.fire],
+
 	2: [SpellName.heal],
 	3: [SpellName.bomb, SpellName.slow],
 	4: [SpellName.blind, SpellName.speed],
@@ -47,7 +51,14 @@ version (unittest) {
 	}
 }
 
-///the spells that are unlocked at `level`
+/**
+	Which spells are unlocked at `level`.
+
+	Params:
+		level = The level to get the unlocked spells for. The spells returned when `level` == 1 are the default spells that all players start with.
+	Returns:
+		The spells that a player unlocks when they reach `level`.
+*/
 SpellName[] unlockedSpells(ushort level) {
 	if (level in spellUnlocks) {
 		return spellUnlocks[level];
