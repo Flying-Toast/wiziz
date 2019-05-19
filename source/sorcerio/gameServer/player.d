@@ -40,6 +40,11 @@ class Player {
 		return cast(uint) (((level / 0.9) ^^ 2) * 100);
 	}
 
+	///returns the max health that a player at `level` has
+	static long maxHealthAtLevel(ushort level) {
+		return ((level ^^ 2) * 150) + CONFIG.playerStartHealth;
+	}
+
 	///adds `spell` to the player's inventory, or to storage if inventory is full.
 	void appendSpell(InventorySpell spell) {
 		if (inventory[$-1] !is null) {//inventory is full - append `spell` to storage
@@ -64,6 +69,7 @@ class Player {
 		lastLevelUpAtXp = levelUpAtXp;
 		levelUpAtXp = xpNeededForLevel(cast(ushort) (level+1));
 		unlocks = unlockedSpells(level);
+		maxHealth = maxHealthAtLevel(level);
 	}
 
 	///checks if the player is able to level up
