@@ -294,7 +294,9 @@ sorcerio.ui.init = function() {
 
 sorcerio.ui.setup = function() {
 	this.createHotbarSlots();
-	this.storage.appendChild(this.createStorageSpellSlot(this.storage.children.length + 1));//add one empty slot to storage
+	for (let i = 0; i < 10; i++) {//fill the storage with some empty spell slots
+		this.storage.appendChild(this.createStorageSpellSlot(this.storage.children.length + 1));
+	}
 }.bind(sorcerio.ui);
 
 //fills the hotbar with empty slots
