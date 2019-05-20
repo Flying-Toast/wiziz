@@ -164,7 +164,7 @@ class Server {
 					player.unlocks = [];
 				}
 
-				if (input.storageSwapIndex >= 0 && input.storageSwapIndex < player.storage.length) {
+				if (input.storageSwapIndex >= 0 && input.storageSwapIndex < player.storage.length && !player.inventory[player.selectedItemIndex].isCooling) {
 					auto oldInventoryItem = player.inventory[player.selectedItemIndex];
 					auto oldStorageItem = player.storage[input.storageSwapIndex];
 
