@@ -15,3 +15,5 @@ Speed Spell sound - sampled from "tiny bit of 116723__Corsica_S__ghellioll02 str
 Teleport Spell sound - "Warp1" by Taira Komori (https://freesound.org/s/213693/)
 
 Shock Spell sound - sampled from "Electrical Shock (Zap)" by BigKahuna360 (https://freesound.org/s/160421/)
+
+Expand Spell sound - (https://freesound.org/s/107782/)

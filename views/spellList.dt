@@ -70,7 +70,8 @@ html
 
 		h1.heading Sorcerio Spells
 
-		- foreach (type; spellTypes)
+		- import std.algorithm.sorting : sort;
+		- foreach (type; spellTypes.sort())
 			- import std.string : capitalize;
 			article.section(id="#{type}")
 				h3.subheading= type.capitalize ~ " Spell"
