@@ -16,6 +16,10 @@ abstract class SplashSpell : ProjectileSpell {
 		long splashTime;///timestamp that the spell splashed
 	}
 
+	bool isSplashed() {
+		return splashed;
+	}
+
 	protected {
 		ushort explosionRadius;///how big the effectArea is when exploded
 		string color;///color of the explosion area (can be any valid CSS color, but use hex if possible)
