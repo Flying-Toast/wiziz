@@ -15,7 +15,7 @@ class SpeedSpell : SelfSpell {
 
 	override string humanReadableEffect() {
 		import std.conv;
-		return "Makes your player move " ~ speedMultiplier.to!string ~ "x faster for " ~ (effectDuration / 1000).to!string ~ " seconds";
+		return "Makes your player move " ~ speedMultiplier.to!string ~ "x as fast for " ~ (effectDuration / 1000).to!string ~ " seconds";
 	}
 
 	override void affect() {
