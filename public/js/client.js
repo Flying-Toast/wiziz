@@ -863,6 +863,7 @@ sorcerio.input.init = function() {
 	this.hasChosenUnlock = false;
 
 	this.storageSwapIndex = -1;
+	this.currentInputId = 0;
 }.bind(sorcerio.input);
 
 sorcerio.input.chooseUnlock = function(chosenUnlock) {
@@ -900,6 +901,7 @@ sorcerio.input.getInput = function() {
 		hasChosenUnlock: hasChosen,
 		chosenUnlockIndex: chosenIndex,
 		storageSwapIndex: storageIndex,
+		id: this.currentInputId++,
 		dt: Math.round(performance.now() - this.lastInputSendTime)
 	};
 
