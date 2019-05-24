@@ -619,14 +619,14 @@
 			<div id='mainPane'>
 				<div id='mainBlock'>
 					<input type="text" id='nicknameInput' placeholder="Enter a Nickname" maxlength="15">
-					<button id='playButton'>Play</button>
-					<label for="instructionsToggle" id='tutorial'>How to Play</label>
-					<a id="spellListLink" href="/spellList" target="_blank">
+					<button id='playButton' class="popButton">Play</button>
+					<label for="instructionsToggle" id='tutorial' class="popButton">How to Play</label>
+					<a id="spellListLink" href="/spellList" target="_blank" class="popButton">
 						<span id='spellList'>Spell List</span>
 					</a>
 					<div id="socialMedia">
-						<a href="https://www.reddit.com/r/todo123/" id='redditLink' draggable="false" class='socialLink' target="_blank"></a>
-						<a href="https://github.com/Flying-Toast/sorcerio" id='githubLink' draggable="false" class='socialLink' target="_blank"></a>
+						<!--<a href="https://www.reddit.com/r/sorcerIo/" id='redditLink' draggable="false" class='socialLink popButton' target="_blank"></a>-->
+						<a href="https://github.com/Flying-Toast/sorcerio" id='githubLink' draggable="false" class='socialLink popButton' target="_blank"></a>
 					</div>
 				</div>
 				<input type="checkbox" id="instructionsToggle">
@@ -703,12 +703,7 @@
 				document.querySelector("#"+document.querySelector("#tutorial").attributes.for.nodeValue).click();
 			});
 
-			let popButtons = [];
-			popButtons.push(document.querySelector("#playButton"));
-			popButtons.push(document.querySelector("#tutorial"));
-			popButtons.push(document.querySelector("#spellList"));
-			popButtons.push(document.querySelector("#redditLink"));
-			popButtons.push(document.querySelector("#githubLink"));
+			let popButtons = Array.from(document.querySelectorAll(".popButton"));
 
 			for (let i = 0; i < popButtons.length; i++) {
 				popButtons[i].addEventListener("mousedown", function(mouseDownEvent) {
