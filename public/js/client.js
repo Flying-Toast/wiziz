@@ -864,6 +864,7 @@ sorcerio.input.init = function() {
 
 	this.storageSwapIndex = -1;
 	this.currentInputId = 0;
+	this.storedInputs = [];//list of inputs that have been sent to the server, used for clientside prediction.
 }.bind(sorcerio.input);
 
 sorcerio.input.chooseUnlock = function(chosenUnlock) {
@@ -909,6 +910,7 @@ sorcerio.input.getInput = function() {
 		delete input.chosenUnlockIndex;
 	}
 
+	this.storedInputs.push(input);
 	return JSON.stringify(input);
 }.bind(sorcerio.input);
 
