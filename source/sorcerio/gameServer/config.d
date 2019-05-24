@@ -33,7 +33,7 @@ enum long updateInterval = 100;
 enum long physicsInterval = 10;
 
 ///the maximum dt to trust from the client
-enum ubyte maxInputDT = 20;
+enum ubyte maxInputDT = 40;
 
 ///millis between ticks of the master loop
 enum ubyte masterLoopInterval = 5;
