@@ -36,7 +36,8 @@ void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue) {
 		"spellTypes": generateSpellTypesJSON(),
 		"inventorySize": JSONValue(CONFIG.inventorySize),
 		"humanReadableEffects": JSONValue(humanReadableEffects),
-		"maxNameLength": JSONValue(CONFIG.maxNameLength)
+		"maxNameLength": JSONValue(CONFIG.maxNameLength),
+		"maxInputDT": JSONValue(CONFIG.maxInputDT)
 	]);
 
 
