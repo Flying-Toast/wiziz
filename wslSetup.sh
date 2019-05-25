@@ -16,7 +16,7 @@ sudo apt-get install gcc -y
 echo "installed gcc."
 
 # install D:
-export OLD_PROMPT=$PS1
+OLD_PROMPT=$PS1
 echo "source $(curl -fsS https://dlang.org/install.sh | bash -s dmd --activate)" >> ~/.bashrc
 echo "PS1=\"$OLD_PROMPT\"" >> ~/.bashrc
 source ~/.bashrc
