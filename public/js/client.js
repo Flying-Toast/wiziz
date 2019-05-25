@@ -949,7 +949,7 @@ sorcerio.input.doPrediction = function(player) {
 		if (input.keys.d) target.y += 1;
 		if (input.keys.u) target.y -= 1;
 
-		this.moveTowards(player.location, target, input.dt * player.speed);
+		this.moveTowards(player.location, target, Math.min(input.dt, sorcerio.meta.data.maxInputDT) * player.speed);
 
 		if (player.location.x < 0) player.location.x = 0;
 		if (player.location.y < 0) player.location.y = 0;
