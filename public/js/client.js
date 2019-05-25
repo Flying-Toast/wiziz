@@ -909,7 +909,8 @@ sorcerio.input.getInput = function() {
 
 	const input = {
 		facing: {x: sorcerio.game.globalCoords(this.mouseCoords.x, "x"), y: sorcerio.game.globalCoords(this.mouseCoords.y, "y")},
-		keys: this.keyStates,
+		//make a copy of keystates so that when this.keyStates changes, it doesn't change the keystates of the input
+		keys: Object.assign({}, this.keyStates),
 		casting: casting,
 		selectedItem: this.selectedItem,
 		hasChosenUnlock: hasChosen,
