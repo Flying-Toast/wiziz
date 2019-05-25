@@ -23,6 +23,7 @@ class Player {
 	long maxHealth;///How much the player has at full health
 	bool[string] effectFlags;///Flags for sending extra data about the effects on a player to the clients
 	uint xp;///The player's experience points
+	uint lastInputId;///the id of the last input that was applied to the player
 
 	private {
 		immutable string nickname;
@@ -127,6 +128,7 @@ class Player {
 		json["unlocks"] = JSONValue(unlocks.to!(string[]));
 		json["flags"] = effectFlags;
 		json["speed"] = speed;
+		json["lastInput"] = lastInputId;
 
 		return json;
 	}
