@@ -30,7 +30,7 @@ enum int maxMapSize = 20000;
 enum long updateInterval = 100;
 
 ///the delay, in milliseconds between iterations of the physics loop
-enum long physicsInterval = 0;
+enum long physicsInterval = 3;
 
 ///the maximum dt to trust from the client
 enum ubyte maxInputDT = 40;
