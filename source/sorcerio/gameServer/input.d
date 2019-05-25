@@ -18,6 +18,7 @@ class Input {
 	immutable bool hasChosenUnlock;///if the client made their choice from their unlocks
 	immutable byte chosenUnlockIndex;///index of the chosen item in the players `unlocks`
 	immutable ubyte storageSwapIndex;///index of the storage item currently being swapped, or -1 if none are being swapped
+	immutable uint id;///client-generated id of the input, used for clientside prediction
 
 	this(string json) {
 		JSONValue j = json.parseJSON();
@@ -51,5 +52,7 @@ class Input {
 		}
 
 		storageSwapIndex = cast(ubyte) j["storageSwapIndex"].integer;
+
+		id = cast(uint) j["id"].integer;
 	}
 }

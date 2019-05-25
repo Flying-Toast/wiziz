@@ -135,6 +135,8 @@ class Server {
 					continue;
 				}
 
+				player.lastInputId = input.id;
+
 				player.facing = cast(Point) input.facing;
 
 				Point target = player.location.dup();//an imaginary point that the player moves towards

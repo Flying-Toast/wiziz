@@ -79,6 +79,15 @@ sorcerio.mainLoop = function() {
 	if (currentTime - sorcerio.input.lastInputSendTime >= sorcerio.input.inputSendInterval) {
 		sorcerio.comm.ws.send(sorcerio.input.getInput());
 		sorcerio.input.lastInputSendTime = currentTime;
+
+		//client-side prediction
+		const predictedPlayer = JSON.parse(JSON.stringify(sorcerio.game.myPlayer));
+		if (predictedPlayer.lastInput > sorcerio.input.predictedPlayer.lastInput) {
+			sorcerio.input.doPrediction(predictedPlayer);
+			sorcerio.input.predictedPlayer = predictedPlayer;
+		} else {
+			sorcerio.input.doPrediction(sorcerio.input.predictedPlayer);
+		}
 	}
 
 	if (currentTime - sorcerio.ui.lastUIRenderTime >= sorcerio.ui.uiRenderInterval) {
@@ -213,8 +222,8 @@ sorcerio.renderer.renderSelf = function() {
 
 //renders the grid
 sorcerio.renderer.renderGrid = function() {
-	this.grid.xOffset = -sorcerio.game.myPlayer.location.x % this.grid.gridSize;
-	this.grid.yOffset = -sorcerio.game.myPlayer.location.y % this.grid.gridSize;
+	this.grid.xOffset = -sorcerio.input.predictedPlayer.location.x % this.grid.gridSize;
+	this.grid.yOffset = -sorcerio.input.predictedPlayer.location.y % this.grid.gridSize;
 	this.gridCtx.lineWidth = this.grid.lineWidth;
 	this.gridCtx.fillStyle = this.grid.backgroundColor;
 	this.gridCtx.fillRect(0, 0, sorcerio.ui.gridCanvas.width, sorcerio.ui.gridCanvas.height);
@@ -682,6 +691,9 @@ sorcerio.events.handleServerMessage = function(message) {
 			let myPlayer = message.players.find(function(element) {return element.id === sorcerio.game.myPlayerId;});
 			if (myPlayer !== undefined) {
 				sorcerio.game.myPlayer = myPlayer;
+				if (sorcerio.input.predictedPlayer === null) {
+					sorcerio.input.predictedPlayer = JSON.parse(JSON.stringify(myPlayer));
+				}
 			}
 			break;
 		case "death":
@@ -787,27 +799,27 @@ sorcerio.game.init = function() {
 
 //converts coordinates that are relative to the game into coordinates that are relative to the client's screen
 sorcerio.game.localCoords = function(globalCoord, xOrY) {
-	if (sorcerio.game.myPlayer === null) {
+	if (sorcerio.input.predictedPlayer === null) {
 		return 0;
 	}
 
 	if (xOrY === "x") {
-		return Math.round(globalCoord + sorcerio.ui.gameCanvas.width / 2 - sorcerio.game.myPlayer.location.x);
+		return Math.round(globalCoord + sorcerio.ui.gameCanvas.width / 2 - sorcerio.input.predictedPlayer.location.x);
 	} else if (xOrY === "y") {
-		return Math.round(globalCoord + sorcerio.ui.gameCanvas.height / 2 - sorcerio.game.myPlayer.location.y);
+		return Math.round(globalCoord + sorcerio.ui.gameCanvas.height / 2 - sorcerio.input.predictedPlayer.location.y);
 	}
 }.bind(sorcerio.game);
 
 //converts coordinates that are relative to the client's screen into coordinates that are relative to the game
 sorcerio.game.globalCoords = function(localCoord, xOrY) {
-	if (sorcerio.game.myPlayer === null) {
+	if (sorcerio.input.predictedPlayer === null) {
 		return 0;
 	}
 
 	if (xOrY === "x") {
-		return Math.round(localCoord - sorcerio.ui.gameCanvas.width / 2 + sorcerio.game.myPlayer.location.x);
+		return Math.round(localCoord - sorcerio.ui.gameCanvas.width / 2 + sorcerio.input.predictedPlayer.location.x);
 	} else if (xOrY === "y") {
-		return Math.round(localCoord - sorcerio.ui.gameCanvas.height / 2 + sorcerio.game.myPlayer.location.y);
+		return Math.round(localCoord - sorcerio.ui.gameCanvas.height / 2 + sorcerio.input.predictedPlayer.location.y);
 	}
 }.bind(sorcerio.game);
 
@@ -863,6 +875,9 @@ sorcerio.input.init = function() {
 	this.hasChosenUnlock = false;
 
 	this.storageSwapIndex = -1;
+	this.currentInputId = 0;
+	this.storedInputs = [];//list of inputs that have been sent to the server, used for clientside prediction.
+	this.predictedPlayer = null;//the most recent predicted version of the client's player
 }.bind(sorcerio.input);
 
 sorcerio.input.chooseUnlock = function(chosenUnlock) {
@@ -900,6 +915,7 @@ sorcerio.input.getInput = function() {
 		hasChosenUnlock: hasChosen,
 		chosenUnlockIndex: chosenIndex,
 		storageSwapIndex: storageIndex,
+		id: this.currentInputId++,
 		dt: Math.round(performance.now() - this.lastInputSendTime)
 	};
 
@@ -907,7 +923,62 @@ sorcerio.input.getInput = function() {
 		delete input.chosenUnlockIndex;
 	}
 
+	this.storedInputs.push(input);
 	return JSON.stringify(input);
+}.bind(sorcerio.input);
+
+//applies non-processed inputs to `player`
+sorcerio.input.doPrediction = function(player) {
+	for (let i = 0; i < this.storedInputs.length; i++) {
+		if (this.storedInputs[i].id === player.lastInput) {
+			this.storedInputs.splice(0, i + 1);
+			break;
+		}
+	}
+
+	for (const input of this.storedInputs) {
+		if (player.lastInput === undefined) {
+			player.lastProcessedInput = player.lastInput;
+		}
+		if (input.id <= player.lastProcessedInput) {
+			continue;
+		}
+		let target = {x: player.location.x, y: player.location.y};
+		if (input.keys.r) target.x += 1;
+		if (input.keys.l) target.x -= 1;
+		if (input.keys.d) target.y += 1;
+		if (input.keys.u) target.y -= 1;
+
+		this.moveTowards(player.location, target, input.dt * player.speed);
+
+		if (player.location.x < 0) player.location.x = 0;
+		if (player.location.y < 0) player.location.y = 0;
+		const mapSize = sorcerio.game.latestGameState.mapSize;
+		if (player.location.x > mapSize) player.location.x = mapSize;
+		if (player.location.y > mapSize) player.location.y = mapSize;
+		player.lastProcessedInput = input.id;
+	}
+}.bind(sorcerio.input);
+
+///Moves `point` `step` units towards `target`. NOTE: this can move the point past the target
+sorcerio.input.moveTowards = function(point, target, step) {
+		const lenToTarget = this.distance(point, target);
+
+		if (lenToTarget === 0.0 || step === 0.0) {
+			return;
+		}
+
+		const dx = target.x - point.x;
+		const dy = target.y - point.y;
+
+		const stepLenRatio = step / lenToTarget;
+
+		point.x += dx * stepLenRatio;
+		point.y += dy * stepLenRatio;
+}.bind(sorcerio.input);
+
+sorcerio.input.distance = function(a, b) {
+	return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
 }.bind(sorcerio.input);
 
 //////////////////////
