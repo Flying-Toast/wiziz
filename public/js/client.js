@@ -909,7 +909,8 @@ sorcerio.input.getInput = function() {
 
 	const input = {
 		facing: {x: sorcerio.game.globalCoords(this.mouseCoords.x, "x"), y: sorcerio.game.globalCoords(this.mouseCoords.y, "y")},
-		keys: this.keyStates,
+		//make a copy of keystates so that when this.keyStates changes, it doesn't change the keystates of the input
+		keys: Object.assign({}, this.keyStates),
 		casting: casting,
 		selectedItem: this.selectedItem,
 		hasChosenUnlock: hasChosen,
@@ -936,10 +937,11 @@ sorcerio.input.doPrediction = function(player) {
 		}
 	}
 
+	if (player.lastProcessedInput === undefined) {
+		player.lastProcessedInput = player.lastInput;
+	}
+
 	for (const input of this.storedInputs) {
-		if (player.lastInput === undefined) {
-			player.lastProcessedInput = player.lastInput;
-		}
 		if (input.id <= player.lastProcessedInput) {
 			continue;
 		}
