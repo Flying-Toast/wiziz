@@ -936,10 +936,11 @@ sorcerio.input.doPrediction = function(player) {
 		}
 	}
 
+	if (player.lastProcessedInput === undefined) {
+		player.lastProcessedInput = player.lastInput;
+	}
+
 	for (const input of this.storedInputs) {
-		if (player.lastInput === undefined) {
-			player.lastProcessedInput = player.lastInput;
-		}
 		if (input.id <= player.lastProcessedInput) {
 			continue;
 		}
