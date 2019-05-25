@@ -82,8 +82,12 @@ sorcerio.mainLoop = function() {
 
 		//client-side prediction
 		const predictedPlayer = JSON.parse(JSON.stringify(sorcerio.game.myPlayer));
-		sorcerio.input.doPrediction(predictedPlayer);
-		sorcerio.input.predictedPlayer = predictedPlayer;
+		if (predictedPlayer.lastInput > sorcerio.input.predictedPlayer.lastInput) {
+			sorcerio.input.doPrediction(predictedPlayer);
+			sorcerio.input.predictedPlayer = predictedPlayer;
+		} else {
+			sorcerio.input.doPrediction(sorcerio.input.predictedPlayer);
+		}
 	}
 
 	if (currentTime - sorcerio.ui.lastUIRenderTime >= sorcerio.ui.uiRenderInterval) {
@@ -933,6 +937,12 @@ sorcerio.input.doPrediction = function(player) {
 	}
 
 	for (const input of this.storedInputs) {
+		if (player.lastInput === undefined) {
+			player.lastProcessedInput = player.lastInput;
+		}
+		if (input.id <= player.lastProcessedInput) {
+			continue;
+		}
 		let target = {x: player.location.x, y: player.location.y};
 		if (input.keys.r) target.x += 1;
 		if (input.keys.l) target.x -= 1;
@@ -946,6 +956,7 @@ sorcerio.input.doPrediction = function(player) {
 		const mapSize = sorcerio.game.latestGameState.mapSize;
 		if (player.location.x > mapSize) player.location.x = mapSize;
 		if (player.location.y > mapSize) player.location.y = mapSize;
+		player.lastProcessedInput = input.id;
 	}
 }.bind(sorcerio.input);
 
