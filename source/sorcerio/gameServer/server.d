@@ -127,7 +127,8 @@ class Server {
 				continue;
 			}
 
-			if (messageQueue.messageAvailable(player.socketId)) {
+			ubyte processedInputs = 0;
+			while (messageQueue.messageAvailable(player.socketId) && processedInputs++ < CONFIG.maxInputsPerTick) {
 				Input input;
 				try {
 					input = new Input(messageQueue.nextMessage(player.socketId));

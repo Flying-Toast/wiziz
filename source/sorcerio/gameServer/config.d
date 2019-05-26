@@ -43,3 +43,6 @@ enum ubyte inventorySize = 4;
 
 ///the maximum number of socket connect/disconnect messages to receive per server per master tick
 enum ubyte maxConnectionMessagesPerServer = 10;
+
+///the maximum number of inputs to process per player per physics tick
+enum ubyte maxInputsPerTick = 10;
