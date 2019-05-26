@@ -27,9 +27,10 @@ class SlowSpell : SplashSpell {
 	}
 
 	override void splashAffect(Player player) {
-		player.speed *= speedMultiplier;
+		immutable speedDiff = player.speed - (player.speed * speedMultiplier);
+		player.speed -= speedDiff;
 		EventManager.registerEvent(effectDelay, delegate void (Server game) {
-			player.speed /= speedMultiplier;
+			player.speed += speedDiff;
 		});
 	}
 }
