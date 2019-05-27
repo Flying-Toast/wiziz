@@ -20,7 +20,8 @@ enum SpellName {
 	teleport,
 	speed,
 	shock,
-	expansion
+	expansion,
+	nuke
 }
 
 /**
@@ -38,7 +39,7 @@ private enum SpellName[][ushort] spellUnlocks = [
 	4: [SpellName.blind, SpellName.speed],
 	5: [SpellName.expansion, SpellName.freeze],
 	6: [SpellName.teleport, SpellName.shock],
-	7: [SpellName.invisible]
+	7: [SpellName.invisible, SpellName.nuke]
 ];
 
 version (unittest) {

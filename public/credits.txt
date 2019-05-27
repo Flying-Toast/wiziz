@@ -16,4 +16,6 @@ Teleport Spell sound - "Warp1" by Taira Komori (https://freesound.org/s/213693/)
 
 Shock Spell sound - sampled from "Electrical Shock (Zap)" by BigKahuna360 (https://freesound.org/s/160421/)
 
-Expand Spell sound - (https://freesound.org/s/107782/)
+Expand Spell sound - "stretch1" by hans (https://freesound.org/s/107782/)
+
+Nuke Spell Sound - sampled from "HUGE Explosion" by TristanLuigi (https://freesound.org/s/110818/)
