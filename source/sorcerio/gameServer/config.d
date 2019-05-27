@@ -27,7 +27,7 @@ enum int minMapSize = 3000;
 enum int maxMapSize = 20000;
 
 ///the delay, in milliseconds, between updates being sent to clients
-enum long updateInterval = 100;
+enum long updateInterval = 17;
 
 ///the delay, in milliseconds between iterations of the physics loop
 enum long physicsInterval = 10;
