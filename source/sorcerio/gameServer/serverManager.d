@@ -8,21 +8,11 @@ import sorcerio.gameServer.config;
 ///master server, contains multiple `Server`s.
 class ServerManager {
 	static private ushort currentServerId = 0;
-	/++
-	+ Generates a unique id for a child Server. It needs to be passed the current child Servers so it can re-use ids.
-	+/
-	static private ushort generateServerId(Server[ushort] servers) {
-		if (currentServerId == currentServerId.max) {
-			foreach (ushort i; 0 .. currentServerId.max) {//find an unused id
-				if ((i in servers) is null) {
-					return i;
-				}
-			}
-		} else {
-			return currentServerId++;
-		}
 
-		assert(0);//this should never be reached
+	///Generates a unique id for a child Server.
+	static private ushort generateServerId() {
+		//there will never be anywhere near 2^16 servers in one ServerManager, so it is fine if currentServerId overflows here
+		return currentServerId++;
 	}
 
 	private Server[ushort] servers;
@@ -64,7 +54,7 @@ class ServerManager {
 
 	///creates a new server, adds it to `servers`, and returns the new server's id
 	private ushort createServer() {
-		immutable ushort id = ServerManager.generateServerId(servers);
+		immutable ushort id = ServerManager.generateServerId();
 		Server newServer = new Server(id, messageQueue);
 		servers[id] = newServer;
 		return id;

@@ -17,19 +17,10 @@ import sorcerio.gameServer.event;
 class Server {
 	static private ushort currentPlayerId = 0;
 
-	///Generates a unique id for a child Player. It needs to be passed the current child Players so it can re-use ids.
-	static private ushort generatePlayerId(Player[ushort] players) {
-		if (currentPlayerId == currentPlayerId.max) {
-			foreach (ushort i; 0 .. currentPlayerId.max) {//find an unused id
-				if ((i in players) is null) {
-					return i;
-				}
-			}
-		} else {
-			return currentPlayerId++;
-		}
-
-		assert(0);//this should never be reached
+	///Generates a unique id for a child Player.
+	static private ushort generatePlayerId() {
+		//there will never be 2^16 players at once, so it's fine if this overflows
+		return currentPlayerId++;
 	}
 
 
@@ -127,7 +118,8 @@ class Server {
 				continue;
 			}
 
-			if (messageQueue.messageAvailable(player.socketId)) {
+			ubyte processedInputs = 0;
+			while (messageQueue.messageAvailable(player.socketId) && processedInputs++ < CONFIG.maxInputsPerTick) {
 				Input input;
 				try {
 					input = new Input(messageQueue.nextMessage(player.socketId));
@@ -211,7 +203,7 @@ class Server {
 	}
 
 	ushort addPlayer(PlayerConfig cfg) {
-		immutable ushort playerId = Server.generatePlayerId(players);
+		immutable ushort playerId = Server.generatePlayerId();
 
 		Player newPlayer = new Player(cfg.nickname, cfg.socket, randomPoint(mapSize, mapSize), playerId, cfg.socketId);
 		players[playerId] = newPlayer;

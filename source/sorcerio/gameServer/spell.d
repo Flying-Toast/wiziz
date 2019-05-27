@@ -20,7 +20,8 @@ enum SpellName {
 	teleport,
 	speed,
 	shock,
-	expansion
+	expansion,
+	nuke
 }
 
 /**
@@ -38,7 +39,7 @@ private enum SpellName[][ushort] spellUnlocks = [
 	4: [SpellName.blind, SpellName.speed],
 	5: [SpellName.expansion, SpellName.freeze],
 	6: [SpellName.teleport, SpellName.shock],
-	7: [SpellName.invisible]
+	7: [SpellName.invisible, SpellName.nuke]
 ];
 
 version (unittest) {
@@ -156,12 +157,9 @@ final class SpellFactory {
 	private static RegistryEntry[SpellName] registry;
 
 	static void registerSpell(SpellName name, uint coolDownTime, Spell spell) {
-		if (name !in registry) {
-			registry[name] = new RegistryEntry(spell, coolDownTime);
-		} else {
-			import std.conv;
-			throw new Exception(text("Spell '", name.to!string, "' already registered"));
-		}
+		import std.conv;
+		assert(name !in registry, text("Spell '", name, "' is already registered."));
+		registry[name] = new RegistryEntry(spell, coolDownTime);
 	}
 
 	static Spell createSpell(SpellName name, Player caster) {

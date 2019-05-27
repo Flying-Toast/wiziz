@@ -19,9 +19,10 @@ class SpeedSpell : SelfSpell {
 	}
 
 	override void affect() {
-		caster.speed *= speedMultiplier;
+		immutable speedDiff = caster.speed - (caster.speed * speedMultiplier);
+		caster.speed -= speedDiff;
 		EventManager.registerEvent(effectDuration, delegate void (Server) {
-			caster.speed /= speedMultiplier;
+			caster.speed += speedDiff;
 		});
 	}
 }
