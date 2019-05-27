@@ -29,7 +29,7 @@ class Server {
 			return currentPlayerId++;
 		}
 
-		assert(0);//this should never be reached
+		assert(0);
 	}
 
 

@@ -22,7 +22,7 @@ class ServerManager {
 			return currentServerId++;
 		}
 
-		assert(0);//this should never be reached
+		assert(0);
 	}
 
 	private Server[ushort] servers;
