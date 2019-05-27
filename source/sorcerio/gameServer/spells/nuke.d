@@ -5,7 +5,10 @@ import sorcerio.gameServer.player;
 class NukeSpell : SplashSpell {
 	mixin registerSpell!(SpellName.nuke, 16000);
 
-	private enum damage = 10;
+	private {
+		enum damage = 10;
+		enum delay = 500;
+	}
 
 	override void initialize() {
 		speed = 0.3;
@@ -14,13 +17,13 @@ class NukeSpell : SplashSpell {
 		explosionRadius = 400;
 		color = "#527A15";
 		explosionTTL = 10000;
-		effectDelay = 500;
+		effectDelay = delay;
 		super.initialize();
 	}
 
 	override string humanReadableEffect() {
 		import std.conv;
-		return "";
+		return text("Affected players get -", damage, " health every ", delay / 1000.0, " seconds");
 	}
 
 	override void splashAffect(Player player) {
