@@ -156,12 +156,9 @@ final class SpellFactory {
 	private static RegistryEntry[SpellName] registry;
 
 	static void registerSpell(SpellName name, uint coolDownTime, Spell spell) {
-		if (name !in registry) {
-			registry[name] = new RegistryEntry(spell, coolDownTime);
-		} else {
-			import std.conv;
-			throw new Exception(text("Spell '", name.to!string, "' already registered"));
-		}
+		import std.conv;
+		assert(name !in registry, text("Spell '", name, "' is already registered."));
+		registry[name] = new RegistryEntry(spell, coolDownTime);
 	}
 
 	static Spell createSpell(SpellName name, Player caster) {
