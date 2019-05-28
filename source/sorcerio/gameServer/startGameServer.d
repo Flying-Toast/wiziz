@@ -18,7 +18,7 @@ void startGameServer(shared MessageQueue queue, shared OutgoingQueue outQueue) {
 		_Exit(EXIT_FAILURE);
 	}
 
-	ServerManager master = new ServerManager(queue);
+	ServerManager master = new ServerManager(queue, outQueue);
 
 	while (true) {
 		version (unittest) {//during a unittest build, tick the master server, then exit successfully if master.tick() didn't fail.

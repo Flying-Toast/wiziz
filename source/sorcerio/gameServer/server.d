@@ -4,6 +4,7 @@ import std.json;
 
 import sorcerio : millis;
 import sorcerio.webServer.messageQueue;
+import sorcerio.webServer.outgoingQueue;
 import sorcerio.webServer.playerConfig;
 import sorcerio.gameServer.input;
 import sorcerio.gameServer.point;
@@ -30,6 +31,7 @@ class Server {
 	private long lastPhysicsTick;
 	private Spell[] spells;
 	private shared MessageQueue messageQueue;
+	private shared OutgoingQueue outQueue;
 
 	int getMapSize() {
 		return mapSize;
@@ -215,11 +217,12 @@ class Server {
 		}
 	}
 
-	this(ushort id, shared MessageQueue messageQueue) {
+	this(ushort id, shared MessageQueue messageQueue, shared OutgoingQueue outQueue) {
 		this.id = id;
 		this.mapSize = CONFIG.minMapSize;
 		this.lastUpdate = 0;
 		this.lastPhysicsTick = 0;
 		this.messageQueue = messageQueue;
+		this.outQueue = outQueue;
 	}
 }
