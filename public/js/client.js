@@ -617,11 +617,11 @@ sorcerio.events.init = function() {
 
 sorcerio.events.setup = function() {
 	sorcerio.ui.playButton.addEventListener("click", this.playButtonClick);
-	window.addEventListener("mousemove", this.mouseMove);
 	window.addEventListener("keydown", this.keyDown);
 	window.addEventListener("blur", this.onWindowBlur);
 	window.addEventListener("keyup", this.keyUp);
-	window.addEventListener("wheel", this.onScroll);
+	sorcerio.ui.gameCanvas.addEventListener("mousemove", this.mouseMove);
+	sorcerio.ui.gameCanvas.addEventListener("wheel", this.onScroll);
 	sorcerio.ui.gameCanvas.addEventListener("click", this.gameClick);
 }.bind(sorcerio.events);
 
