@@ -1,11 +1,13 @@
 import std.concurrency;
 
 import sorcerio.webServer.messageQueue;
+import sorcerio.webServer.outgoingQueue;
 import sorcerio.webServer.webServer;
 import sorcerio.gameServer.startGameServer;
 
 void main() {
 	shared queue = new MessageQueue;
+	shared outQueue = new shared(OutgoingQueue);
 	Tid gameServerTid = spawn(&startGameServer, queue);
 
 	version (unittest) {//during a test build, give some time for the gameServer to run before exiting
