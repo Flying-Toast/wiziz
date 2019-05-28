@@ -470,8 +470,8 @@ sorcerio.ui.displayUnlocks = function() {
 
 //updates the xp and health sliders
 sorcerio.ui.updateSliders = function() {
-	this.healthSlider.style.width = `calc(${sorcerio.game.myPlayer.health / sorcerio.game.myPlayer.maxHealth * 100}% - 8px)`;
-	this.xpSlider.style.width = `calc(${(sorcerio.game.myPlayer.xp - sorcerio.game.myPlayer.lastLevelUpAtXp) / (sorcerio.game.myPlayer.levelUpAtXp - sorcerio.game.myPlayer.lastLevelUpAtXp) * 100}% - 8px)`
+	this.healthSlider.style.width = `calc(${Math.min(100, sorcerio.game.myPlayer.health / sorcerio.game.myPlayer.maxHealth * 100)}% - 8px)`;
+	this.xpSlider.style.width = `calc(${Math.min(100, (sorcerio.game.myPlayer.xp - sorcerio.game.myPlayer.lastLevelUpAtXp) / (sorcerio.game.myPlayer.levelUpAtXp - sorcerio.game.myPlayer.lastLevelUpAtXp) * 100)}% - 8px)`
 }.bind(sorcerio.ui);
 
 //updates the images in the inventory, and outlines the currently selected spell
