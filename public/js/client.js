@@ -603,6 +603,7 @@ sorcerio.comm.newWSConnection = function() {
 		if (e.code === 1006) {
 			document.querySelector("#disconnected").style.display = "block";
 		}
+		sorcerio.events.isPlaying = false;
 	});
 }.bind(sorcerio.comm);
 
@@ -699,7 +700,6 @@ sorcerio.events.handleServerMessage = function(message) {
 			break;
 		case "death":
 			sorcerio.comm.ws.close();
-			sorcerio.events.isPlaying = false;
 			sorcerio.reset();
 			sorcerio.ui.showMainScreen();
 			break;
