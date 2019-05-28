@@ -1,6 +1,6 @@
 module sorcerio.webServer.messageQueue;
 
-shared class MessageQueue {
+synchronized class MessageQueue {
 	private string[][uint] queue;
 
 	///checks if there is a message available in the queue for `socketId`.
