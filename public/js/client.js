@@ -97,7 +97,7 @@ sorcerio.mainLoop = function() {
 	}
 
 	if (sorcerio.events.isPlaying) {
-		window.requestAnimationFrame(sorcerio.mainLoop);
+		requestAnimationFrame(sorcerio.mainLoop);
 	}
 };
 
@@ -270,7 +270,7 @@ sorcerio.ui.init = function() {
 	gridCanvas.width = innerWidth;
 	gridCanvas.height = innerHeight;
 
-	window.addEventListener("resize", function() {
+	addEventListener("resize", function() {
 		gridCanvas.width = innerWidth;
 		gridCanvas.height = innerHeight;
 		gameCanvas.width = innerWidth;
@@ -589,7 +589,7 @@ sorcerio.comm.init = function() {
 
 //connects the websocket to the server
 sorcerio.comm.newWSConnection = function() {
-	this.ws = new WebSocket(`ws${(window.location.protocol==="https:")?"s":""}://${window.location.host}/ws`);
+	this.ws = new WebSocket(`ws${(location.protocol==="https:")?"s":""}://${location.host}/ws`);
 
 	this.ws.addEventListener("open", function() {
 		sorcerio.comm.ws.send(sorcerio.ui.generatePlayerConfig());//send the player config to the server
@@ -620,9 +620,9 @@ sorcerio.events.init = function() {
 
 sorcerio.events.setup = function() {
 	sorcerio.ui.playButton.addEventListener("click", this.playButtonClick);
-	window.addEventListener("keydown", this.keyDown);
-	window.addEventListener("blur", this.onWindowBlur);
-	window.addEventListener("keyup", this.keyUp);
+	addEventListener("keydown", this.keyDown);
+	addEventListener("blur", this.onWindowBlur);
+	addEventListener("keyup", this.keyUp);
 	sorcerio.ui.gameCanvas.addEventListener("mousemove", this.mouseMove);
 	sorcerio.ui.gameCanvas.addEventListener("wheel", this.onScroll);
 	sorcerio.ui.gameCanvas.addEventListener("click", this.gameClick);
@@ -669,7 +669,7 @@ sorcerio.events.startNewGame = function() {
 
 sorcerio.events.newGameStarted = function() {
 	sorcerio.ui.hideMainScreen();
-	window.requestAnimationFrame(sorcerio.mainLoop);
+	requestAnimationFrame(sorcerio.mainLoop);
 };
 
 sorcerio.events.handleServerMessage = function(message) {
@@ -680,10 +680,10 @@ sorcerio.events.handleServerMessage = function(message) {
 			sorcerio.game.myPlayerId = message.id;
 
 			//wait for next "update" message before calling newGameStarted():
-			window.intervalId = window.setInterval(function() {
+			window.intervalId = setInterval(function() {
 				if (sorcerio.game.latestGameState !== null) {
 					sorcerio.events.newGameStarted();
-					window.clearInterval(window.intervalId);
+					clearInterval(window.intervalId);
 					window.intervalId = undefined;
 				}
 			}, 1);
@@ -992,7 +992,7 @@ sorcerio.input.distance = function(a, b) {
 //////////////////////
 
 //entrypoint:
-window.addEventListener("load", function() {
+addEventListener("load", function() {
 	console.log("%cpsst!", "font-size:20px;font-style:italic;", "\nDid you know that sorcerio is open source?\nCome check it out - contributions are welcome.\nhttps://github.com/Flying-Toast/sorcerio");
 	fetch("/meta.json").then(function(resp){return resp.json();}).then(function(metadata) {
 		sorcerio.meta.data = metadata;
