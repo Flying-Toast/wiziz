@@ -524,7 +524,7 @@ sorcerio.ui.updateStorage = function() {
 		let slot = document.querySelector(`#storageSlot${i+1}`);
 		const newSrc = sorcerio.media.inventoryItems[name];
 
-		if (slot.src !== newSrc) {//change the src of the slot if it does not match the spell
+		if (slot.attributes.src.nodeValue !== newSrc) {//change the src of the slot if it does not match the spell
 			slot.src = newSrc;
 		}
 	}
