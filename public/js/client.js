@@ -526,6 +526,7 @@ sorcerio.ui.updateStorage = function() {
 
 		if (slot.attributes.src.nodeValue !== newSrc) {//change the src of the slot if it does not match the spell
 			slot.src = newSrc;
+			slot.title = sorcerio.meta.data.humanReadableEffects[name];
 		}
 	}
 }.bind(sorcerio.ui);
