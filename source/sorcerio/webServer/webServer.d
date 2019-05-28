@@ -9,6 +9,7 @@ import std.algorithm : map;
 import std.range : array;
 
 import sorcerio.webServer.messageQueue;
+import sorcerio.webServer.outgoingQueue;
 import sorcerio.webServer.playerConfig;
 import sorcerio.gameServer.spell;
 import CONFIG = sorcerio.gameServer.config;
@@ -17,6 +18,7 @@ private Tid gameServerTid;
 private uint currentId = 0;
 private uint generateSocketId() {return currentId++;};
 private shared MessageQueue messageQueue;
+private shared OutgoingQueue outQueue;
 
 private JSONValue metaJSONResponse;
 private void serveMetaJSON(HTTPServerRequest req, HTTPServerResponse res) {
@@ -26,9 +28,10 @@ private void serveMetaJSON(HTTPServerRequest req, HTTPServerResponse res) {
 private enum string[] spellTypes = [EnumMembers!SpellName].map!(a => a.to!string).array;
 private string[string] humanReadableEffects;
 
-void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue) {
+void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue, shared OutgoingQueue outgoingQueue) {
 	gameServerTid = gsTid;
 	messageQueue = queue;
+	outQueue = outgoingQueue;
 
 	humanReadableEffects = SpellFactory.getHumanReadableEffects;
 
