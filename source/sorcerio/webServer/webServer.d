@@ -91,6 +91,15 @@ private void handleSocket(scope WebSocket socket) {
 
 	PlayerConfig cfg = new PlayerConfig(configJSON["nickname"].str, currentSocketId);
 
+	auto sender = runTask({
+		while (socket.connected) {
+			outQueue.waitForSend();
+			while (outQueue.messageAvailable(currentSocketId)) {
+				socket.send(outQueue.nextMessage(currentSocketId));
+			}
+		}
+	});
+
 	std.concurrency.send(gameServerTid, cast(shared) cfg);
 
 	while (socket.waitForData()) {
@@ -98,4 +107,6 @@ private void handleSocket(scope WebSocket socket) {
 	}
 
 	std.concurrency.send(gameServerTid, currentSocketId);
+
+	sender.join();
 }

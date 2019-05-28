@@ -4,7 +4,7 @@ import vibe.vibe;
 
 import sorcerio.webServer.messageQueue;
 
-synchronized class OutgoingQueue : MessageQueue {
+shared class OutgoingQueue : MessageQueue {
 	private ManualEvent sendEvent;
 
 	///sends the queued messages (just queueing a message does not send it, only sendMessages() sends them)

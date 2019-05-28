@@ -86,8 +86,9 @@ class Server {
 		string stateString = state.toString();
 
 		foreach (player; players) {
-			//player.socket.send(stateString);
+			outQueue.queueMessage(player.socketId, stateString);
 		}
+		outQueue.sendMessages();
 		this.lastUpdate = millis();
 	}
 
@@ -110,7 +111,7 @@ class Server {
 
 		foreach (player; players) {
 			if (player.isDead) {
-				//player.socket.send(`{"type":"death"}`);
+				outQueue.queueMessage(player.socketId, `{"type":"death"}`);
 				players.remove(player.id);
 				continue;
 			}
