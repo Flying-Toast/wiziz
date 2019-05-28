@@ -21,11 +21,10 @@ class ConfuseSpell : ProjectileSpell {
 	}
 
 	override void affectPlayer(Player affectedPlayer) {
-		if (affectedPlayer.speed != 0) {
-			affectedPlayer.speed *= -1;
-			EventManager.registerEvent(duration, delegate void (Server) {
-				affectedPlayer.speed *= -1;
-			});
-		}
+		immutable speedDiff = affectedPlayer.speed * 2;
+		affectedPlayer.speed -= speedDiff;
+		EventManager.registerEvent(duration, delegate void (Server) {
+			affectedPlayer.speed += speedDiff;
+		});
 	}
 }
