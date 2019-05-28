@@ -9,6 +9,7 @@ import std.algorithm : map;
 import std.range : array;
 
 import sorcerio.webServer.messageQueue;
+import sorcerio.webServer.outgoingQueue;
 import sorcerio.webServer.playerConfig;
 import sorcerio.gameServer.spell;
 import CONFIG = sorcerio.gameServer.config;
@@ -17,6 +18,7 @@ private Tid gameServerTid;
 private uint currentId = 0;
 private uint generateSocketId() {return currentId++;};
 private shared MessageQueue messageQueue;
+private shared OutgoingQueue outQueue;
 
 private JSONValue metaJSONResponse;
 private void serveMetaJSON(HTTPServerRequest req, HTTPServerResponse res) {
@@ -26,9 +28,10 @@ private void serveMetaJSON(HTTPServerRequest req, HTTPServerResponse res) {
 private enum string[] spellTypes = [EnumMembers!SpellName].map!(a => a.to!string).array;
 private string[string] humanReadableEffects;
 
-void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue) {
+void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue, shared OutgoingQueue outgoingQueue) {
 	gameServerTid = gsTid;
 	messageQueue = queue;
+	outQueue = outgoingQueue;
 
 	humanReadableEffects = SpellFactory.getHumanReadableEffects;
 
@@ -86,7 +89,16 @@ private void handleSocket(scope WebSocket socket) {
 	uint currentSocketId = generateSocketId();
 	socket.send(`{"type":"yourId","id":`~currentSocketId.to!string~`}`);
 
-	PlayerConfig cfg = new PlayerConfig(configJSON["nickname"].str, socket, currentSocketId);
+	PlayerConfig cfg = new PlayerConfig(configJSON["nickname"].str, currentSocketId);
+
+	auto sender = runTask({
+		while (socket.connected) {
+			outQueue.waitForSend();
+			while (outQueue.messageAvailable(currentSocketId)) {
+				socket.send(outQueue.nextMessage(currentSocketId));
+			}
+		}
+	});
 
 	std.concurrency.send(gameServerTid, cast(shared) cfg);
 
@@ -95,4 +107,6 @@ private void handleSocket(scope WebSocket socket) {
 	}
 
 	std.concurrency.send(gameServerTid, currentSocketId);
+
+	sender.join();
 }

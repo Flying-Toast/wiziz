@@ -1,10 +1,10 @@
 module sorcerio.gameServer.server;
 
-import vibe.vibe : WebSocket, WebSocketException;
 import std.json;
 
 import sorcerio : millis;
 import sorcerio.webServer.messageQueue;
+import sorcerio.webServer.outgoingQueue;
 import sorcerio.webServer.playerConfig;
 import sorcerio.gameServer.input;
 import sorcerio.gameServer.point;
@@ -31,6 +31,7 @@ class Server {
 	private long lastPhysicsTick;
 	private Spell[] spells;
 	private shared MessageQueue messageQueue;
+	private shared OutgoingQueue outQueue;
 
 	int getMapSize() {
 		return mapSize;
@@ -85,10 +86,9 @@ class Server {
 		string stateString = state.toString();
 
 		foreach (player; players) {
-			try {
-				player.socket.send(stateString);
-			} catch (WebSocketException e) {}//TEMP: until I find a better way to make cross-thread WebSockets work
+			outQueue.queueMessage(player.socketId, stateString);
 		}
+		outQueue.sendMessages();
 		this.lastUpdate = millis();
 	}
 
@@ -111,9 +111,7 @@ class Server {
 
 		foreach (player; players) {
 			if (player.isDead) {
-				try {
-					player.socket.send(`{"type":"death"}`);
-				} catch (WebSocketException e) {}//TEMP: until I find a better way to make cross-thread WebSockets work
+				outQueue.queueMessage(player.socketId, `{"type":"death"}`);
 				players.remove(player.id);
 				continue;
 			}
@@ -205,7 +203,7 @@ class Server {
 	ushort addPlayer(PlayerConfig cfg) {
 		immutable ushort playerId = Server.generatePlayerId();
 
-		Player newPlayer = new Player(cfg.nickname, cfg.socket, randomPoint(mapSize, mapSize), playerId, cfg.socketId);
+		Player newPlayer = new Player(cfg.nickname, randomPoint(mapSize, mapSize), playerId, cfg.socketId);
 		players[playerId] = newPlayer;
 
 		resizeMap();
@@ -220,11 +218,12 @@ class Server {
 		}
 	}
 
-	this(ushort id, shared MessageQueue messageQueue) {
+	this(ushort id, shared MessageQueue messageQueue, shared OutgoingQueue outQueue) {
 		this.id = id;
 		this.mapSize = CONFIG.minMapSize;
 		this.lastUpdate = 0;
 		this.lastPhysicsTick = 0;
 		this.messageQueue = messageQueue;
+		this.outQueue = outQueue;
 	}
 }

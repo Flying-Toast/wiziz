@@ -1,9 +1,10 @@
 module sorcerio.gameServer.input;
 
+import std.json;
+import std.algorithm : min;
+
 import sorcerio.gameServer.point;
 import CONFIG = sorcerio.gameServer.config;
-
-import std.json;
 
 ///a class to make it easier to handle client input, which comes in as JSON
 class Input {
@@ -29,11 +30,7 @@ class Input {
 		moveLeft = j["keys"]["l"].boolean;
 		moveRight = j["keys"]["r"].boolean;
 
-		auto rawDT = cast(ubyte) j["dt"].integer;
-		if (rawDT > CONFIG.maxInputDT) {
-			rawDT = CONFIG.maxInputDT;
-		}
-		dt = rawDT;
+		dt = cast(ubyte) min(j["dt"].integer, CONFIG.maxInputDT);
 
 		isCasting = j["casting"].boolean;
 

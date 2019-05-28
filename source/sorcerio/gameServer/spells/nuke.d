@@ -6,7 +6,7 @@ class NukeSpell : SplashSpell {
 	mixin registerSpell!(SpellName.nuke, 16000);
 
 	private {
-		enum damage = 10;
+		enum damage = 24;
 		enum delay = 500;
 	}
 

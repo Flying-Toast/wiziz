@@ -470,8 +470,8 @@ sorcerio.ui.displayUnlocks = function() {
 
 //updates the xp and health sliders
 sorcerio.ui.updateSliders = function() {
-	this.healthSlider.style.width = `calc(${sorcerio.game.myPlayer.health / sorcerio.game.myPlayer.maxHealth * 100}% - 8px)`;
-	this.xpSlider.style.width = `calc(${(sorcerio.game.myPlayer.xp - sorcerio.game.myPlayer.lastLevelUpAtXp) / (sorcerio.game.myPlayer.levelUpAtXp - sorcerio.game.myPlayer.lastLevelUpAtXp) * 100}% - 8px)`
+	this.healthSlider.style.width = `calc(${Math.min(100, sorcerio.game.myPlayer.health / sorcerio.game.myPlayer.maxHealth * 100)}% - 8px)`;
+	this.xpSlider.style.width = `calc(${Math.min(100, (sorcerio.game.myPlayer.xp - sorcerio.game.myPlayer.lastLevelUpAtXp) / (sorcerio.game.myPlayer.levelUpAtXp - sorcerio.game.myPlayer.lastLevelUpAtXp) * 100)}% - 8px)`
 }.bind(sorcerio.ui);
 
 //updates the images in the inventory, and outlines the currently selected spell
@@ -524,8 +524,9 @@ sorcerio.ui.updateStorage = function() {
 		let slot = document.querySelector(`#storageSlot${i+1}`);
 		const newSrc = sorcerio.media.inventoryItems[name];
 
-		if (slot.src !== newSrc) {//change the src of the slot if it does not match the spell
+		if (slot.attributes.src.nodeValue !== newSrc) {//change the src of the slot if it does not match the spell
 			slot.src = newSrc;
+			slot.title = sorcerio.meta.data.humanReadableEffects[name];
 		}
 	}
 }.bind(sorcerio.ui);
@@ -617,11 +618,11 @@ sorcerio.events.init = function() {
 
 sorcerio.events.setup = function() {
 	sorcerio.ui.playButton.addEventListener("click", this.playButtonClick);
-	window.addEventListener("mousemove", this.mouseMove);
 	window.addEventListener("keydown", this.keyDown);
 	window.addEventListener("blur", this.onWindowBlur);
 	window.addEventListener("keyup", this.keyUp);
-	window.addEventListener("wheel", this.onScroll);
+	sorcerio.ui.gameCanvas.addEventListener("mousemove", this.mouseMove);
+	sorcerio.ui.gameCanvas.addEventListener("wheel", this.onScroll);
 	sorcerio.ui.gameCanvas.addEventListener("click", this.gameClick);
 }.bind(sorcerio.events);
 
