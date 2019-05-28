@@ -1,6 +1,5 @@
 module sorcerio.gameServer.player;
 
-import vibe.vibe : WebSocket;
 import std.json;
 
 import sorcerio.gameServer.point;
@@ -10,7 +9,6 @@ import sorcerio.gameServer.spell;
 ///
 class Player {
 	immutable ushort id;///an id that is uniqie to players in this `Server`
-	WebSocket socket;
 	float speed;
 	Point location;///the player's current location
 	Point facing;///global coords of the client's cursor
@@ -133,7 +131,7 @@ class Player {
 		return json;
 	}
 
-	this(string nickname, WebSocket socket, Point location, ushort id, uint socketId) {
+	this(string nickname, Point location, ushort id, uint socketId) {
 		import std.string;
 		nickname = nickname.strip();
 		if (nickname == "") {
@@ -144,7 +142,6 @@ class Player {
 			this.nickname = nickname;
 		}
 
-		this.socket = socket;
 		this.location = location;
 		this.id = id;
 		this.facing = new Point(0, 0);

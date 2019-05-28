@@ -86,7 +86,7 @@ private void handleSocket(scope WebSocket socket) {
 	uint currentSocketId = generateSocketId();
 	socket.send(`{"type":"yourId","id":`~currentSocketId.to!string~`}`);
 
-	PlayerConfig cfg = new PlayerConfig(configJSON["nickname"].str, socket, currentSocketId);
+	PlayerConfig cfg = new PlayerConfig(configJSON["nickname"].str, currentSocketId);
 
 	std.concurrency.send(gameServerTid, cast(shared) cfg);
 

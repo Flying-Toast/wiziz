@@ -1,6 +1,5 @@
 module sorcerio.gameServer.server;
 
-import vibe.vibe : WebSocket, WebSocketException;
 import std.json;
 
 import sorcerio : millis;
@@ -85,9 +84,7 @@ class Server {
 		string stateString = state.toString();
 
 		foreach (player; players) {
-			try {
-				player.socket.send(stateString);
-			} catch (WebSocketException e) {}//TEMP: until I find a better way to make cross-thread WebSockets work
+			//player.socket.send(stateString);
 		}
 		this.lastUpdate = millis();
 	}
@@ -111,9 +108,7 @@ class Server {
 
 		foreach (player; players) {
 			if (player.isDead) {
-				try {
-					player.socket.send(`{"type":"death"}`);
-				} catch (WebSocketException e) {}//TEMP: until I find a better way to make cross-thread WebSockets work
+				//player.socket.send(`{"type":"death"}`);
 				players.remove(player.id);
 				continue;
 			}
@@ -205,7 +200,7 @@ class Server {
 	ushort addPlayer(PlayerConfig cfg) {
 		immutable ushort playerId = Server.generatePlayerId();
 
-		Player newPlayer = new Player(cfg.nickname, cfg.socket, randomPoint(mapSize, mapSize), playerId, cfg.socketId);
+		Player newPlayer = new Player(cfg.nickname, randomPoint(mapSize, mapSize), playerId, cfg.socketId);
 		players[playerId] = newPlayer;
 
 		resizeMap();
