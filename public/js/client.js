@@ -66,6 +66,7 @@ sorcerio.reset = function() {
 	sorcerio.ui.chooseUnlockedSpells.innerHTML = "";
 	sorcerio.ui.leadersList.innerHTML = "";
 	sorcerio.ui.storage.innerHTML = "";
+	sorcerio.ui.chooseUnlockedSpellsWrapper.style.display = "";
 	//re-init
 	sorcerio.init();
 };
@@ -712,6 +713,10 @@ sorcerio.events.mouseMove = function(domEvent) {
 };
 
 sorcerio.events.keyDown = function(e) {
+	if (!this.isPlaying) {
+		return;
+	}
+
 	switch (e.key.toLowerCase()) {
 		case sorcerio.input.controls.up:
 			sorcerio.input.keyStates.u = true;
@@ -730,11 +735,9 @@ sorcerio.events.keyDown = function(e) {
 			break;
 	}
 
-	if (this.isPlaying) {
-		const keyNum = parseInt(e.key);//the integer of the key pressed, if it is a number key. otherwise, NaN
-		if (keyNum !== NaN && keyNum > 0 && keyNum-1 < sorcerio.meta.data.inventorySize) {
-			sorcerio.input.selectedItem = keyNum-1;
-		}
+	const keyNum = parseInt(e.key);//the integer of the key pressed, if it is a number key. otherwise, NaN
+	if (keyNum !== NaN && keyNum > 0 && keyNum-1 < sorcerio.meta.data.inventorySize) {
+		sorcerio.input.selectedItem = keyNum-1;
 	}
 }.bind(sorcerio.events);
 
