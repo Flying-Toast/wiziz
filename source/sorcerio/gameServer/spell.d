@@ -281,7 +281,8 @@ unittest {///make sure that all spells are implemented
 		//warn if a spell is not unlockable:
 		import std.algorithm.searching : canFind;
 		if (!allUnlockableSpells.canFind(name)) {
-			writeln("NOTE: '", name.to!string, "' spell is not unlockable (not in `spellUnlocks`)");
+			writeln("'", name.to!string, "' spell is not unlockable (not in `spellUnlocks`)");
+			error = true;
 		}
 	}
 
