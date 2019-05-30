@@ -193,9 +193,10 @@ sorcerio.renderer.renderPlayer = function(player) {
 		this.gameCtx.font = "20px newRocker";
 		this.gameCtx.fillStyle = '#2dafaf';
 		this.gameCtx.fillText(player.nickname, -(this.gameCtx.measureText(player.nickname).width / 2), 80);
-		this.gameCtx.font = "18px agane";
-		this.gameCtx.fillStyle = '#2dafaf';
-		this.gameCtx.fillText('lvl ' + player.level, -(this.gameCtx.measureText('lvl ' + player.level).width / 2), 100);
+		this.gameCtx.fillStyle = "rgba(40, 41, 41, 0.7)";
+		this.gameCtx.fillRect(-55, 84, 110, 10);
+		this.gameCtx.fillStyle = "#1ABF35";
+		this.gameCtx.fillRect(-52, 86, 104 * (player.health / player.maxHealth), 6);
 		if (player.speed === 0) {
 			this.gameCtx.rotate(sorcerio.game.calculatePlayerAngle(player));
 			this.renderFrozenOverlay();
