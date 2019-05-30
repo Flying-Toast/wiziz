@@ -68,6 +68,7 @@ class Player {
 		lastLevelUpAtXp = levelUpAtXp;
 		levelUpAtXp = xpNeededForLevel(cast(ushort) (level+1));
 		unlocks = unlockedSpells(level);
+		speed *= CONFIG.levelUpSpeedMultiplier;
 
 		//update maxHealth, and increase the current health so that the % health is the same as it was before
 		immutable initialMaxHealth = maxHealth;
