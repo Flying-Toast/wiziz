@@ -9,7 +9,7 @@ enum defaultNickname = "Unnamed Sorcerer";
 enum ubyte maxNameLength = 15;
 
 ///the default player speed in pixels/millisecond
-enum float defaultPlayerSpeed = 1.0 / 5.5;
+enum float defaultPlayerSpeed = 1.0 / 6.0;
 
 ///The collision radius of players
 enum ubyte playerRadius = 65;
