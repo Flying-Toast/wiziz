@@ -101,7 +101,7 @@ class Player {
 	*/
 	void doRewardedDamage(int damage, Player attacker) {
 		if (doDamage(damage)) {
-			attacker.xp += cast(uint) ((level + 1.5) ^^ 2) * 100;
+			attacker.xp += cast(uint) ((level + 1) ^^ 2) * 100;
 		}
 	}
 
