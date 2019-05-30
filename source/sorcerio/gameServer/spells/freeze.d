@@ -7,9 +7,9 @@ import sorcerio.gameServer.event;
 import sorcerio.gameServer.server;
 
 class FreezeSpell : ProjectileSpell {
-	mixin registerSpell!(SpellName.freeze, 5000);
+	mixin registerSpell!(SpellName.freeze, 6000);
 
-	private enum freezeDuration = 2000;
+	private enum freezeDuration = 3000;
 
 	override string humanReadableEffect() {
 		import std.conv;
@@ -19,7 +19,7 @@ class FreezeSpell : ProjectileSpell {
 	override void initialize() {
 		speed = 0.7;
 		radius = 10;
-		range = 500;
+		range = 650;
 		super.initialize();
 	}
 
