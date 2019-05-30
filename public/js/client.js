@@ -289,18 +289,16 @@ sorcerio.ui.init = function() {
 	this.mainScreen = document.querySelector("#mainScreen");
 	this.spellWrapper = document.querySelector("#spellWrapper");
 	this.leadersList = document.querySelector("#leadersList");
-	this.xpNumberDisplay = document.querySelector("#xpNumberDisplay");
-	this.levelNumberDisplay = document.querySelector("#levelNumberDisplay");
-	this.healthPercentDisplay = document.querySelector("#healthPercentDisplay");
 	this.xpSlider = document.querySelector("#xp");
 	this.healthSlider = document.querySelector("#health");
 	this.chooseUnlockedSpells = document.querySelector("#chooseUnlockedSpells");
 	this.chooseUnlockedSpellsWrapper = document.querySelector("#chooseUnlockedSpellsWrapper");
 	this.storageWrapper = document.querySelector("#storageWrapper");
 	this.storage = document.querySelector("#storage");
-
+	this.toggledElements = Array.from(document.querySelectorAll("#inventory,#outerHealth,#outerXp,#leaderboard"));//ui elements that get toggled when ui is shown/hidden
 	this.isChoosingUnlocks = false;
 	this.lastChosenUnlocks = "";
+	this.uiVisible = true;
 }.bind(sorcerio.ui);
 
 sorcerio.ui.setup = function() {
@@ -308,6 +306,17 @@ sorcerio.ui.setup = function() {
 	for (let i = 0; i < 10; i++) {//fill the storage with some empty spell slots
 		this.storage.appendChild(this.createStorageSpellSlot(this.storage.children.length + 1));
 	}
+}.bind(sorcerio.ui);
+
+sorcerio.ui.toggleUI = function() {
+	for (let i of this.toggledElements) {
+		if (this.uiVisible) {
+			i.style.display = "none";
+		} else {
+			i.style.display = "";
+		}
+	}
+	this.uiVisible = !this.uiVisible;
 }.bind(sorcerio.ui);
 
 //fills the hotbar with empty slots
@@ -363,13 +372,6 @@ sorcerio.ui.createHotbarSlots = function() {
 //hides the main screen, revealing the actual game
 sorcerio.ui.hideMainScreen = function() {
 	this.mainScreen.style.display = "none";
-}.bind(sorcerio.ui);
-
-//updates the 'stats display' (the stats next to the xp bar)
-sorcerio.ui.updateStatsDisplay = function() {
-	this.xpNumberDisplay.innerText = sorcerio.game.myPlayer.xp;
-	this.levelNumberDisplay.innerText = sorcerio.game.myPlayer.level;
-	this.healthPercentDisplay.innerText = Math.round((sorcerio.game.myPlayer.health / sorcerio.game.myPlayer.maxHealth) * 100);
 }.bind(sorcerio.ui);
 
 sorcerio.ui.showMainScreen = function() {
@@ -436,7 +438,6 @@ sorcerio.ui.updateLeaderboard = function(players) {
 //renders the ui
 sorcerio.ui.render = function() {
 	this.updateLeaderboard(sorcerio.game.getLeaders(10));
-	this.updateStatsDisplay();
 	this.updateSliders();
 	this.updateInventory();
 	this.updateStorage();
@@ -734,6 +735,9 @@ sorcerio.events.keyDown = function(e) {
 		case sorcerio.input.controls.storage:
 			sorcerio.ui.toggleStorage();
 			break;
+		case sorcerio.input.controls.ui:
+			sorcerio.ui.toggleUI();
+			break;
 	}
 
 	const keyNum = parseInt(e.key);//the integer of the key pressed, if it is a number key. otherwise, NaN
@@ -865,7 +869,8 @@ sorcerio.input.init = function() {
 		down: "s",
 		left: "a",
 		right: "d",
-		storage: "e"
+		storage: "e",
+		ui: "h"
 	};
 	this.keyStates = {//current state of movement keys
 		u: false,
