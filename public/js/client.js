@@ -295,9 +295,10 @@ sorcerio.ui.init = function() {
 	this.chooseUnlockedSpellsWrapper = document.querySelector("#chooseUnlockedSpellsWrapper");
 	this.storageWrapper = document.querySelector("#storageWrapper");
 	this.storage = document.querySelector("#storage");
-
+	this.toggledElements = Array.from(document.querySelectorAll("#inventory,#outerHealth,#outerXp,#leaderboard"));//ui elements that get toggled when ui is shown/hidden
 	this.isChoosingUnlocks = false;
 	this.lastChosenUnlocks = "";
+	this.uiVisible = true;
 }.bind(sorcerio.ui);
 
 sorcerio.ui.setup = function() {
@@ -305,6 +306,17 @@ sorcerio.ui.setup = function() {
 	for (let i = 0; i < 10; i++) {//fill the storage with some empty spell slots
 		this.storage.appendChild(this.createStorageSpellSlot(this.storage.children.length + 1));
 	}
+}.bind(sorcerio.ui);
+
+sorcerio.ui.toggleUI = function() {
+	for (let i of this.toggledElements) {
+		if (this.uiVisible) {
+			i.style.display = "none";
+		} else {
+			i.style.display = "";
+		}
+	}
+	this.uiVisible = !this.uiVisible;
 }.bind(sorcerio.ui);
 
 //fills the hotbar with empty slots
@@ -723,6 +735,9 @@ sorcerio.events.keyDown = function(e) {
 		case sorcerio.input.controls.storage:
 			sorcerio.ui.toggleStorage();
 			break;
+		case sorcerio.input.controls.ui:
+			sorcerio.ui.toggleUI();
+			break;
 	}
 
 	const keyNum = parseInt(e.key);//the integer of the key pressed, if it is a number key. otherwise, NaN
@@ -854,7 +869,8 @@ sorcerio.input.init = function() {
 		down: "s",
 		left: "a",
 		right: "d",
-		storage: "e"
+		storage: "e",
+		ui: "h"
 	};
 	this.keyStates = {//current state of movement keys
 		u: false,
