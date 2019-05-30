@@ -48,4 +48,4 @@ enum ubyte maxConnectionMessagesPerServer = 10;
 enum ubyte maxInputsPerTick = 10;
 
 ///when a player levels up, their speed gets multiplied by this
-enum double levelUpSpeedMultiplier = 0.93;
+enum double levelUpSpeedMultiplier = 0.94;
