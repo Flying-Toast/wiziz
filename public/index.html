@@ -72,14 +72,14 @@
 				background-color: #BBBBBB;
 				height: 120px;
 				position: absolute;
-				bottom: 0;
+				bottom: -16px;
 				border-radius: 10px;
 				border: 10px solid #3a8fee;
 				overflow: hidden;
 				justify-content: center;
 				text-align: center;
 				left: 50%;
-				transform: translateX(-50%);
+				transform: translateX(-50%) scale(0.7);
 			}
 
 			.inventorySlot, .selectionOutline {
@@ -136,11 +136,12 @@
 				height: 30px;
 				margin: 0 auto;
 				position: absolute;
-				bottom: 125px;
+				bottom: 86px;
 				left: calc(50vw - (416px / 2));
 				width: 416px;
 				border-radius: 5px;
 				background-color: rgba(40, 41, 41, 0.7);
+				transform: scale(0.85);
 			}
 
 			#health {
@@ -155,14 +156,15 @@
 			}
 
 			#outerXp {
-				height: 20px;
+				height: 16px;
 				margin: 0 auto;
 				position: absolute;
-				bottom: 157px;
+				bottom: 115px;
 				left: calc(50vw - (416px / 2));
-				width: 250px;
+				width: 416px;
 				border-radius: 3px;
 				background-color: rgba(40, 41, 41, 0.7);
+				transform: scale(0.85);
 			}
 
 			#xp {
@@ -174,13 +176,6 @@
 				transform: translateY(-50%);
 				border-radius: 3px;
 				background-color: rgba(63, 214, 44, 0.8);
-			}
-
-			#level {
-				color: #2f086f;
-				position: absolute;
-				bottom: 157px;
-				left: calc(50vw - (416px / 2) + 253px);
 			}
 
 			#healthIcon {
@@ -671,13 +666,6 @@
 					<p id='newSpellsSubcaption'>(click to choose new spell)</p>
 					<div id="chooseUnlockedSpells"></div>
 				</div>
-				<div id='level'>
-					<span id='xpNumberDisplay'></span>
-					XP | Lvl
-					<span id='levelNumberDisplay'></span>
-					|
-					<span id='healthPercentDisplay'></span>%
-					<img id='healthIcon' src="media/images/health.svg" alt="Health"></div>
 				<div id='outerXp'>
 					<div id="xp"></div>
 				</div>

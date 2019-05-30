@@ -289,9 +289,6 @@ sorcerio.ui.init = function() {
 	this.mainScreen = document.querySelector("#mainScreen");
 	this.spellWrapper = document.querySelector("#spellWrapper");
 	this.leadersList = document.querySelector("#leadersList");
-	this.xpNumberDisplay = document.querySelector("#xpNumberDisplay");
-	this.levelNumberDisplay = document.querySelector("#levelNumberDisplay");
-	this.healthPercentDisplay = document.querySelector("#healthPercentDisplay");
 	this.xpSlider = document.querySelector("#xp");
 	this.healthSlider = document.querySelector("#health");
 	this.chooseUnlockedSpells = document.querySelector("#chooseUnlockedSpells");
@@ -365,13 +362,6 @@ sorcerio.ui.hideMainScreen = function() {
 	this.mainScreen.style.display = "none";
 }.bind(sorcerio.ui);
 
-//updates the 'stats display' (the stats next to the xp bar)
-sorcerio.ui.updateStatsDisplay = function() {
-	this.xpNumberDisplay.innerText = sorcerio.game.myPlayer.xp;
-	this.levelNumberDisplay.innerText = sorcerio.game.myPlayer.level;
-	this.healthPercentDisplay.innerText = Math.round((sorcerio.game.myPlayer.health / sorcerio.game.myPlayer.maxHealth) * 100);
-}.bind(sorcerio.ui);
-
 sorcerio.ui.showMainScreen = function() {
 	//OPERATOR: WE GET SIGNAL.
 	//CAPTAIN: WHAT !
@@ -436,7 +426,6 @@ sorcerio.ui.updateLeaderboard = function(players) {
 //renders the ui
 sorcerio.ui.render = function() {
 	this.updateLeaderboard(sorcerio.game.getLeaders(10));
-	this.updateStatsDisplay();
 	this.updateSliders();
 	this.updateInventory();
 	this.updateStorage();
