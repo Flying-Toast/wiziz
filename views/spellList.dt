@@ -80,11 +80,6 @@ html
 						h4.heading3 Icon
 					img.indent.inventoryPreview(id="#{type}Image", src="/media/images/#{type}Spell.png", alt="How the #{type} spell looks inside an inventory.")
 					br
-					label(for="#{type}Sound")
-						h4.heading3 Sound
-					audio.indent(id="#{type}Sound", controls="controls")
-						source(src="/media/sounds/#{type}Spell.ogg", type="audio/ogg")
-						source(src="/media/sounds/#{type}Spell.mp3", type="audio/mp3")
 					label(for="#{type}HRE")
 						h4.heading3 Effect
 					p.indent(id="#{type}HRE")= humanReadableEffects[type]
