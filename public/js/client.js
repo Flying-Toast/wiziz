@@ -267,7 +267,7 @@ sorcerio.ui.init = function() {
 	this.gridCanvas = document.querySelector("#gridCanvas");
 
 	sorcerio.events.resized();
-	addEventListener("resize", sorcerio.events.resized;
+	addEventListener("resize", sorcerio.events.resized);
 
 	this.playButton = document.querySelector("#playButton");
 	this.nicknameInput = document.querySelector("#nicknameInput");
