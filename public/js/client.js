@@ -713,8 +713,8 @@ sorcerio.events.handleServerMessage = function(message) {
 };
 
 sorcerio.events.mouseMove = function(domEvent) {
-	sorcerio.input.mouseCoords.x = domEvent.pageX;
-	sorcerio.input.mouseCoords.y = domEvent.pageY;
+	sorcerio.input.mouseCoords.x = domEvent.pageX * devicePixelRatio;
+	sorcerio.input.mouseCoords.y = domEvent.pageY * devicePixelRatio;
 };
 
 sorcerio.events.keyDown = function(e) {
