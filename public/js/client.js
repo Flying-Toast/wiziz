@@ -266,17 +266,8 @@ sorcerio.ui.init = function() {
 	this.gameCanvas = document.querySelector("#gameCanvas");
 	this.gridCanvas = document.querySelector("#gridCanvas");
 
-	gameCanvas.width = innerWidth;
-	gameCanvas.height = innerHeight;
-	gridCanvas.width = innerWidth;
-	gridCanvas.height = innerHeight;
-
-	addEventListener("resize", function() {
-		gridCanvas.width = innerWidth;
-		gridCanvas.height = innerHeight;
-		gameCanvas.width = innerWidth;
-		gameCanvas.height = innerHeight;
-	});
+	sorcerio.events.resized();
+	addEventListener("resize", sorcerio.events.resized;
 
 	this.playButton = document.querySelector("#playButton");
 	this.nicknameInput = document.querySelector("#nicknameInput");
@@ -672,6 +663,13 @@ sorcerio.events.startNewGame = function() {
 sorcerio.events.newGameStarted = function() {
 	sorcerio.ui.hideMainScreen();
 	requestAnimationFrame(sorcerio.mainLoop);
+};
+
+sorcerio.events.resized = function() {
+	gridCanvas.width = innerWidth;
+	gridCanvas.height = innerHeight;
+	gameCanvas.width = innerWidth;
+	gameCanvas.height = innerHeight;
 };
 
 sorcerio.events.handleServerMessage = function(message) {
