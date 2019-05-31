@@ -666,10 +666,10 @@ sorcerio.events.newGameStarted = function() {
 };
 
 sorcerio.events.resized = function() {
-	gridCanvas.width = innerWidth;
-	gridCanvas.height = innerHeight;
-	gameCanvas.width = innerWidth;
-	gameCanvas.height = innerHeight;
+	sorcerio.ui.gridCanvas.width = innerWidth;
+	sorcerio.ui.gridCanvas.height = innerHeight;
+	sorcerio.ui.gameCanvas.width = innerWidth;
+	sorcerio.ui.gameCanvas.height = innerHeight;
 };
 
 sorcerio.events.handleServerMessage = function(message) {
