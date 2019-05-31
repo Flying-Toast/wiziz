@@ -140,6 +140,7 @@ sorcerio.renderer.renderFunctions.splashSpell = function(spell) {
 sorcerio.renderer.setup = function() {
 	this.gridCtx = sorcerio.ui.gridCanvas.getContext("2d");
 	this.gameCtx = sorcerio.ui.gameCanvas.getContext("2d");
+	sorcerio.events.resized();
 }.bind(sorcerio.renderer);
 
 sorcerio.renderer.render = function() {
@@ -266,7 +267,6 @@ sorcerio.ui.init = function() {
 	this.gameCanvas = document.querySelector("#gameCanvas");
 	this.gridCanvas = document.querySelector("#gridCanvas");
 
-	sorcerio.events.resized();
 	addEventListener("resize", sorcerio.events.resized);
 
 	this.playButton = document.querySelector("#playButton");
@@ -666,10 +666,15 @@ sorcerio.events.newGameStarted = function() {
 };
 
 sorcerio.events.resized = function() {
-	sorcerio.ui.gridCanvas.width = innerWidth;
-	sorcerio.ui.gridCanvas.height = innerHeight;
-	sorcerio.ui.gameCanvas.width = innerWidth;
-	sorcerio.ui.gameCanvas.height = innerHeight;
+	sorcerio.ui.gridCanvas.width = innerWidth * devicePixelRatio;
+	sorcerio.ui.gridCanvas.height = innerHeight * devicePixelRatio;
+	sorcerio.ui.gameCanvas.width = innerWidth * devicePixelRatio;
+	sorcerio.ui.gameCanvas.height = innerHeight * devicePixelRatio;
+
+	if (sorcerio.renderer.gameCtx !== undefined && sorcerio.renderer.gridCtx !== undefined) {
+		sorcerio.renderer.gameCtx.scale(1 / devicePixelRatio, 1 / devicePixelRatio);
+		sorcerio.renderer.gridCtx.scale(1 / devicePixelRatio, 1 / devicePixelRatio);
+	}
 };
 
 sorcerio.events.handleServerMessage = function(message) {
