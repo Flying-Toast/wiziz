@@ -140,6 +140,7 @@ sorcerio.renderer.renderFunctions.splashSpell = function(spell) {
 sorcerio.renderer.setup = function() {
 	this.gridCtx = sorcerio.ui.gridCanvas.getContext("2d");
 	this.gameCtx = sorcerio.ui.gameCanvas.getContext("2d");
+	sorcerio.events.resized();
 }.bind(sorcerio.renderer);
 
 sorcerio.renderer.render = function() {
@@ -266,17 +267,7 @@ sorcerio.ui.init = function() {
 	this.gameCanvas = document.querySelector("#gameCanvas");
 	this.gridCanvas = document.querySelector("#gridCanvas");
 
-	gameCanvas.width = innerWidth;
-	gameCanvas.height = innerHeight;
-	gridCanvas.width = innerWidth;
-	gridCanvas.height = innerHeight;
-
-	addEventListener("resize", function() {
-		gridCanvas.width = innerWidth;
-		gridCanvas.height = innerHeight;
-		gameCanvas.width = innerWidth;
-		gameCanvas.height = innerHeight;
-	});
+	addEventListener("resize", sorcerio.events.resized);
 
 	this.playButton = document.querySelector("#playButton");
 	this.nicknameInput = document.querySelector("#nicknameInput");
@@ -674,6 +665,18 @@ sorcerio.events.newGameStarted = function() {
 	requestAnimationFrame(sorcerio.mainLoop);
 };
 
+sorcerio.events.resized = function() {
+	sorcerio.ui.gridCanvas.width = innerWidth * devicePixelRatio;
+	sorcerio.ui.gridCanvas.height = innerHeight * devicePixelRatio;
+	sorcerio.ui.gameCanvas.width = innerWidth * devicePixelRatio;
+	sorcerio.ui.gameCanvas.height = innerHeight * devicePixelRatio;
+
+	if (sorcerio.renderer.gameCtx !== undefined && sorcerio.renderer.gridCtx !== undefined) {
+		sorcerio.renderer.gameCtx.scale(1 / devicePixelRatio, 1 / devicePixelRatio);
+		sorcerio.renderer.gridCtx.scale(1 / devicePixelRatio, 1 / devicePixelRatio);
+	}
+};
+
 sorcerio.events.handleServerMessage = function(message) {
 	const messageType = message.type;
 
@@ -710,8 +713,8 @@ sorcerio.events.handleServerMessage = function(message) {
 };
 
 sorcerio.events.mouseMove = function(domEvent) {
-	sorcerio.input.mouseCoords.x = domEvent.pageX;
-	sorcerio.input.mouseCoords.y = domEvent.pageY;
+	sorcerio.input.mouseCoords.x = domEvent.pageX * devicePixelRatio;
+	sorcerio.input.mouseCoords.y = domEvent.pageY * devicePixelRatio;
 };
 
 sorcerio.events.keyDown = function(e) {
