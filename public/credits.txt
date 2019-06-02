@@ -23,3 +23,5 @@ Nuke Spell sound - sampled from "HUGE Explosion" by TristanLuigi (https://freeso
 Confused Spell sound - "02681 dizzy swooshes" by Robinhood76 (https://freesound.org/s/126867/)
 
 Repel Spell sound - "Warp" by harpoyume (https://freesound.org/s/86074/)
+
+Snipe Spell sound - "Slinky "Pew!" Laser Sound" by mickeymephistopheles (https://freesound.org/s/385810/)
