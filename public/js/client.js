@@ -731,10 +731,10 @@ sorcerio.events.keyDown = function(e) {
 		case sorcerio.input.controls.right:
 			sorcerio.input.keyStates.r = true;
 			break;
-		case sorcerio.input.controls.storage:
+		case sorcerio.input.controls.toggleInventory:
 			sorcerio.ui.toggleStorage();
 			break;
-		case sorcerio.input.controls.ui:
+		case sorcerio.input.controls.hideUI:
 			sorcerio.ui.toggleUI();
 			break;
 	}
@@ -868,8 +868,8 @@ sorcerio.input.init = function() {
 		down: "s",
 		left: "a",
 		right: "d",
-		storage: "e",
-		ui: "h"
+		toggleInventory: "e",
+		hideUI: "h"
 	};
 	this.keyStates = {//current state of movement keys
 		u: false,
