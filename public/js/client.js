@@ -143,8 +143,6 @@ sorcerio.renderer.setup = function() {
 }.bind(sorcerio.renderer);
 
 sorcerio.renderer.render = function() {
-	this.ctx.clearRect(0, 0, sorcerio.ui.canvas.width, sorcerio.ui.canvas.height);
-
 	this.renderGrid();
 
 	for (let player of sorcerio.game.latestGameState.players) {
