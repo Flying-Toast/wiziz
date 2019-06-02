@@ -6,7 +6,7 @@ module sorcerio.gameServer.config;
 enum defaultNickname = "Unnamed Sorcerer";
 
 ///Maximum number of characters allowed in a player's nickname
-enum ubyte maxNameLength = 15;
+enum ubyte maxNameLength = 16;
 
 ///the default player speed in pixels/millisecond
 enum float defaultPlayerSpeed = 1.0 / 6.0;

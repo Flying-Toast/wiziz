@@ -481,7 +481,7 @@
 				border: none;
 				font-family: agane;
 				border-radius: 6px;
-				padding: 3px 1.1em;
+				padding: 3px 1.3em;
 				font-size: 100%;
 				box-shadow: 0 6px #5f005f;
 			}
@@ -689,6 +689,9 @@
 		<script>
 			document.querySelector("#tutorial").addEventListener("click", function() {
 				document.querySelector("#"+document.querySelector("#tutorial").attributes.for.nodeValue).click();
+			});
+			document.querySelector("#settings").addEventListener("click", function() {
+				document.querySelector("#"+document.querySelector("#settings").attributes.for.nodeValue).click();
 			});
 			document.querySelector("#settings").addEventListener("click", function() {
 				if (!document.querySelector("#instructionsToggle").checked) {

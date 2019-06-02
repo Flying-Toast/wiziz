@@ -909,11 +909,13 @@ sorcerio.input.updateControlSettings = function() {
 		item.addEventListener("click", function() {
 			item.innerText = "Press a key...";
 			addEventListener("keydown", function(e) {
+				if (e.key !== "Escape") {
+					kbd.innerText = e.key.toLowerCase();
+					sorcerio.input.controls[i] = e.key.toLowerCase();
+					document.cookie = `control-${i}=${e.key.toLowerCase()};max-age=${60*60*24}`;
+				}
 				item.innerText = i + ": ";
-				kbd.innerText = e.key.toLowerCase();
 				item.appendChild(kbd);
-				sorcerio.input.controls[i] = e.key.toLowerCase();
-				document.cookie = `control-${i}=${e.key.toLowerCase()};max-age=${60*60*24}`;
 			}, {once: true});
 		});
 
