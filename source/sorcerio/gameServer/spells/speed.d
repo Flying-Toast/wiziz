@@ -6,16 +6,16 @@ import sorcerio.gameServer.event;
 import sorcerio.gameServer.server;
 
 class SpeedSpell : SelfSpell {
-	mixin registerSpell!(SpellName.speed, 7000);
+	mixin registerSpell!(SpellName.speed, 8000);
 
 	private {
 		enum speedMultiplier = 1.5;
-		enum effectDuration = 5000;///how long the effect lasts for
+		enum effectDuration = 3500;///how long the effect lasts for
 	}
 
 	override string humanReadableEffect() {
 		import std.conv;
-		return "Makes your player move " ~ speedMultiplier.to!string ~ "x as fast for " ~ (effectDuration / 1000).to!string ~ " seconds";
+		return "Makes your player move " ~ speedMultiplier.to!string ~ "x as fast for " ~ (effectDuration / 1000.0).to!string ~ " seconds";
 	}
 
 	override void affect() {
