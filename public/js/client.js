@@ -125,28 +125,27 @@ sorcerio.renderer.init = function() {
 
 sorcerio.renderer.renderFunctions.projectileSpell = function(spell) {
 	const sprite = sorcerio.media.sprites.spellEffects[spell.name];
-	this.gameCtx.drawImage(sprite, sorcerio.game.localCoords(spell.location.x, 'x') - (sprite.width / 2), sorcerio.game.localCoords(spell.location.y, 'y') - (sprite.height / 2));
+	this.ctx.drawImage(sprite, sorcerio.game.localCoords(spell.location.x, 'x') - (sprite.width / 2), sorcerio.game.localCoords(spell.location.y, 'y') - (sprite.height / 2));
 }.bind(sorcerio.renderer);
 
 sorcerio.renderer.renderFunctions.splashSpell = function(spell) {
-	this.gameCtx.fillStyle = spell.color;
-	this.gameCtx.globalAlpha = 0.8;
-	this.gameCtx.beginPath();
-	this.gameCtx.arc(sorcerio.game.localCoords(spell.location.x, 'x'), sorcerio.game.localCoords(spell.location.y, 'y'), spell.radius, 0, Math.PI * 2);
-	this.gameCtx.fill();
-	this.gameCtx.globalAlpha = 1;
+	this.ctx.fillStyle = spell.color;
+	this.ctx.globalAlpha = 0.8;
+	this.ctx.beginPath();
+	this.ctx.arc(sorcerio.game.localCoords(spell.location.x, 'x'), sorcerio.game.localCoords(spell.location.y, 'y'), spell.radius, 0, Math.PI * 2);
+	this.ctx.fill();
+	this.ctx.globalAlpha = 1;
 }.bind(sorcerio.renderer);
 
 sorcerio.renderer.setup = function() {
-	this.gridCtx = sorcerio.ui.gridCanvas.getContext("2d");
-	this.gameCtx = sorcerio.ui.gameCanvas.getContext("2d");
+	this.ctx = sorcerio.ui.canvas.getContext("2d");
 	sorcerio.events.resized();
 }.bind(sorcerio.renderer);
 
 sorcerio.renderer.render = function() {
-	this.renderGrid();
+	this.ctx.clearRect(0, 0, sorcerio.ui.canvas.width, sorcerio.ui.canvas.height);
 
-	this.gameCtx.clearRect(0, 0, sorcerio.ui.gameCanvas.width, sorcerio.ui.gameCanvas.height);
+	this.renderGrid();
 
 	for (let player of sorcerio.game.latestGameState.players) {
 		if (player.id === sorcerio.game.myPlayerId) {//skip the client's own player -- it is rendered separately
@@ -163,96 +162,96 @@ sorcerio.renderer.render = function() {
 	}
 
 	if (sorcerio.game.myPlayer.flags.blind) {
-		this.gameCtx.fillStyle = "rgba(0, 0, 0, 0.98)";
-		this.gameCtx.fillRect(0, 0, sorcerio.ui.gameCanvas.width, sorcerio.ui.gameCanvas.height);
+		this.ctx.fillStyle = "rgba(0, 0, 0, 0.98)";
+		this.ctx.fillRect(0, 0, sorcerio.ui.canvas.width, sorcerio.ui.canvas.height);
 	}
 }.bind(sorcerio.renderer);
 
 //renders an invisible player at 0,0. the ctx needs to be translated to the proper location before calling this.
 sorcerio.renderer.renderInvisiblePlayer = function() {
-	this.gameCtx.fillStyle = this.grid.backgroundColor;
-	this.gameCtx.globalAlpha = 0.6;
-	this.gameCtx.beginPath();
-	this.gameCtx.arc(0, 0, 65, 0, Math.PI * 2);
-	this.gameCtx.fill();
+	this.ctx.fillStyle = this.grid.backgroundColor;
+	this.ctx.globalAlpha = 0.6;
+	this.ctx.beginPath();
+	this.ctx.arc(0, 0, 65, 0, Math.PI * 2);
+	this.ctx.fill();
 }.bind(sorcerio.renderer);
 
 //renders the ice overlay for a frozen player at 0,0. the ctx needs to be translated to the proper location before calling this.
 sorcerio.renderer.renderFrozenOverlay = function() {
-	this.gameCtx.drawImage(sorcerio.media.sprites.frozenOverlay, -sorcerio.media.sprites.frozenOverlay.width / 2, -sorcerio.media.sprites.frozenOverlay.height / 2);
+	this.ctx.drawImage(sorcerio.media.sprites.frozenOverlay, -sorcerio.media.sprites.frozenOverlay.width / 2, -sorcerio.media.sprites.frozenOverlay.height / 2);
 }.bind(sorcerio.renderer);
 
 sorcerio.renderer.renderPlayer = function(player) {
-	this.gameCtx.save();
-	this.gameCtx.translate(sorcerio.game.localCoords(player.location.x, 'x'), sorcerio.game.localCoords(player.location.y, 'y'));
-	this.gameCtx.rotate(sorcerio.game.calculatePlayerAngle(player));
+	this.ctx.save();
+	this.ctx.translate(sorcerio.game.localCoords(player.location.x, 'x'), sorcerio.game.localCoords(player.location.y, 'y'));
+	this.ctx.rotate(sorcerio.game.calculatePlayerAngle(player));
 	if (!player.flags.invisible) {
-		this.gameCtx.drawImage(sorcerio.media.sprites.playerRed, -sorcerio.media.sprites.playerRed.width / 2, -sorcerio.media.sprites.playerRed.height / 2);
-		this.gameCtx.restore();
-		this.gameCtx.save();
-		this.gameCtx.translate(sorcerio.game.localCoords(player.location.x, 'x'), sorcerio.game.localCoords(player.location.y, 'y'));
-		this.gameCtx.font = "20px newRocker";
-		this.gameCtx.fillStyle = '#2dafaf';
-		this.gameCtx.fillText(player.nickname, -(this.gameCtx.measureText(player.nickname).width / 2), 80);
-		this.gameCtx.fillStyle = "rgba(40, 41, 41, 0.7)";
-		this.gameCtx.fillRect(-55, 84, 110, 10);
-		this.gameCtx.fillStyle = "#1ABF35";
-		this.gameCtx.fillRect(-52, 86, 104 * (player.health / player.maxHealth), 6);
+		this.ctx.drawImage(sorcerio.media.sprites.playerRed, -sorcerio.media.sprites.playerRed.width / 2, -sorcerio.media.sprites.playerRed.height / 2);
+		this.ctx.restore();
+		this.ctx.save();
+		this.ctx.translate(sorcerio.game.localCoords(player.location.x, 'x'), sorcerio.game.localCoords(player.location.y, 'y'));
+		this.ctx.font = "20px newRocker";
+		this.ctx.fillStyle = '#2dafaf';
+		this.ctx.fillText(player.nickname, -(this.ctx.measureText(player.nickname).width / 2), 80);
+		this.ctx.fillStyle = "rgba(40, 41, 41, 0.7)";
+		this.ctx.fillRect(-55, 84, 110, 10);
+		this.ctx.fillStyle = "#1ABF35";
+		this.ctx.fillRect(-52, 86, 104 * (player.health / player.maxHealth), 6);
 		if (player.speed === 0) {
-			this.gameCtx.rotate(sorcerio.game.calculatePlayerAngle(player));
+			this.ctx.rotate(sorcerio.game.calculatePlayerAngle(player));
 			this.renderFrozenOverlay();
 		}
 	} else {
 		this.renderInvisiblePlayer();
 	}
-	this.gameCtx.restore();
+	this.ctx.restore();
 }.bind(sorcerio.renderer);
 
 sorcerio.renderer.renderSelf = function() {
-	this.gameCtx.save();
-	this.gameCtx.translate(sorcerio.ui.gameCanvas.width / 2, sorcerio.ui.gameCanvas.height / 2);
-	this.gameCtx.rotate(Math.atan2(sorcerio.input.mouseCoords.x - sorcerio.ui.gameCanvas.width / 2, -(sorcerio.input.mouseCoords.y - sorcerio.ui.gameCanvas.height / 2)));
+	this.ctx.save();
+	this.ctx.translate(sorcerio.ui.canvas.width / 2, sorcerio.ui.canvas.height / 2);
+	this.ctx.rotate(Math.atan2(sorcerio.input.mouseCoords.x - sorcerio.ui.canvas.width / 2, -(sorcerio.input.mouseCoords.y - sorcerio.ui.canvas.height / 2)));
 	if (!sorcerio.game.myPlayer.flags.invisible) {
-		this.gameCtx.drawImage(sorcerio.media.sprites.playerGreen, -sorcerio.media.sprites.playerGreen.width / 2, -sorcerio.media.sprites.playerGreen.height / 2);
+		this.ctx.drawImage(sorcerio.media.sprites.playerGreen, -sorcerio.media.sprites.playerGreen.width / 2, -sorcerio.media.sprites.playerGreen.height / 2);
 		if (sorcerio.game.myPlayer.speed === 0) {
 			this.renderFrozenOverlay();
 		}
 	} else {
 		this.renderInvisiblePlayer();
 	}
-	this.gameCtx.restore();
+	this.ctx.restore();
 }.bind(sorcerio.renderer);
 
 //renders the grid
 sorcerio.renderer.renderGrid = function() {
 	this.grid.xOffset = -sorcerio.input.predictedPlayer.location.x % this.grid.gridSize;
 	this.grid.yOffset = -sorcerio.input.predictedPlayer.location.y % this.grid.gridSize;
-	this.gridCtx.lineWidth = this.grid.lineWidth;
-	this.gridCtx.fillStyle = this.grid.backgroundColor;
-	this.gridCtx.fillRect(0, 0, sorcerio.ui.gridCanvas.width, sorcerio.ui.gridCanvas.height);
-	this.gridCtx.strokeStyle = this.grid.lineColor;
-	this.gridCtx.beginPath();
-	this.gridCtx.moveTo(0, 0);
-	for (let i = 0; i < sorcerio.ui.gridCanvas.width + this.grid.gridSize; i += this.grid.gridSize) {
-		this.gridCtx.moveTo(i + this.grid.xOffset, 0);
-		this.gridCtx.lineTo(i + this.grid.xOffset, sorcerio.ui.gridCanvas.height);
+	this.ctx.lineWidth = this.grid.lineWidth;
+	this.ctx.fillStyle = this.grid.backgroundColor;
+	this.ctx.fillRect(0, 0, sorcerio.ui.canvas.width, sorcerio.ui.canvas.height);
+	this.ctx.strokeStyle = this.grid.lineColor;
+	this.ctx.beginPath();
+	this.ctx.moveTo(0, 0);
+	for (let i = 0; i < sorcerio.ui.canvas.width + this.grid.gridSize; i += this.grid.gridSize) {
+		this.ctx.moveTo(i + this.grid.xOffset, 0);
+		this.ctx.lineTo(i + this.grid.xOffset, sorcerio.ui.canvas.height);
 	}
-	for (let i = 0; i < sorcerio.ui.gridCanvas.height + this.grid.gridSize; i += this.grid.gridSize) {
-		this.gridCtx.moveTo(0, i + this.grid.yOffset);
-		this.gridCtx.lineTo(sorcerio.ui.gridCanvas.width, i + this.grid.yOffset);
+	for (let i = 0; i < sorcerio.ui.canvas.height + this.grid.gridSize; i += this.grid.gridSize) {
+		this.ctx.moveTo(0, i + this.grid.yOffset);
+		this.ctx.lineTo(sorcerio.ui.canvas.width, i + this.grid.yOffset);
 	}
-	this.gridCtx.stroke();
+	this.ctx.stroke();
 
 	//map borders
-	this.gridCtx.strokeStyle = this.grid.borderColor;
-	this.gridCtx.lineWidth = 40;
-	this.gridCtx.beginPath();
-	this.gridCtx.moveTo(sorcerio.game.localCoords(0, 'x'), sorcerio.game.localCoords(0, 'y'));
-	this.gridCtx.lineTo(sorcerio.game.localCoords(sorcerio.game.latestGameState.mapSize, 'x'), sorcerio.game.localCoords(0, 'y'));
-	this.gridCtx.lineTo(sorcerio.game.localCoords(sorcerio.game.latestGameState.mapSize, 'x'), sorcerio.game.localCoords(sorcerio.game.latestGameState.mapSize, 'y'));
-	this.gridCtx.lineTo(sorcerio.game.localCoords(0, 'x'), sorcerio.game.localCoords(sorcerio.game.latestGameState.mapSize, 'y'));
-	this.gridCtx.lineTo(sorcerio.game.localCoords(0, 'x'), sorcerio.game.localCoords(0, 'y') - this.gridCtx.lineWidth / 2);
-	this.gridCtx.stroke();
+	this.ctx.strokeStyle = this.grid.borderColor;
+	this.ctx.lineWidth = 40;
+	this.ctx.beginPath();
+	this.ctx.moveTo(sorcerio.game.localCoords(0, 'x'), sorcerio.game.localCoords(0, 'y'));
+	this.ctx.lineTo(sorcerio.game.localCoords(sorcerio.game.latestGameState.mapSize, 'x'), sorcerio.game.localCoords(0, 'y'));
+	this.ctx.lineTo(sorcerio.game.localCoords(sorcerio.game.latestGameState.mapSize, 'x'), sorcerio.game.localCoords(sorcerio.game.latestGameState.mapSize, 'y'));
+	this.ctx.lineTo(sorcerio.game.localCoords(0, 'x'), sorcerio.game.localCoords(sorcerio.game.latestGameState.mapSize, 'y'));
+	this.ctx.lineTo(sorcerio.game.localCoords(0, 'x'), sorcerio.game.localCoords(0, 'y') - this.ctx.lineWidth / 2);
+	this.ctx.stroke();
 }.bind(sorcerio.renderer);
 
 
@@ -264,8 +263,7 @@ sorcerio.renderer.renderGrid = function() {
 sorcerio.ui.init = function() {
 	this.uiRenderInterval = 15;//how often (in milliseconds) to render the ui.
 	this.lastUIRenderTime = 0;
-	this.gameCanvas = document.querySelector("#gameCanvas");
-	this.gridCanvas = document.querySelector("#gridCanvas");
+	this.canvas = document.querySelector("#gameCanvas");
 
 	addEventListener("resize", sorcerio.events.resized);
 
@@ -616,9 +614,9 @@ sorcerio.events.setup = function() {
 	addEventListener("keydown", this.keyDown);
 	addEventListener("blur", this.onWindowBlur);
 	addEventListener("keyup", this.keyUp);
-	sorcerio.ui.gameCanvas.addEventListener("mousemove", this.mouseMove);
-	sorcerio.ui.gameCanvas.addEventListener("wheel", this.onScroll);
-	sorcerio.ui.gameCanvas.addEventListener("click", this.gameClick);
+	sorcerio.ui.canvas.addEventListener("mousemove", this.mouseMove);
+	sorcerio.ui.canvas.addEventListener("wheel", this.onScroll);
+	sorcerio.ui.canvas.addEventListener("click", this.gameClick);
 }.bind(sorcerio.events);
 
 sorcerio.events.gameClick = function() {
@@ -666,17 +664,12 @@ sorcerio.events.newGameStarted = function() {
 };
 
 sorcerio.events.resized = function() {
-	const w = innerWidth * devicePixelRatio;
-	const h = innerHeight * devicePixelRatio;
-	sorcerio.ui.gridCanvas.width = w;
-	sorcerio.ui.gridCanvas.height = h;
-	sorcerio.ui.gameCanvas.width = w;
-	sorcerio.ui.gameCanvas.height = h;
+	sorcerio.ui.canvas.width = innerWidth * devicePixelRatio;
+	sorcerio.ui.canvas.height = innerHeight * devicePixelRatio;
 
-	if (sorcerio.renderer.gameCtx !== undefined && sorcerio.renderer.gridCtx !== undefined) {
+	if (sorcerio.renderer.ctx !== undefined) {
 		const scale = 1 / devicePixelRatio;
-		sorcerio.renderer.gameCtx.scale(scale, scale);
-		sorcerio.renderer.gridCtx.scale(scale, scale);
+		sorcerio.renderer.ctx.scale(scale, scale);
 	}
 };
 
@@ -819,9 +812,9 @@ sorcerio.game.localCoords = function(globalCoord, xOrY) {
 	}
 
 	if (xOrY === "x") {
-		return Math.round(globalCoord + sorcerio.ui.gameCanvas.width / 2 - sorcerio.input.predictedPlayer.location.x);
+		return Math.round(globalCoord + sorcerio.ui.canvas.width / 2 - sorcerio.input.predictedPlayer.location.x);
 	} else if (xOrY === "y") {
-		return Math.round(globalCoord + sorcerio.ui.gameCanvas.height / 2 - sorcerio.input.predictedPlayer.location.y);
+		return Math.round(globalCoord + sorcerio.ui.canvas.height / 2 - sorcerio.input.predictedPlayer.location.y);
 	}
 }.bind(sorcerio.game);
 
@@ -832,9 +825,9 @@ sorcerio.game.globalCoords = function(localCoord, xOrY) {
 	}
 
 	if (xOrY === "x") {
-		return Math.round(localCoord - sorcerio.ui.gameCanvas.width / 2 + sorcerio.input.predictedPlayer.location.x);
+		return Math.round(localCoord - sorcerio.ui.canvas.width / 2 + sorcerio.input.predictedPlayer.location.x);
 	} else if (xOrY === "y") {
-		return Math.round(localCoord - sorcerio.ui.gameCanvas.height / 2 + sorcerio.input.predictedPlayer.location.y);
+		return Math.round(localCoord - sorcerio.ui.canvas.height / 2 + sorcerio.input.predictedPlayer.location.y);
 	}
 }.bind(sorcerio.game);
 
