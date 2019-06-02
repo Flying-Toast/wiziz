@@ -911,7 +911,7 @@ sorcerio.input.updateControlSettings = function() {
 				item.innerText = i + ": ";
 				kbd.innerText = e.key;
 				item.appendChild(kbd);
-				sorcerio.input.controls[i] = e.key;
+				sorcerio.input.controls[i] = e.key.toLowerCase();
 			}, {once: true});
 		});
 
