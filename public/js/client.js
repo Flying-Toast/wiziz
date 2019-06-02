@@ -233,8 +233,6 @@ sorcerio.renderer.renderGrid = function() {
 	for (let i = 0; i < sorcerio.ui.canvas.width + this.grid.gridSize; i += this.grid.gridSize) {
 		this.ctx.moveTo(i + this.grid.xOffset, 0);
 		this.ctx.lineTo(i + this.grid.xOffset, sorcerio.ui.canvas.height);
-	}
-	for (let i = 0; i < sorcerio.ui.canvas.height + this.grid.gridSize; i += this.grid.gridSize) {
 		this.ctx.moveTo(0, i + this.grid.yOffset);
 		this.ctx.lineTo(sorcerio.ui.canvas.width, i + this.grid.yOffset);
 	}
