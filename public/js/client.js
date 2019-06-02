@@ -910,7 +910,7 @@ sorcerio.input.updateControlSettings = function() {
 			item.innerText = "Press a key...";
 			addEventListener("keydown", function(e) {
 				item.innerText = i + ": ";
-				kbd.innerText = e.key;
+				kbd.innerText = e.key.toLowerCase();
 				item.appendChild(kbd);
 				sorcerio.input.controls[i] = e.key.toLowerCase();
 				document.cookie = `control-${i}=${e.key.toLowerCase()};max-age=${60*60*24}`;
