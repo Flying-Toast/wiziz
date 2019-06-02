@@ -871,6 +871,7 @@ sorcerio.input.init = function() {
 		toggleInventory: "e",
 		hideUI: "h"
 	};
+	this.readControlsFromCookies();
 	this.keyStates = {//current state of movement keys
 		u: false,
 		d: false,
@@ -909,15 +910,24 @@ sorcerio.input.updateControlSettings = function() {
 			item.innerText = "Press a key...";
 			addEventListener("keydown", function(e) {
 				item.innerText = i + ": ";
-				kbd.innerText = e.key;
+				kbd.innerText = e.key.toLowerCase();
 				item.appendChild(kbd);
 				sorcerio.input.controls[i] = e.key.toLowerCase();
+				document.cookie = `control-${i}=${e.key.toLowerCase()};max-age=${60*60*24}`;
 			}, {once: true});
 		});
 
 		sorcerio.ui.controlSettings.appendChild(item);
 	}
 }.bind(sorcerio.input);
+
+sorcerio.input.readControlsFromCookies = function() {
+	document.cookie.split(";")
+		.map(i => i.trimStart())
+		.filter(i => i.indexOf("control-") === 0)
+		.map(i => i.replace("control-", "").split("="))
+		.forEach(i => sorcerio.input.controls[i[0]] = i[1]);
+};
 
 sorcerio.input.chooseUnlock = function(chosenUnlock) {
 	this.hasChosenUnlock = true;
