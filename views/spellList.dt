@@ -78,7 +78,7 @@ html
 				div.mainContent
 					label(for="#{type}Image")
 						h4.heading3 Icon
-					img.indent.inventoryPreview(id="#{type}Image", src="/media/images/#{type}Spell.png", alt="How the #{type} spell looks inside an inventory.")
+					img.indent.inventoryPreview(id="#{type}Image", src="/media/images/#{type}Spell.png", alt="#{type} spell icon")
 					br
 					label(for="#{type}HRE")
 						h4.heading3 Effect

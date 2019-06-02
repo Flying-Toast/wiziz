@@ -22,7 +22,8 @@ enum SpellName {
 	shock,
 	expansion,
 	nuke,
-	confuse
+	confuse,
+	repel
 }
 
 /**
@@ -41,7 +42,7 @@ private enum SpellName[][ushort] spellUnlocks = [
 	5: [SpellName.expansion, SpellName.freeze],
 	6: [SpellName.teleport, SpellName.shock],
 	7: [SpellName.invisible, SpellName.nuke],
-	8: [SpellName.confuse]
+	8: [SpellName.confuse, SpellName.repel]
 ];
 
 version (unittest) {
@@ -278,7 +279,7 @@ unittest {///make sure that all spells are implemented
 			error = true;
 		}
 
-		//warn if a spell is not unlockable:
+		//make sure all spells are unlockable:
 		import std.algorithm.searching : canFind;
 		if (!allUnlockableSpells.canFind(name)) {
 			writeln("'", name.to!string, "' spell is not unlockable (not in `spellUnlocks`)");

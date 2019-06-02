@@ -21,3 +21,5 @@ Expand Spell sound - "stretch1" by hans (https://freesound.org/s/107782/)
 Nuke Spell sound - sampled from "HUGE Explosion" by TristanLuigi (https://freesound.org/s/110818/)
 
 Confused Spell sound - "02681 dizzy swooshes" by Robinhood76 (https://freesound.org/s/126867/)
+
+Repel Spell sound - "Warp" by harpoyume (https://freesound.org/s/86074/)

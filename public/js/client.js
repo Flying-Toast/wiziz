@@ -666,14 +666,17 @@ sorcerio.events.newGameStarted = function() {
 };
 
 sorcerio.events.resized = function() {
-	sorcerio.ui.gridCanvas.width = innerWidth * devicePixelRatio;
-	sorcerio.ui.gridCanvas.height = innerHeight * devicePixelRatio;
-	sorcerio.ui.gameCanvas.width = innerWidth * devicePixelRatio;
-	sorcerio.ui.gameCanvas.height = innerHeight * devicePixelRatio;
+	const w = innerWidth * devicePixelRatio;
+	const h = innerHeight * devicePixelRatio;
+	sorcerio.ui.gridCanvas.width = w;
+	sorcerio.ui.gridCanvas.height = h;
+	sorcerio.ui.gameCanvas.width = w;
+	sorcerio.ui.gameCanvas.height = h;
 
 	if (sorcerio.renderer.gameCtx !== undefined && sorcerio.renderer.gridCtx !== undefined) {
-		sorcerio.renderer.gameCtx.scale(1 / devicePixelRatio, 1 / devicePixelRatio);
-		sorcerio.renderer.gridCtx.scale(1 / devicePixelRatio, 1 / devicePixelRatio);
+		const scale = 1 / devicePixelRatio;
+		sorcerio.renderer.gameCtx.scale(scale, scale);
+		sorcerio.renderer.gridCtx.scale(scale, scale);
 	}
 };
 
