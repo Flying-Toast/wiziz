@@ -32,6 +32,7 @@ const sorcerio = {
 sorcerio.init = function(reset = true) {
 	document.querySelector("#loading").style.display = "none";
 	document.querySelector("#instructionsToggle").checked = true;
+	document.querySelector("#settingsToggle").checked = true;
 
 	const subModules = [
 		sorcerio.renderer,
@@ -282,6 +283,7 @@ sorcerio.ui.init = function() {
 	this.chooseUnlockedSpellsWrapper = document.querySelector("#chooseUnlockedSpellsWrapper");
 	this.storageWrapper = document.querySelector("#storageWrapper");
 	this.storage = document.querySelector("#storage");
+	this.controlSettings = document.querySelector("#controlSettings");
 	this.toggledElements = Array.from(document.querySelectorAll("#inventory,#outerHealth,#outerXp,#leaderboard"));//ui elements that get toggled when ui is shown/hidden
 	this.isChoosingUnlocks = false;
 	this.lastChosenUnlocks = "";
@@ -885,6 +887,36 @@ sorcerio.input.init = function() {
 	this.currentInputId = 0;
 	this.storedInputs = [];//list of inputs that have been sent to the server, used for clientside prediction.
 	this.predictedPlayer = null;//the most recent predicted version of the client's player
+}.bind(sorcerio.input);
+
+sorcerio.input.setup = function() {
+	this.updateControlSettings();
+}.bind(sorcerio.input);
+
+sorcerio.input.updateControlSettings = function() {
+	sorcerio.ui.controlSettings.innerHTML = "";
+	for (const i in this.controls) {
+		let item = document.createElement("div");
+		item.className = "controlOption";
+		item.innerText = i + ": ";
+
+		let kbd = document.createElement("kbd");
+		kbd.className = "controlButton";
+		kbd.innerText = this.controls[i];
+		item.appendChild(kbd);
+
+		item.addEventListener("click", function() {
+			item.innerText = "Press a key...";
+			addEventListener("keydown", function(e) {
+				item.innerText = i + ": ";
+				kbd.innerText = e.key;
+				item.appendChild(kbd);
+				sorcerio.input.controls[i] = e.key;
+			}, {once: true});
+		});
+
+		sorcerio.ui.controlSettings.appendChild(item);
+	}
 }.bind(sorcerio.input);
 
 sorcerio.input.chooseUnlock = function(chosenUnlock) {

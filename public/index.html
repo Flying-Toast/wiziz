@@ -456,6 +456,9 @@
 				border-radius: 6px;
 				padding: 3px 1.1em;
 				box-shadow: 0 6px #5f005f;
+			}
+
+			.popButton {
 				cursor: pointer;
 				-webkit-touch-callout: none;
 				-webkit-user-select: none;
@@ -471,7 +474,7 @@
 				box-shadow: none;
 			}
 
-			#spellList {
+			#settings {
 				display: inline-block;
 				background-color: #800080;
 				color: #ffffff;
@@ -483,7 +486,7 @@
 				box-shadow: 0 6px #5f005f;
 			}
 
-			#spellList:active {
+			#settings:active {
 				position: relative;
 				top: 6px;
 				box-shadow: none;
@@ -493,37 +496,36 @@
 				margin-top: 12px;
 			}
 
-			#instructionsToggle {
+			#instructionsToggle, #settingsToggle {
 				display: none;
 			}
 
-			#instructionsBlock {
+			#instructionsBlock, #settingsBlock {
 				box-sizing: border-box;
 				display: inline-block;
-				position: absolute;
-				height: 100%;
-				margin-left: 1em;
 				overflow-y: auto;
-				display: inline-block;
 				border: 4px solid #4b4b4b;
 				padding: 0.6em;
 				text-align: left;
 				background-color: rgba(107, 107, 107, 0.9);
 				border-radius: 5px;
-				max-width: 250px;
+				position: absolute;
+				height: 100%;
+				margin-left: 1em;
+				width: 250px;
 			}
 
-			#instructionsToggle:checked~#instructionsBlock {
+			#instructionsToggle:checked~#instructionsBlock, #settingsToggle:checked~#settingsBlock {
 				display: none;
 			}
 
-			#instructionsBlock h4 {
+			#instructionsBlock h4, #settingsBlock h4 {
 				margin: 0;
 				text-align: center;
 				font-size: 105%;
 			}
 
-			#instructionsBlock h5 {
+			#instructionsBlock h5, #settingsBlock h5 {
 				font-size: 95%;
 				margin: 1em 0 0.4em 0.5em;
 			}
@@ -567,10 +569,6 @@
 				border-radius: 6px;
 			}
 
-			#spellListLink {
-				outline: 0;
-			}
-
 			#disconnected {
 				z-index: 30;
 				font-size: 300%;
@@ -588,6 +586,18 @@
 
 			#reload {
 				font-size: 16px;
+			}
+
+			#controlSettings {
+				margin-left: 1em;
+			}
+
+			.controlButton {
+				cursor: pointer;
+			}
+
+			.controlOption {
+				margin-top: 5px;
 			}
 		</style>
 	</head>
@@ -607,9 +617,7 @@
 					<input type="text" id='nicknameInput' placeholder="Enter a Nickname" maxlength="15">
 					<button id='playButton' class="popButton">Play</button>
 					<label for="instructionsToggle" id='tutorial' class="popButton">How to Play</label>
-					<a id="spellListLink" href="/spellList" target="_blank" class="popButton">
-						<span id='spellList'>Spell List</span>
-					</a>
+					<label for="settingsToggle" id='settings' class="popButton">Settings</label>
 					<div id="socialMedia">
 						<!--<a href="https://www.reddit.com/r/sorcerIo/" id='redditLink' draggable="false" class='socialLink popButton' target="_blank"></a>-->
 						<a href="https://github.com/Flying-Toast/sorcerio" id='githubLink' draggable="false" class='socialLink popButton' target="_blank"></a>
@@ -639,6 +647,12 @@
 						<li>Click on a spell in your inventory to swap it with a spell in your hotbar</li>
 						<li>You can hover your cursor over any spell to see its effect</li>
 					</ul>
+				</div>
+				<input type="checkbox" id="settingsToggle">
+				<div id="settingsBlock">
+					<h4>Settings</h4>
+					<h5>Controls</h4>
+					<div id="controlSettings"></div>
 				</div>
 			</div>
 			<footer>
@@ -675,6 +689,16 @@
 		<script>
 			document.querySelector("#tutorial").addEventListener("click", function() {
 				document.querySelector("#"+document.querySelector("#tutorial").attributes.for.nodeValue).click();
+			});
+			document.querySelector("#settings").addEventListener("click", function() {
+				if (!document.querySelector("#instructionsToggle").checked) {
+					document.querySelector("#instructionsToggle").checked = true;
+				}
+			});
+			document.querySelector("#tutorial").addEventListener("click", function() {
+				if (!document.querySelector("#settingsToggle").checked) {
+					document.querySelector("#settingsToggle").checked = true;
+				}
 			});
 
 			let popButtons = Array.from(document.querySelectorAll(".popButton"));
