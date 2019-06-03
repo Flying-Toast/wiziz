@@ -906,7 +906,7 @@ sorcerio.input.updateControlSettings = function() {
 		kbd.innerText = this.controls[i];
 		item.appendChild(kbd);
 
-		item.addEventListener("click", function() {
+		kbd.addEventListener("click", function() {
 			item.innerText = "Press a key...";
 			addEventListener("keydown", function(e) {
 				if (e.key !== "Escape") {
