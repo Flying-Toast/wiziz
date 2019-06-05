@@ -664,13 +664,8 @@ sorcerio.events.newGameStarted = function() {
 };
 
 sorcerio.events.resized = function() {
-	sorcerio.ui.canvas.width = innerWidth * devicePixelRatio;
-	sorcerio.ui.canvas.height = innerHeight * devicePixelRatio;
-
-	if (sorcerio.renderer.ctx !== undefined) {
-		const scale = 1 / devicePixelRatio;
-		sorcerio.renderer.ctx.scale(scale, scale);
-	}
+	sorcerio.ui.canvas.width = innerWidth;
+	sorcerio.ui.canvas.height = innerHeight;
 };
 
 sorcerio.events.handleServerMessage = function(message) {
@@ -709,8 +704,8 @@ sorcerio.events.handleServerMessage = function(message) {
 };
 
 sorcerio.events.mouseMove = function(domEvent) {
-	sorcerio.input.mouseCoords.x = domEvent.pageX * devicePixelRatio;
-	sorcerio.input.mouseCoords.y = domEvent.pageY * devicePixelRatio;
+	sorcerio.input.mouseCoords.x = domEvent.pageX;
+	sorcerio.input.mouseCoords.y = domEvent.pageY;
 };
 
 sorcerio.events.keyDown = function(e) {
@@ -906,7 +901,7 @@ sorcerio.input.updateControlSettings = function() {
 		kbd.innerText = this.controls[i];
 		item.appendChild(kbd);
 
-		item.addEventListener("click", function() {
+		kbd.addEventListener("click", function() {
 			item.innerText = "Press a key...";
 			addEventListener("keydown", function(e) {
 				if (e.key !== "Escape") {
