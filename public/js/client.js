@@ -664,13 +664,8 @@ sorcerio.events.newGameStarted = function() {
 };
 
 sorcerio.events.resized = function() {
-	sorcerio.ui.canvas.width = innerWidth * devicePixelRatio;
-	sorcerio.ui.canvas.height = innerHeight * devicePixelRatio;
-
-	if (sorcerio.renderer.ctx !== undefined) {
-		const scale = 1 / devicePixelRatio;
-		sorcerio.renderer.ctx.scale(scale, scale);
-	}
+	sorcerio.ui.canvas.width = innerWidth;
+	sorcerio.ui.canvas.height = innerHeight;
 };
 
 sorcerio.events.handleServerMessage = function(message) {
