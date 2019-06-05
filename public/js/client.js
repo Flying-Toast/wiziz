@@ -231,7 +231,7 @@ sorcerio.renderer.renderGrid = function() {
 	this.ctx.strokeStyle = this.grid.lineColor;
 	this.ctx.beginPath();
 	this.ctx.moveTo(0, 0);
-	for (let i = 0; i <= sorcerio.ui.canvas.width; i += this.grid.gridSize) {
+	for (let i = 0; i < sorcerio.ui.canvas.width + this.grid.gridSize; i += this.grid.gridSize) {
 		this.ctx.moveTo(i + this.grid.xOffset, 0);
 		this.ctx.lineTo(i + this.grid.xOffset, sorcerio.ui.canvas.height);
 	}
