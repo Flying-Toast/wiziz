@@ -231,7 +231,7 @@ sorcerio.renderer.renderGrid = function() {
 	this.ctx.strokeStyle = this.grid.lineColor;
 	this.ctx.beginPath();
 	this.ctx.moveTo(0, 0);
-	for (let i = 0; i <= sorcerio.ui.canvas.width; i += this.grid.gridSize) {
+	for (let i = 0; i < sorcerio.ui.canvas.width + this.grid.gridSize; i += this.grid.gridSize) {
 		this.ctx.moveTo(i + this.grid.xOffset, 0);
 		this.ctx.lineTo(i + this.grid.xOffset, sorcerio.ui.canvas.height);
 	}
@@ -263,9 +263,7 @@ sorcerio.ui.init = function() {
 	this.uiRenderInterval = 15;//how often (in milliseconds) to render the ui.
 	this.lastUIRenderTime = 0;
 	this.canvas = document.querySelector("#gameCanvas");
-
-	addEventListener("resize", sorcerio.events.resized);
-
+	this.canvas.width = 1400;
 	this.playButton = document.querySelector("#playButton");
 	this.nicknameInput = document.querySelector("#nicknameInput");
 	this.nicknameInput.addEventListener('keydown', function(e) {
@@ -273,7 +271,6 @@ sorcerio.ui.init = function() {
 			sorcerio.ui.playButton.click();
 		}
 	});
-
 	this.mainScreen = document.querySelector("#mainScreen");
 	this.spellWrapper = document.querySelector("#spellWrapper");
 	this.leadersList = document.querySelector("#leadersList");
@@ -288,6 +285,7 @@ sorcerio.ui.init = function() {
 	this.isChoosingUnlocks = false;
 	this.lastChosenUnlocks = "";
 	this.uiVisible = true;
+	this.canvasSizeRatio = 1;
 }.bind(sorcerio.ui);
 
 sorcerio.ui.setup = function() {
@@ -614,6 +612,7 @@ sorcerio.events.setup = function() {
 	addEventListener("keydown", this.keyDown);
 	addEventListener("blur", this.onWindowBlur);
 	addEventListener("keyup", this.keyUp);
+	addEventListener("resize", this.resized);
 	sorcerio.ui.canvas.addEventListener("mousemove", this.mouseMove);
 	sorcerio.ui.canvas.addEventListener("wheel", this.onScroll);
 	sorcerio.ui.canvas.addEventListener("click", this.gameClick);
@@ -664,8 +663,10 @@ sorcerio.events.newGameStarted = function() {
 };
 
 sorcerio.events.resized = function() {
-	sorcerio.ui.canvas.width = innerWidth;
-	sorcerio.ui.canvas.height = innerHeight;
+	const ratio = sorcerio.ui.canvas.width / innerWidth;
+	sorcerio.ui.canvasSizeRatio = ratio;
+	sorcerio.ui.canvas.height = Math.min(ratio * innerHeight, sorcerio.ui.canvas.width);
+	sorcerio.ui.canvas.style.transform = `scale(${1 / ratio})`;
 };
 
 sorcerio.events.handleServerMessage = function(message) {
@@ -704,8 +705,8 @@ sorcerio.events.handleServerMessage = function(message) {
 };
 
 sorcerio.events.mouseMove = function(domEvent) {
-	sorcerio.input.mouseCoords.x = domEvent.pageX;
-	sorcerio.input.mouseCoords.y = domEvent.pageY;
+	sorcerio.input.mouseCoords.x = domEvent.pageX * sorcerio.ui.canvasSizeRatio;
+	sorcerio.input.mouseCoords.y = domEvent.pageY * sorcerio.ui.canvasSizeRatio;
 };
 
 sorcerio.events.keyDown = function(e) {
