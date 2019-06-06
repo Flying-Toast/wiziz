@@ -263,9 +263,6 @@ sorcerio.ui.init = function() {
 	this.uiRenderInterval = 15;//how often (in milliseconds) to render the ui.
 	this.lastUIRenderTime = 0;
 	this.canvas = document.querySelector("#gameCanvas");
-
-	addEventListener("resize", sorcerio.events.resized);
-
 	this.playButton = document.querySelector("#playButton");
 	this.nicknameInput = document.querySelector("#nicknameInput");
 	this.nicknameInput.addEventListener('keydown', function(e) {
@@ -614,6 +611,7 @@ sorcerio.events.setup = function() {
 	addEventListener("keydown", this.keyDown);
 	addEventListener("blur", this.onWindowBlur);
 	addEventListener("keyup", this.keyUp);
+	addEventListener("resize", this.resized);
 	sorcerio.ui.canvas.addEventListener("mousemove", this.mouseMove);
 	sorcerio.ui.canvas.addEventListener("wheel", this.onScroll);
 	sorcerio.ui.canvas.addEventListener("click", this.gameClick);
