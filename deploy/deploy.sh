@@ -84,7 +84,7 @@ echo "Packaged."
 openssl aes-256-cbc -K $encrypted_8e3c5413c411_key -iv $encrypted_8e3c5413c411_iv -in private.key.enc -out ~/.ssh/id_rsa -d
 chmod 600 ~/.ssh/id_rsa
 # generate with `ssh-keyscan -p {port} -t rsa {ip}`:
-echo "[$WIZIZ_DEPLOY_IP]:$WIZIZ_SSH_PORT ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIYKzslMEMzHzl+iNIt0zEjUqR3jc/SuOea/Wv3uv8d9sCbY/BNI0OjOU2e9NR49XcgaKm3139lz1fhKVkF9MYjCzhBsHEF5p/G+t4aG/7g3srX3GDXTnO+u5d9FoHpevAJjCpMGH1XebNAWwTxTi7jhHGPpNHBfUwnb37rRiBHPnSyqBDhrMOSlOC45ZdztYDrYliYXE8jBCL8/VUiJ1sue5PJmATWf18t0kVj6P8UCFUeYsWalxs1LKcpfjapishp6P+dgRdlVsjZb7N5s6LvYEKBBFpI01CvujiEQ6jHQqZXmqF+12VSyl/atqjyeKvNhmObT7zOTEh1eruHmIb" >> ~/.ssh/known_hosts
+echo "[$WIZIZ_DEPLOY_IP]:$WIZIZ_SSH_PORT ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDcX0qYGYndBBgbWVXO7rwwiS6PnodbOuuwil+Jn5+m9tkEIrJ3lyUeWUvKFHME0C1VGPmpfISWFkDOHlJEntaTQk+NAY7o0yTvoIF5PNBsVbBTJJS3/8i3ESQQx8IFHUKnTu6YlPGpQOcpkgUxgnHRpLIes5y9ygBP0gz+HBksy39MYHtzPAP3tAtECMDyU9dZyM00pEy0mCOWHo68Apc/JKNCOnKMhAsYZ7P8XWqgpEx8t05XRlaU3ePWASWxm3rDYBle+6ic53Id7ahGR6omfU7Ti06agZIiTyiZKhvmVlxvcDOJXwcoUtNift52DKt7cS+d7un5Df2n96an6kox" >> ~/.ssh/known_hosts
 
 scp -P $WIZIZ_SSH_PORT wiziz.tar.gz $WIZIZ_SSH_USER@$WIZIZ_DEPLOY_IP:"$WIZIZ_DEPLOY_BASEPATH/"
 ssh -p $WIZIZ_SSH_PORT $WIZIZ_SSH_USER@$WIZIZ_DEPLOY_IP "rm -rf $WIZIZ_DEPLOY_BASEPATH/wiziz $WIZIZ_DEPLOY_BASEPATH/public ; cd $WIZIZ_DEPLOY_BASEPATH ; tar -xf wiziz.tar.gz ; rm wiziz.tar.gz ; systemctl --user restart wiziz.service"
