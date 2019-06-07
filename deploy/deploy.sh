@@ -8,7 +8,7 @@ fi
 
 # Configuration:
 
-WIZIZ_DEPLOY_HOST="wiziz.io"
+WIZIZ_DEPLOY_HOST="108.26.225.227"
 WIZIZ_SSH_USER="wiziz"
 WIZIZ_SSH_PORT="31415"
 # The directory (on the server) containing public/ and the executable (no trailing slash):
