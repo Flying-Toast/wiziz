@@ -2,7 +2,7 @@ doctype html
 html
 	head
 		meta(charset="utf-8")
-		title List of All Sorcerio Spells
+		title List of All Wiziz Spells
 		style.
 			html,
 			body {
@@ -66,9 +66,9 @@ html
 			}
 	body
 		div.indent
-			//p.indent Have an awesome idea for a new spell? Share your ideas on the #[a(href="https://www.reddit.com/r/sorcerIo/", target="_blank") sorcerio subreddit], and there's a good chance they'll be added to the game!
+			//p.indent Have an awesome idea for a new spell? Share your ideas on the #[a(href="https://www.reddit.com/r/reddit/", target="_blank") Wiziz subreddit], and there's a good chance they'll be added to the game!
 
-		h1.heading Sorcerio Spells
+		h1.heading Wiziz Spells
 
 		- import std.algorithm.sorting : sort;
 		- foreach (type; spellTypes.sort())

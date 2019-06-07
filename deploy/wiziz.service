@@ -1,0 +1,14 @@
+# NOTE: enable lingering (`loginctl enable-linger $USER`) if using systemd --user, so that the process isn't killed when the ssh session is closed.
+
+[Unit]
+Description=Wiziz server
+
+[Service]
+Type=simple
+Restart=always
+WorkingDirectory=/home/wiziz/wiziz-server/
+ExecStart=/home/wiziz/wiziz-server/wiziz
+ExecStop=/usr/bin/pkill wiziz
+
+[Install]
+WantedBy=default.target

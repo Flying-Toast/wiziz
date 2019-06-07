@@ -1,9 +1,9 @@
 import std.concurrency;
 
-import sorcerio.webServer.messageQueue;
-import sorcerio.webServer.outgoingQueue;
-import sorcerio.webServer.webServer;
-import sorcerio.gameServer.startGameServer;
+import wiziz.webServer.messageQueue;
+import wiziz.webServer.outgoingQueue;
+import wiziz.webServer.webServer;
+import wiziz.gameServer.startGameServer;
 
 void main() {
 	shared queue = new MessageQueue;

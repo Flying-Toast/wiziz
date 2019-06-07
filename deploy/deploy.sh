@@ -8,13 +8,13 @@ fi
 
 # Configuration:
 
-SORCERIO_DEPLOY_IP="108.26.225.227"
-SORCERIO_SSH_USER="sorcerio"
-SORCERIO_SSH_PORT="31415"
+WIZIZ_DEPLOY_IP="108.26.225.227"
+WIZIZ_SSH_USER="wiziz"
+WIZIZ_SSH_PORT="31415"
 # The directory (on the server) containing public/ and the executable (no trailing slash):
-SORCERIO_DEPLOY_BASEPATH="/home/$SORCERIO_SSH_USER/sorcerio-server"
+WIZIZ_DEPLOY_BASEPATH="/home/$WIZIZ_SSH_USER/wiziz-server"
 # set this "true" if the build should be for ARMhf (e.g. raspberry pi):
-SORCERIO_BUILD_ARM="true"
+WIZIZ_BUILD_ARM="true"
 
 
 # cd into deploy, in case the script is called from the root project dir
@@ -28,9 +28,9 @@ then
 fi
 
 # do a release build
-SORCERIO_COMPILER="ldc2"
+WIZIZ_COMPILER="ldc2"
 
-if [[ $SORCERIO_BUILD_ARM = "true" ]]
+if [[ $WIZIZ_BUILD_ARM = "true" ]]
 then
 	# set up for cross compiling to arm
 	echo "Setting up arm cross compiling."
@@ -57,26 +57,26 @@ ldc2 -mtriple=arm-linux-gnueabihf -gcc=arm-linux-gnueabihf-gcc -L=-L\${LDC2RUNTI
 	chmod +x ~/.local/bin/ldc-pi
 	cd $DEPLOY_DIR
 
-	SORCERIO_COMPILER="ldc-pi"
+	WIZIZ_COMPILER="ldc-pi"
 	echo "Finished setting up arm cross compiling."
 fi
 
 cd ..
-dub build -b release --compiler $SORCERIO_COMPILER
+dub build -b release --compiler $WIZIZ_COMPILER
 echo "Built."
 cd deploy
 
 
 # copy needed files to this directory (deploy/)
 cp -r ../public ./
-cp ../sorcerio ./
+cp ../wiziz ./
 
 # minify
 ./minify.sh
 echo "Minified."
 
 # package the build
-tar -czf sorcerio.tar.gz ./public/ ./sorcerio
+tar -czf wiziz.tar.gz ./public/ ./wiziz
 echo "Packaged."
 
 # Deploy
@@ -84,8 +84,8 @@ echo "Packaged."
 openssl aes-256-cbc -K $encrypted_8e3c5413c411_key -iv $encrypted_8e3c5413c411_iv -in private.key.enc -out ~/.ssh/id_rsa -d
 chmod 600 ~/.ssh/id_rsa
 # generate with `ssh-keyscan -p {port} -t rsa {ip}`:
-echo "[$SORCERIO_DEPLOY_IP]:$SORCERIO_SSH_PORT ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIYKzslMEMzHzl+iNIt0zEjUqR3jc/SuOea/Wv3uv8d9sCbY/BNI0OjOU2e9NR49XcgaKm3139lz1fhKVkF9MYjCzhBsHEF5p/G+t4aG/7g3srX3GDXTnO+u5d9FoHpevAJjCpMGH1XebNAWwTxTi7jhHGPpNHBfUwnb37rRiBHPnSyqBDhrMOSlOC45ZdztYDrYliYXE8jBCL8/VUiJ1sue5PJmATWf18t0kVj6P8UCFUeYsWalxs1LKcpfjapishp6P+dgRdlVsjZb7N5s6LvYEKBBFpI01CvujiEQ6jHQqZXmqF+12VSyl/atqjyeKvNhmObT7zOTEh1eruHmIb" >> ~/.ssh/known_hosts
+echo "[$WIZIZ_DEPLOY_IP]:$WIZIZ_SSH_PORT ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIYKzslMEMzHzl+iNIt0zEjUqR3jc/SuOea/Wv3uv8d9sCbY/BNI0OjOU2e9NR49XcgaKm3139lz1fhKVkF9MYjCzhBsHEF5p/G+t4aG/7g3srX3GDXTnO+u5d9FoHpevAJjCpMGH1XebNAWwTxTi7jhHGPpNHBfUwnb37rRiBHPnSyqBDhrMOSlOC45ZdztYDrYliYXE8jBCL8/VUiJ1sue5PJmATWf18t0kVj6P8UCFUeYsWalxs1LKcpfjapishp6P+dgRdlVsjZb7N5s6LvYEKBBFpI01CvujiEQ6jHQqZXmqF+12VSyl/atqjyeKvNhmObT7zOTEh1eruHmIb" >> ~/.ssh/known_hosts
 
-scp -P $SORCERIO_SSH_PORT sorcerio.tar.gz $SORCERIO_SSH_USER@$SORCERIO_DEPLOY_IP:"$SORCERIO_DEPLOY_BASEPATH/"
-ssh -p $SORCERIO_SSH_PORT $SORCERIO_SSH_USER@$SORCERIO_DEPLOY_IP "rm -rf $SORCERIO_DEPLOY_BASEPATH/sorcerio $SORCERIO_DEPLOY_BASEPATH/public ; cd $SORCERIO_DEPLOY_BASEPATH ; tar -xf sorcerio.tar.gz ; rm sorcerio.tar.gz ; systemctl --user restart sorcerio.service"
+scp -P $WIZIZ_SSH_PORT wiziz.tar.gz $WIZIZ_SSH_USER@$WIZIZ_DEPLOY_IP:"$WIZIZ_DEPLOY_BASEPATH/"
+ssh -p $WIZIZ_SSH_PORT $WIZIZ_SSH_USER@$WIZIZ_DEPLOY_IP "rm -rf $WIZIZ_DEPLOY_BASEPATH/wiziz $WIZIZ_DEPLOY_BASEPATH/public ; cd $WIZIZ_DEPLOY_BASEPATH ; tar -xf wiziz.tar.gz ; rm wiziz.tar.gz ; systemctl --user restart wiziz.service"
 echo "Deployed."
