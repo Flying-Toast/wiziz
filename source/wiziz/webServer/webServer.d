@@ -7,6 +7,8 @@ import std.concurrency;
 import std.traits;
 import std.algorithm : map;
 import std.range : array;
+import std.file;
+import std.path : dirName;
 
 import wiziz.webServer.messageQueue;
 import wiziz.webServer.outgoingQueue;
@@ -28,7 +30,7 @@ private void serveMetaJSON(HTTPServerRequest req, HTTPServerResponse res) {
 private enum string[] spellTypes = [EnumMembers!SpellName].map!(a => a.to!string).array;
 private string[string] humanReadableEffects;
 
-void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue, shared OutgoingQueue outgoingQueue) {
+void startWebServer(Tid gsTid, shared MessageQueue queue, shared OutgoingQueue outgoingQueue) {
 	gameServerTid = gsTid;
 	messageQueue = queue;
 	outQueue = outgoingQueue;
@@ -45,6 +47,18 @@ void startWebServer(ushort port, Tid gsTid, shared MessageQueue queue, shared Ou
 
 
 	HTTPServerSettings settings = new HTTPServerSettings;
+	ushort port = 8080;
+
+	immutable basePath = thisExePath.dirName;
+	if (exists(basePath~"/fullchain.pem") && exists(basePath~"/privkey.pem")) {//use https if certificate files exist
+		import std.stdio;
+		writeln("Found SSL certificates.");
+		port = 8443;
+		settings.tlsContext = createTLSContext(TLSContextKind.server);
+		settings.tlsContext.useCertificateChainFile("fullchain.pem");
+		settings.tlsContext.usePrivateKeyFile("privkey.pem");
+	}
+
 	settings.port = port;
 	settings.errorPageHandler = toDelegate(&errorHandler);
 	URLRouter router = new URLRouter;

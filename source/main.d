@@ -15,5 +15,5 @@ void main() {
 		Thread.sleep(dur!"msecs"(3000));
 	}
 
-	startWebServer(8080u, gameServerTid, queue, outQueue);
+	startWebServer(gameServerTid, queue, outQueue);
 }
