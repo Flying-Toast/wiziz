@@ -44,7 +44,7 @@ class Server {
 	private void resizeMap() {
 		import std.algorithm : max;
 
-		mapSize = max(cast(int) (((players.length + 2)^^2)^^0.4 * 1000), CONFIG.minMapSize);
+		mapSize = max(cast(int) (((players.length + 2)^^2)^^0.3 * 1000), CONFIG.minMapSize);
 	}
 
 	private JSONValue getState() {
