@@ -578,7 +578,7 @@ wiziz.comm.init = function() {
 
 //connects the websocket to the server
 wiziz.comm.newWSConnection = function() {
-	this.ws = new WebSocket(`ws${(location.protocol==="https:")?"s":""}://${location.host}/ws`);
+	this.ws = new WebSocket(`ws${(location.protocol==="https:")?"s":""}://ws.${location.host}/ws`);
 
 	this.ws.addEventListener("open", function() {
 		wiziz.comm.ws.send(wiziz.ui.generatePlayerConfig());//send the player config to the server
