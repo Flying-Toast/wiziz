@@ -73,9 +73,7 @@ wiziz.reset = function() {
 };
 
 
-wiziz.mainLoop = function() {
-	const currentTime = performance.now();
-
+wiziz.mainLoop = function(currentTime) {
 	wiziz.renderer.render();
 
 	if (currentTime - wiziz.input.lastInputSendTime >= wiziz.input.inputSendInterval) {
