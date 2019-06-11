@@ -41,7 +41,7 @@ class Player {
 
 	///returns the max health that a player at `level` has
 	static long maxHealthAtLevel(ushort level) {
-		return (level * 150) + CONFIG.playerStartHealth;
+		return (level * 250) + CONFIG.playerStartHealth;
 	}
 
 	///adds `spell` to the player's inventory, or to storage if inventory is full.
