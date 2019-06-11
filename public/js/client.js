@@ -581,6 +581,7 @@ wiziz.comm.newWSConnection = function() {
 	this.ws = new WebSocket(`ws${(location.protocol==="https:")?"s":""}://${(location.protocol==="https:"?"ws.":"")+location.host}/ws`);
 
 	this.ws.addEventListener("open", function() {
+		wiziz.ui.playButton.classList.remove("connecting");
 		wiziz.comm.ws.send(wiziz.ui.generatePlayerConfig());//send the player config to the server
 	});
 
@@ -644,6 +645,9 @@ wiziz.events.playButtonClick = function() {
 		return;
 	}
 
+	wiziz.ui.playButton.classList.add("connecting");
+	wiziz.ui.playButton.dataset.initialVal = wiziz.ui.playButton.innerText;
+	wiziz.ui.playButton.innerText = "...";
 	wiziz.events.startNewGame();
 
 	this.isPlaying = true;
@@ -659,6 +663,7 @@ wiziz.events.startNewGame = function() {
 
 wiziz.events.newGameStarted = function() {
 	wiziz.ui.hideMainScreen();
+	wiziz.ui.playButton.innerText = wiziz.ui.playButton.dataset.initialVal;
 	requestAnimationFrame(wiziz.mainLoop);
 };
 
