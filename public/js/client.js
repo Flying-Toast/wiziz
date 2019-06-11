@@ -76,7 +76,9 @@ wiziz.reset = function() {
 wiziz.mainLoop = function(currentTime) {
 	wiziz.renderer.render();
 
-	if (currentTime - wiziz.input.lastInputSendTime >= wiziz.input.inputSendInterval) {
+	const inputTimeDiff = currentTime - wiziz.input.lastInputSendTime;
+	if (inputTimeDiff >= wiziz.input.inputSendInterval) {
+		wiziz.input.inputDT = inputTimeDiff;
 		wiziz.comm.ws.send(wiziz.input.getInput());
 		wiziz.input.lastInputSendTime = currentTime;
 
@@ -882,6 +884,7 @@ wiziz.input.init = function() {
 	this.currentInputId = 0;
 	this.storedInputs = [];//list of inputs that have been sent to the server, used for clientside prediction.
 	this.predictedPlayer = null;//the most recent predicted version of the client's player
+	this.inputDT = 0;
 }.bind(wiziz.input);
 
 wiziz.input.setup = function() {
@@ -962,7 +965,7 @@ wiziz.input.getInput = function() {
 		chosenUnlockIndex: chosenIndex,
 		storageSwapIndex: storageIndex,
 		id: this.currentInputId++,
-		dt: Math.round(performance.now() - this.lastInputSendTime)
+		dt: Math.round(this.inputDT)
 	};
 
 	if (input.chosenUnlockIndex === null) {//don't send an unneeded property to the server
