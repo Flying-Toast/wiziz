@@ -263,7 +263,7 @@ wiziz.ui.init = function() {
 	this.uiRenderInterval = 15;//how often (in milliseconds) to render the ui.
 	this.lastUIRenderTime = 0;
 	this.canvas = document.querySelector("#gameCanvas");
-	this.canvas.width = 1400;
+	this.canvas.width = 1600;
 	this.playButton = document.querySelector("#playButton");
 	this.nicknameInput = document.querySelector("#nicknameInput");
 	this.nicknameInput.addEventListener('keydown', function(e) {
