@@ -1017,19 +1017,19 @@ wiziz.input.doPrediction = function(player) {
 
 ///Moves `point` `step` units towards `target`. NOTE: this can move the point past the target
 wiziz.input.moveTowards = function(point, target, step) {
-		const lenToTarget = this.distance(point, target);
+	const lenToTarget = this.distance(point, target);
 
-		if (lenToTarget === 0.0 || step === 0.0) {
-			return;
-		}
+	if (lenToTarget === 0.0 || step === 0.0) {
+		return;
+	}
 
-		const dx = target.x - point.x;
-		const dy = target.y - point.y;
+	const dx = target.x - point.x;
+	const dy = target.y - point.y;
 
-		const stepLenRatio = step / lenToTarget;
+	const stepLenRatio = step / lenToTarget;
 
-		point.x += dx * stepLenRatio;
-		point.y += dy * stepLenRatio;
+	point.x += dx * stepLenRatio;
+	point.y += dy * stepLenRatio;
 }.bind(wiziz.input);
 
 wiziz.input.distance = function(a, b) {
