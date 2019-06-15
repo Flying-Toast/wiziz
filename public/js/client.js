@@ -614,8 +614,8 @@ wiziz.events.setup = function() {
 	addEventListener("blur", this.onWindowBlur);
 	addEventListener("keyup", this.keyUp);
 	addEventListener("resize", this.resized);
+	addEventListener("wheel", this.onScroll);
 	wiziz.ui.canvas.addEventListener("mousemove", this.mouseMove);
-	wiziz.ui.canvas.addEventListener("wheel", this.onScroll);
 	wiziz.ui.canvas.addEventListener("click", this.gameClick);
 }.bind(wiziz.events);
 
