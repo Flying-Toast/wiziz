@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 /*
 {module}.init() should be completely independent from all other modules. It should initialize everything in the module.
 {module}.setup() can use other modules
@@ -114,9 +114,9 @@ wiziz.renderer.init = function() {
 		yOffset: 0,
 		gridSize: 40,
 		lineWidth: 1,
-		backgroundColor: '#E8E8F9',
-		lineColor: '#bebebe',
-		borderColor: '#d4342a'
+		backgroundColor: "#E8E8F9",
+		lineColor: "#bebebe",
+		borderColor: "#d4342a"
 	};
 }.bind(wiziz.renderer);
 
@@ -190,7 +190,7 @@ wiziz.renderer.renderPlayer = function(player) {
 		this.ctx.save();
 		this.ctx.translate(wiziz.game.localCoords(player.location.x, 'x'), wiziz.game.localCoords(player.location.y, 'y'));
 		this.ctx.font = "20px newRocker";
-		this.ctx.fillStyle = '#2dafaf';
+		this.ctx.fillStyle = "#2dafaf";
 		this.ctx.fillText(player.nickname, -(this.ctx.measureText(player.nickname).width / 2), 80);
 		this.ctx.fillStyle = "rgba(40, 41, 41, 0.7)";
 		this.ctx.fillRect(-55, 84, 110, 10);
@@ -266,8 +266,8 @@ wiziz.ui.init = function() {
 	this.canvas.width = 1600;
 	this.playButton = document.querySelector("#playButton");
 	this.nicknameInput = document.querySelector("#nicknameInput");
-	this.nicknameInput.addEventListener('keydown', function(e) {
-		if (e.key === 'Enter') {
+	this.nicknameInput.addEventListener("keydown", function(e) {
+		if (e.key === "Enter") {
 			wiziz.ui.playButton.click();
 		}
 	});
@@ -448,7 +448,7 @@ wiziz.ui.displayUnlocks = function() {
 
 		this.chooseUnlockedSpells.appendChild(image);
 
-		image.addEventListener('click', function(e) {
+		image.addEventListener("click", function(e) {
 			wiziz.input.chooseUnlock(wiziz.game.myPlayer.unlocks.indexOf(e.target.dataset.spell));
 			wiziz.ui.isChoosingUnlocks = false;
 			wiziz.ui.chooseUnlockedSpellsWrapper.style.display = "";
@@ -541,9 +541,9 @@ wiziz.media.init = function() {
 		this.sounds.spellSounds[type] = this.createSound(`/media/sounds/${type}Spell`);
 	}
 
-	this.sprites.playerRed = this.createImage('/media/images/playerRed.png');
-	this.sprites.playerGreen = this.createImage('/media/images/playerGreen.png');
-	this.sprites.frozenOverlay = this.createImage('/media/images/frozenOverlay.png');
+	this.sprites.playerRed = this.createImage("/media/images/playerRed.png");
+	this.sprites.playerGreen = this.createImage("/media/images/playerGreen.png");
+	this.sprites.frozenOverlay = this.createImage("/media/images/frozenOverlay.png");
 }.bind(wiziz.media);
 
 //creates an image element
