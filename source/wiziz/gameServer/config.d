@@ -11,6 +11,12 @@ enum ubyte maxNameLength = 16;
 ///the default player speed in pixels/millisecond
 enum float defaultPlayerSpeed = 1.0 / 4.8;
 
+///when a player levels up, their speed gets multiplied by this
+enum double levelUpSpeedMultiplier = 0.94;
+
+///multiplying player's speed by levelUpSpeedMultiplier cannot make the player slower than this
+enum float minPlayerSpeed = defaultPlayerSpeed / 1.5;
+
 ///The collision radius of players
 enum ubyte playerRadius = 65;
 
@@ -46,6 +52,3 @@ enum ubyte maxConnectionMessagesPerServer = 10;
 
 ///the maximum number of inputs to process per player per physics tick
 enum ubyte maxInputsPerTick = 10;
-
-///when a player levels up, their speed gets multiplied by this
-enum double levelUpSpeedMultiplier = 0.94;
