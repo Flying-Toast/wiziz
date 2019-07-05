@@ -41,7 +41,7 @@ class Player {
 
 	///returns the max health that a player at `level` has
 	static long maxHealthAtLevel(ushort level) {
-		return (level * 150) + CONFIG.playerStartHealth;
+		return (level * 250) + CONFIG.playerStartHealth;
 	}
 
 	///adds `spell` to the player's inventory, or to storage if inventory is full.
@@ -64,11 +64,13 @@ class Player {
 
 	///increases the player's level by 1 and updates level-dependent things
 	void levelUp() {
+		import std.algorithm : max;
+
 		level++;
 		lastLevelUpAtXp = levelUpAtXp;
 		levelUpAtXp = xpNeededForLevel(cast(ushort) (level+1));
 		unlocks = unlockedSpells(level);
-		speed *= CONFIG.levelUpSpeedMultiplier;
+		speed = max(speed * CONFIG.levelUpSpeedMultiplier, CONFIG.minPlayerSpeed);
 
 		//update maxHealth, and increase the current health so that the % health is the same as it was before
 		immutable initialMaxHealth = maxHealth;
