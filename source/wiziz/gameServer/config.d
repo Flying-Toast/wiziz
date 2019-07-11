@@ -52,3 +52,6 @@ enum ubyte maxConnectionMessagesPerServer = 10;
 
 ///the maximum number of inputs to process per player per physics tick
 enum ubyte maxInputsPerTick = 10;
+
+///the minimum amount of xp that can be gained for a kill
+enum minXPReward = 100;
