@@ -36,7 +36,7 @@ then
 	echo "Setting up arm cross compiling."
 
 	sudo apt-get update
-	sudo apt-get install gcc-arm-linux-gnueabihf ninja-build -y
+	sudo apt-get install gcc-arm-linux-gnueabihf gcc-multilib ninja-build -y
 	export CC=arm-linux-gnueabihf-gcc
 	DEPLOY_DIR=$(pwd)
 	cd ~
