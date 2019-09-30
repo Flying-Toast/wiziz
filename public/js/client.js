@@ -927,7 +927,7 @@ wiziz.input.updateControlSettings = function() {
 
 wiziz.input.readControlsFromCookies = function() {
 	document.cookie.split(";")
-		.map(i => i.trimStart())
+		.map(i => i.replace(/^\s+/, ""))
 		.filter(i => i.indexOf("control-") === 0)
 		.map(i => i.replace("control-", "").split("="))
 		.forEach(i => wiziz.input.controls[i[0]] = i[1]);
