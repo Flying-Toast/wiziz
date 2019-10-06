@@ -204,11 +204,7 @@ class Server {
 	}
 
 	bool isFull() {
-		if (players.length == CONFIG.maxPlayers) {
-			return true;
-		} else {
-			return false;
-		}
+		return players.length == CONFIG.maxPlayers;
 	}
 
 	this(ushort id, shared MessageQueue messageQueue, shared OutgoingQueue outQueue) {

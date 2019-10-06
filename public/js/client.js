@@ -280,6 +280,7 @@ wiziz.ui.init = function() {
 	this.chooseUnlockedSpellsWrapper = document.querySelector("#chooseUnlockedSpellsWrapper");
 	this.storageWrapper = document.querySelector("#storageWrapper");
 	this.storage = document.querySelector("#storage");
+	this.numPlayers = document.querySelector("#numPlayers");
 	this.controlSettings = document.querySelector("#controlSettings");
 	this.toggledElements = Array.from(document.querySelectorAll("#inventory,#outerHealth,#outerXp,#leaderboard"));//ui elements that get toggled when ui is shown/hidden
 	this.isChoosingUnlocks = false;
@@ -422,9 +423,14 @@ wiziz.ui.updateLeaderboard = function(players) {
 	}
 }.bind(wiziz.ui);
 
+wiziz.ui.updatePlayerCount = function(num) {
+	this.numPlayers.innerText = `${num} player${num === 1 ? "" : "s"}`;
+}.bind(wiziz.ui);
+
 //renders the ui
 wiziz.ui.render = function() {
 	this.updateLeaderboard(wiziz.game.getLeaders(10));
+	this.updatePlayerCount(wiziz.game.latestGameState.players.length);
 	this.updateSliders();
 	this.updateInventory();
 	this.updateStorage();
