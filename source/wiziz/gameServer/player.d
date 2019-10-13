@@ -22,11 +22,11 @@ class Player {
 	bool[string] effectFlags;///Flags for sending extra data about the effects on a player to the clients
 	uint xp;///The player's experience points
 	uint lastInputId;///the id of the last input that was applied to the player
-	ushort level;
-	uint levelUpAtXp;///the amount of XP needed to get to the next level
 
 	private {
 		immutable string nickname;
+		ushort level;
+		uint levelUpAtXp;///the amount of XP needed to get to the next level
 		uint lastLevelUpAtXp;///the amount of xp that _was_ needed to get to the current level. Used for rendering the xp slider on client side.
 	}
 
@@ -36,7 +36,7 @@ class Player {
 
 	///returns the amount of xp needed to get to `level`
 	static uint xpNeededForLevel(ushort level) {
-		return cast(uint) ((level ^^ 1.6) * 100);
+		return cast(uint) (((level / 0.9) ^^ 2) * 100);
 	}
 
 	///returns the max health that a player at `level` has
@@ -102,16 +102,8 @@ class Player {
 			attacker = the player who dealt the damage
 	*/
 	void doRewardedDamage(int damage, Player attacker) {
-		import std.algorithm : max;
-
 		if (doDamage(damage)) {
-			int xpGain = max(CONFIG.minXPReward * 2, xp) / 2;
-
-			if (attacker.level == 1) {
-				xpGain = max(xpGain, attacker.levelUpAtXp);//level 1 players always level up on their first kill
-			}
-
-			attacker.xp += xpGain;
+			attacker.xp += cast(uint) ((level + 1.5) ^^ 2) * 100;
 		}
 	}
 
