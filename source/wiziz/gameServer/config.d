@@ -24,7 +24,7 @@ enum ubyte playerRadius = 65;
 enum long playerStartHealth = 1000;
 
 ///the maximum players allowed in a single Server
-enum ushort maxPlayers = 100;
+enum ushort maxPlayers = 15;
 
 ///
 enum int minMapSize = 3000;
