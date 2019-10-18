@@ -140,7 +140,7 @@ class Player {
 		if (nickname == "") {
 			this.nickname = CONFIG.defaultNickname;
 		} else if (nickname.length > CONFIG.maxNameLength) {
-			this.nickname = nickname[0 .. CONFIG.maxNameLength];
+			this.nickname = CONFIG.defaultNickname;
 		} else {
 			this.nickname = nickname;
 		}
