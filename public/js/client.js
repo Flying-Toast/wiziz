@@ -327,6 +327,10 @@ wiziz.ui.createHotbarSlots = function() {
 			selectionOutline.style.width = `${slotImage.width}px`;
 			selectionOutline.style.height = `${slotImage.height}px`;
 		});
+		
+		slotImage.addEventListener("click", function() {
+			wiziz.input.selectedItem = i - 1;
+		});
 
 		slotImage.addEventListener("dragstart", function(e) {
 			e.preventDefault();

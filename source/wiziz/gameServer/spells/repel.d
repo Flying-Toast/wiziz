@@ -2,7 +2,7 @@ import wiziz.gameServer.spell;
 import wiziz.gameServer.spells.base.splash;
 import wiziz.gameServer.player;
 
-class BombSpell : SplashSpell {
+class RepelSpell : SplashSpell {
 	mixin registerSpell!(SpellName.repel, 5600);
 
 	private ushort damage = 200;
