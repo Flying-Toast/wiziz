@@ -1,6 +1,7 @@
-# Wiziz [![Build Status](https://travis-ci.com/Flying-Toast/wiziz.svg?branch=master)](https://travis-ci.com/Flying-Toast/wiziz)
+<img src="gameAssets/thumbnail.svg" width="1080">
 
-## Building
+## Building [![Build Status](https://travis-ci.com/Flying-Toast/wiziz.svg?branch=master)](https://travis-ci.com/Flying-Toast/wiziz)
+
 Wiziz is written in D. In order to build it, you need dmd (the D compiler) and dub (the D package/build manager). Both of these can be downloaded from [dlang.org](https://dlang.org).
 
 <span id="linuxBuildInstructions"></span>
