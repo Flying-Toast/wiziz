@@ -136,19 +136,23 @@ class Player {
 		return json;
 	}
 
-	this(string nickname, Point location, ushort id, uint socketId) {
+	this(string nickname, Point location, ushort id, uint socketId, bool isBot) {
 		import std.string;
 		nickname = nickname.strip();
-		if (nickname == "") {
-			this.nickname = CONFIG.defaultNickname;
-		} else if (nickname.length > CONFIG.maxNameLength) {
-			this.nickname = CONFIG.defaultNickname;
+		if (!isBot) {
+			if (nickname == "") {
+				this.nickname = CONFIG.defaultNickname;
+			} else if (nickname.length > CONFIG.maxNameLength) {
+				this.nickname = CONFIG.defaultNickname;
+			} else {
+				this.nickname = nickname;
+			}
 		} else {
 			this.nickname = nickname;
 		}
 
 		this.location = location;
-		this.isBot = false;
+		this.isBot = isBot;
 		this.id = id;
 		this.facing = new Point(0, 0);
 		this.socketId = socketId;
@@ -162,12 +166,5 @@ class Player {
 		}
 		this.levelUpAtXp = xpNeededForLevel(2);
 		this.lastLevelUpAtXp = xpNeededForLevel(1);
-	}
-}
-
-class Bot : Player {
-	this(string nickname, Point location, ushort id) {
-		super(nickname, location, id, 0);
-		this.isBot = true;
 	}
 }

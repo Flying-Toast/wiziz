@@ -222,7 +222,7 @@ class Server {
 	ushort addPlayer(PlayerConfig cfg) {
 		immutable ushort playerId = Server.generatePlayerId();
 
-		Player newPlayer = new Player(cfg.nickname, randomPoint(mapSize, mapSize), playerId, cfg.socketId);
+		Player newPlayer = new Player(cfg.nickname, randomPoint(mapSize, mapSize), playerId, cfg.socketId, false);
 		players[playerId] = newPlayer;
 
 		resizeMap();
@@ -233,7 +233,7 @@ class Server {
 		import std.conv : to;
 		immutable ushort id = Server.generatePlayerId();
 
-		Bot bot = new Bot("Paraplegic bot #" ~ id.to!string, randomPoint(mapSize, mapSize), id);
+		Player bot = new Player("Paraplegic bot #" ~ id.to!string, randomPoint(mapSize, mapSize), id, 0, true);
 		players[id] = bot;
 
 		resizeMap();
