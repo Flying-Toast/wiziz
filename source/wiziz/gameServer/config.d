@@ -54,4 +54,4 @@ enum ubyte maxConnectionMessagesPerServer = 10;
 enum ubyte maxInputsPerTick = 10;
 
 ///Bots will spawn to make the playercount of a sever at least `numBots`
-enum uint numBots = 5;
+enum uint numBots = 3;
