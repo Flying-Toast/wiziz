@@ -73,13 +73,23 @@ class Server {
 		return state;
 	}
 
+	private void spawnBots() {
+		if (players.length < CONFIG.numBots) {
+			foreach (i; 0..(CONFIG.numBots - players.length)) {
+				addBot();
+			}
+		}
+	}
+
 	private void sendUpdateToClients() {
 		JSONValue state = getState();
 		state["type"] = "update";
 		string stateString = state.toString();
 
 		foreach (player; players) {
-			outQueue.queueMessage(player.socketId, stateString);
+			if (!player.isBot) {
+				outQueue.queueMessage(player.socketId, stateString);
+			}
 		}
 		outQueue.sendMessages();
 		this.lastUpdate = millis();
@@ -102,9 +112,13 @@ class Server {
 
 		EventManager.tick(this);
 
+		spawnBots();
+
 		foreach (player; players) {
 			if (player.isDead) {
-				outQueue.queueMessage(player.socketId, `{"type":"death"}`);
+				if (!player.isBot) {
+					outQueue.queueMessage(player.socketId, `{"type":"death"}`);
+				}
 				players.remove(player.id);
 				continue;
 			}
@@ -201,6 +215,16 @@ class Server {
 
 		resizeMap();
 		return playerId;
+	}
+
+	void addBot() {
+		import std.conv : to;
+		immutable ushort id = Server.generatePlayerId();
+
+		Bot bot = new Bot("Paraplegic bot #" ~ id.to!string, randomPoint(mapSize, mapSize), id);
+		players[id] = bot;
+
+		resizeMap();
 	}
 
 	bool isFull() {
