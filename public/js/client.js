@@ -185,7 +185,13 @@ wiziz.renderer.renderPlayer = function(player) {
 	this.ctx.translate(wiziz.game.localCoords(player.location.x, 'x'), wiziz.game.localCoords(player.location.y, 'y'));
 	this.ctx.rotate(wiziz.game.calculatePlayerAngle(player));
 	if (!player.flags.invisible) {
-		this.ctx.drawImage(wiziz.media.sprites.playerRed, -wiziz.media.sprites.playerRed.width / 2, -wiziz.media.sprites.playerRed.height / 2);
+		let playerSprite;
+		if (player.isBot) {
+			playerSprite = wiziz.media.sprites.playerBlue;
+		} else {
+			playerSprite = wiziz.media.sprites.playerRed;
+		}
+		this.ctx.drawImage(playerSprite, -playerSprite.width / 2, -playerSprite.height / 2);
 		this.ctx.restore();
 		this.ctx.save();
 		this.ctx.translate(wiziz.game.localCoords(player.location.x, 'x'), wiziz.game.localCoords(player.location.y, 'y'));
@@ -553,6 +559,7 @@ wiziz.media.init = function() {
 
 	this.sprites.playerRed = this.createImage("/media/images/playerRed.png");
 	this.sprites.playerGreen = this.createImage("/media/images/playerGreen.png");
+	this.sprites.playerBlue = this.createImage("/media/images/playerBlue.png");
 	this.sprites.frozenOverlay = this.createImage("/media/images/frozenOverlay.png");
 }.bind(wiziz.media);
 

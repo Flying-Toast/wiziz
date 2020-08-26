@@ -22,6 +22,7 @@ class Player {
 	bool[string] effectFlags;///Flags for sending extra data about the effects on a player to the clients
 	uint xp;///The player's experience points
 	uint lastInputId;///the id of the last input that was applied to the player
+	bool isBot;
 
 	private {
 		immutable string nickname;
@@ -130,6 +131,7 @@ class Player {
 		json["flags"] = effectFlags;
 		json["speed"] = speed;
 		json["lastInput"] = lastInputId;
+		json["isBot"] = isBot;
 
 		return json;
 	}
@@ -146,6 +148,7 @@ class Player {
 		}
 
 		this.location = location;
+		this.isBot = false;
 		this.id = id;
 		this.facing = new Point(0, 0);
 		this.socketId = socketId;
@@ -159,5 +162,12 @@ class Player {
 		}
 		this.levelUpAtXp = xpNeededForLevel(2);
 		this.lastLevelUpAtXp = xpNeededForLevel(1);
+	}
+}
+
+class Bot : Player {
+	this(string nickname, Point location, ushort id) {
+		super(nickname, location, id, 0);
+		this.isBot = true;
 	}
 }
