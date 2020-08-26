@@ -444,7 +444,7 @@ wiziz.ui.updatePlayerCount = function(num) {
 //renders the ui
 wiziz.ui.render = function() {
 	this.updateLeaderboard(wiziz.game.getLeaders(10));
-	this.updatePlayerCount(wiziz.game.latestGameState.players.length);
+	this.updatePlayerCount(wiziz.game.latestGameState.players.filter(player => !player.isBot).length);
 	this.updateSliders();
 	this.updateInventory();
 	this.updateStorage();
