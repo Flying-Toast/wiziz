@@ -196,7 +196,11 @@ wiziz.renderer.renderPlayer = function(player) {
 		this.ctx.save();
 		this.ctx.translate(wiziz.game.localCoords(player.location.x, 'x'), wiziz.game.localCoords(player.location.y, 'y'));
 		this.ctx.font = "20px newRocker";
-		this.ctx.fillStyle = "#2dafaf";
+		if (player.isBot) {
+			this.ctx.fillStyle = "#DC0C0C";
+		} else {
+			this.ctx.fillStyle = "#2dafaf";
+		}
 		this.ctx.fillText(player.nickname, -(this.ctx.measureText(player.nickname).width / 2), 80);
 		this.ctx.fillStyle = "rgba(40, 41, 41, 0.7)";
 		this.ctx.fillRect(-55, 84, 110, 10);
