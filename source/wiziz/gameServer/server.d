@@ -181,7 +181,10 @@ class Server {
 						}
 					}
 				}
-				player.facing = closest.location;
+				if (closest !is null) {
+					player.facing = closest.location;
+					//player.inventory[player.selectedItemIndex].castSpell(this);
+				}
 			}
 
 			if (player.shouldLevelUp) {
@@ -220,11 +223,13 @@ class Server {
 	}
 
 	ushort addPlayer(PlayerConfig cfg) {
+		import std.conv : to;
 		immutable ushort playerId = Server.generatePlayerId();
 
 		Player newPlayer = new Player(cfg.nickname, randomPoint(mapSize, mapSize), playerId, cfg.socketId, false);
 		players[playerId] = newPlayer;
 
+		outQueue.queueMessage(cfg.socketId, `{"type":"yourId","id":`~playerId.to!string~`}`);
 		resizeMap();
 		return playerId;
 	}
