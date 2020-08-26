@@ -123,53 +123,65 @@ class Server {
 				continue;
 			}
 
-			ubyte processedInputs = 0;
-			while (messageQueue.messageAvailable(player.socketId) && processedInputs++ < CONFIG.maxInputsPerTick) {
-				Input input;
-				try {
-					input = new Input(messageQueue.nextMessage(player.socketId));
-				} catch (Exception e) {//if this catches, then the client sent invalid input
-					continue;
+			if (!player.isBot) {
+				ubyte processedInputs = 0;
+				while (messageQueue.messageAvailable(player.socketId) && processedInputs++ < CONFIG.maxInputsPerTick) {
+					Input input;
+					try {
+						input = new Input(messageQueue.nextMessage(player.socketId));
+					} catch (Exception e) {//if this catches, then the client sent invalid input
+						continue;
+					}
+
+					player.lastInputId = input.id;
+
+					player.facing = cast(Point) input.facing;
+
+					Point target = player.location.dup();//an imaginary point that the player moves towards
+					//it doesn't matter how much the point is moved by, it is just used for direction
+					if (input.moveRight) target.x += 1;
+					if (input.moveLeft) target.x -= 1;
+					if (input.moveDown) target.y += 1;
+					if (input.moveUp) target.y -= 1;
+
+					player.location.moveTowards(target, input.dt * player.speed);
+
+					if (player.location.x < 0) player.location.x = 0;
+					if (player.location.y < 0) player.location.y = 0;
+					if (player.location.x > mapSize) player.location.x = mapSize;
+					if (player.location.y > mapSize) player.location.y = mapSize;
+
+					if (player.inventory[input.selectedItemIndex] !is null) {//make sure that there really is a spell at that index
+						player.selectedItemIndex = input.selectedItemIndex;
+					}
+
+					if (input.isCasting) {
+						player.inventory[player.selectedItemIndex].castSpell(this);
+					}
+
+					if (input.hasChosenUnlock && input.chosenUnlockIndex >= 0 && input.chosenUnlockIndex < player.unlocks.length) {
+						player.appendSpell(new InventorySpell(player.unlocks[input.chosenUnlockIndex], player));
+						player.unlocks = [];
+					}
+
+					if (input.storageSwapIndex >= 0 && input.storageSwapIndex < player.storage.length && !player.inventory[player.selectedItemIndex].isCooling) {
+						auto oldInventoryItem = player.inventory[player.selectedItemIndex];
+						auto oldStorageItem = player.storage[input.storageSwapIndex];
+
+						player.inventory[player.selectedItemIndex] = oldStorageItem;
+						player.storage[input.storageSwapIndex] = oldInventoryItem;
+					}
 				}
-
-				player.lastInputId = input.id;
-
-				player.facing = cast(Point) input.facing;
-
-				Point target = player.location.dup();//an imaginary point that the player moves towards
-				//it doesn't matter how much the point is moved by, it is just used for direction
-				if (input.moveRight) target.x += 1;
-				if (input.moveLeft) target.x -= 1;
-				if (input.moveDown) target.y += 1;
-				if (input.moveUp) target.y -= 1;
-
-				player.location.moveTowards(target, input.dt * player.speed);
-
-				if (player.location.x < 0) player.location.x = 0;
-				if (player.location.y < 0) player.location.y = 0;
-				if (player.location.x > mapSize) player.location.x = mapSize;
-				if (player.location.y > mapSize) player.location.y = mapSize;
-
-				if (player.inventory[input.selectedItemIndex] !is null) {//make sure that there really is a spell at that index
-					player.selectedItemIndex = input.selectedItemIndex;
+			} else {//player is a bot
+				Player closest = null;
+				foreach (other; players) {
+					if (other !is player && !other.isBot) {
+						if (closest is null || player.location.distance(other.location) < player.location.distance(closest.location)) {
+							closest = other;
+						}
+					}
 				}
-
-				if (input.isCasting) {
-					player.inventory[player.selectedItemIndex].castSpell(this);
-				}
-
-				if (input.hasChosenUnlock && input.chosenUnlockIndex >= 0 && input.chosenUnlockIndex < player.unlocks.length) {
-					player.appendSpell(new InventorySpell(player.unlocks[input.chosenUnlockIndex], player));
-					player.unlocks = [];
-				}
-
-				if (input.storageSwapIndex >= 0 && input.storageSwapIndex < player.storage.length && !player.inventory[player.selectedItemIndex].isCooling) {
-					auto oldInventoryItem = player.inventory[player.selectedItemIndex];
-					auto oldStorageItem = player.storage[input.storageSwapIndex];
-
-					player.inventory[player.selectedItemIndex] = oldStorageItem;
-					player.storage[input.storageSwapIndex] = oldInventoryItem;
-				}
+				player.facing = closest.location;
 			}
 
 			if (player.shouldLevelUp) {
