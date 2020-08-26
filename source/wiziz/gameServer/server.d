@@ -221,7 +221,7 @@ class Server {
 		import std.conv : to;
 		immutable ushort id = Server.generatePlayerId();
 
-		Bot bot = new Bot("Bot dude #" ~ id.to!string, randomPoint(mapSize, mapSize), id);
+		Bot bot = new Bot("Paraplegic bot #" ~ id.to!string, randomPoint(mapSize, mapSize), id);
 		players[id] = bot;
 
 		resizeMap();
