@@ -183,7 +183,9 @@ class Server {
 				}
 				if (closest !is null) {
 					player.facing = closest.location;
-					//player.inventory[player.selectedItemIndex].castSpell(this);
+					if (player.location.distance(closest.location) <= 750) {
+						player.inventory[player.selectedItemIndex].castSpell(this);
+					}
 				}
 			}
 
