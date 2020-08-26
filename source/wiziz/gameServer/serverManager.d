@@ -4,7 +4,7 @@ import wiziz.webServer.messageQueue;
 import wiziz.webServer.outgoingQueue;
 import wiziz.webServer.playerConfig;
 import wiziz.gameServer.server;
-import wiziz.gameServer.config;
+import CONFIG = wiziz.gameServer.config;
 
 ///master server, contains multiple `Server`s.
 class ServerManager {
@@ -34,8 +34,12 @@ class ServerManager {
 
 	///tick all the servers
 	void tick() {
+		import std.algorithm;
+		import std.array;
+
 		foreach(server; servers) {
-			if (server.players.length == 0) {//remove the server if it is empty
+			if (server.players.values.filter!(p => !p.isBot).array.length == 0) {//remove the server if it is empty
+				server.sendUpdateToClients();
 				servers.remove(server.id);
 				continue;
 			}

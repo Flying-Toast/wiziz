@@ -81,7 +81,7 @@ class Server {
 		}
 	}
 
-	private void sendUpdateToClients() {
+	void sendUpdateToClients() {
 		JSONValue state = getState();
 		state["type"] = "update";
 		string stateString = state.toString();
