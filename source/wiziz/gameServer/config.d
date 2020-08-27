@@ -54,4 +54,4 @@ enum ubyte maxConnectionMessagesPerServer = 10;
 enum ubyte maxInputsPerTick = 10;
 
 ///Max # of bots per server
-enum uint numBots = 4;
+enum uint numBots = 3;
