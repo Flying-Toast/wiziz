@@ -187,7 +187,11 @@ wiziz.renderer.renderPlayer = function(player) {
 	if (!player.flags.invisible) {
 		let playerSprite;
 		if (player.isBot) {
-			playerSprite = wiziz.media.sprites.playerBlue;
+			if (wiziz.ui.swansonBotsControl.checked) {
+				playerSprite = wiziz.media.sprites.joeSwanson;
+			} else {
+				playerSprite = wiziz.media.sprites.playerBlue;
+			}
 		} else {
 			playerSprite = wiziz.media.sprites.playerRed;
 		}
@@ -297,6 +301,7 @@ wiziz.ui.init = function() {
 	this.lastChosenUnlocks = "";
 	this.uiVisible = true;
 	this.canvasSizeRatio = 1;
+	this.swansonBotsControl = document.querySelector("#swansonBots");
 }.bind(wiziz.ui);
 
 wiziz.ui.setup = function() {
@@ -565,6 +570,7 @@ wiziz.media.init = function() {
 	this.sprites.playerGreen = this.createImage("/media/images/playerGreen.png");
 	this.sprites.playerBlue = this.createImage("/media/images/playerBlue.png");
 	this.sprites.frozenOverlay = this.createImage("/media/images/frozenOverlay.png");
+	this.sprites.joeSwanson = this.createImage("/media/images/joeSwanson.png");
 }.bind(wiziz.media);
 
 //creates an image element

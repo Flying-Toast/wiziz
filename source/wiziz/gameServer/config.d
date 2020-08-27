@@ -53,5 +53,5 @@ enum ubyte maxConnectionMessagesPerServer = 10;
 ///the maximum number of inputs to process per player per physics tick
 enum ubyte maxInputsPerTick = 10;
 
-///Bots will spawn to make the playercount of a sever at least `numBots`
-enum uint numBots = 3;
+///Max # of bots per server
+enum uint numBots = 4;
