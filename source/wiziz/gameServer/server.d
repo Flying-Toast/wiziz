@@ -243,10 +243,9 @@ class Server {
 	}
 
 	void addBot() {
-		import std.conv : to;
 		immutable ushort botId = Server.generatePlayerId();
 
-		Player bot = new Player("Bot " ~ botId.to!string, randomPoint(mapSize, mapSize), botId, 0, true);
+		Player bot = new Player("Bot", randomPoint(mapSize, mapSize), botId, 0, true);
 		players[botId] = bot;
 
 		resizeMap();
