@@ -247,7 +247,7 @@ class Server {
 		immutable ushort botId = Server.generatePlayerId();
 
 		Player bot = new Player("Bot " ~ id.to!string, randomPoint(mapSize, mapSize), botId, 0, true);
-		players[id] = bot;
+		players[botId] = bot;
 
 		resizeMap();
 	}
