@@ -191,6 +191,7 @@ class Server {
 					if (player.location.distance(closest.location) <= 750) {
 						player.inventory[player.selectedItemIndex].castSpell(this);
 					}
+					player.location.moveTowards(closest.location, 3 * CONFIG.defaultPlayerSpeed);
 				}
 			}
 
@@ -245,7 +246,7 @@ class Server {
 		import std.conv : to;
 		immutable ushort id = Server.generatePlayerId();
 
-		Player bot = new Player("Paraplegic bot #" ~ id.to!string, randomPoint(mapSize, mapSize), id, 0, true);
+		Player bot = new Player("Bot " ~ id.to!string, randomPoint(mapSize, mapSize), id, 0, true);
 		players[id] = bot;
 
 		resizeMap();
