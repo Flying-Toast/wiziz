@@ -17,8 +17,16 @@ import wiziz.gameServer.spell;
 import CONFIG = wiziz.gameServer.config;
 
 private Tid gameServerTid;
-private uint currentId = 0;
-private uint generateSocketId() {return currentId++;};
+private uint currentId = 1;
+private uint generateSocketId() {
+	currentId++;
+
+	if (currentId == 0) {
+		currentId++;
+	}
+
+	return currentId;
+};
 private shared MessageQueue messageQueue;
 private shared OutgoingQueue outQueue;
 
