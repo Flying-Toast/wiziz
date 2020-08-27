@@ -191,7 +191,7 @@ class Server {
 					if (player.location.distance(closest.location) <= 750) {
 						player.inventory[player.selectedItemIndex].castSpell(this);
 					}
-					player.location.moveTowards(closest.location, 3 * CONFIG.defaultPlayerSpeed);
+					player.location.moveTowards(closest.location, 3 * player.speed);
 				}
 			}
 
