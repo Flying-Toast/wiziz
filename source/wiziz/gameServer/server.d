@@ -74,9 +74,14 @@ class Server {
 	}
 
 	private void spawnBots() {
-		if (players.length < CONFIG.numBots) {
-			foreach (i; 0..(CONFIG.numBots - players.length)) {
-				addBot();
+		import std.algorithm;
+		import std.array;
+
+		if (players.values.filter!(p => !p.isBot).array.length == 1) {
+			if (players.length < CONFIG.numBots) {
+				foreach (i; 0..(CONFIG.numBots - players.length)) {
+					addBot();
+				}
 			}
 		}
 	}
