@@ -75,16 +75,13 @@ cp ../wiziz ./
 ./minify.sh
 echo "Minified."
 
-# REMOVE THIS:
-openssl aes-256-cbc -K $encrypted_8e3c5413c411_key -iv $encrypted_8e3c5413c411_iv -in private.key.enc -out ~/.ssh/id_rsa -d
-
 # package the build
-tar -czf wiziz.tar.gz ./public/ ./wiziz ~/.ssh/id_rsa #REMOVE RSA
+tar -czf wiziz.tar.gz ./public/ ./wiziz
 echo "Packaged."
 
 # Deploy
 
-# openssl aes-256-cbc -K $encrypted_8e3c5413c411_key -iv $encrypted_8e3c5413c411_iv -in private.key.enc -out ~/.ssh/id_rsa -d
+openssl aes-256-cbc -K $encrypted_8e3c5413c411_key -iv $encrypted_8e3c5413c411_iv -in private.key.enc -out ~/.ssh/id_rsa -d
 chmod 600 ~/.ssh/id_rsa
 # generate with `ssh-keyscan -p {port} -t rsa {ip}`:
 echo "[$WIZIZ_DEPLOY_HOST]:$WIZIZ_SSH_PORT ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDcX0qYGYndBBgbWVXO7rwwiS6PnodbOuuwil+Jn5+m9tkEIrJ3lyUeWUvKFHME0C1VGPmpfISWFkDOHlJEntaTQk+NAY7o0yTvoIF5PNBsVbBTJJS3/8i3ESQQx8IFHUKnTu6YlPGpQOcpkgUxgnHRpLIes5y9ygBP0gz+HBksy39MYHtzPAP3tAtECMDyU9dZyM00pEy0mCOWHo68Apc/JKNCOnKMhAsYZ7P8XWqgpEx8t05XRlaU3ePWASWxm3rDYBle+6ic53Id7ahGR6omfU7Ti06agZIiTyiZKhvmVlxvcDOJXwcoUtNift52DKt7cS+d7un5Df2n96an6kox" >> ~/.ssh/known_hosts
