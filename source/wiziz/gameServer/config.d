@@ -55,3 +55,6 @@ enum ubyte maxInputsPerTick = 10;
 
 ///Max # of bots per server
 enum uint numBots = 3;
+
+///Casting cooldown for bots
+enum botCastCooldown = 750;

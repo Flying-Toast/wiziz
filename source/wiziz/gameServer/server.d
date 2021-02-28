@@ -188,10 +188,13 @@ class Server {
 				}
 				if (closest !is null) {
 					player.facing = closest.location;
-					if (player.location.distance(closest.location) <= 750) {
-						player.inventory[player.selectedItemIndex].castSpell(this);
+					if (player.location.distance(closest.location) <= 710) {
+						if (currentTime - player.botLastSpellCast >= CONFIG.botCastCooldown) {
+							player.inventory[player.selectedItemIndex].castSpell(this);
+							player.botLastSpellCast = currentTime;
+						}
 					}
-					player.location.moveTowards(closest.location, 3 * player.speed);
+					player.location.moveTowards(closest.location, 2 * player.speed);
 				}
 			}
 
