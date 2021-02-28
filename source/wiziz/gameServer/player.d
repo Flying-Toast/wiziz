@@ -23,6 +23,7 @@ class Player {
 	uint xp;///The player's experience points
 	uint lastInputId;///the id of the last input that was applied to the player
 	bool isBot;
+	long botLastSpellCast;
 
 	private {
 		immutable string nickname;
