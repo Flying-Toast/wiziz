@@ -9,6 +9,7 @@ import std.algorithm : map;
 import std.range : array;
 import std.file;
 import std.path : dirName;
+import std.stdio;
 
 import wiziz.webServer.messageQueue;
 import wiziz.webServer.outgoingQueue;
@@ -59,7 +60,6 @@ void startWebServer(Tid gsTid, shared MessageQueue queue, shared OutgoingQueue o
 
 	immutable basePath = thisExePath.dirName;
 	if (exists(basePath~"/fullchain.pem") && exists(basePath~"/privkey.pem")) {//use https if certificate files exist
-		import std.stdio;
 		writeln("Found SSL certificates.");
 		port = 8443;
 		settings.tlsContext = createTLSContext(TLSContextKind.server);
@@ -116,7 +116,11 @@ private void handleSocket(scope WebSocket socket) {
 		while (socket.connected) {
 			outQueue.waitForSend();
 			while (outQueue.messageAvailable(currentSocketId)) {
-				socket.send(outQueue.nextMessage(currentSocketId));
+				try {
+					socket.send(outQueue.nextMessage(currentSocketId));
+				} catch (WebSocketException e) {
+					stderr.writeln("Tried to send a message to a closed websocket");
+				}
 			}
 		}
 	});
